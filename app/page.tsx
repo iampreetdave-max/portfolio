@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import NeuralNetwork from "@/components/NeuralNetwork";
 import MatrixRain from "@/components/MatrixRain";
@@ -111,6 +111,8 @@ const filterMap: Record<string, string[]> = {
   Web: ["Web"],
 };
 
+const sectionIds = ["home", "about", "skills", "projects", "experience", "contact"];
+
 /* ─── COMPONENTS ─── */
 
 function SectionLabel({ text }: { text: string }) {
@@ -124,13 +126,137 @@ function SectionLabel({ text }: { text: string }) {
   );
 }
 
+function CustomCursor() {
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const posRef = useRef({ x: 0, y: 0 });
+  const targetRef = useRef({ x: 0, y: 0 });
+  const [hovering, setHovering] = useState(false);
+
+  useEffect(() => {
+    // Check for touch device
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+
+    const onMove = (e: MouseEvent) => {
+      targetRef.current = { x: e.clientX, y: e.clientY };
+    };
+
+    const onOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest("a, button, [role='button']")) {
+        setHovering(true);
+      }
+    };
+    const onOut = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest("a, button, [role='button']")) {
+        setHovering(false);
+      }
+    };
+
+    let rafId: number;
+    const animate = () => {
+      posRef.current.x += (targetRef.current.x - posRef.current.x) * 0.15;
+      posRef.current.y += (targetRef.current.y - posRef.current.y) * 0.15;
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate(${posRef.current.x}px, ${posRef.current.y}px)`;
+      }
+      rafId = requestAnimationFrame(animate);
+    };
+
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseover", onOver);
+    document.addEventListener("mouseout", onOut);
+    rafId = requestAnimationFrame(animate);
+
+    return () => {
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseover", onOver);
+      document.removeEventListener("mouseout", onOut);
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={cursorRef}
+      className="custom-cursor fixed top-0 left-0 pointer-events-none z-[9999]"
+      style={{
+        width: hovering ? 16 : 8,
+        height: hovering ? 16 : 8,
+        marginLeft: hovering ? -8 : -4,
+        marginTop: hovering ? -8 : -4,
+        background: "#00ff41",
+        borderRadius: "50%",
+        transition: "width 0.2s ease, height 0.2s ease, margin 0.2s ease",
+        mixBlendMode: "difference",
+      }}
+    />
+  );
+}
+
 /* ─── PAGE ─── */
 
 export default function Home() {
-  const [matrixOn, setMatrixOn] = useState(false);
-  const [neuralPaused, setNeuralPaused] = useState(false);
+  const [matrixOn, setMatrixOn] = useState(true);
+  const [neuralPaused, setNeuralPaused] = useState(true);
   const [filter, setFilter] = useState("All");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
+  const navRef = useRef<HTMLElement>(null);
+
+  // Outside click + Escape to close mobile menu
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
+
+  // Nav scroll state
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Active section observer
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    for (const id of sectionIds) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              setActiveSection(id);
+            }
+          }
+        },
+        { threshold: 0.3 }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    }
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
+  const handleNavClick = useCallback((item: string) => {
+    setMenuOpen(false);
+  }, []);
 
   const filteredProjects =
     filter === "All"
@@ -155,11 +281,23 @@ export default function Home() {
 
   return (
     <>
+      <CustomCursor />
       <NeuralNetwork paused={neuralPaused} />
       <AnimatePresence>{matrixOn && <MatrixRain />}</AnimatePresence>
 
       {/* NAV */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[#111] bg-black/70 backdrop-blur-xl">
+      <nav
+        ref={navRef}
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        style={{
+          background: scrolled ? "rgba(0, 0, 0, 0.97)" : "rgba(0, 0, 0, 0.7)",
+          borderBottom: scrolled
+            ? "1px solid rgba(0, 255, 65, 0.25)"
+            : "1px solid #111",
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
+        }}
+      >
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <a
             href="#home"
@@ -172,7 +310,11 @@ export default function Home() {
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="nav-link font-mono text-[11px] tracking-wider text-gray-500 hover:text-white transition-colors uppercase"
+                className={`nav-link font-mono text-[11px] tracking-wider transition-colors uppercase ${
+                  activeSection === item.toLowerCase()
+                    ? "active text-[#00ff41]"
+                    : "text-gray-500 hover:text-white"
+                }`}
               >
                 {item}
               </a>
@@ -182,7 +324,11 @@ export default function Home() {
                 setNeuralPaused(!neuralPaused);
                 setMatrixOn(!matrixOn);
               }}
-              className="font-mono text-[10px] tracking-wider border border-[#222] px-3 py-1.5 text-gray-600 hover:text-white hover:border-white/40 transition-all duration-300"
+              className={`font-mono text-[10px] tracking-wider border px-3 py-1.5 transition-all duration-300 ${
+                matrixOn
+                  ? "border-[#00ff41]/50 text-[#00ff41] bg-[#00ff41]/10"
+                  : "border-[#222] text-gray-600 hover:text-white hover:border-white/40"
+              }`}
             >
               {matrixOn ? "NEURAL" : "MATRIX"}
             </button>
@@ -207,8 +353,12 @@ export default function Home() {
                   <a
                     key={item}
                     href={`#${item.toLowerCase()}`}
-                    onClick={() => setMenuOpen(false)}
-                    className="font-mono text-sm text-gray-400 hover:text-white transition-colors"
+                    onClick={() => handleNavClick(item)}
+                    className={`font-mono text-sm transition-colors ${
+                      activeSection === item.toLowerCase()
+                        ? "text-[#00ff41]"
+                        : "text-gray-400 hover:text-white"
+                    }`}
                   >
                     {item}
                   </a>
@@ -505,6 +655,7 @@ export default function Home() {
               <form
                 name="contact"
                 method="POST"
+                data-netlify="true"
                 action="/success"
                 className="space-y-5"
               >
@@ -521,7 +672,7 @@ export default function Home() {
                       type={field.type}
                       name={field.name}
                       required
-                      className="w-full bg-transparent border border-[#222] p-3.5 text-white text-sm placeholder-gray-800 focus:border-white transition-colors duration-300"
+                      className="w-full bg-transparent border border-[#222] p-3.5 text-white text-sm placeholder-gray-800 transition-colors duration-300"
                     />
                   </div>
                 ))}
@@ -533,7 +684,7 @@ export default function Home() {
                     name="message"
                     required
                     rows={5}
-                    className="w-full bg-transparent border border-[#222] p-3.5 text-white text-sm placeholder-gray-800 focus:border-white transition-colors duration-300 resize-none"
+                    className="w-full bg-transparent border border-[#222] p-3.5 text-white text-sm placeholder-gray-800 transition-colors duration-300 resize-none"
                   />
                 </div>
                 <button

@@ -19,10 +19,21 @@ body {
   color: #ffffff;
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
+  cursor: none;
+}
+
+/* Hide custom cursor on touch devices */
+@media (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+  .custom-cursor {
+    display: none !important;
+  }
 }
 
 ::selection {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(0, 255, 65, 0.2);
   color: #ffffff;
 }
 
@@ -44,8 +55,8 @@ body {
 
 /* Glow pulse for hero name */
 @keyframes subtleGlow {
-  0%, 100% { text-shadow: 0 0 20px rgba(255,255,255,0.05); }
-  50% { text-shadow: 0 0 40px rgba(255,255,255,0.1), 0 0 80px rgba(255,255,255,0.03); }
+  0%, 100% { text-shadow: 0 0 20px rgba(0,255,65,0.05); }
+  50% { text-shadow: 0 0 40px rgba(0,255,65,0.1), 0 0 80px rgba(0,255,65,0.03); }
 }
 
 .hero-name {
@@ -57,10 +68,11 @@ section {
   position: relative;
 }
 
-/* Focus styles */
+/* Contact form focus styles — green */
 input:focus, textarea:focus {
-  border-color: #fff !important;
-  outline: none;
+  border-color: #00ff41 !important;
+  outline: 1px solid #00ff41;
+  background: rgba(0, 255, 65, 0.03) !important;
 }
 
 /* Active nav link underline animation */
@@ -75,10 +87,15 @@ input:focus, textarea:focus {
   left: 0;
   width: 0;
   height: 1px;
-  background: #fff;
+  background: #00ff41;
   transition: width 0.3s ease;
 }
 
-.nav-link:hover::after {
+.nav-link:hover::after,
+.nav-link.active::after {
   width: 100%;
+}
+
+.nav-link.active {
+  color: #00ff41 !important;
 }
