@@ -1,56 +1,72 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import NeuralNetwork from "@/components/NeuralNetwork";
 import MatrixRain from "@/components/MatrixRain";
 import TypewriterText from "@/components/TypewriterText";
 import ProjectCard from "@/components/ProjectCard";
+import type { Project } from "@/components/ProjectCard";
 import ProjectFilter from "@/components/ProjectFilter";
-import type { Project } from "@/lib/supabase-server";
-import { getSupabase } from "@/lib/supabase";
+
+/* ─── DATA ─── */
+
+const projects: Project[] = [
+  {
+    id: "1",
+    title: "TalkToNotes",
+    category: "Computer Vision / NLP",
+    description:
+      "OCR system using TrOCR transformer, neural embeddings, chatbot KB integration. Converts handwritten notes to searchable, queryable knowledge bases.",
+    tech_tags: ["TrOCR", "Transformers", "Computer Vision", "NLP", "Vector Search"],
+    repo_url: "https://github.com/iampreetdave/TalkNotes",
+  },
+  {
+    id: "2",
+    title: "Goal Prediction Model",
+    category: "ML / Predictive Analytics",
+    description:
+      "6-algorithm regression benchmark pipeline with comprehensive feature engineering and statistical analysis for predictive modeling.",
+    tech_tags: ["Machine Learning", "Regression", "Statistical Modeling", "Python"],
+  },
+  {
+    id: "3",
+    title: "StudBud",
+    category: "Web / AI",
+    description:
+      "Student academic management platform with ML-powered recommendations and adaptive scheduling algorithms.",
+    tech_tags: ["Web Development", "Machine Learning", "Data Analysis"],
+  },
+  {
+    id: "4",
+    title: "Neural Chat System",
+    category: "Network / AI",
+    description:
+      "Real-time socket communication system with AI integration potential. Low-latency message routing with neural network–assisted responses.",
+    tech_tags: ["Python", "Socket Programming", "Network Architecture"],
+  },
+];
 
 const skills = [
   {
     title: "Deep Learning & Neural Networks",
-    items: [
-      "TensorFlow",
-      "PyTorch",
-      "Keras",
-      "CNNs",
-      "Transformers",
-      "Neural Network Optimization",
-    ],
+    icon: "⟁",
+    items: ["TensorFlow", "PyTorch", "Keras", "CNNs", "Transformers", "Neural Network Optimization"],
   },
   {
     title: "Computer Vision & NLP",
-    items: [
-      "TrOCR",
-      "Image Processing",
-      "NLP",
-      "Vector Embeddings & Search",
-    ],
+    icon: "◎",
+    items: ["TrOCR", "Image Processing", "NLP", "Vector Embeddings & Search"],
   },
   {
     title: "Machine Learning",
-    items: [
-      "Scikit-Learn",
-      "Pandas",
-      "NumPy",
-      "Regression & Classification",
-      "Feature Engineering",
-    ],
+    icon: "◇",
+    items: ["Scikit-Learn", "Pandas", "NumPy", "Regression & Classification", "Feature Engineering"],
   },
   {
     title: "Development & Deployment",
-    items: [
-      "Python (Advanced)",
-      "C++",
-      "JavaScript",
-      "Full-Stack",
-      "API Development",
-      "ML Pipeline Automation",
-    ],
+    icon: "⬡",
+    items: ["Python (Advanced)", "C++", "JavaScript", "Full-Stack", "API Development", "ML Pipeline Automation"],
   },
 ];
 
@@ -60,129 +76,61 @@ const experience = [
     period: "Sep 2025 – Present",
     company: "Agility Innovations Pvt. Ltd., Ahmedabad",
     description:
-      "AI-powered product pipelines, ML solutions in production, full-stack with neural network integration",
+      "Building AI-powered product pipelines, deploying ML solutions in production environments, full-stack development with neural network integration.",
+    active: true,
   },
   {
     role: "Machine Learning Intern",
     period: "2025",
     company: "Oasis Infobyte, Remote",
     description:
-      "ML projects, neural network architectures, end-to-end ML pipeline development",
+      "Developed ML projects across neural network architectures, built end-to-end ML pipelines from data ingestion to deployment.",
+    active: false,
   },
   {
     role: "AI Research Lead",
-    period: "2024–2025",
+    period: "2024 – 2025",
     company: "Smart India Hackathon & Rotaract Club Hackathon",
     description:
-      "Computer vision, TrOCR systems, led AI research teams",
+      "Led AI research teams in computer vision and TrOCR systems. Designed architectures for real-world document processing challenges.",
+    active: false,
   },
 ];
 
-const fallbackProjects: Project[] = [
-  {
-    id: "1",
-    title: "TalkToNotes",
-    category: "Computer Vision / NLP",
-    description:
-      "OCR system using TrOCR transformer, neural embeddings, chatbot KB integration",
-    tech_tags: ["TrOCR", "Transformers", "Computer Vision", "NLP", "Vector Search"],
-    demo_url: null,
-    repo_url: "https://github.com/iampreetdave/TalkNotes",
-    image_url: null,
-    is_featured: true,
-    display_order: 1,
-    created_at: "",
-  },
-  {
-    id: "2",
-    title: "Goal Prediction Model",
-    category: "ML / Predictive Analytics",
-    description:
-      "6-algorithm regression benchmark pipeline, feature engineering, statistical analysis",
-    tech_tags: [
-      "Machine Learning",
-      "Regression",
-      "Statistical Modeling",
-      "Python",
-    ],
-    demo_url: null,
-    repo_url: null,
-    image_url: null,
-    is_featured: false,
-    display_order: 2,
-    created_at: "",
-  },
-  {
-    id: "3",
-    title: "StudBud",
-    category: "Web / AI",
-    description:
-      "Student academic management with ML recommendations, adaptive scheduling",
-    tech_tags: ["Web Development", "Machine Learning", "Data Analysis"],
-    demo_url: null,
-    repo_url: null,
-    image_url: null,
-    is_featured: false,
-    display_order: 3,
-    created_at: "",
-  },
-  {
-    id: "4",
-    title: "Neural Chat System",
-    category: "Network / AI",
-    description:
-      "Real-time socket communication system with AI integration potential",
-    tech_tags: ["Python", "Socket Programming", "Network Architecture"],
-    demo_url: null,
-    repo_url: null,
-    image_url: null,
-    is_featured: false,
-    display_order: 4,
-    created_at: "",
-  },
+const stats = [
+  { value: "3", label: "ML Projects", sublabel: "shipped" },
+  { value: "3+", label: "Automations", sublabel: "built" },
+  { value: "2", label: "Internships", sublabel: "completed" },
+  { value: "1", label: "Hackathon", sublabel: "won" },
 ];
 
 const filterMap: Record<string, string[]> = {
   "ML Models": ["ML", "Machine Learning", "Predictive Analytics", "Computer Vision", "NLP"],
-  Automation: ["Automation", "Pipeline"],
-  Research: ["Research", "AI"],
+  Automation: ["Automation", "Pipeline", "Socket"],
+  Research: ["Research", "AI", "Neural"],
   Web: ["Web"],
 };
 
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+/* ─── COMPONENTS ─── */
+
+function SectionLabel({ text }: { text: string }) {
   return (
-    <a
-      href={href}
-      className="font-mono text-sm text-gray-400 hover:text-white transition-colors"
-    >
-      {children}
-    </a>
+    <div className="flex items-center gap-3 mb-3">
+      <div className="w-8 h-[1px] bg-[#333]" />
+      <span className="font-mono text-[11px] text-gray-600 tracking-[0.2em] uppercase">
+        {text}
+      </span>
+    </div>
   );
 }
+
+/* ─── PAGE ─── */
 
 export default function Home() {
   const [matrixOn, setMatrixOn] = useState(false);
   const [neuralPaused, setNeuralPaused] = useState(false);
-  const [projects, setProjects] = useState<Project[]>(fallbackProjects);
   const [filter, setFilter] = useState("All");
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    async function fetchProjects() {
-      try {
-        const { data, error } = await getSupabase()
-          .from("projects")
-          .select("*")
-          .order("display_order", { ascending: true });
-        if (!error && data && data.length > 0) {
-          setProjects(data);
-        }
-      } catch {
-        // Use fallback projects
-      }
-    }
-    fetchProjects();
-  }, []);
 
   const filteredProjects =
     filter === "All"
@@ -192,359 +140,405 @@ export default function Home() {
           return keywords.some(
             (kw) =>
               p.category.toLowerCase().includes(kw.toLowerCase()) ||
-              p.tech_tags.some((t) =>
-                t.toLowerCase().includes(kw.toLowerCase())
-              )
+              p.tech_tags.some((t) => t.toLowerCase().includes(kw.toLowerCase()))
           );
         });
 
   const fadeIn = {
-    initial: { opacity: 0, y: 30 },
+    initial: { opacity: 0, y: 40 },
     whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.6 },
+    viewport: { once: true, margin: "-100px" },
+    transition: { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] as const },
   };
 
-  const navLinks = (
-    <>
-      <NavLink href="#home">Home</NavLink>
-      <NavLink href="#about">About</NavLink>
-      <NavLink href="#skills">Skills</NavLink>
-      <NavLink href="#projects">Projects</NavLink>
-      <NavLink href="#experience">Experience</NavLink>
-      <NavLink href="#contact">Contact</NavLink>
-    </>
-  );
+  const navItems = ["Home", "About", "Skills", "Projects", "Experience", "Contact"];
 
   return (
     <>
       <NeuralNetwork paused={neuralPaused} />
-      {matrixOn && <MatrixRain />}
+      <AnimatePresence>{matrixOn && <MatrixRain />}</AnimatePresence>
 
       {/* NAV */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-black/80 backdrop-blur-md">
-        <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-          <a href="#home" className="font-mono text-lg font-bold tracking-tight">
-            PD
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[#111] bg-black/70 backdrop-blur-xl">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+          <a
+            href="#home"
+            className="font-mono text-base font-bold tracking-tight hover:opacity-70 transition-opacity"
+          >
+            PD<span className="text-gray-600">.</span>
           </a>
-          <div className="hidden md:flex items-center gap-6">
-            {navLinks}
+          <div className="hidden md:flex items-center gap-8">
+            {navItems.map((item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                className="nav-link font-mono text-[11px] tracking-wider text-gray-500 hover:text-white transition-colors uppercase"
+              >
+                {item}
+              </a>
+            ))}
             <button
               onClick={() => {
                 setNeuralPaused(!neuralPaused);
                 setMatrixOn(!matrixOn);
               }}
-              className="font-mono text-xs border border-border px-2 py-1 text-gray-500 hover:text-white hover:border-white transition-colors"
-              title="Toggle matrix rain"
+              className="font-mono text-[10px] tracking-wider border border-[#222] px-3 py-1.5 text-gray-600 hover:text-white hover:border-white/40 transition-all duration-300"
             >
-              {matrixOn ? "⏸" : "▶"} Matrix
+              {matrixOn ? "NEURAL" : "MATRIX"}
             </button>
           </div>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden font-mono text-sm border border-border px-2 py-1"
+            className="md:hidden font-mono text-xs border border-[#222] w-10 h-10 flex items-center justify-center hover:border-white/40 transition-colors"
           >
-            {menuOpen ? "✕" : "☰"}
+            {menuOpen ? "×" : "≡"}
           </button>
         </div>
-        {menuOpen && (
-          <div className="md:hidden border-t border-border bg-black/95 backdrop-blur-md px-6 py-4 flex flex-col gap-3">
-            {navLinks}
-          </div>
-        )}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden border-t border-[#111] bg-black/95 backdrop-blur-xl overflow-hidden"
+            >
+              <div className="px-6 py-6 flex flex-col gap-4">
+                {navItems.map((item) => (
+                  <a
+                    key={item}
+                    href={`#${item.toLowerCase()}`}
+                    onClick={() => setMenuOpen(false)}
+                    className="font-mono text-sm text-gray-400 hover:text-white transition-colors"
+                  >
+                    {item}
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       <main className="relative z-10">
-        {/* HERO */}
-        <section
-          id="home"
-          className="min-h-screen flex items-center justify-center px-6"
-        >
-          <div className="max-w-3xl text-center">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-4xl md:text-6xl font-bold mb-4 tracking-tight"
+        {/* ─── HERO ─── */}
+        <section id="home" className="min-h-screen flex items-center justify-center px-6 pt-16">
+          <div className="max-w-3xl w-full">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+              className="mb-6"
             >
-              Preet Ghanshyam Dave
+              <span className="font-mono text-[11px] tracking-[0.3em] text-gray-600 uppercase">
+                Portfolio / 2025
+              </span>
+            </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.1 }}
+              className="hero-name text-5xl md:text-7xl lg:text-8xl font-black mb-6 tracking-tighter leading-[0.9]"
+            >
+              Preet
+              <br />
+              <span className="text-gray-400">Ghanshyam</span>
+              <br />
+              Dave
             </motion.h1>
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-              className="mb-6"
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="mb-8 h-8"
             >
               <TypewriterText />
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-              className="border border-border bg-black/60 backdrop-blur-sm p-6 mb-8 text-left"
+              transition={{ delay: 0.7, duration: 0.8 }}
+              className="border border-[#1a1a1a] bg-black/60 backdrop-blur-md p-6 mb-10 max-w-xl"
             >
-              <p className="text-gray-400 text-sm leading-relaxed">
+              <p className="text-gray-500 text-sm leading-relaxed">
                 Building intelligent systems with deep learning, computer vision,
                 and advanced ML algorithms. Currently pursuing B.Tech in Computer
                 Science (AI-ML) while working as a Trainee Software Engineer at
-                Agility Innovations Pvt. Ltd., Ahmedabad.
+                Agility Innovations.
               </p>
             </motion.div>
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
-              className="flex flex-wrap justify-center gap-4"
+              transition={{ delay: 0.9, duration: 0.8 }}
+              className="flex flex-wrap gap-3"
             >
               <a
                 href="#contact"
-                className="font-mono text-sm border border-white px-6 py-2 hover:bg-white hover:text-black transition-colors"
+                className="font-mono text-[11px] tracking-wider border border-white px-6 py-3 hover:bg-white hover:text-black transition-all duration-300"
               >
-                Contact
+                CONTACT ME
               </a>
               <a
                 href="https://github.com/iampreetdave"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono text-sm border border-border px-6 py-2 text-gray-400 hover:border-white hover:text-white transition-colors"
+                className="font-mono text-[11px] tracking-wider border border-[#333] px-6 py-3 text-gray-500 hover:border-white hover:text-white transition-all duration-300"
               >
-                GitHub
+                GITHUB
               </a>
               <a
                 href="https://www.linkedin.com/in/preet-dave-452023271/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono text-sm border border-border px-6 py-2 text-gray-400 hover:border-white hover:text-white transition-colors"
+                className="font-mono text-[11px] tracking-wider border border-[#333] px-6 py-3 text-gray-500 hover:border-white hover:text-white transition-all duration-300"
               >
-                LinkedIn
+                LINKEDIN
               </a>
+            </motion.div>
+
+            {/* Scroll indicator */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.5, duration: 1 }}
+              className="mt-20 flex items-center gap-3"
+            >
+              <div className="w-[1px] h-12 bg-gradient-to-b from-transparent via-gray-700 to-transparent" />
+              <span className="font-mono text-[10px] tracking-widest text-gray-700 uppercase">
+                Scroll
+              </span>
             </motion.div>
           </div>
         </section>
 
-        {/* ABOUT */}
-        <section id="about" className="py-24 px-6">
+        {/* ─── ABOUT ─── */}
+        <section id="about" className="py-32 px-6">
           <motion.div {...fadeIn} className="max-w-4xl mx-auto">
-            <h2 className="font-mono text-xs text-gray-500 mb-2 tracking-widest uppercase">
-              About
+            <SectionLabel text="About" />
+            <h2 className="text-3xl md:text-4xl font-bold mb-8 tracking-tight">
+              Who I Am
             </h2>
-            <h3 className="text-2xl md:text-3xl font-bold mb-6">Who I Am</h3>
-            <p className="text-gray-400 leading-relaxed mb-8 max-w-2xl">
-              I am an AI-ML Engineer passionate about building intelligent systems
-              that solve real-world problems. With expertise in deep learning,
-              computer vision, and natural language processing, I develop
-              end-to-end machine learning pipelines — from data preprocessing and
-              feature engineering to model deployment and optimization. Currently
-              pursuing my B.Tech in Computer Science (AI-ML) while gaining
-              hands-on industry experience as a Trainee Software Engineer, I
-              bridge the gap between cutting-edge research and production-ready
-              solutions.
-            </p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[
-                { num: "3", label: "ML Projects" },
-                { num: "3+", label: "Automations" },
-                { num: "2", label: "Internships" },
-                { num: "1", label: "Hackathon Win" },
-              ].map((stat) => (
-                <div
-                  key={stat.label}
-                  className="border border-border p-4 text-center"
-                >
-                  <div className="text-2xl font-bold font-mono">{stat.num}</div>
-                  <div className="font-mono text-xs text-gray-500 mt-1">
-                    {stat.label}
+            <div className="grid md:grid-cols-[2fr_1fr] gap-12">
+              <div>
+                <p className="text-gray-400 leading-[1.8] text-[15px] mb-6">
+                  I am an AI-ML Engineer passionate about building intelligent systems
+                  that solve real-world problems. With expertise in deep learning,
+                  computer vision, and natural language processing, I develop
+                  end-to-end machine learning pipelines — from data preprocessing and
+                  feature engineering to model deployment and optimization.
+                </p>
+                <p className="text-gray-500 leading-[1.8] text-[15px]">
+                  Currently pursuing my B.Tech in Computer Science (AI-ML) while gaining
+                  hands-on industry experience as a Trainee Software Engineer, I
+                  bridge the gap between cutting-edge research and production-ready
+                  solutions.
+                </p>
+              </div>
+              <div className="space-y-4">
+                {stats.map((stat) => (
+                  <div key={stat.label} className="border border-[#1a1a1a] p-4 hover:border-[#333] transition-colors">
+                    <div className="text-3xl font-black font-mono leading-none">{stat.value}</div>
+                    <div className="font-mono text-[10px] text-gray-600 mt-2 tracking-wider uppercase">
+                      {stat.label} {stat.sublabel}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </motion.div>
         </section>
 
-        {/* SKILLS */}
-        <section id="skills" className="py-24 px-6">
+        {/* ─── SKILLS ─── */}
+        <section id="skills" className="py-32 px-6">
           <motion.div {...fadeIn} className="max-w-4xl mx-auto">
-            <h2 className="font-mono text-xs text-gray-500 mb-2 tracking-widest uppercase">
-              Skills
-            </h2>
-            <h3 className="text-2xl md:text-3xl font-bold mb-8">
+            <SectionLabel text="Skills" />
+            <h2 className="text-3xl md:text-4xl font-bold mb-10 tracking-tight">
               Technical Expertise
-            </h3>
-            <div className="grid md:grid-cols-2 gap-6">
+            </h2>
+            <div className="grid md:grid-cols-2 gap-4">
               {skills.map((cat) => (
-                <div key={cat.title} className="border border-border p-6">
-                  <h4 className="font-mono text-sm font-semibold mb-4">
-                    {cat.title}
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
+                <motion.div
+                  key={cat.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                  className="group border border-[#1a1a1a] p-6 hover:border-[#333] transition-all duration-500"
+                >
+                  <div className="flex items-center gap-3 mb-5">
+                    <span className="text-lg text-gray-600">{cat.icon}</span>
+                    <h3 className="font-mono text-[12px] font-semibold tracking-wide">
+                      {cat.title}
+                    </h3>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
                     {cat.items.map((item) => (
                       <span
                         key={item}
-                        className="font-mono text-xs px-2 py-1 border border-border/50 text-gray-400"
+                        className="font-mono text-[10px] px-2.5 py-1 border border-[#1a1a1a] text-gray-600 group-hover:border-[#333] group-hover:text-gray-400 transition-all duration-500"
                       >
                         {item}
                       </span>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </motion.div>
         </section>
 
-        {/* PROJECTS */}
-        <section id="projects" className="py-24 px-6">
+        {/* ─── PROJECTS ─── */}
+        <section id="projects" className="py-32 px-6">
           <motion.div {...fadeIn} className="max-w-4xl mx-auto">
-            <h2 className="font-mono text-xs text-gray-500 mb-2 tracking-widest uppercase">
-              Projects
-            </h2>
-            <h3 className="text-2xl md:text-3xl font-bold mb-8">
+            <SectionLabel text="Projects" />
+            <h2 className="text-3xl md:text-4xl font-bold mb-10 tracking-tight">
               Featured Work
-            </h3>
+            </h2>
             <ProjectFilter active={filter} onChange={setFilter} />
-            <div className="grid md:grid-cols-2 gap-6">
-              {filteredProjects.map((project) => (
-                <ProjectCard key={project.id} project={project} />
+            <div className="grid md:grid-cols-2 gap-4">
+              {filteredProjects.map((project, i) => (
+                <ProjectCard key={project.id} project={project} index={i} />
               ))}
             </div>
             {filteredProjects.length === 0 && (
-              <p className="text-gray-500 font-mono text-sm text-center py-12">
-                No projects match this filter.
-              </p>
+              <div className="border border-[#1a1a1a] py-16 text-center">
+                <p className="text-gray-600 font-mono text-xs tracking-wider">
+                  NO PROJECTS MATCH THIS FILTER
+                </p>
+              </div>
             )}
           </motion.div>
         </section>
 
-        {/* EXPERIENCE */}
-        <section id="experience" className="py-24 px-6">
+        {/* ─── EXPERIENCE ─── */}
+        <section id="experience" className="py-32 px-6">
           <motion.div {...fadeIn} className="max-w-4xl mx-auto">
-            <h2 className="font-mono text-xs text-gray-500 mb-2 tracking-widest uppercase">
-              Experience
-            </h2>
-            <h3 className="text-2xl md:text-3xl font-bold mb-8">
+            <SectionLabel text="Experience" />
+            <h2 className="text-3xl md:text-4xl font-bold mb-10 tracking-tight">
               Work History
-            </h3>
+            </h2>
             <div className="space-y-0">
               {experience.map((exp, i) => (
-                <div
+                <motion.div
                   key={i}
-                  className="relative pl-8 pb-10 border-l border-border last:pb-0"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="relative pl-10 pb-12 border-l border-[#1a1a1a] last:pb-0 group"
                 >
-                  <div className="absolute left-0 top-1 w-2 h-2 bg-white -translate-x-[4.5px]" />
-                  <div className="font-mono text-xs text-gray-500 mb-1">
-                    {exp.period}
+                  {/* Timeline dot */}
+                  <div
+                    className={`absolute left-0 top-1.5 w-2 h-2 -translate-x-[4.5px] transition-colors ${
+                      exp.active ? "bg-white" : "bg-[#333] group-hover:bg-white"
+                    }`}
+                  />
+                  {exp.active && (
+                    <div className="absolute left-0 top-1.5 w-2 h-2 -translate-x-[4.5px] bg-white animate-ping opacity-30" />
+                  )}
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="font-mono text-[11px] text-gray-600 tracking-wider">
+                      {exp.period}
+                    </span>
+                    {exp.active && (
+                      <span className="font-mono text-[9px] tracking-widest text-gray-500 border border-[#333] px-2 py-0.5 uppercase">
+                        Current
+                      </span>
+                    )}
                   </div>
-                  <h4 className="text-lg font-semibold mb-1">{exp.role}</h4>
-                  <div className="font-mono text-xs text-gray-400 mb-2">
+                  <h3 className="text-lg font-semibold mb-1">{exp.role}</h3>
+                  <div className="font-mono text-[11px] text-gray-500 mb-3 tracking-wide">
                     {exp.company}
                   </div>
-                  <p className="text-gray-400 text-sm leading-relaxed">
+                  <p className="text-gray-500 text-sm leading-relaxed max-w-lg">
                     {exp.description}
                   </p>
-                </div>
+                </motion.div>
               ))}
             </div>
           </motion.div>
         </section>
 
-        {/* CONTACT */}
-        <section id="contact" className="py-24 px-6">
+        {/* ─── CONTACT ─── */}
+        <section id="contact" className="py-32 px-6">
           <motion.div {...fadeIn} className="max-w-4xl mx-auto">
-            <h2 className="font-mono text-xs text-gray-500 mb-2 tracking-widest uppercase">
-              Contact
+            <SectionLabel text="Contact" />
+            <h2 className="text-3xl md:text-4xl font-bold mb-10 tracking-tight">
+              Get In Touch
             </h2>
-            <h3 className="text-2xl md:text-3xl font-bold mb-8">Get In Touch</h3>
-            <div className="grid md:grid-cols-2 gap-12">
+            <div className="grid md:grid-cols-2 gap-16">
               <div>
-                <div className="space-y-4 mb-8">
-                  <a
-                    href="mailto:preetdave&#64;gmail.com"
-                    className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors text-sm"
-                  >
-                    <span className="font-mono text-xs border border-border w-8 h-8 flex items-center justify-center">
-                      @
-                    </span>
-                    Email
-                  </a>
-                  <a
-                    href="tel:+919081025277"
-                    className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors text-sm"
-                  >
-                    <span className="font-mono text-xs border border-border w-8 h-8 flex items-center justify-center">
-                      #
-                    </span>
-                    +91 90810 25277
-                  </a>
-                  <a
-                    href="https://github.com/iampreetdave"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors text-sm"
-                  >
-                    <span className="font-mono text-xs border border-border w-8 h-8 flex items-center justify-center">
-                      GH
-                    </span>
-                    GitHub
-                  </a>
-                  <a
-                    href="https://www.linkedin.com/in/preet-dave-452023271/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors text-sm"
-                  >
-                    <span className="font-mono text-xs border border-border w-8 h-8 flex items-center justify-center">
-                      IN
-                    </span>
-                    LinkedIn
-                  </a>
+                <div className="space-y-5 mb-10">
+                  {[
+                    { icon: "@", label: "Email", href: "mailto:preetdave@gmail.com", text: "preetdave@gmail.com" },
+                    { icon: "#", label: "Phone", href: "tel:+919081025277", text: "+91 90810 25277" },
+                    { icon: "GH", label: "GitHub", href: "https://github.com/iampreetdave", text: "iampreetdave" },
+                    { icon: "IN", label: "LinkedIn", href: "https://www.linkedin.com/in/preet-dave-452023271/", text: "preet-dave" },
+                  ].map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      target={link.href.startsWith("http") ? "_blank" : undefined}
+                      rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="group flex items-center gap-4 text-gray-500 hover:text-white transition-all duration-300"
+                    >
+                      <span className="font-mono text-[10px] border border-[#222] w-10 h-10 flex items-center justify-center group-hover:border-white/40 transition-colors shrink-0">
+                        {link.icon}
+                      </span>
+                      <div>
+                        <div className="font-mono text-[10px] text-gray-700 tracking-wider uppercase mb-0.5">
+                          {link.label}
+                        </div>
+                        <div className="text-sm">{link.text}</div>
+                      </div>
+                    </a>
+                  ))}
                 </div>
-                <p className="font-mono text-xs text-gray-500 border border-border inline-block px-3 py-1.5">
-                  Open to AI/ML engineering opportunities and collaborations
-                </p>
+                <div className="border border-[#1a1a1a] p-4 inline-block">
+                  <p className="font-mono text-[11px] text-gray-600 tracking-wide">
+                    Open to AI/ML engineering opportunities
+                    <br />
+                    and research collaborations.
+                  </p>
+                </div>
               </div>
               <form
                 name="contact"
                 method="POST"
-                data-netlify="true"
-                className="space-y-4"
+                action="/success"
+                className="space-y-5"
               >
                 <input type="hidden" name="form-name" value="contact" />
+                {[
+                  { label: "Name", type: "text", name: "name" },
+                  { label: "Email", type: "email", name: "email" },
+                ].map((field) => (
+                  <div key={field.name}>
+                    <label className="block font-mono text-[10px] text-gray-600 mb-2 tracking-wider uppercase">
+                      {field.label}
+                    </label>
+                    <input
+                      type={field.type}
+                      name={field.name}
+                      required
+                      className="w-full bg-transparent border border-[#222] p-3.5 text-white text-sm placeholder-gray-800 focus:border-white transition-colors duration-300"
+                    />
+                  </div>
+                ))}
                 <div>
-                  <label className="block font-mono text-xs text-gray-500 mb-1">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    required
-                    className="w-full bg-black border border-border p-3 text-white text-sm focus:border-white outline-none transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="block font-mono text-xs text-gray-500 mb-1">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    className="w-full bg-black border border-border p-3 text-white text-sm focus:border-white outline-none transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="block font-mono text-xs text-gray-500 mb-1">
+                  <label className="block font-mono text-[10px] text-gray-600 mb-2 tracking-wider uppercase">
                     Message
                   </label>
                   <textarea
                     name="message"
                     required
-                    rows={4}
-                    className="w-full bg-black border border-border p-3 text-white text-sm focus:border-white outline-none transition-colors resize-none"
+                    rows={5}
+                    className="w-full bg-transparent border border-[#222] p-3.5 text-white text-sm placeholder-gray-800 focus:border-white transition-colors duration-300 resize-none"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="font-mono text-sm border border-white px-6 py-2 hover:bg-white hover:text-black transition-colors"
+                  className="w-full font-mono text-[11px] tracking-wider border border-white px-6 py-3.5 hover:bg-white hover:text-black transition-all duration-300 uppercase"
                 >
                   Send Message
                 </button>
@@ -553,11 +547,16 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* FOOTER */}
-        <footer className="border-t border-border py-8 px-6 text-center">
-          <p className="font-mono text-xs text-gray-600">
-            © 2025 Preet Ghanshyam Dave. Built with Next.js.
-          </p>
+        {/* ─── FOOTER ─── */}
+        <footer className="border-t border-[#111] py-10 px-6">
+          <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="font-mono text-[10px] text-gray-700 tracking-wider">
+              © 2025 PREET GHANSHYAM DAVE
+            </p>
+            <p className="font-mono text-[10px] text-gray-800 tracking-wider">
+              BUILT WITH NEXT.JS + TAILWIND
+            </p>
+          </div>
         </footer>
       </main>
     </>

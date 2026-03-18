@@ -2,7 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 html {
   scroll-behavior: smooth;
@@ -12,15 +18,16 @@ body {
   background: #000000;
   color: #ffffff;
   font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
 }
 
 ::selection {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
   color: #ffffff;
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -28,9 +35,50 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333333;
+  background: #222;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555555;
+  background: #444;
+}
+
+/* Glow pulse for hero name */
+@keyframes subtleGlow {
+  0%, 100% { text-shadow: 0 0 20px rgba(255,255,255,0.05); }
+  50% { text-shadow: 0 0 40px rgba(255,255,255,0.1), 0 0 80px rgba(255,255,255,0.03); }
+}
+
+.hero-name {
+  animation: subtleGlow 4s ease-in-out infinite;
+}
+
+/* Smooth section transitions */
+section {
+  position: relative;
+}
+
+/* Focus styles */
+input:focus, textarea:focus {
+  border-color: #fff !important;
+  outline: none;
+}
+
+/* Active nav link underline animation */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #fff;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
 }

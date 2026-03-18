@@ -14,17 +14,24 @@ export default function TypewriterText() {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
+    if (isPaused) return;
+
     const current = phrases[phraseIndex];
-    const speed = isDeleting ? 30 : 80;
+    const speed = isDeleting ? 40 : 70;
 
     const timeout = setTimeout(() => {
       if (!isDeleting) {
         setText(current.slice(0, charIndex + 1));
         setCharIndex((c) => c + 1);
         if (charIndex + 1 === current.length) {
-          setTimeout(() => setIsDeleting(true), 1500);
+          setIsPaused(true);
+          setTimeout(() => {
+            setIsPaused(false);
+            setIsDeleting(true);
+          }, 2000);
         }
       } else {
         setText(current.slice(0, charIndex - 1));
@@ -37,12 +44,16 @@ export default function TypewriterText() {
     }, speed);
 
     return () => clearTimeout(timeout);
-  }, [charIndex, isDeleting, phraseIndex]);
+  }, [charIndex, isDeleting, phraseIndex, isPaused]);
 
   return (
-    <span className="font-mono text-lg md:text-xl text-gray-400">
-      {text}
-      <span className="animate-pulse">|</span>
-    </span>
+    <div className="inline-flex items-center gap-1">
+      <span className="font-mono text-lg md:text-2xl text-gray-400 tracking-wide">
+        {">"} {text}
+      </span>
+      <span className="font-mono text-lg md:text-2xl text-white animate-pulse">
+        _
+      </span>
+    </div>
   );
 }
