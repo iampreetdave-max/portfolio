@@ -10,15 +10,15 @@ export default function ProjectFilter({
   onChange: (filter: string) => void;
 }) {
   return (
-    <div className="flex flex-wrap gap-2 mb-8">
+    <div className="flex flex-wrap gap-2 mb-10">
       {filters.map((filter) => (
         <button
           key={filter}
           onClick={() => onChange(filter)}
-          className={`font-mono text-xs px-3 py-1.5 border transition-colors ${
+          className={`font-mono text-[11px] tracking-wide px-4 py-2 border transition-all duration-300 ${
             active === filter
               ? "bg-white text-black border-white"
-              : "border-border text-gray-400 hover:border-white/50"
+              : "border-[#333] text-gray-500 hover:border-white/40 hover:text-gray-300"
           }`}
         >
           {filter}

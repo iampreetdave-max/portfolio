@@ -14,16 +14,16 @@ export default function MatrixRain() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const chars = "01アイウエオカキクケコサシスセソタチツテトナニヌネノ";
-    const fontSize = 14;
+    const chars = "01アイウエオカキクケコサシスセソタチツテトナニヌネノ∞∑∏∂∇";
+    const fontSize = 13;
     const columns = Math.floor(canvas.width / fontSize);
     const drops: number[] = new Array(columns).fill(1);
 
     const draw = () => {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillStyle = "rgba(0, 0, 0, 0.06)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
+      ctx.fillStyle = "rgba(255, 255, 255, 0.12)";
       ctx.font = `${fontSize}px 'JetBrains Mono', monospace`;
 
       for (let i = 0; i < drops.length; i++) {
@@ -37,7 +37,7 @@ export default function MatrixRain() {
       }
     };
 
-    const interval = setInterval(draw, 50);
+    const interval = setInterval(draw, 45);
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -54,8 +54,8 @@ export default function MatrixRain() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-0 pointer-events-none"
-      style={{ opacity: 0.4 }}
+      className="fixed inset-0 z-[1] pointer-events-none"
+      style={{ opacity: 0.5 }}
     />
   );
 }
