@@ -319,6 +319,12 @@ export default function Home() {
                 {item}
               </a>
             ))}
+            <a
+              href="/fun"
+              className="font-mono text-[10px] tracking-wider border border-[#00ff41]/30 px-3 py-1.5 text-[#00ff41] hover:bg-[#00ff41]/10 transition-all duration-300"
+            >
+              FUN ZONE
+            </a>
             <button
               onClick={() => {
                 setNeuralPaused(!neuralPaused);
@@ -363,6 +369,12 @@ export default function Home() {
                     {item}
                   </a>
                 ))}
+                <a
+                  href="/fun"
+                  className="font-mono text-sm text-[#00ff41] hover:text-white transition-colors"
+                >
+                  Fun Zone
+                </a>
               </div>
             </motion.div>
           )}
