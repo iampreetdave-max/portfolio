@@ -13,6 +13,8 @@ export interface Project {
 }
 
 export default function ProjectCard({ project, index }: { project: Project; index: number }) {
+  const linkUrl = project.repo_url || "https://github.com/iampreetdave";
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -45,16 +47,14 @@ export default function ProjectCard({ project, index }: { project: Project; inde
           </span>
         ))}
       </div>
-      {project.repo_url && (
-        <a
-          href={project.repo_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block font-mono text-xs border border-[#333] px-4 py-1.5 text-gray-400 hover:bg-white hover:text-black hover:border-white transition-all duration-300"
-        >
-          View Source →
-        </a>
-      )}
+      <a
+        href={linkUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-block font-mono text-xs border border-[#333] px-4 py-1.5 text-gray-400 hover:bg-white hover:text-black hover:border-white transition-all duration-300"
+      >
+        View Source →
+      </a>
     </motion.div>
   );
 }

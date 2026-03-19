@@ -23,12 +23,27 @@ export default function MatrixRain() {
       ctx.fillStyle = "rgba(0, 0, 0, 0.06)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.fillStyle = "rgba(255, 255, 255, 0.12)";
       ctx.font = `${fontSize}px 'JetBrains Mono', monospace`;
 
       for (let i = 0; i < drops.length; i++) {
         const text = chars[Math.floor(Math.random() * chars.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        const y = drops[i] * fontSize;
+
+        // Leading character is white, rest are matrix green
+        if (drops[i] * fontSize < canvas.height) {
+          ctx.fillStyle = "#ffffff";
+          ctx.fillText(text, i * fontSize, y);
+
+          // Draw a fading green trail behind the leading char
+          if (drops[i] > 1) {
+            const trailChar = chars[Math.floor(Math.random() * chars.length)];
+            ctx.fillStyle = "#00ff41";
+            ctx.fillText(trailChar, i * fontSize, y - fontSize);
+          }
+        } else {
+          ctx.fillStyle = "#00ff41";
+          ctx.fillText(text, i * fontSize, y);
+        }
 
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
           drops[i] = 0;
@@ -55,7 +70,7 @@ export default function MatrixRain() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 z-[1] pointer-events-none"
-      style={{ opacity: 0.5 }}
+      style={{ opacity: 0.6 }}
     />
   );
 }
