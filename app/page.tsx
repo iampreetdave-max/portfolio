@@ -17,6 +17,15 @@ import {
 const projects: Project[] = [
   {
     id: "1",
+    title: "Football Prediction System",
+    category: "ML / Predictive Analytics",
+    description:
+      "Production-grade ML platform with Ridge Regression models, 21+ engineered features, automated daily predictions via GitHub Actions, and a live Streamlit dashboard. 7 stars on GitHub.",
+    tech_tags: ["scikit-learn", "Streamlit", "Ridge Regression", "GitHub Actions", "Pandas"],
+    repo_url: "https://github.com/iampreetdave-max/football-predictions",
+  },
+  {
+    id: "2",
     title: "TalkToNotes",
     category: "Computer Vision / NLP",
     description:
@@ -25,28 +34,76 @@ const projects: Project[] = [
     repo_url: "https://github.com/iampreetdave/TalkNotes",
   },
   {
-    id: "2",
-    title: "Goal Prediction Model",
-    category: "ML / Predictive Analytics",
-    description:
-      "6-algorithm regression benchmark pipeline with comprehensive feature engineering and statistical analysis for predictive modeling.",
-    tech_tags: ["Machine Learning", "Regression", "Statistical Modeling", "Python"],
-  },
-  {
     id: "3",
-    title: "StudBud",
-    category: "Web / AI",
+    title: "CTMCL Predictions",
+    category: "ML / Sports Analytics",
     description:
-      "Student academic management platform with ML-powered recommendations and adaptive scheduling algorithms.",
-    tech_tags: ["Web Development", "Machine Learning", "Data Analysis"],
+      "Novel approach to football match prediction using Consensus Total Market Goals Line derived from betting odds, xG comparison, and Random Forest classification across 6 Premier League seasons.",
+    tech_tags: ["Random Forest", "scikit-learn", "Pandas", "NumPy", "xG Analytics"],
+    repo_url: "https://github.com/iampreetdave/CTMCL-predictions",
   },
   {
     id: "4",
-    title: "Neural Chat System",
-    category: "Network / AI",
+    title: "Goal Prediction Model",
+    category: "ML / Regression",
     description:
-      "Real-time socket communication system with AI integration potential. Low-latency message routing with neural network\u2013assisted responses.",
+      "6-algorithm regression benchmark pipeline with comprehensive feature engineering and statistical analysis for predictive modeling of football match outcomes.",
+    tech_tags: ["Machine Learning", "Regression", "Statistical Modeling", "Python"],
+    repo_url: "https://github.com/iampreetdave/Goal-Prediction-Model",
+  },
+  {
+    id: "5",
+    title: "StudBud",
+    category: "Web / Full-Stack",
+    description:
+      "Student academic management platform with ML-powered recommendations and adaptive scheduling algorithms for better study planning.",
+    tech_tags: ["TypeScript", "Web Development", "Machine Learning", "Full-Stack"],
+    repo_url: "https://github.com/iampreetdave/STUDBUD",
+  },
+  {
+    id: "6",
+    title: "Find Ranks",
+    category: "Web / Streamlit",
+    description:
+      "Streamlit web app that extracts marks from multiple PDF mark sheets, calculates cumulative performance, and generates rankings with analytics for educational institutions.",
+    tech_tags: ["Streamlit", "PDF Processing", "Python", "Data Analytics"],
+    repo_url: "https://github.com/iampreetdave-max/Find-Ranks",
+  },
+  {
+    id: "7",
+    title: "Automated Timesheet",
+    category: "Automation",
+    description:
+      "Automated timesheet management system with SharePoint integration, daily summary generation, and reaction-based tracking via scheduled GitHub Actions workflows.",
+    tech_tags: ["Python", "Automation", "SharePoint API", "GitHub Actions"],
+    repo_url: "https://github.com/iampreetdave-max/automated_timesheet",
+  },
+  {
+    id: "8",
+    title: "Bulk Email Tool",
+    category: "Automation",
+    description:
+      "Professional cold email campaign tool built with Streamlit. Send bulk emails with live progress tracking, PDF attachments, and multi-provider support (Gmail, Outlook, Yahoo).",
+    tech_tags: ["Streamlit", "Python", "SMTP", "Email Automation"],
+    repo_url: "https://github.com/iampreetdave-max/bulk-email",
+  },
+  {
+    id: "9",
+    title: "Claude Prompt Extension",
+    category: "Browser Extension / AI",
+    description:
+      "Chrome browser extension for enhancing Claude AI interactions with prompt management, templates, and workflow optimization features.",
+    tech_tags: ["JavaScript", "Chrome Extension", "AI", "Manifest V3"],
+    repo_url: "https://github.com/iampreetdave-max/Claude-Prompt-extension",
+  },
+  {
+    id: "10",
+    title: "Chat Application",
+    category: "Network / Python",
+    description:
+      "Real-time socket communication system built in Python. Low-latency message routing with a clean architecture, all implemented in a single file.",
     tech_tags: ["Python", "Socket Programming", "Network Architecture"],
+    repo_url: "https://github.com/iampreetdave/chat-application",
   },
 ];
 
@@ -101,17 +158,17 @@ const experience = [
 ];
 
 const stats = [
-  { value: "3", label: "ML Projects", sublabel: "shipped" },
+  { value: "10", label: "Projects", sublabel: "shipped" },
   { value: "3+", label: "Automations", sublabel: "built" },
   { value: "2", label: "Internships", sublabel: "completed" },
   { value: "1", label: "Hackathon", sublabel: "won" },
 ];
 
 const filterMap: Record<string, string[]> = {
-  "ML Models": ["ML", "Machine Learning", "Predictive Analytics", "Computer Vision", "NLP"],
-  Automation: ["Automation", "Pipeline", "Socket"],
-  Research: ["Research", "AI", "Neural"],
-  Web: ["Web"],
+  "ML & Analytics": ["ML", "Machine Learning", "Predictive", "Analytics", "Regression", "Computer Vision", "NLP", "xG", "Random Forest", "scikit-learn"],
+  Automation: ["Automation", "Email", "Timesheet", "SMTP", "SharePoint"],
+  "Web & Tools": ["Web", "Streamlit", "Full-Stack", "PDF", "TypeScript"],
+  Extensions: ["Extension", "Browser", "Chrome", "Manifest"],
 };
 
 const sectionIds = ["home", "about", "skills", "projects", "experience", "contact"];
@@ -218,15 +275,15 @@ export default function Home() {
 
   const stagger = {
     hidden: {},
-    show: { transition: { staggerChildren: 0.1 } },
+    show: { transition: { staggerChildren: 0.08 } },
   };
 
   const fadeUp = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 20 },
     show: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const },
+      transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] as const },
     },
   };
 
@@ -313,7 +370,7 @@ export default function Home() {
       </nav>
 
       <main className="relative z-10">
-        {/* \u2500\u2500\u2500 HERO \u2500\u2500\u2500 */}
+        {/* HERO */}
         <section
           id="home"
           className="min-h-[100dvh] flex items-center justify-center px-6 pt-16"
@@ -322,24 +379,20 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1.2 }}
-              className="mb-8"
+              transition={{ duration: 1 }}
+              className="mb-6"
             >
-              <span className="font-mono text-[11px] tracking-[0.35em] text-gray-600 uppercase inline-flex items-center gap-2">
+              <span className="font-mono text-[11px] tracking-[0.3em] text-gray-600 uppercase inline-flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#00FF41]/60 animate-pulse" />
                 Portfolio / 2025
               </span>
             </motion.div>
 
             <motion.h1
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 1,
-                delay: 0.15,
-                ease: [0.25, 0.1, 0.25, 1],
-              }}
-              className="hero-name text-6xl md:text-8xl lg:text-9xl font-black mb-8 tracking-[-0.04em] leading-[0.85]"
+              transition={{ duration: 0.9, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+              className="hero-name text-5xl md:text-6xl lg:text-7xl font-black mb-6 tracking-[-0.03em] leading-[0.9]"
             >
               Preet
               <br />
@@ -349,18 +402,18 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="mb-10 h-8"
+              transition={{ delay: 0.4, duration: 0.7 }}
+              className="mb-8 h-8"
             >
               <TypewriterText />
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.8 }}
+              transition={{ delay: 0.6, duration: 0.7 }}
             >
-              <GlassCard className="p-6 md:p-8 mb-10 max-w-2xl rounded-lg" hover={false}>
+              <GlassCard className="p-6 mb-8 max-w-2xl rounded-lg" hover={false}>
                 <p className="text-gray-300 text-[15px] leading-[1.8]">
                   Building intelligent systems with deep learning, computer vision,
                   and advanced ML algorithms. Currently pursuing B.Tech in Computer
@@ -373,7 +426,7 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.9, duration: 0.8 }}
+              transition={{ delay: 0.8, duration: 0.7 }}
               className="flex flex-wrap gap-3"
             >
               <a
@@ -402,28 +455,15 @@ export default function Home() {
                 LINKEDIN
               </a>
             </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.5, duration: 1 }}
-              className="mt-24 flex items-center gap-3"
-            >
-              <ArrowDown size={14} className="text-gray-700 animate-bounce" />
-              <span className="font-mono text-[10px] tracking-[0.3em] text-gray-700 uppercase">
-                Scroll to explore
-              </span>
-            </motion.div>
           </div>
         </section>
 
-        {/* \u2500\u2500\u2500 ABOUT \u2500\u2500\u2500 */}
-        <section id="about" className="py-32 px-6">
-          <div className="section-divider max-w-4xl mx-auto mb-32" />
+        {/* ABOUT */}
+        <section id="about" className="py-20 px-6">
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-80px" }}
             variants={stagger}
             className="max-w-4xl mx-auto"
           >
@@ -432,20 +472,20 @@ export default function Home() {
             </motion.div>
             <motion.h2
               variants={fadeUp}
-              className="text-4xl md:text-5xl font-bold mb-12 tracking-[-0.03em]"
+              className="text-3xl md:text-4xl font-bold mb-10 tracking-tight"
             >
               Who I Am
             </motion.h2>
-            <div className="grid md:grid-cols-[2fr_1fr] gap-12">
+            <div className="grid md:grid-cols-[2fr_1fr] gap-10">
               <motion.div variants={fadeUp}>
-                <p className="text-gray-300 leading-[1.9] text-[15px] mb-6">
+                <p className="text-gray-300 leading-[1.8] text-[15px] mb-5">
                   I am an AI-ML Engineer passionate about building intelligent systems
                   that solve real-world problems. With expertise in deep learning,
                   computer vision, and natural language processing, I develop
                   end-to-end machine learning pipelines \u2014 from data preprocessing and
                   feature engineering to model deployment and optimization.
                 </p>
-                <p className="text-gray-500 leading-[1.9] text-[15px]">
+                <p className="text-gray-500 leading-[1.8] text-[15px]">
                   Currently pursuing my B.Tech in Computer Science (AI-ML) while
                   gaining hands-on industry experience as a Trainee Software Engineer,
                   I bridge the gap between cutting-edge research and production-ready
@@ -455,11 +495,11 @@ export default function Home() {
               <motion.div variants={stagger} className="space-y-3">
                 {stats.map((stat) => (
                   <motion.div key={stat.label} variants={fadeUp}>
-                    <GlassCard className="p-5 rounded-lg">
-                      <div className="text-3xl font-black font-mono leading-none text-gradient-green">
+                    <GlassCard className="p-4 rounded-lg">
+                      <div className="text-2xl font-black font-mono leading-none text-gradient-green">
                         {stat.value}
                       </div>
-                      <div className="font-mono text-[10px] text-gray-500 mt-2 tracking-[0.15em] uppercase">
+                      <div className="font-mono text-[10px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase">
                         {stat.label} {stat.sublabel}
                       </div>
                     </GlassCard>
@@ -470,13 +510,12 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* \u2500\u2500\u2500 SKILLS \u2500\u2500\u2500 */}
-        <section id="skills" className="py-32 px-6">
-          <div className="section-divider max-w-4xl mx-auto mb-32" />
+        {/* SKILLS */}
+        <section id="skills" className="py-20 px-6">
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-80px" }}
             variants={stagger}
             className="max-w-4xl mx-auto"
           >
@@ -485,7 +524,7 @@ export default function Home() {
             </motion.div>
             <motion.h2
               variants={fadeUp}
-              className="text-4xl md:text-5xl font-bold mb-12 tracking-[-0.03em]"
+              className="text-3xl md:text-4xl font-bold mb-10 tracking-tight"
             >
               Technical Expertise
             </motion.h2>
@@ -521,13 +560,12 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* \u2500\u2500\u2500 PROJECTS \u2500\u2500\u2500 */}
-        <section id="projects" className="py-32 px-6">
-          <div className="section-divider max-w-4xl mx-auto mb-32" />
+        {/* PROJECTS */}
+        <section id="projects" className="py-20 px-6">
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-80px" }}
             variants={stagger}
             className="max-w-4xl mx-auto"
           >
@@ -536,7 +574,7 @@ export default function Home() {
             </motion.div>
             <motion.h2
               variants={fadeUp}
-              className="text-4xl md:text-5xl font-bold mb-12 tracking-[-0.03em]"
+              className="text-3xl md:text-4xl font-bold mb-10 tracking-tight"
             >
               Featured Work
             </motion.h2>
@@ -551,7 +589,7 @@ export default function Home() {
               ))}
             </motion.div>
             {filteredProjects.length === 0 && (
-              <GlassCard className="py-16 text-center rounded-lg">
+              <GlassCard className="py-12 text-center rounded-lg">
                 <p className="text-gray-600 font-mono text-xs tracking-wider">
                   NO PROJECTS MATCH THIS FILTER
                 </p>
@@ -560,13 +598,12 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* \u2500\u2500\u2500 EXPERIENCE \u2500\u2500\u2500 */}
-        <section id="experience" className="py-32 px-6">
-          <div className="section-divider max-w-4xl mx-auto mb-32" />
+        {/* EXPERIENCE */}
+        <section id="experience" className="py-20 px-6">
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-80px" }}
             variants={stagger}
             className="max-w-4xl mx-auto"
           >
@@ -575,7 +612,7 @@ export default function Home() {
             </motion.div>
             <motion.h2
               variants={fadeUp}
-              className="text-4xl md:text-5xl font-bold mb-12 tracking-[-0.03em]"
+              className="text-3xl md:text-4xl font-bold mb-10 tracking-tight"
             >
               Work History
             </motion.h2>
@@ -584,7 +621,7 @@ export default function Home() {
                 <motion.div
                   key={i}
                   variants={fadeUp}
-                  className="relative pl-10 pb-12 border-l border-white/[0.06] last:pb-0 group"
+                  className="relative pl-10 pb-10 border-l border-white/[0.06] last:pb-0 group"
                 >
                   <div
                     className={`absolute left-0 top-1.5 w-2.5 h-2.5 -translate-x-[5.5px] rounded-full transition-all duration-500 ${
@@ -623,13 +660,12 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* \u2500\u2500\u2500 CONTACT \u2500\u2500\u2500 */}
-        <section id="contact" className="py-32 px-6">
-          <div className="section-divider max-w-4xl mx-auto mb-32" />
+        {/* CONTACT */}
+        <section id="contact" className="py-20 px-6">
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-80px" }}
             variants={stagger}
             className="max-w-4xl mx-auto"
           >
@@ -638,19 +674,19 @@ export default function Home() {
             </motion.div>
             <motion.h2
               variants={fadeUp}
-              className="text-4xl md:text-5xl font-bold mb-12 tracking-[-0.03em]"
+              className="text-3xl md:text-4xl font-bold mb-10 tracking-tight"
             >
               Get In Touch
             </motion.h2>
-            <div className="grid md:grid-cols-2 gap-16">
+            <div className="grid md:grid-cols-2 gap-12">
               <motion.div variants={fadeUp}>
-                <div className="space-y-4 mb-10">
+                <div className="space-y-4 mb-8">
                   {[
                     {
                       Icon: Mail,
                       label: "Email",
-                      href: "mailto:preetdave@gmail.com",
-                      text: "preetdave@gmail.com",
+                      href: "mailto:iampreetdave@gmail.com",
+                      text: "iampreetdave@gmail.com",
                     },
                     {
                       Icon: Phone,
@@ -754,8 +790,8 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* \u2500\u2500\u2500 FOOTER \u2500\u2500\u2500 */}
-        <footer className="border-t border-white/[0.04] py-10 px-6">
+        {/* FOOTER */}
+        <footer className="border-t border-white/[0.04] py-8 px-6">
           <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="font-mono text-[10px] text-gray-500 tracking-wider">
               \u00a9 2025 PREET GHANSHYAM DAVE

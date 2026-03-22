@@ -1,6 +1,6 @@
 "use client";
 
-const filters = ["All", "ML Models", "Automation", "Research", "Web"];
+const filters = ["All", "ML & Analytics", "Automation", "Web & Tools", "Extensions"];
 
 export default function ProjectFilter({
   active,
@@ -10,7 +10,7 @@ export default function ProjectFilter({
   onChange: (filter: string) => void;
 }) {
   return (
-    <div className="flex flex-wrap gap-2 mb-10">
+    <div className="flex flex-wrap gap-2 mb-8">
       {filters.map((filter) => (
         <button
           key={filter}
