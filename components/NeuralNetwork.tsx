@@ -87,7 +87,7 @@ export default function NeuralNetwork({ paused }: { paused: boolean }) {
           const dy = nodes[i].y - nodes[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < maxDist) {
-            const alpha = (1 - dist / maxDist) * 0.12;
+            const alpha = (1 - dist / maxDist) * 0.1;
             ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
             ctx.lineWidth = 0.5;
             ctx.beginPath();
@@ -98,14 +98,14 @@ export default function NeuralNetwork({ paused }: { paused: boolean }) {
         }
       }
 
-      // Draw mouse connections
+      // Draw mouse connections — green tint
       for (const node of nodes) {
         const dx = node.x - mx;
         const dy = node.y - my;
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < 200) {
           const alpha = (1 - dist / 200) * 0.25;
-          ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
+          ctx.strokeStyle = `rgba(0, 255, 65, ${alpha})`;
           ctx.lineWidth = 0.8;
           ctx.beginPath();
           ctx.moveTo(node.x, node.y);
@@ -116,7 +116,7 @@ export default function NeuralNetwork({ paused }: { paused: boolean }) {
 
       // Draw nodes with pulse
       for (const node of nodes) {
-        const pulse = Math.sin(time * 2 + node.pulsePhase) * 0.15 + 0.35;
+        const pulse = Math.sin(time * 2 + node.pulsePhase) * 0.15 + 0.3;
         ctx.fillStyle = `rgba(255, 255, 255, ${pulse})`;
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
@@ -139,7 +139,7 @@ export default function NeuralNetwork({ paused }: { paused: boolean }) {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 z-0 pointer-events-none"
-      style={{ opacity: 0.5 }}
+      style={{ opacity: 0.45 }}
     />
   );
 }

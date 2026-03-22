@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 
 export interface Project {
   id: string;
@@ -12,26 +12,20 @@ export interface Project {
   demo_url?: string | null;
 }
 
-export default function ProjectCard({ project, index }: { project: Project; index: number }) {
+export default function ProjectCard({ project }: { project: Project }) {
   const linkUrl = project.repo_url || "https://github.com/iampreetdave";
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group border border-[#222] p-6 bg-black/40 backdrop-blur-sm hover:border-white/40 transition-all duration-500 hover:bg-white/[0.02]"
-    >
+    <div className="group bg-white/[0.02] backdrop-blur-xl border border-white/[0.06] p-6 rounded-lg hover:bg-white/[0.04] hover:border-white/[0.1] hover:shadow-[0_0_40px_rgba(0,255,65,0.04)] transition-all duration-500">
       <div className="flex items-start justify-between mb-4">
-        <h3 className="text-lg font-semibold group-hover:text-white transition-colors">
+        <h3 className="text-lg font-semibold group-hover:text-white transition-colors duration-300">
           {project.title}
         </h3>
-        <span className="font-mono text-[10px] tracking-wider text-gray-600 mt-1">
+        <span className="font-mono text-[10px] tracking-wider text-[#00FF41]/40 mt-1">
           0{project.id}
         </span>
       </div>
-      <span className="inline-block font-mono text-[11px] px-2.5 py-1 border border-[#333] text-gray-500 mb-4 tracking-wide">
+      <span className="inline-block font-mono text-[11px] px-2.5 py-1 border border-[#00FF41]/15 text-[#00FF41]/60 mb-4 tracking-wide rounded-sm bg-[#00FF41]/[0.03]">
         {project.category}
       </span>
       <p className="text-gray-400 text-sm mb-5 leading-relaxed">
@@ -41,7 +35,7 @@ export default function ProjectCard({ project, index }: { project: Project; inde
         {project.tech_tags.map((tag) => (
           <span
             key={tag}
-            className="font-mono text-[10px] px-2 py-0.5 border border-[#1a1a1a] text-gray-600 group-hover:border-[#333] group-hover:text-gray-500 transition-colors"
+            className="font-mono text-[10px] px-2 py-0.5 border border-white/[0.06] text-gray-600 rounded-sm group-hover:border-white/[0.1] group-hover:text-gray-500 transition-all duration-500"
           >
             {tag}
           </span>
@@ -51,10 +45,11 @@ export default function ProjectCard({ project, index }: { project: Project; inde
         href={linkUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-block font-mono text-xs border border-[#333] px-4 py-1.5 text-gray-400 hover:bg-white hover:text-black hover:border-white transition-all duration-300"
+        className="inline-flex items-center gap-1.5 font-mono text-xs border border-white/[0.1] px-4 py-1.5 text-gray-400 hover:bg-white hover:text-black hover:border-white transition-all duration-300 rounded-sm cursor-pointer"
       >
-        View Source →
+        View Source
+        <ArrowUpRight size={12} />
       </a>
-    </motion.div>
+    </div>
   );
 }

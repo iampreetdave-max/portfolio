@@ -9,8 +9,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: "#000000",
-        border: "#333333",
+        bg: "#050505",
+        surface: "rgba(255, 255, 255, 0.02)",
+        border: "rgba(255, 255, 255, 0.06)",
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],

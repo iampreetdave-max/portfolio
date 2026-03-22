@@ -4,6 +4,12 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
 
+:root {
+  --green: #00FF41;
+  --green-rgb: 0, 255, 65;
+  --cyan: #00D4FF;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -15,8 +21,8 @@ html {
 }
 
 body {
-  background: #000000;
-  color: #ffffff;
+  background: #050505;
+  color: #EDEDED;
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
 }
@@ -27,44 +33,51 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 3px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: #050505;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #222;
+  background: rgba(0, 255, 65, 0.3);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #444;
+  background: rgba(0, 255, 65, 0.5);
 }
 
-/* Glow pulse for hero name */
+/* Hero name gradient + glow */
 @keyframes subtleGlow {
-  0%, 100% { text-shadow: 0 0 20px rgba(0,255,65,0.05); }
-  50% { text-shadow: 0 0 40px rgba(0,255,65,0.1), 0 0 80px rgba(0,255,65,0.03); }
+  0%, 100% { text-shadow: 0 0 30px rgba(0,255,65,0.08); }
+  50% { text-shadow: 0 0 60px rgba(0,255,65,0.15), 0 0 120px rgba(0,255,65,0.05); }
 }
 
 .hero-name {
   animation: subtleGlow 4s ease-in-out infinite;
+  background: linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.65) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* Smooth section transitions */
-section {
-  position: relative;
+/* Gradient text utility */
+.text-gradient-green {
+  background: linear-gradient(135deg, #00FF41 0%, #00D4FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* Contact form focus styles — green */
-input:focus, textarea:focus {
-  border-color: #00ff41 !important;
-  outline: 1px solid #00ff41;
-  background: rgba(0, 255, 65, 0.03) !important;
+/* Section divider */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 50%, transparent);
 }
 
-/* Active nav link underline animation */
+/* Nav link underline */
 .nav-link {
   position: relative;
 }
@@ -72,11 +85,11 @@ input:focus, textarea:focus {
 .nav-link::after {
   content: '';
   position: absolute;
-  bottom: -2px;
+  bottom: -4px;
   left: 0;
   width: 0;
   height: 1px;
-  background: #00ff41;
+  background: var(--green);
   transition: width 0.3s ease;
 }
 
@@ -86,5 +99,30 @@ input:focus, textarea:focus {
 }
 
 .nav-link.active {
-  color: #00ff41 !important;
+  color: var(--green) !important;
+}
+
+/* Form focus — green glow */
+input:focus, textarea:focus {
+  border-color: rgba(0, 255, 65, 0.4) !important;
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(0, 255, 65, 0.15),
+              0 0 20px rgba(0, 255, 65, 0.05);
+  background: rgba(0, 255, 65, 0.02) !important;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .hero-name {
+    animation: none;
+    text-shadow: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
 }
