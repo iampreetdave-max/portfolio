@@ -29,7 +29,7 @@ export default function NeuralNetwork({ paused }: { paused: boolean }) {
         y: Math.random() * height,
         vx: (Math.random() - 0.5) * 0.3,
         vy: (Math.random() - 0.5) * 0.3,
-        radius: Math.random() * 1.5 + 1,
+        radius: Math.random() * 2.5 + 2,
         pulsePhase: Math.random() * Math.PI * 2,
       });
     }

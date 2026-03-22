@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import NeuralNetwork from "@/components/NeuralNetwork";
-import MatrixRain from "@/components/MatrixRain";
 import TypewriterText from "@/components/TypewriterText";
 import ProjectCard from "@/components/ProjectCard";
 import type { Project } from "@/components/ProjectCard";
@@ -126,79 +125,9 @@ function SectionLabel({ text }: { text: string }) {
   );
 }
 
-function CustomCursor() {
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const posRef = useRef({ x: 0, y: 0 });
-  const targetRef = useRef({ x: 0, y: 0 });
-  const [hovering, setHovering] = useState(false);
-
-  useEffect(() => {
-    // Check for touch device
-    if (window.matchMedia("(pointer: coarse)").matches) return;
-
-    const onMove = (e: MouseEvent) => {
-      targetRef.current = { x: e.clientX, y: e.clientY };
-    };
-
-    const onOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest("a, button, [role='button']")) {
-        setHovering(true);
-      }
-    };
-    const onOut = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest("a, button, [role='button']")) {
-        setHovering(false);
-      }
-    };
-
-    let rafId: number;
-    const animate = () => {
-      posRef.current.x += (targetRef.current.x - posRef.current.x) * 0.15;
-      posRef.current.y += (targetRef.current.y - posRef.current.y) * 0.15;
-      if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate(${posRef.current.x}px, ${posRef.current.y}px)`;
-      }
-      rafId = requestAnimationFrame(animate);
-    };
-
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseover", onOver);
-    document.addEventListener("mouseout", onOut);
-    rafId = requestAnimationFrame(animate);
-
-    return () => {
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseover", onOver);
-      document.removeEventListener("mouseout", onOut);
-      cancelAnimationFrame(rafId);
-    };
-  }, []);
-
-  return (
-    <div
-      ref={cursorRef}
-      className="custom-cursor fixed top-0 left-0 pointer-events-none z-[9999]"
-      style={{
-        width: hovering ? 16 : 8,
-        height: hovering ? 16 : 8,
-        marginLeft: hovering ? -8 : -4,
-        marginTop: hovering ? -8 : -4,
-        background: "#00ff41",
-        borderRadius: "50%",
-        transition: "width 0.2s ease, height 0.2s ease, margin 0.2s ease",
-        mixBlendMode: "difference",
-      }}
-    />
-  );
-}
-
 /* ─── PAGE ─── */
 
 export default function Home() {
-  const [matrixOn, setMatrixOn] = useState(true);
-  const [neuralPaused, setNeuralPaused] = useState(true);
   const [filter, setFilter] = useState("All");
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -281,9 +210,7 @@ export default function Home() {
 
   return (
     <>
-      <CustomCursor />
-      <NeuralNetwork paused={neuralPaused} />
-      <AnimatePresence>{matrixOn && <MatrixRain />}</AnimatePresence>
+      <NeuralNetwork paused={false} />
 
       {/* NAV */}
       <nav
@@ -319,19 +246,6 @@ export default function Home() {
                 {item}
               </a>
             ))}
-            <button
-              onClick={() => {
-                setNeuralPaused(!neuralPaused);
-                setMatrixOn(!matrixOn);
-              }}
-              className={`font-mono text-[10px] tracking-wider border px-3 py-1.5 transition-all duration-300 ${
-                matrixOn
-                  ? "border-[#00ff41]/50 text-[#00ff41] bg-[#00ff41]/10"
-                  : "border-[#222] text-gray-600 hover:text-white hover:border-white/40"
-              }`}
-            >
-              {matrixOn ? "NEURAL" : "MATRIX"}
-            </button>
           </div>
           <button
             onClick={() => setMenuOpen(!menuOpen)}

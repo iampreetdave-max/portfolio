@@ -19,17 +19,6 @@ body {
   color: #ffffff;
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
-  cursor: none;
-}
-
-/* Hide custom cursor on touch devices */
-@media (pointer: coarse) {
-  body {
-    cursor: auto;
-  }
-  .custom-cursor {
-    display: none !important;
-  }
 }
 
 ::selection {
