@@ -119,7 +119,7 @@ function SectionLabel({ text }: { text: string }) {
   return (
     <div className="flex items-center gap-3 mb-3">
       <div className="w-8 h-[1px] bg-[#333]" />
-      <span className="font-mono text-[11px] text-gray-600 tracking-[0.2em] uppercase">
+      <span className="font-mono text-[11px] text-gray-400 tracking-[0.2em] uppercase">
         {text}
       </span>
     </div>
@@ -319,12 +319,6 @@ export default function Home() {
                 {item}
               </a>
             ))}
-            <a
-              href="/fun"
-              className="font-mono text-[10px] tracking-wider border border-[#00ff41]/30 px-3 py-1.5 text-[#00ff41] hover:bg-[#00ff41]/10 transition-all duration-300"
-            >
-              FUN ZONE
-            </a>
             <button
               onClick={() => {
                 setNeuralPaused(!neuralPaused);
@@ -369,12 +363,6 @@ export default function Home() {
                     {item}
                   </a>
                 ))}
-                <a
-                  href="/fun"
-                  className="font-mono text-sm text-[#00ff41] hover:text-white transition-colors"
-                >
-                  Fun Zone
-                </a>
               </div>
             </motion.div>
           )}
@@ -421,7 +409,7 @@ export default function Home() {
               transition={{ delay: 0.7, duration: 0.8 }}
               className="border border-[#1a1a1a] bg-black/60 backdrop-blur-md p-6 mb-10 max-w-xl"
             >
-              <p className="text-gray-500 text-sm leading-relaxed">
+              <p className="text-gray-300 text-sm leading-relaxed">
                 Building intelligent systems with deep learning, computer vision,
                 and advanced ML algorithms. Currently pursuing B.Tech in Computer
                 Science (AI-ML) while working as a Trainee Software Engineer at
@@ -482,14 +470,14 @@ export default function Home() {
             </h2>
             <div className="grid md:grid-cols-[2fr_1fr] gap-12">
               <div>
-                <p className="text-gray-400 leading-[1.8] text-[15px] mb-6">
+                <p className="text-gray-300 leading-[1.8] text-[15px] mb-6">
                   I am an AI-ML Engineer passionate about building intelligent systems
                   that solve real-world problems. With expertise in deep learning,
                   computer vision, and natural language processing, I develop
                   end-to-end machine learning pipelines — from data preprocessing and
                   feature engineering to model deployment and optimization.
                 </p>
-                <p className="text-gray-500 leading-[1.8] text-[15px]">
+                <p className="text-gray-400 leading-[1.8] text-[15px]">
                   Currently pursuing my B.Tech in Computer Science (AI-ML) while gaining
                   hands-on industry experience as a Trainee Software Engineer, I
                   bridge the gap between cutting-edge research and production-ready
@@ -498,9 +486,9 @@ export default function Home() {
               </div>
               <div className="space-y-4">
                 {stats.map((stat) => (
-                  <div key={stat.label} className="border border-[#1a1a1a] p-4 hover:border-[#333] transition-colors">
+                  <div key={stat.label} className="border border-[#2a2a2a] bg-black/80 backdrop-blur-sm p-4 hover:border-[#444] transition-colors">
                     <div className="text-3xl font-black font-mono leading-none">{stat.value}</div>
-                    <div className="font-mono text-[10px] text-gray-600 mt-2 tracking-wider uppercase">
+                    <div className="font-mono text-[10px] text-gray-400 mt-2 tracking-wider uppercase">
                       {stat.label} {stat.sublabel}
                     </div>
                   </div>
@@ -525,11 +513,11 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5 }}
-                  className="group border border-[#1a1a1a] p-6 hover:border-[#333] transition-all duration-500"
+                  className="group border border-[#2a2a2a] bg-black/75 backdrop-blur-sm p-6 hover:border-[#444] transition-all duration-500"
                 >
                   <div className="flex items-center gap-3 mb-5">
                     <span className="text-lg text-gray-600">{cat.icon}</span>
-                    <h3 className="font-mono text-[12px] font-semibold tracking-wide">
+                    <h3 className="font-mono text-[13px] font-semibold tracking-wide text-white">
                       {cat.title}
                     </h3>
                   </div>
@@ -537,7 +525,7 @@ export default function Home() {
                     {cat.items.map((item) => (
                       <span
                         key={item}
-                        className="font-mono text-[10px] px-2.5 py-1 border border-[#1a1a1a] text-gray-600 group-hover:border-[#333] group-hover:text-gray-400 transition-all duration-500"
+                        className="font-mono text-[10px] px-2.5 py-1 border border-[#2a2a2a] text-gray-400 group-hover:border-[#444] group-hover:text-gray-200 transition-all duration-500"
                       >
                         {item}
                       </span>
@@ -612,7 +600,7 @@ export default function Home() {
                   <div className="font-mono text-[11px] text-gray-500 mb-3 tracking-wide">
                     {exp.company}
                   </div>
-                  <p className="text-gray-500 text-sm leading-relaxed max-w-lg">
+                  <p className="text-gray-400 text-sm leading-relaxed max-w-lg">
                     {exp.description}
                   </p>
                 </motion.div>
@@ -713,10 +701,10 @@ export default function Home() {
         {/* ─── FOOTER ─── */}
         <footer className="border-t border-[#111] py-10 px-6">
           <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="font-mono text-[10px] text-gray-700 tracking-wider">
+            <p className="font-mono text-[10px] text-gray-400 tracking-wider">
               © 2025 PREET GHANSHYAM DAVE
             </p>
-            <p className="font-mono text-[10px] text-gray-800 tracking-wider">
+            <p className="font-mono text-[10px] text-gray-500 tracking-wider">
               BUILT WITH NEXT.JS + TAILWIND
             </p>
           </div>
