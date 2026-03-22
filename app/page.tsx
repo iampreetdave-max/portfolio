@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,7 +11,7 @@ import type { Project } from "@/components/ProjectCard";
 import ProjectModal from "@/components/ProjectModal";
 import {
   Brain, Eye, Cpu, Code2, Github, Linkedin, Mail, Phone,
-  Send, MapPin, Calendar, ArrowRight,
+  Send, MapPin, Calendar, ArrowRight, ExternalLink,
 } from "lucide-react";
 
 const featuredProjects: Project[] = [
@@ -19,20 +19,16 @@ const featuredProjects: Project[] = [
     id: "1",
     title: "Enterprise Sports Analytics Platform",
     category: "Full-Stack / ML Engineering",
-    description:
-      "Production-grade sports analytics platform with custom ML prediction models, live data pipelines, and real-time game tracking across 7+ professional sports leagues.",
-    longDescription:
-      "I architected and delivered a comprehensive real-time sports analytics platform for a leading betting company, covering NBA, NCAAB, MLB, NHL, Soccer, F1, and UFC. This project is the umbrella for all the prediction models and data scrapers I built:\n\n\u2022 Football Prediction System \u2014 Ridge Regression with 21+ features, automated daily pipeline, Streamlit dashboard (7 GitHub stars)\n\u2022 CTMCL Predictions \u2014 Novel consensus goals line method with Random Forest, 6 Premier League seasons\n\u2022 Goal Prediction Model \u2014 6-algorithm regression benchmark for match outcome forecasting\n\u2022 NBA Prediction Model \u2014 Pre-match feature engineering, odds integration, ML predictions with validation\n\u2022 NBA Analytics & Odds Scraper \u2014 Full data pipeline: odds scraping, database building, ensemble models\n\u2022 Multi-Sport Scraper Suite \u2014 Custom scrapers for NHL, MLB, and NCAAB with dashboards and validation\n\nThe full stack spans Go REST APIs, React frontends, Azure VM infrastructure, Docker containers, Redis caching, and PostgreSQL databases. If you need someone who can own the entire pipeline from data ingestion and ML model design through production deployment and infrastructure management, this project demonstrates exactly that capability at enterprise scale.",
+    description: "Production-grade sports analytics platform with custom ML prediction models, live data pipelines, and real-time game tracking across 7+ professional sports leagues.",
+    longDescription: "I architected and delivered a comprehensive real-time sports analytics platform for a leading betting company, covering NBA, NCAAB, MLB, NHL, Soccer, F1, and UFC. This project is the umbrella for all the individual prediction models and scrapers I built:\n\n\u2022 Football Prediction System \u2014 Ridge Regression with 21+ features, automated daily pipeline, Streamlit dashboard (7 GitHub stars)\n\u2022 CTMCL Predictions \u2014 Novel consensus goals line method with Random Forest, 6 Premier League seasons\n\u2022 Goal Prediction Model \u2014 6-algorithm regression benchmark for match outcome forecasting\n\u2022 NBA Prediction Model \u2014 Pre-match feature engineering, odds integration, ML predictions with validation\n\u2022 NBA Analytics & Odds Scraper \u2014 Full data pipeline: odds scraping, database building, ensemble models\n\u2022 Multi-Sport Scraper Suite \u2014 Custom scrapers for NHL, MLB, and NCAAB with dashboards and validation\n\nThe full stack spans Go REST APIs, React frontends, Azure VM infrastructure, Docker containers, Redis caching, and PostgreSQL databases. If you need someone who can own the entire pipeline from data ingestion and ML model design through production deployment and infrastructure management, this project demonstrates exactly that capability at enterprise scale.",
     tech_tags: ["Go", "React", "Ridge Regression", "Random Forest", "Azure", "Docker", "Redis", "PostgreSQL", "GitHub Actions", "Streamlit"],
   },
   {
     id: "2",
     title: "TalkToNotes",
     category: "Computer Vision / NLP",
-    description:
-      "Intelligent OCR system that converts handwritten notes into searchable, queryable knowledge bases using TrOCR transformers and neural embeddings.",
-    longDescription:
-      "I developed an intelligent document processing pipeline that transforms handwritten notes into structured, searchable knowledge bases. Using the TrOCR transformer for high-accuracy optical character recognition, neural embeddings for semantic understanding, and a chatbot interface for natural language querying, this system automates what would otherwise be hours of manual transcription. If you need someone who understands computer vision pipelines, transformer architectures, and NLP systems \u2014 and can turn them into products real users interact with \u2014 this is the kind of end-to-end AI engineering I specialize in.",
+    description: "Intelligent OCR system that converts handwritten notes into searchable, queryable knowledge bases using TrOCR transformers and neural embeddings.",
+    longDescription: "I developed an intelligent document processing pipeline that transforms handwritten notes into structured, searchable knowledge bases. Using the TrOCR transformer for high-accuracy optical character recognition, neural embeddings for semantic understanding, and a chatbot interface for natural language querying. If you need someone who understands computer vision pipelines, transformer architectures, and NLP systems \u2014 and can turn them into products real users interact with \u2014 this is the kind of end-to-end AI engineering I specialize in.",
     tech_tags: ["TrOCR", "Transformers", "Computer Vision", "NLP", "Vector Search", "Python"],
     repo_url: "https://github.com/iampreetdave/TalkNotes",
   },
@@ -40,10 +36,8 @@ const featuredProjects: Project[] = [
     id: "3",
     title: "StudBud",
     category: "Web / Full-Stack",
-    description:
-      "Full-stack academic management platform with ML-powered study recommendations and adaptive scheduling algorithms.",
-    longDescription:
-      "I designed and built a full-stack student management platform that uses machine learning to provide personalized study recommendations and adaptive scheduling. Built with TypeScript for type-safe, maintainable code across the entire stack. This demonstrates my ability to combine solid web engineering with practical AI features \u2014 the same approach I bring to any product that needs intelligent capabilities woven into a polished user experience.",
+    description: "Full-stack academic management platform with ML-powered study recommendations and adaptive scheduling algorithms.",
+    longDescription: "I designed and built a full-stack student management platform that uses machine learning to provide personalized study recommendations and adaptive scheduling. Built with TypeScript for type-safe, maintainable code. This demonstrates my ability to combine solid web engineering with practical AI features \u2014 the same approach I bring to any product that needs intelligent capabilities in a polished user experience.",
     tech_tags: ["TypeScript", "Full-Stack", "Machine Learning", "Data Analysis"],
     repo_url: "https://github.com/iampreetdave/STUDBUD",
   },
@@ -51,20 +45,18 @@ const featuredProjects: Project[] = [
     id: "4",
     title: "Find Ranks",
     category: "Web / Streamlit",
-    description:
-      "Analytics tool that automates mark extraction from PDF mark sheets, calculates cumulative performance, and generates institutional rankings.",
-    longDescription:
-      "I built a practical data processing tool that automates the entire workflow of extracting marks from multiple PDF mark sheets, calculating cumulative student performance, and generating ranked analytics. The Streamlit-based interface makes it immediately accessible to non-technical staff. If you have manual, data-heavy workflows that need to be streamlined into reliable, self-service tools, this is exactly the kind of solution I deliver.",
+    description: "Analytics tool that automates mark extraction from PDF mark sheets, calculates cumulative performance, and generates institutional rankings.",
+    longDescription: "I built a practical data processing tool that automates the entire workflow of extracting marks from multiple PDF mark sheets, calculating cumulative student performance, and generating ranked analytics. The Streamlit-based interface makes it immediately accessible to non-technical staff. If you have manual, data-heavy workflows that need to be streamlined, this is exactly the kind of solution I deliver.",
     tech_tags: ["Streamlit", "PDF Processing", "Python", "Data Analytics"],
     repo_url: "https://github.com/iampreetdave-max/Find-Ranks",
   },
 ];
 
 const skills = [
-  { title: "Deep Learning & Neural Networks", Icon: Brain, items: ["TensorFlow", "PyTorch", "Keras", "CNNs", "Transformers", "Neural Network Optimization"] },
-  { title: "Computer Vision & NLP", Icon: Eye, items: ["TrOCR", "Image Processing", "NLP", "Vector Embeddings & Search"] },
-  { title: "Machine Learning", Icon: Cpu, items: ["Scikit-Learn", "Pandas", "NumPy", "Regression & Classification", "Feature Engineering"] },
-  { title: "Development & Deployment", Icon: Code2, items: ["Python (Advanced)", "C++", "JavaScript", "Full-Stack", "API Development", "ML Pipeline Automation"] },
+  { title: "Deep Learning & Neural Networks", Icon: Brain, slug: "deep-learning", items: ["TensorFlow", "PyTorch", "Keras", "CNNs", "Transformers", "Neural Network Optimization"] },
+  { title: "Computer Vision & NLP", Icon: Eye, slug: "cv-nlp", items: ["TrOCR", "Image Processing", "NLP", "Vector Embeddings & Search"] },
+  { title: "Machine Learning", Icon: Cpu, slug: "machine-learning", items: ["Scikit-Learn", "Pandas", "NumPy", "Regression & Classification", "Feature Engineering"] },
+  { title: "Development & Deployment", Icon: Code2, slug: "dev-deploy", items: ["Python (Advanced)", "C++", "JavaScript", "Full-Stack", "API Development", "ML Pipeline Automation"] },
 ];
 
 const experience = [
@@ -156,11 +148,30 @@ export default function Home() {
           </motion.div>
         </section>
 
+        {/* SKILLS - clickable cards link to /projects with skill filter */}
         <section id="skills" className="py-20 px-6">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-4xl mx-auto">
             <motion.div variants={fadeUp}><SectionLabel text="Skills" /></motion.div>
-            <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-bold mb-10 tracking-tight">Technical Expertise</motion.h2>
-            <motion.div variants={stagger} className="grid md:grid-cols-2 gap-4">{skills.map((cat) => (<motion.div key={cat.title} variants={fadeUp}><GlassCard className="p-6 rounded-lg group"><div className="flex items-center gap-3 mb-5"><div className="w-10 h-10 rounded-lg bg-[#00FF41]/[0.08] border border-[#00FF41]/[0.15] flex items-center justify-center group-hover:bg-[#00FF41]/[0.12] group-hover:border-[#00FF41]/[0.25] transition-all duration-500"><cat.Icon size={18} className="text-[#00FF41]/70 group-hover:text-[#00FF41] transition-colors duration-500" /></div><h3 className="font-mono text-[13px] font-semibold tracking-wide text-white">{cat.title}</h3></div><div className="flex flex-wrap gap-1.5">{cat.items.map((item) => (<span key={item} className="font-mono text-[10px] px-2.5 py-1 border border-white/[0.06] text-gray-500 rounded-sm group-hover:border-white/[0.12] group-hover:text-gray-300 transition-all duration-500">{item}</span>))}</div></GlassCard></motion.div>))}</motion.div>
+            <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-bold mb-3 tracking-tight">Technical Expertise</motion.h2>
+            <motion.p variants={fadeUp} className="text-gray-600 text-sm mb-10 font-mono tracking-wide">Click any skill to see related projects</motion.p>
+            <motion.div variants={stagger} className="grid md:grid-cols-2 gap-4">
+              {skills.map((cat) => (
+                <motion.div key={cat.title} variants={fadeUp}>
+                  <Link href={`/projects?skill=${cat.slug}`} className="block">
+                    <GlassCard className="p-6 rounded-lg group cursor-pointer">
+                      <div className="flex items-center justify-between mb-5">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-[#00FF41]/[0.08] border border-[#00FF41]/[0.15] flex items-center justify-center group-hover:bg-[#00FF41]/[0.12] group-hover:border-[#00FF41]/[0.25] transition-all duration-500"><cat.Icon size={18} className="text-[#00FF41]/70 group-hover:text-[#00FF41] transition-colors duration-500" /></div>
+                          <h3 className="font-mono text-[13px] font-semibold tracking-wide text-white">{cat.title}</h3>
+                        </div>
+                        <ExternalLink size={14} className="text-gray-700 group-hover:text-[#00FF41]/60 transition-colors duration-500" />
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">{cat.items.map((item) => (<span key={item} className="font-mono text-[10px] px-2.5 py-1 border border-white/[0.06] text-gray-500 rounded-sm group-hover:border-white/[0.12] group-hover:text-gray-300 transition-all duration-500">{item}</span>))}</div>
+                    </GlassCard>
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
           </motion.div>
         </section>
 
