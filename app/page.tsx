@@ -11,7 +11,7 @@ import type { Project } from "@/components/ProjectCard";
 import ProjectModal from "@/components/ProjectModal";
 import {
   Brain, Eye, Cpu, Code2, Github, Linkedin, Mail, Phone,
-  Send, MapPin, Calendar, ArrowRight, ExternalLink,
+  Send, MapPin, Calendar, ArrowRight, Award, BookOpen, FileText, PenTool,
 } from "lucide-react";
 
 const featuredProjects: Project[] = [
@@ -53,16 +53,24 @@ const featuredProjects: Project[] = [
 ];
 
 const skills = [
-  { title: "Deep Learning & Neural Networks", Icon: Brain, slug: "deep-learning", items: ["TensorFlow", "PyTorch", "Keras", "CNNs", "Transformers", "Neural Network Optimization"] },
-  { title: "Computer Vision & NLP", Icon: Eye, slug: "cv-nlp", items: ["TrOCR", "Image Processing", "NLP", "Vector Embeddings & Search"] },
-  { title: "Machine Learning", Icon: Cpu, slug: "machine-learning", items: ["Scikit-Learn", "Pandas", "NumPy", "Regression & Classification", "Feature Engineering"] },
-  { title: "Development & Deployment", Icon: Code2, slug: "dev-deploy", items: ["Python (Advanced)", "C++", "JavaScript", "Full-Stack", "API Development", "ML Pipeline Automation"] },
+  { title: "Deep Learning & Neural Networks", Icon: Brain, items: ["TensorFlow", "PyTorch", "Keras", "CNNs", "Transformers", "Neural Network Optimization"] },
+  { title: "Computer Vision & NLP", Icon: Eye, items: ["TrOCR", "Image Processing", "NLP", "Vector Embeddings & Search"] },
+  { title: "Machine Learning", Icon: Cpu, items: ["Scikit-Learn", "Pandas", "NumPy", "Regression & Classification", "Feature Engineering"] },
+  { title: "Development & Deployment", Icon: Code2, items: ["Python (Advanced)", "C++", "JavaScript", "Full-Stack", "API Development", "ML Pipeline Automation"] },
 ];
 
 const experience = [
   { role: "Trainee Software Engineer", period: "Sep 2025 \u2013 Present", company: "Agility Innovations Pvt. Ltd., Ahmedabad", description: "Building AI-powered product pipelines, deploying ML solutions in production environments, full-stack development with neural network integration.", active: true },
   { role: "Machine Learning Intern", period: "2025", company: "Oasis Infobyte, Remote", description: "Developed ML projects across neural network architectures, built end-to-end ML pipelines from data ingestion to deployment.", active: false },
   { role: "AI Research Lead", period: "2024 \u2013 2025", company: "Smart India Hackathon & Rotaract Club Hackathon", description: "Led AI research teams in computer vision and TrOCR systems. Designed architectures for real-world document processing challenges.", active: false },
+];
+
+const certifications = [
+  { title: "C, C++, C Advanced", detail: "Foundational programming courses completed in 2023", icon: Code2 },
+  { title: "Python (4-Phase Mastery)", detail: "Ranked 1st in the last three phases of the Python course series", icon: Award },
+  { title: "Machine Learning with Python", detail: "Comprehensive ML course covering algorithms, pipelines, and deployment", icon: Cpu },
+  { title: "ML Engineering by Saikat Dutta", detail: "Currently studying advanced ML engineering practices and system design", icon: Brain },
+  { title: "Natural Language Processing", detail: "Dedicated NLP course covering text processing, embeddings, and language models", icon: BookOpen },
 ];
 
 const stats = [
@@ -72,7 +80,7 @@ const stats = [
   { value: "1", label: "Hackathon Won" },
 ];
 
-const sectionIds = ["home", "about", "skills", "projects", "experience", "contact"];
+const sectionIds = ["home", "about", "skills", "projects", "experience", "certifications", "contact"];
 
 function SectionLabel({ text }: { text: string }) {
   return (<div className="flex items-center gap-3 mb-4"><div className="w-8 h-[1px] bg-gradient-to-r from-[#00FF41]/40 to-transparent" /><span className="font-mono text-[11px] text-[#00FF41]/70 tracking-[0.25em] uppercase">{text}</span></div>);
@@ -119,9 +127,10 @@ export default function Home() {
       </nav>
 
       <main className="relative z-10">
+        {/* HERO */}
         <section id="home" className="min-h-[100dvh] flex items-center justify-center px-6 pt-16">
           <div className="max-w-4xl w-full">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }} className="mb-6"><span className="font-mono text-[11px] tracking-[0.3em] text-gray-600 uppercase inline-flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#00FF41]/60 animate-pulse" />Portfolio / 2025</span></motion.div>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }} className="mb-6"><span className="font-mono text-[11px] tracking-[0.3em] text-gray-600 uppercase inline-flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#00FF41]/60 animate-pulse" />Portfolio / 2026</span></motion.div>
             <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.1 }} className="hero-name text-5xl md:text-6xl lg:text-7xl font-black mb-6 tracking-[-0.03em] leading-[0.9]">Preet<br /><span className="text-gray-500">Dave</span></motion.h1>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4, duration: 0.7 }} className="mb-8 h-8"><TypewriterText /></motion.div>
             <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.7 }}><GlassCard className="p-6 mb-8 max-w-2xl rounded-lg" hover={false}><p className="text-gray-300 text-[15px] leading-[1.8]">Building intelligent systems with deep learning, computer vision, and advanced ML algorithms. Currently pursuing B.Tech in Computer Science (AI-ML) while working as a Trainee Software Engineer at Agility Innovations.</p></GlassCard></motion.div>
@@ -133,6 +142,7 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ABOUT */}
         <section id="about" className="py-20 px-6">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-4xl mx-auto">
             <motion.div variants={fadeUp}><SectionLabel text="About" /></motion.div>
@@ -141,40 +151,42 @@ export default function Home() {
               <motion.div variants={fadeUp}>
                 <p className="text-gray-300 leading-[1.8] text-[15px] mb-5">I am an AI-ML Engineer passionate about building intelligent systems that solve real-world problems. With expertise in deep learning, computer vision, and natural language processing, I develop end-to-end machine learning pipelines \u2014 from data preprocessing and feature engineering to model deployment and optimization.</p>
                 <p className="text-gray-500 leading-[1.8] text-[15px] mb-8">Currently pursuing my B.Tech in Computer Science (AI-ML) while gaining hands-on industry experience as a Trainee Software Engineer, I bridge the gap between cutting-edge research and production-ready solutions.</p>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">{stats.map((s) => (<GlassCard key={s.label} className="p-3 rounded-lg text-center"><div className="text-xl font-black font-mono leading-none text-gradient-green">{s.value}</div><div className="font-mono text-[9px] text-gray-500 mt-1.5 tracking-[0.1em] uppercase">{s.label}</div></GlassCard>))}</div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {stats.map((s) => (
+                    <GlassCard key={s.label} className="p-3 rounded-lg text-center">
+                      <div className="text-xl font-black font-mono leading-none text-[#00FF41]">{s.value}</div>
+                      <div className="font-mono text-[9px] text-gray-500 mt-1.5 tracking-[0.1em] uppercase">{s.label}</div>
+                    </GlassCard>
+                  ))}
+                </div>
               </motion.div>
               <motion.div variants={fadeUp} className="flex justify-center md:justify-end"><div className="relative"><Image src="https://raw.githubusercontent.com/iampreetdave-max/portfolio/main/images/profile%20picture.jpeg" alt="Preet Dave" width={200} height={200} className="rounded-lg object-cover border border-white/[0.06] w-40 h-40 md:w-48 md:h-48" /><div className="absolute -inset-1 rounded-lg bg-gradient-to-br from-[#00FF41]/10 to-transparent -z-10" /></div></motion.div>
             </div>
           </motion.div>
         </section>
 
-        {/* SKILLS - clickable cards link to /projects with skill filter */}
+        {/* SKILLS */}
         <section id="skills" className="py-20 px-6">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-4xl mx-auto">
             <motion.div variants={fadeUp}><SectionLabel text="Skills" /></motion.div>
-            <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-bold mb-3 tracking-tight">Technical Expertise</motion.h2>
-            <motion.p variants={fadeUp} className="text-gray-600 text-sm mb-10 font-mono tracking-wide">Click any skill to see related projects</motion.p>
+            <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-bold mb-10 tracking-tight">Technical Expertise</motion.h2>
             <motion.div variants={stagger} className="grid md:grid-cols-2 gap-4">
               {skills.map((cat) => (
                 <motion.div key={cat.title} variants={fadeUp}>
-                  <Link href={`/projects?skill=${cat.slug}`} className="block">
-                    <GlassCard className="p-6 rounded-lg group cursor-pointer">
-                      <div className="flex items-center justify-between mb-5">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-[#00FF41]/[0.08] border border-[#00FF41]/[0.15] flex items-center justify-center group-hover:bg-[#00FF41]/[0.12] group-hover:border-[#00FF41]/[0.25] transition-all duration-500"><cat.Icon size={18} className="text-[#00FF41]/70 group-hover:text-[#00FF41] transition-colors duration-500" /></div>
-                          <h3 className="font-mono text-[13px] font-semibold tracking-wide text-white">{cat.title}</h3>
-                        </div>
-                        <ExternalLink size={14} className="text-gray-700 group-hover:text-[#00FF41]/60 transition-colors duration-500" />
-                      </div>
-                      <div className="flex flex-wrap gap-1.5">{cat.items.map((item) => (<span key={item} className="font-mono text-[10px] px-2.5 py-1 border border-white/[0.06] text-gray-500 rounded-sm group-hover:border-white/[0.12] group-hover:text-gray-300 transition-all duration-500">{item}</span>))}</div>
-                    </GlassCard>
-                  </Link>
+                  <GlassCard className="p-6 rounded-lg group">
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="w-10 h-10 rounded-lg bg-[#00FF41]/[0.08] border border-[#00FF41]/[0.15] flex items-center justify-center group-hover:bg-[#00FF41]/[0.12] group-hover:border-[#00FF41]/[0.25] transition-all duration-500"><cat.Icon size={18} className="text-[#00FF41]/70 group-hover:text-[#00FF41] transition-colors duration-500" /></div>
+                      <h3 className="font-mono text-[13px] font-semibold tracking-wide text-white">{cat.title}</h3>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">{cat.items.map((item) => (<span key={item} className="font-mono text-[10px] px-2.5 py-1 border border-white/[0.06] text-gray-500 rounded-sm group-hover:border-white/[0.12] group-hover:text-gray-300 transition-all duration-500">{item}</span>))}</div>
+                  </GlassCard>
                 </motion.div>
               ))}
             </motion.div>
           </motion.div>
         </section>
 
+        {/* PROJECTS */}
         <section id="projects" className="py-20 px-6">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-4xl mx-auto">
             <motion.div variants={fadeUp}><SectionLabel text="Projects" /></motion.div>
@@ -184,6 +196,7 @@ export default function Home() {
           </motion.div>
         </section>
 
+        {/* EXPERIENCE */}
         <section id="experience" className="py-20 px-6">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-4xl mx-auto">
             <motion.div variants={fadeUp}><SectionLabel text="Experience" /></motion.div>
@@ -192,6 +205,60 @@ export default function Home() {
           </motion.div>
         </section>
 
+        {/* CERTIFICATIONS & PUBLICATIONS */}
+        <section id="certifications" className="py-20 px-6">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-4xl mx-auto">
+            {/* Certifications */}
+            <motion.div variants={fadeUp}><SectionLabel text="Certifications" /></motion.div>
+            <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-bold mb-10 tracking-tight">Certificates & Learnings</motion.h2>
+            <motion.div variants={stagger} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-20">
+              {certifications.map((cert) => (
+                <motion.div key={cert.title} variants={fadeUp}>
+                  <GlassCard className="p-5 rounded-lg group h-full">
+                    <div className="flex items-center gap-2.5 mb-3">
+                      <div className="w-8 h-8 rounded-md bg-[#00FF41]/[0.08] border border-[#00FF41]/[0.15] flex items-center justify-center"><cert.icon size={14} className="text-[#00FF41]/70" /></div>
+                      <h3 className="font-mono text-[12px] font-semibold text-white tracking-wide leading-tight">{cert.title}</h3>
+                    </div>
+                    <p className="text-gray-400 text-[13px] leading-relaxed">{cert.detail}</p>
+                  </GlassCard>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Publications */}
+            <motion.div variants={fadeUp}><SectionLabel text="Publications" /></motion.div>
+            <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-bold mb-10 tracking-tight">Research & Writing</motion.h2>
+            <motion.div variants={stagger} className="space-y-4">
+              <motion.div variants={fadeUp}>
+                <GlassCard className="p-6 rounded-lg">
+                  <div className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-md bg-[#00FF41]/[0.08] border border-[#00FF41]/[0.15] flex items-center justify-center shrink-0 mt-0.5"><FileText size={16} className="text-[#00FF41]/70" /></div>
+                    <div>
+                      <h3 className="font-semibold text-[15px] mb-1">Research Paper</h3>
+                      <p className="text-gray-300 text-sm leading-relaxed italic mb-2">\u201cEngineers Fear AI, As Mathematicians Once Feared Calculators\u201d</p>
+                      <p className="text-gray-500 text-[13px] leading-relaxed">A perspective on how engineering professionals can embrace AI as a tool for amplification rather than replacement, drawing historical parallels with the adoption of calculators in mathematics.</p>
+                    </div>
+                  </div>
+                </GlassCard>
+              </motion.div>
+              <motion.div variants={fadeUp}>
+                <GlassCard className="p-6 rounded-lg">
+                  <div className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-md bg-[#00FF41]/[0.08] border border-[#00FF41]/[0.15] flex items-center justify-center shrink-0 mt-0.5"><PenTool size={16} className="text-[#00FF41]/70" /></div>
+                    <div>
+                      <h3 className="font-semibold text-[15px] mb-1">Research Blogs on LinkedIn</h3>
+                      <p className="text-gray-500 text-[13px] leading-relaxed mb-3">Published technical deep-dives including <span className="text-gray-300">How GPS Works</span>, <span className="text-gray-300">Zipf\u2019s Law for LLMs</span>, and other explorations at the intersection of math, physics, and AI.</p>
+                      <p className="text-gray-500 text-[13px] leading-relaxed">I regularly post on LinkedIn about what\u2019s new in AI and machine learning \u2014 breaking down how emerging technologies impact businesses, discussing real-world applications, and sharing insights on the evolving AI landscape for a professional audience.</p>
+                      <a href="https://www.linkedin.com/in/preet-dave-452023271/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-mono text-[11px] text-[#00FF41]/70 hover:text-[#00FF41] mt-3 transition-colors cursor-pointer"><Linkedin size={12} /> Follow on LinkedIn</a>
+                    </div>
+                  </div>
+                </GlassCard>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        </section>
+
+        {/* CONTACT */}
         <section id="contact" className="py-20 px-6">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-4xl mx-auto">
             <motion.div variants={fadeUp}><SectionLabel text="Contact" /></motion.div>
@@ -208,7 +275,7 @@ export default function Home() {
           </motion.div>
         </section>
 
-        <footer className="border-t border-white/[0.04] py-8 px-6"><div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4"><p className="font-mono text-[10px] text-gray-500 tracking-wider">\u00a9 2025 PREET GHANSHYAM DAVE</p><div className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-[#00FF41]/40" /><p className="font-mono text-[10px] text-gray-600 tracking-wider">BUILT WITH NEXT.JS + TAILWIND</p></div></div></footer>
+        <footer className="border-t border-white/[0.04] py-8 px-6"><div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4"><p className="font-mono text-[10px] text-gray-500 tracking-wider">\u00a9 2026 PREET GHANSHYAM DAVE</p><div className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-[#00FF41]/40" /><p className="font-mono text-[10px] text-gray-600 tracking-wider">BUILT WITH NEXT.JS + TAILWIND</p></div></div></footer>
       </main>
 
       <AnimatePresence>{selectedProject && <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />}</AnimatePresence>
