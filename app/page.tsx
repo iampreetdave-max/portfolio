@@ -24,7 +24,7 @@ const featuredProjects: Project[] = [
     description:
       "Production-grade sports analytics platform with custom ML prediction models, live data pipelines, and real-time game tracking across 7+ professional sports leagues.",
     longDescription:
-      "I architected and delivered a comprehensive real-time sports analytics platform for a leading betting company, covering NBA, NCAAB, MLB, NHL, Soccer, F1, and UFC. This project is the umbrella for all the individual prediction models and scrapers I built:\n\n\u2022 Football Prediction System \u2014 Ridge Regression with 21+ features, automated daily pipeline, Streamlit dashboard (7 GitHub stars)\n\u2022 CTMCL Predictions \u2014 Novel consensus goals line method with Random Forest, 6 Premier League seasons\n\u2022 Goal Prediction Model \u2014 6-algorithm regression benchmark for match outcome forecasting\n\u2022 NBA Prediction Model \u2014 Pre-match feature engineering, odds integration, ML predictions with validation\n\u2022 NBA Analytics & Odds Scraper \u2014 Full data pipeline: odds scraping, database building, ensemble models\n\u2022 Multi-Sport Scraper Suite \u2014 Custom scrapers for NHL, MLB, and NCAAB with dashboards and validation\n\nThe full stack spans Go REST APIs, React frontends, Azure VM infrastructure, Docker containers, Redis caching, and PostgreSQL databases. If you need someone who can own the entire pipeline from data ingestion and ML model design through production deployment and infrastructure management, this project demonstrates exactly that capability at enterprise scale.",
+      "I architected and delivered a comprehensive real-time sports analytics platform for a leading betting company, covering NBA, NCAAB, MLB, NHL, Soccer, F1, and UFC. This project is the umbrella for all the individual prediction models and scrapers I built:\n\n\u2022 Football Prediction System \u2014 Ridge Regression with 21+ features, automated daily pipeline, Streamlit dashboard (7 GitHub stars)\n\u2022 CTMCL Predictions \u2014 Novel consensus goals line method with Random Forest, 6 Premier League seasons\n\u2022 Goal Prediction Model \u2014 6-algorithm regression benchmark for match outcome forecasting\n\u2022 NBA Prediction Model \u2014 Pre-match feature engineering, odds integration, ML predictions with validation\n\u2022 NBA Analytics & Odds Scraper \u2014 Full data pipeline: odds scraping, database building, ensemble models\n\u2022 Multi-Sport Scraper Suite \u2014 Custom scrapers for NHL, MLB, and NCAAB with dashboards and validation\n\nThe full stack spans Go REST APIs, React frontends, Azure VM infrastructure, Docker containers, Redis caching, and PostgreSQL databases.",
     tech_tags: ["Go", "React", "Ridge Regression", "Random Forest", "Azure", "Docker", "Redis", "PostgreSQL", "GitHub Actions", "Streamlit"],
   },
   {
@@ -34,7 +34,7 @@ const featuredProjects: Project[] = [
     description:
       "Intelligent OCR system that converts handwritten notes into searchable, queryable knowledge bases using TrOCR transformers and neural embeddings.",
     longDescription:
-      "I developed an intelligent document processing pipeline that transforms handwritten notes into structured, searchable knowledge bases. Using the TrOCR transformer for high-accuracy optical character recognition, neural embeddings for semantic understanding, and a chatbot interface for natural language querying. If you need someone who understands computer vision pipelines, transformer architectures, and NLP systems \u2014 and can turn them into products real users interact with \u2014 this is the kind of end-to-end AI engineering I specialize in.",
+      "I developed an intelligent document processing pipeline that transforms handwritten notes into structured, searchable knowledge bases. Using the TrOCR transformer for high-accuracy optical character recognition, neural embeddings for semantic understanding, and a chatbot interface for natural language querying.",
     tech_tags: ["TrOCR", "Transformers", "Computer Vision", "NLP", "Vector Search", "Python"],
     repo_url: "https://github.com/iampreetdave/TalkNotes",
   },
@@ -45,7 +45,7 @@ const featuredProjects: Project[] = [
     description:
       "Full-stack academic management platform with ML-powered study recommendations and adaptive scheduling algorithms.",
     longDescription:
-      "I designed and built a full-stack student management platform that uses machine learning to provide personalized study recommendations and adaptive scheduling. Built with TypeScript for type-safe, maintainable code. This demonstrates my ability to combine solid web engineering with practical AI features \u2014 the same approach I bring to any product that needs intelligent capabilities in a polished user experience.",
+      "I designed and built a full-stack student management platform that uses machine learning to provide personalized study recommendations and adaptive scheduling. Built with TypeScript for type-safe, maintainable code.",
     tech_tags: ["TypeScript", "Full-Stack", "Machine Learning", "Data Analysis"],
     repo_url: "https://github.com/iampreetdave/STUDBUD",
   },
@@ -56,7 +56,7 @@ const featuredProjects: Project[] = [
     description:
       "Analytics tool that automates mark extraction from PDF mark sheets, calculates cumulative performance, and generates institutional rankings.",
     longDescription:
-      "I built a practical data processing tool that automates the entire workflow of extracting marks from multiple PDF mark sheets, calculating cumulative student performance, and generating ranked analytics. The Streamlit-based interface makes it immediately accessible to non-technical staff. If you have manual, data-heavy workflows that need to be streamlined, this is exactly the kind of solution I deliver.",
+      "I built a practical data processing tool that automates the entire workflow of extracting marks from multiple PDF mark sheets, calculating cumulative student performance, and generating ranked analytics.",
     tech_tags: ["Streamlit", "PDF Processing", "Python", "Data Analytics"],
     repo_url: "https://github.com/iampreetdave-max/Find-Ranks",
   },
@@ -121,64 +121,6 @@ const stagger = {
   hidden: {},
   show:   { transition: { staggerChildren: 0.07 } },
 };
-
-// ── Custom Cursor ─────────────────────────────────────────────────────────────
-
-function CustomCursor() {
-  const dotRef  = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
-  const [hovering, setHovering] = useState(false);
-  const [visible,  setVisible]  = useState(false);
-
-  useEffect(() => {
-    const dot  = dotRef.current;
-    const ring = ringRef.current;
-    if (!dot || !ring) return;
-
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    let shown = false;
-    let raf: number;
-
-    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-
-    const onMove = (e: MouseEvent) => {
-      mx = e.clientX; my = e.clientY;
-      dot.style.transform = `translate(${mx - 2.5}px, ${my - 2.5}px)`;
-      if (!shown) { shown = true; setVisible(true); }
-    };
-
-    const tick = () => {
-      rx = lerp(rx, mx, 0.1);
-      ry = lerp(ry, my, 0.1);
-      ring.style.transform = `translate(${rx - 15}px, ${ry - 15}px)`;
-      raf = requestAnimationFrame(tick);
-    };
-
-    const onOver = (e: MouseEvent) => {
-      const el = (e.target as HTMLElement).closest("a, button, [role='button'], input, textarea");
-      setHovering(!!el);
-    };
-
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseover", onOver);
-    document.addEventListener("mouseleave", () => setVisible(false));
-    document.addEventListener("mouseenter", () => setVisible(true));
-    raf = requestAnimationFrame(tick);
-
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseover", onOver);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
-
-  return (
-    <>
-      <div ref={dotRef}  className="cursor-dot"  style={{ opacity: visible ? 1 : 0 }} />
-      <div ref={ringRef} className={`cursor-ring${hovering ? " hovering" : ""}`} style={{ opacity: visible ? 1 : 0 }} />
-    </>
-  );
-}
 
 // ── Mouse Spotlight ───────────────────────────────────────────────────────────
 
@@ -291,11 +233,9 @@ export default function Home() {
 
   return (
     <>
-      <CustomCursor />
       <MouseSpotlight />
       <ScrollProgress />
 
-      {/* Texture overlays */}
       <div className="noise-overlay" aria-hidden="true" />
       <div className="scanlines"     aria-hidden="true" />
 
@@ -306,10 +246,10 @@ export default function Home() {
         ref={navRef}
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
         style={{
-          background:          scrolled ? "rgba(5,5,5,0.92)" : "transparent",
-          borderBottom:        scrolled ? "1px solid rgba(0,255,65,0.06)" : "1px solid transparent",
-          backdropFilter:      scrolled ? "blur(24px)" : "none",
-          WebkitBackdropFilter:scrolled ? "blur(24px)" : "none",
+          background:           scrolled ? "rgba(5,5,5,0.92)" : "transparent",
+          borderBottom:         scrolled ? "1px solid rgba(0,255,65,0.06)" : "1px solid transparent",
+          backdropFilter:       scrolled ? "blur(24px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(24px)" : "none",
         }}
       >
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -370,12 +310,10 @@ export default function Home() {
 
         {/* ── HERO ─────────────────────────────────────────────────────── */}
         <section id="home" className="min-h-[100dvh] flex items-center justify-center px-6 pt-16 relative overflow-hidden">
-          {/* Ambient orbs */}
           <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full bg-[#00FF41]/[0.022] blur-[130px] pointer-events-none" />
           <div className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] rounded-full bg-[#00D4FF]/[0.016] blur-[100px] pointer-events-none" />
 
           <div className="max-w-5xl w-full relative">
-            {/* Status badge */}
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-8">
               <span className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.2em] uppercase text-[#00FF41]/70 border border-[#00FF41]/20 bg-[#00FF41]/[0.05] px-4 py-1.5 rounded-full">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#00FF41] animate-pulse" />
@@ -383,7 +321,6 @@ export default function Home() {
               </span>
             </motion.div>
 
-            {/* Name */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -394,20 +331,16 @@ export default function Home() {
                 className="font-black leading-[0.88] tracking-[-0.04em]"
                 style={{ fontSize: "clamp(72px, 11vw, 120px)" }}
               >
-                <span className="hero-name glitch-wrapper" data-text="Preet">Preet</span>
+                <span className="text-white">Preet</span>
                 <br />
-                <span style={{ color: "rgba(255,255,255,0.15)", WebkitTextFillColor: "rgba(255,255,255,0.15)" }}>
-                  Dave
-                </span>
+                <span className="text-white/20">Dave</span>
               </h1>
             </motion.div>
 
-            {/* Typewriter */}
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4, duration: 0.7 }} className="mb-8 h-8">
               <TypewriterText />
             </motion.div>
 
-            {/* Tagline */}
             <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.7 }} className="mb-10 max-w-xl">
               <p className="text-gray-400 text-[15px] leading-[1.85]">
                 Building intelligent systems with deep learning, computer vision, and advanced ML algorithms.
@@ -415,33 +348,20 @@ export default function Home() {
               </p>
             </motion.div>
 
-            {/* CTAs */}
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.7 }} className="flex flex-wrap gap-3 items-center">
-              <a
-                href="#contact"
-                className="group font-mono text-[11px] tracking-[0.15em] border border-[#00FF41]/60 text-[#00FF41] px-7 py-3.5 hover:bg-[#00FF41] hover:text-black transition-all duration-300 rounded-lg flex items-center gap-2 uppercase"
-              >
+              <a href="#contact" className="group font-mono text-[11px] tracking-[0.15em] border border-[#00FF41]/60 text-[#00FF41] px-7 py-3.5 hover:bg-[#00FF41] hover:text-black transition-all duration-300 rounded-lg flex items-center gap-2 uppercase">
                 Contact Me
                 <Send size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
-              <a
-                href="https://github.com/iampreetdave-max"
-                target="_blank" rel="noopener noreferrer"
-                className="group font-mono text-[11px] tracking-[0.15em] border border-white/[0.08] px-7 py-3.5 text-gray-500 hover:border-white/20 hover:text-white transition-all duration-300 rounded-lg flex items-center gap-2 uppercase"
-              >
+              <a href="https://github.com/iampreetdave-max" target="_blank" rel="noopener noreferrer" className="group font-mono text-[11px] tracking-[0.15em] border border-white/[0.08] px-7 py-3.5 text-gray-500 hover:border-white/20 hover:text-white transition-all duration-300 rounded-lg flex items-center gap-2 uppercase">
                 <Github size={13} /> GitHub
               </a>
-              <a
-                href="https://www.linkedin.com/in/preet-dave-452023271/"
-                target="_blank" rel="noopener noreferrer"
-                className="group font-mono text-[11px] tracking-[0.15em] border border-white/[0.08] px-7 py-3.5 text-gray-500 hover:border-white/20 hover:text-white transition-all duration-300 rounded-lg flex items-center gap-2 uppercase"
-              >
+              <a href="https://www.linkedin.com/in/preet-dave-452023271/" target="_blank" rel="noopener noreferrer" className="group font-mono text-[11px] tracking-[0.15em] border border-white/[0.08] px-7 py-3.5 text-gray-500 hover:border-white/20 hover:text-white transition-all duration-300 rounded-lg flex items-center gap-2 uppercase">
                 <Linkedin size={13} /> LinkedIn
               </a>
             </motion.div>
           </div>
 
-          {/* Scroll indicator */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -461,9 +381,7 @@ export default function Home() {
             <motion.div variants={fadeUp}><SectionLabel text="About" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-12 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Who I Am</motion.h2>
 
-            {/* Bento grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Bio — spans 2 cols */}
               <motion.div variants={fadeUp} className="md:col-span-2">
                 <GlassCard className="p-8 h-full" hover={false}>
                   <p className="text-gray-300 leading-[1.9] text-[15px] mb-5">
@@ -474,15 +392,12 @@ export default function Home() {
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {["Deep Learning", "Computer Vision", "NLP", "MLOps", "Full-Stack"].map((tag) => (
-                      <span key={tag} className="font-mono text-[10px] px-3 py-1.5 rounded-full border border-[#00FF41]/15 text-[#00FF41]/70 bg-[#00FF41]/[0.04]">
-                        {tag}
-                      </span>
+                      <span key={tag} className="font-mono text-[10px] px-3 py-1.5 rounded-full border border-[#00FF41]/15 text-[#00FF41]/70 bg-[#00FF41]/[0.04]">{tag}</span>
                     ))}
                   </div>
                 </GlassCard>
               </motion.div>
 
-              {/* Photo — spans 2 rows */}
               <motion.div variants={fadeUp} className="md:row-span-2">
                 <GlassCard className="p-5 h-full flex flex-col" hover={false}>
                   <div className="relative flex-1 min-h-[220px] rounded-lg overflow-hidden mb-4">
@@ -497,9 +412,7 @@ export default function Home() {
                   <div className="space-y-2 px-1">
                     <div className="font-bold text-sm text-white">Preet Dave</div>
                     <div className="font-mono text-[11px] text-[#00FF41]/70 tracking-wider">AI-ML Engineer</div>
-                    <div className="flex items-center gap-1.5 font-mono text-[11px] text-gray-600">
-                      <MapPin size={11} /> Ahmedabad, India
-                    </div>
+                    <div className="flex items-center gap-1.5 font-mono text-[11px] text-gray-600"><MapPin size={11} /> Ahmedabad, India</div>
                     <div className="flex items-center gap-1.5 font-mono text-[10px] text-[#00FF41]/60 pt-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#00FF41] animate-pulse flex-shrink-0" />
                       Open to opportunities
@@ -508,7 +421,6 @@ export default function Home() {
                 </GlassCard>
               </motion.div>
 
-              {/* Stats — spans 2 cols */}
               <motion.div variants={fadeUp} className="md:col-span-2">
                 <div className="grid grid-cols-4 gap-3">
                   {stats.map((s) => (
@@ -540,12 +452,7 @@ export default function Home() {
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {cat.items.map((item) => (
-                        <span
-                          key={item}
-                          className="font-mono text-[11px] px-3 py-1.5 border border-white/[0.06] text-gray-500 rounded-lg group-hover:border-white/[0.14] group-hover:text-gray-300 transition-all duration-300"
-                        >
-                          {item}
-                        </span>
+                        <span key={item} className="font-mono text-[11px] px-3 py-1.5 border border-white/[0.06] text-gray-500 rounded-lg group-hover:border-white/[0.14] group-hover:text-gray-300 transition-all duration-300">{item}</span>
                       ))}
                     </div>
                   </GlassCard>
@@ -571,35 +478,24 @@ export default function Home() {
                     onClick={() => setSelectedProject(p)}
                     onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setSelectedProject(p); }}
                   >
-                    {/* Left glow accent */}
                     <div className="absolute left-0 top-0 bottom-0 w-[2px] rounded-l-xl bg-gradient-to-b from-transparent via-[#00FF41]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                    {/* Ghost number */}
                     <div className="project-num absolute right-5 top-1/2 -translate-y-1/2 text-[90px] leading-none hidden md:block">
                       {String(i + 1).padStart(2, "0")}
                     </div>
-
                     <div className="relative md:pr-28">
                       <div className="flex flex-wrap items-center gap-2 mb-3">
-                        <span className="font-mono text-[9px] tracking-[0.2em] text-[#00FF41]/60 border border-[#00FF41]/15 bg-[#00FF41]/[0.05] px-3 py-1 rounded-full uppercase">
-                          {p.category}
-                        </span>
+                        <span className="font-mono text-[9px] tracking-[0.2em] text-[#00FF41]/60 border border-[#00FF41]/15 bg-[#00FF41]/[0.05] px-3 py-1 rounded-full uppercase">{p.category}</span>
                         <span className="font-mono text-[10px] text-gray-700">#{String(i + 1).padStart(2, "0")}</span>
                       </div>
                       <h3 className="text-[17px] font-bold mb-2 group-hover:text-white transition-colors">{p.title}</h3>
                       <p className="text-gray-500 text-[13px] leading-relaxed mb-4 max-w-2xl">{p.description}</p>
                       <div className="flex flex-wrap gap-1.5">
                         {p.tech_tags.slice(0, 5).map((tag) => (
-                          <span key={tag} className="font-mono text-[10px] px-2.5 py-1 border border-white/[0.06] text-gray-600 rounded-md group-hover:text-gray-400 transition-colors duration-300">
-                            {tag}
-                          </span>
+                          <span key={tag} className="font-mono text-[10px] px-2.5 py-1 border border-white/[0.06] text-gray-600 rounded-md group-hover:text-gray-400 transition-colors duration-300">{tag}</span>
                         ))}
-                        {p.tech_tags.length > 5 && (
-                          <span className="font-mono text-[10px] px-2.5 py-1 text-gray-700">+{p.tech_tags.length - 5}</span>
-                        )}
+                        {p.tech_tags.length > 5 && <span className="font-mono text-[10px] px-2.5 py-1 text-gray-700">+{p.tech_tags.length - 5}</span>}
                       </div>
                     </div>
-
                     <div className="absolute right-6 bottom-6 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300">
                       <ArrowRight size={15} className="text-[#00FF41]/60" />
                     </div>
@@ -609,12 +505,8 @@ export default function Home() {
             </div>
 
             <motion.div variants={fadeUp} className="mt-8 text-center">
-              <Link
-                href="/projects"
-                className="group inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] border border-white/[0.08] px-8 py-3.5 text-gray-500 hover:border-[#00FF41]/40 hover:text-[#00FF41] transition-all duration-300 rounded-xl uppercase"
-              >
-                View All Projects
-                <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+              <Link href="/projects" className="group inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] border border-white/[0.08] px-8 py-3.5 text-gray-500 hover:border-[#00FF41]/40 hover:text-[#00FF41] transition-all duration-300 rounded-xl uppercase">
+                View All Projects <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
           </motion.div>
@@ -631,32 +523,17 @@ export default function Home() {
               <div className="space-y-4">
                 {experience.map((exp, i) => (
                   <motion.div key={i} variants={fadeUp} className="relative sm:pl-12">
-                    {/* Dot */}
-                    <div
-                      className={`absolute left-0 top-6 w-3 h-3 rounded-full border-2 transition-all duration-500 hidden sm:block ${
-                        exp.active
-                          ? "bg-[#00FF41] border-[#00FF41] shadow-[0_0_16px_rgba(0,255,65,0.6)]"
-                          : "bg-[#050505] border-white/20"
-                      }`}
-                    />
-                    {exp.active && (
-                      <div className="absolute left-0 top-6 w-3 h-3 rounded-full bg-[#00FF41] animate-ping opacity-25 hidden sm:block" />
-                    )}
+                    <div className={`absolute left-0 top-6 w-3 h-3 rounded-full border-2 transition-all duration-500 hidden sm:block ${
+                      exp.active ? "bg-[#00FF41] border-[#00FF41] shadow-[0_0_16px_rgba(0,255,65,0.6)]" : "bg-[#050505] border-white/20"
+                    }`} />
+                    {exp.active && <div className="absolute left-0 top-6 w-3 h-3 rounded-full bg-[#00FF41] animate-ping opacity-25 hidden sm:block" />}
                     <GlassCard className="p-6">
                       <div className="flex flex-wrap items-center gap-3 mb-3">
-                        <span className="font-mono text-[11px] text-gray-600 flex items-center gap-1.5">
-                          <Calendar size={11} />{exp.period}
-                        </span>
-                        {exp.active && (
-                          <span className="font-mono text-[9px] tracking-[0.2em] text-[#00FF41]/70 border border-[#00FF41]/20 bg-[#00FF41]/[0.05] px-2.5 py-0.5 rounded-full uppercase">
-                            Current
-                          </span>
-                        )}
+                        <span className="font-mono text-[11px] text-gray-600 flex items-center gap-1.5"><Calendar size={11} />{exp.period}</span>
+                        {exp.active && <span className="font-mono text-[9px] tracking-[0.2em] text-[#00FF41]/70 border border-[#00FF41]/20 bg-[#00FF41]/[0.05] px-2.5 py-0.5 rounded-full uppercase">Current</span>}
                       </div>
                       <h3 className="text-[17px] font-bold mb-1">{exp.role}</h3>
-                      <div className="font-mono text-[11px] text-gray-500 mb-3 flex items-center gap-1.5">
-                        <MapPin size={11} />{exp.company}
-                      </div>
+                      <div className="font-mono text-[11px] text-gray-500 mb-3 flex items-center gap-1.5"><MapPin size={11} />{exp.company}</div>
                       <p className="text-gray-400 text-[13px] leading-relaxed">{exp.description}</p>
                     </GlassCard>
                   </motion.div>
@@ -688,7 +565,6 @@ export default function Home() {
               ))}
             </motion.div>
 
-            {/* Publications */}
             <motion.div variants={fadeUp}><SectionLabel text="Publications" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-12 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Research &amp; Writing</motion.h2>
 
@@ -696,9 +572,7 @@ export default function Home() {
               <motion.div variants={fadeUp}>
                 <GlassCard className="p-7">
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-[#00FF41]/[0.07] border border-[#00FF41]/[0.12] flex items-center justify-center shrink-0">
-                      <FileText size={17} className="text-[#00FF41]/60" />
-                    </div>
+                    <div className="w-10 h-10 rounded-xl bg-[#00FF41]/[0.07] border border-[#00FF41]/[0.12] flex items-center justify-center shrink-0"><FileText size={17} className="text-[#00FF41]/60" /></div>
                     <div>
                       <div className="font-mono text-[10px] text-[#00FF41]/60 tracking-[0.2em] uppercase mb-2">Research Paper</div>
                       <h3 className="font-bold text-[15px] mb-2">&ldquo;Engineers Fear AI, As Mathematicians Once Feared Calculators&rdquo;</h3>
@@ -710,20 +584,14 @@ export default function Home() {
               <motion.div variants={fadeUp}>
                 <GlassCard className="p-7">
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-[#00FF41]/[0.07] border border-[#00FF41]/[0.12] flex items-center justify-center shrink-0">
-                      <PenTool size={17} className="text-[#00FF41]/60" />
-                    </div>
+                    <div className="w-10 h-10 rounded-xl bg-[#00FF41]/[0.07] border border-[#00FF41]/[0.12] flex items-center justify-center shrink-0"><PenTool size={17} className="text-[#00FF41]/60" /></div>
                     <div>
                       <div className="font-mono text-[10px] text-[#00FF41]/60 tracking-[0.2em] uppercase mb-2">LinkedIn Research Blogs</div>
                       <h3 className="font-bold text-[15px] mb-2">Technical Deep-Dives</h3>
                       <p className="text-gray-500 text-[13px] leading-relaxed mb-4">
                         Published deep-dives including <span className="text-gray-300">How GPS Works</span>, <span className="text-gray-300">Zipf&apos;s Law for LLMs</span>, and other explorations at the intersection of math, physics, and AI.
                       </p>
-                      <a
-                        href="https://www.linkedin.com/in/preet-dave-452023271/"
-                        target="_blank" rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 font-mono text-[11px] text-[#00FF41]/60 hover:text-[#00FF41] transition-colors"
-                      >
+                      <a href="https://www.linkedin.com/in/preet-dave-452023271/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-mono text-[11px] text-[#00FF41]/60 hover:text-[#00FF41] transition-colors">
                         <Linkedin size={12} /> Follow on LinkedIn
                       </a>
                     </div>
@@ -736,25 +604,16 @@ export default function Home() {
 
         {/* ── CONTACT ───────────────────────────────────────────────────── */}
         <section id="contact" className="py-28 px-6 relative overflow-hidden">
-          {/* Ghost text */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
-            <span
-              className="font-black text-white/[0.016] tracking-tighter leading-none whitespace-nowrap"
-              style={{ fontSize: "clamp(80px, 18vw, 200px)" }}
-            >
-              HELLO
-            </span>
+            <span className="font-black text-white/[0.016] tracking-tighter leading-none whitespace-nowrap" style={{ fontSize: "clamp(80px, 18vw, 200px)" }}>HELLO</span>
           </div>
 
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-5xl mx-auto relative">
             <motion.div variants={fadeUp}><SectionLabel text="Contact" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-4 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Get In Touch</motion.h2>
-            <motion.p variants={fadeUp} className="text-gray-500 text-[15px] mb-12 max-w-md">
-              Open to AI/ML engineering roles, research collaborations, and interesting projects.
-            </motion.p>
+            <motion.p variants={fadeUp} className="text-gray-500 text-[15px] mb-12 max-w-md">Open to AI/ML engineering roles, research collaborations, and interesting projects.</motion.p>
 
             <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
-              {/* Links */}
               <motion.div variants={fadeUp}>
                 <div className="space-y-3">
                   {[
@@ -763,13 +622,7 @@ export default function Home() {
                     { Icon: Github,   label: "GitHub",   href: "https://github.com/iampreetdave-max",               text: "iampreetdave-max" },
                     { Icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/preet-dave-452023271/", text: "preet-dave" },
                   ].map((link) => (
-                    <a
-                      key={link.label}
-                      href={link.href}
-                      target={link.href.startsWith("http") ? "_blank" : undefined}
-                      rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className="group flex items-center gap-4 text-gray-500 hover:text-white transition-all duration-300"
-                    >
+                    <a key={link.label} href={link.href} target={link.href.startsWith("http") ? "_blank" : undefined} rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined} className="group flex items-center gap-4 text-gray-500 hover:text-white transition-all duration-300">
                       <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/[0.025] border border-white/[0.07] shrink-0 group-hover:border-[#00FF41]/25 group-hover:bg-[#00FF41]/[0.06] transition-all duration-300">
                         <link.Icon size={16} className="group-hover:text-[#00FF41] transition-colors duration-300" />
                       </div>
@@ -782,7 +635,6 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              {/* Form */}
               <motion.div variants={fadeUp}>
                 <form name="contact" method="POST" data-netlify="true" action="/success" className="space-y-5">
                   <input type="hidden" name="form-name" value="contact" />
@@ -792,29 +644,14 @@ export default function Home() {
                   ].map((f) => (
                     <div key={f.name}>
                       <label className="block font-mono text-[10px] text-gray-600 mb-2 tracking-[0.15em] uppercase">{f.label}</label>
-                      <input
-                        type={f.type}
-                        name={f.name}
-                        required
-                        placeholder={f.placeholder}
-                        className="w-full bg-white/[0.025] border border-white/[0.07] p-4 text-white text-sm rounded-xl transition-all duration-300 placeholder-gray-800"
-                      />
+                      <input type={f.type} name={f.name} required placeholder={f.placeholder} className="w-full bg-white/[0.025] border border-white/[0.07] p-4 text-white text-sm rounded-xl transition-all duration-300 placeholder-gray-800" />
                     </div>
                   ))}
                   <div>
                     <label className="block font-mono text-[10px] text-gray-600 mb-2 tracking-[0.15em] uppercase">Message</label>
-                    <textarea
-                      name="message"
-                      required
-                      rows={5}
-                      placeholder="What&apos;s on your mind?"
-                      className="w-full bg-white/[0.025] border border-white/[0.07] p-4 text-white text-sm rounded-xl transition-all duration-300 resize-none placeholder-gray-800"
-                    />
+                    <textarea name="message" required rows={5} placeholder="What's on your mind?" className="w-full bg-white/[0.025] border border-white/[0.07] p-4 text-white text-sm rounded-xl transition-all duration-300 resize-none placeholder-gray-800" />
                   </div>
-                  <button
-                    type="submit"
-                    className="w-full font-mono text-[11px] tracking-[0.15em] border border-[#00FF41]/60 text-[#00FF41] px-6 py-4 hover:bg-[#00FF41] hover:text-black transition-all duration-300 uppercase rounded-xl flex items-center justify-center gap-2"
-                  >
+                  <button type="submit" className="w-full font-mono text-[11px] tracking-[0.15em] border border-[#00FF41]/60 text-[#00FF41] px-6 py-4 hover:bg-[#00FF41] hover:text-black transition-all duration-300 uppercase rounded-xl flex items-center justify-center gap-2">
                     <Send size={13} /> Send Message
                   </button>
                 </form>
@@ -823,7 +660,6 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* ── FOOTER ───────────────────────────────────────────────────── */}
         <footer className="border-t border-white/[0.04] py-8 px-6">
           <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="font-mono text-[10px] text-gray-600 tracking-widest">\u00a9 2026 PREET GHANSHYAM DAVE</p>
