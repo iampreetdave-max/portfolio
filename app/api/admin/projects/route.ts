@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/lib/supabase-server";
 
+export const runtime = 'edge';
+
 function isAuthed(req: NextRequest) {
   return req.cookies.get("admin_session")?.value === "1";
 }
