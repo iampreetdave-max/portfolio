@@ -11,7 +11,7 @@ import type { Project } from "@/components/ProjectCard";
 import {
   Brain, Eye, Cpu, Code2, Github, Linkedin, Mail, Phone,
   Send, MapPin, Calendar, ArrowRight, Award, BookOpen,
-  FileText, PenTool, ChevronDown,
+  FileText, PenTool, ChevronDown, ExternalLink,
 } from "lucide-react";
 
 // ── Data ─────────────────────────────────────────────────────────────────────
@@ -25,9 +25,9 @@ const featuredProjects: Project[] = [
     category: "ML Engineering / Sports Analytics",
     image_url: `${IMGS}/1777094425982.jpeg`,
     description:
-      "Production-deployed XGBoost model predicting NBA game outcomes across Moneyline, Spread, and Over/Under markets — validated against live sportsbook odds across 1,064 settled games.",
+      "Production-deployed XGBoost model predicting NBA game outcomes across Moneyline, Spread, and Over/Under markets — 1,064 settled games. Real odds. Real P&L.",
     longDescription:
-      `6+ months in production (Oct 2025 – Mar 2026). 1,064 NBA games settled. Real odds. Real outcomes. Real P&L.\n\nThe engine runs autonomously every morning before tip-off across 7 coordinated GitHub Actions workflows — fetching live team stats, pulling market odds, generating predictions, grading confidence tiers, and syncing results to a live Azure PostgreSQL database.\n\nResults:\n• Over/Under Grade A picks: +16.5% ROI across 95 bets\n• Moneyline win rate: 66.3% across all settled games\n• Custom A–D grading system that identifies market mispricing — not just winners\n• Analyzes rolling stats from last 5 games per team with 9 engineered features\n\nFully serverless. Zero human intervention daily.`,
+      `6+ months in production (Oct 2025 – Mar 2026). 1,064 NBA games settled. Real odds. Real outcomes. Real P&L.\n\nThe engine runs autonomously every morning before tip-off across 7 coordinated GitHub Actions workflows — fetching live team stats, pulling market odds, generating predictions, grading confidence tiers, and syncing results to a live Azure PostgreSQL database.\n\nResults:\n• Over/Under Grade A picks: +16.5% ROI across 95 bets\n• Moneyline win rate: 66.3% across all settled games\n• Custom A–D grading system that identifies market mispricing — not just winners\n• 9 engineered features on rolling 5-game team stats\n\nFully serverless. Zero human intervention daily.`,
     tech_tags: ["XGBoost", "Python 3.11", "PostgreSQL", "GitHub Actions", "SportsRadar API", "The Odds API", "Azure"],
   },
   {
@@ -36,7 +36,7 @@ const featuredProjects: Project[] = [
     category: "ML Engineering / Sports Analytics",
     image_url: `${IMGS}/Gemini_Generated_Image_bvspbvbvspbvbvsp.png`,
     description:
-      "Dual-model soccer prediction system across 14+ leagues — Ridge Regression (V1) and a GPU-trained ensemble (V2) running in parallel for cross-validated, confidence-weighted predictions.",
+      "Dual-model system across 14+ leagues — Ridge Regression + GPU-trained ensemble running in parallel. 3,020 settled matches. +9.1% ROI on Grade A+B picks.",
     longDescription:
       `15+ months in production. 3,020 settled matches across 10 major leagues. Two models, one edge.\n\nV1 — Ridge Regression (21 weighted features):\n• 1,473 Grade A+B bets → +9.1% ROI\n• Grade A: 47.5% win rate, +14.8% ROI through contrarian value betting\n• Covers Premier League, La Liga, Serie A, MLS, Bundesliga, Champions League, and more\n• Mistral AI integration for real-time injury and news signal enrichment\n• 15+ consecutive automated daily runs with zero failures\n\nV2 — Ensemble (XGBoost + Gradient Boosting + Random Forest):\n• 40+ engineered features with dynamic Elo ratings (K=20)\n• GPU-accelerated training with CUDA\n• Separate ensemble models per market (Moneyline vs Over/Under)\n• Proprietary 0–100 confidence scoring\n\nBoth models run simultaneously. When both agree, confidence spikes significantly. 4 automated pipelines, dual database sync, fully serverless.`,
     tech_tags: ["Ridge Regression", "XGBoost", "Gradient Boosting", "Python 3.11", "PostgreSQL", "Mistral AI", "Streamlit", "GitHub Actions"],
@@ -47,9 +47,9 @@ const featuredProjects: Project[] = [
     category: "ML Engineering / Sports Analytics",
     image_url: `${IMGS}/Gemini_Generated_Image_w4jr6qw4jr6qw4jr%20(1).png`,
     description:
-      "Track-type-specific ensemble predicting NASCAR outcomes across 5 betting markets — live odds scraped from 9 sportsbooks via headless Chrome, trained on 7,566 historical race records.",
+      "3 track-type ensemble models predicting race outcomes across 5 betting markets. Odds scraped live from 9 sportsbooks. Trained on 7,566 historical records.",
     longDescription:
-      `NASCAR isn't one sport — it's three. Superspeedways, road courses, and short tracks demand completely different driving dynamics. So we built three separate models.\n\nArchitecture:\n• 3 track-type ensembles: Superspeedway / Road Course / Short Track\n• 4 algorithms per model: XGBoost, LightGBM, Random Forest, Gradient Boosting\n• 17 engineered features — starting position (3x weighted), driver form, track-specific history, team momentum, manufacturer performance by track type\n• Platt Scaling calibration for trustworthy, well-calibrated probabilities\n• Zero look-ahead bias — all features derived strictly from prior historical data\n\nPredicts: Winner, Top 3, Top 5, Top 10 finishes\nTrained on 7,566 historical race records.\n\nOdds pipeline scrapes 9 sportsbooks (DraftKings, FanDuel, BetMGM, Caesars, BetRivers, ESPN BET, Fanatics, Hard Rock, PointsBet) across 5 markets via Selenium + headless Chrome.`,
+      `NASCAR isn't one sport — it's three. Superspeedways, road courses, and short tracks demand completely different driving dynamics. So we built three separate models.\n\nArchitecture:\n• 3 track-type ensembles: Superspeedway / Road Course / Short Track\n• 4 algorithms per model: XGBoost, LightGBM, Random Forest, Gradient Boosting\n• 17 engineered features — starting position (3x weighted), driver form, track-specific history, team momentum, manufacturer performance by track type\n• Platt Scaling calibration for trustworthy probabilities\n• Zero look-ahead bias — all features from strictly prior historical data\n\nPredicts: Winner, Top 3, Top 5, Top 10 finishes\nTrained on 7,566 historical race records.\n\nOdds pipeline scrapes 9 sportsbooks (DraftKings, FanDuel, BetMGM, Caesars, BetRivers, ESPN BET, Fanatics, Hard Rock, PointsBet) across 5 markets via Selenium + headless Chrome.`,
     tech_tags: ["XGBoost", "LightGBM", "Random Forest", "Python", "Selenium", "Platt Scaling", "BeautifulSoup"],
   },
   {
@@ -58,7 +58,7 @@ const featuredProjects: Project[] = [
     category: "Data Engineering / Full-Stack",
     image_url: `${IMGS}/Gemini_Generated_Image_txnn91txnn91txnn.png`,
     description:
-      "Real-time AI/ML news aggregator pulling from 110+ sources every 15 minutes — audience-specific feeds, smart deduplication, and auto-tagging across 12 categories via a REST API.",
+      "Real-time AI/ML news aggregator — 110+ sources scraped every 15 minutes, audience-specific feeds, smart deduplication, auto-tagging across 12 categories.",
     longDescription:
       `The AI space moves faster than anyone can follow manually. So I automated the keeping-up part.\n\nEvery 15 minutes, a pipeline crawls 110+ sources — official blogs from top AI labs, arXiv, Hugging Face, Reddit, newsletters, funding announcements, and developer publications.\n\nKey features:\n• Audience filters: Developers, Business, Finance, Research, General — same news, different lens\n• Auto-tagging across 12 categories: LLM, computer vision, robotics, funding, regulation, and more\n• Smart deduplication: URL normalization + content hashing + title similarity matching\n• REST API: filter by audience, tag, source, or date — fully queryable with pagination\n• Docker deployment with APScheduler for 15-minute automated intervals\n\nStack: FastAPI backend, BeautifulSoup + RSS/Atom feed parsing, SQLite, APScheduler, Docker.`,
     tech_tags: ["FastAPI", "Python", "BeautifulSoup", "APScheduler", "SQLite", "Docker", "RSS/Atom"],
@@ -69,7 +69,7 @@ const featuredProjects: Project[] = [
     title: "TalkToNotes",
     category: "Computer Vision / NLP",
     description:
-      "Intelligent OCR system that converts handwritten notes into searchable, queryable knowledge bases using TrOCR transformers and neural embeddings.",
+      "Intelligent OCR system converting handwritten notes into searchable knowledge bases using TrOCR transformers and neural embeddings.",
     longDescription:
       "I developed an intelligent document processing pipeline that transforms handwritten notes into structured, searchable knowledge bases. Using the TrOCR transformer for high-accuracy optical character recognition, neural embeddings for semantic understanding, and a chatbot interface for natural language querying.",
     tech_tags: ["TrOCR", "Transformers", "Computer Vision", "NLP", "Vector Search", "Python"],
@@ -91,7 +91,7 @@ const featuredProjects: Project[] = [
     title: "Find Ranks",
     category: "Web / Streamlit",
     description:
-      "Analytics tool that automates mark extraction from PDF mark sheets, calculates cumulative performance, and generates institutional rankings.",
+      "Automates mark extraction from PDF mark sheets, calculates cumulative performance, and generates ranked institutional analytics.",
     longDescription:
       "I built a practical data processing tool that automates the entire workflow of extracting marks from multiple PDF mark sheets, calculating cumulative student performance, and generating ranked analytics.",
     tech_tags: ["Streamlit", "PDF Processing", "Python", "Data Analytics"],
@@ -197,8 +197,6 @@ function ScrollProgress() {
   );
 }
 
-// ── SectionLabel ──────────────────────────────────────────────────────────────
-
 function SectionLabel({ text }: { text: string }) {
   return (
     <div className="flex items-center gap-3 mb-4">
@@ -207,8 +205,6 @@ function SectionLabel({ text }: { text: string }) {
     </div>
   );
 }
-
-// ── GlassCard ─────────────────────────────────────────────────────────────────
 
 function GlassCard({ children, className = "", hover = true }: {
   children: React.ReactNode;
@@ -227,8 +223,6 @@ function GlassCard({ children, className = "", hover = true }: {
     </div>
   );
 }
-
-// ── Home ──────────────────────────────────────────────────────────────────────
 
 export default function Home() {
   const [menuOpen,        setMenuOpen]        = useState(false);
@@ -268,17 +262,18 @@ export default function Home() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
+  const imageProjects = featuredProjects.filter(p => p.image_url);
+  const textProjects  = featuredProjects.filter(p => !p.image_url);
+
   return (
     <>
       <MouseSpotlight />
       <ScrollProgress />
-
       <div className="noise-overlay" aria-hidden="true" />
       <div className="scanlines"     aria-hidden="true" />
-
       <NeuralNetwork paused={false} />
 
-      {/* ── NAV ──────────────────────────────────────────────────────── */}
+      {/* ── NAV ── */}
       <nav
         ref={navRef}
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
@@ -345,11 +340,10 @@ export default function Home() {
 
       <main className="relative z-10">
 
-        {/* ── HERO ─────────────────────────────────────────────────────── */}
+        {/* ── HERO ── */}
         <section id="home" className="min-h-[100dvh] flex items-center justify-center px-6 pt-16 relative overflow-hidden">
           <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full bg-[#00FF41]/[0.022] blur-[130px] pointer-events-none" />
           <div className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] rounded-full bg-[#00D4FF]/[0.016] blur-[100px] pointer-events-none" />
-
           <div className="max-w-5xl w-full relative">
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-8">
               <span className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.2em] uppercase text-[#00FF41]/70 border border-[#00FF41]/20 bg-[#00FF41]/[0.05] px-4 py-1.5 rounded-full">
@@ -357,38 +351,24 @@ export default function Home() {
                 Available for AI / ML Roles
               </span>
             </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-              className="mb-8"
-            >
-              <h1
-                className="font-black leading-[0.88] tracking-[-0.04em]"
-                style={{ fontSize: "clamp(72px, 11vw, 120px)" }}
-              >
-                <span className="text-white">Preet</span>
-                <br />
+            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }} className="mb-8">
+              <h1 className="font-black leading-[0.88] tracking-[-0.04em]" style={{ fontSize: "clamp(72px, 11vw, 120px)" }}>
+                <span className="text-white">Preet</span><br />
                 <span className="text-white/20">Dave</span>
               </h1>
             </motion.div>
-
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4, duration: 0.7 }} className="mb-8 h-8">
               <TypewriterText />
             </motion.div>
-
             <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.7 }} className="mb-10 max-w-xl">
               <p className="text-gray-400 text-[15px] leading-[1.85]">
                 Building intelligent systems with deep learning, computer vision, and advanced ML algorithms.
                 B.Tech CS (AI-ML) student &middot; Trainee SWE at Agility Innovations.
               </p>
             </motion.div>
-
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.7 }} className="flex flex-wrap gap-3 items-center">
               <a href="#contact" className="group font-mono text-[11px] tracking-[0.15em] border border-[#00FF41]/60 text-[#00FF41] px-7 py-3.5 hover:bg-[#00FF41] hover:text-black transition-all duration-300 rounded-lg flex items-center gap-2 uppercase">
-                Contact Me
-                <Send size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                Contact Me <Send size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
               <a href="https://github.com/iampreetdave-max" target="_blank" rel="noopener noreferrer" className="group font-mono text-[11px] tracking-[0.15em] border border-white/[0.08] px-7 py-3.5 text-gray-500 hover:border-white/20 hover:text-white transition-all duration-300 rounded-lg flex items-center gap-2 uppercase">
                 <Github size={13} /> GitHub
@@ -398,13 +378,7 @@ export default function Home() {
               </a>
             </motion.div>
           </div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.6, duration: 0.8 }}
-            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.6, duration: 0.8 }} className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
             <span className="font-mono text-[9px] tracking-[0.3em] text-gray-700 uppercase">Scroll</span>
             <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}>
               <ChevronDown size={16} className="text-gray-700" />
@@ -412,12 +386,11 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* ── ABOUT ────────────────────────────────────────────────────── */}
+        {/* ── ABOUT ── */}
         <section id="about" className="py-28 px-6">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-5xl mx-auto">
             <motion.div variants={fadeUp}><SectionLabel text="About" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-12 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Who I Am</motion.h2>
-
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <motion.div variants={fadeUp} className="md:col-span-2">
                 <GlassCard className="p-8 h-full" hover={false}>
@@ -434,7 +407,6 @@ export default function Home() {
                   </div>
                 </GlassCard>
               </motion.div>
-
               <motion.div variants={fadeUp} className="md:row-span-2">
                 <GlassCard className="p-5 h-full flex flex-col" hover={false}>
                   <div className="relative flex-1 min-h-[220px] rounded-lg overflow-hidden mb-4">
@@ -457,7 +429,6 @@ export default function Home() {
                   </div>
                 </GlassCard>
               </motion.div>
-
               <motion.div variants={fadeUp} className="md:col-span-2">
                 <div className="grid grid-cols-4 gap-3">
                   {stats.map((s) => (
@@ -472,7 +443,7 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* ── SKILLS ───────────────────────────────────────────────────── */}
+        {/* ── SKILLS ── */}
         <section id="skills" className="py-28 px-6">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-5xl mx-auto">
             <motion.div variants={fadeUp}><SectionLabel text="Skills" /></motion.div>
@@ -499,60 +470,89 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* ── PROJECTS ─────────────────────────────────────────────────── */}
+        {/* ── PROJECTS ── */}
         <section id="projects" className="py-28 px-6">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-5xl mx-auto">
             <motion.div variants={fadeUp}><SectionLabel text="Projects" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-12 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Featured Work</motion.h2>
 
-            <div className="space-y-3">
-              {featuredProjects.map((p, i) => (
+            {/* Image project cards — 2-column grid */}
+            <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              {imageProjects.map((p) => (
                 <motion.div key={p.id} variants={fadeUp}>
                   <div
-                    className="group relative border border-white/[0.06] bg-white/[0.02] backdrop-blur-xl rounded-xl p-6 md:p-8 hover:border-white/[0.12] hover:bg-white/[0.035] transition-all duration-500 overflow-hidden"
+                    className="group relative bg-[#0d0d0d] border border-white/[0.07] rounded-2xl overflow-hidden hover:border-[#00FF41]/25 hover:shadow-[0_0_50px_rgba(0,255,65,0.07)] transition-all duration-500 cursor-pointer"
                     role="button"
                     tabIndex={0}
                     onClick={() => setSelectedProject(p)}
                     onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setSelectedProject(p); }}
                   >
-                    {p.image_url && (
-                      <div className="absolute right-0 top-0 bottom-0 w-72 hidden md:block pointer-events-none">
-                        <Image
-                          src={p.image_url}
-                          alt=""
-                          fill
-                          className="object-cover opacity-[0.18] group-hover:opacity-[0.28] transition-opacity duration-700"
-                          sizes="288px"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/60 to-transparent" />
+                    {/* Image — full opacity, clearly visible */}
+                    <div className="relative w-full h-52 overflow-hidden">
+                      <Image
+                        src={p.image_url!}
+                        alt={p.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                      {/* Only bottom fade — top of image stays sharp */}
+                      <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#0d0d0d] to-transparent" />
+                      {/* Category pill over image */}
+                      <div className="absolute top-3 left-3">
+                        <span className="font-mono text-[9px] tracking-[0.18em] text-[#00FF41] border border-[#00FF41]/30 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-full uppercase">
+                          {p.category}
+                        </span>
                       </div>
-                    )}
-
-                    <div className="absolute left-0 top-0 bottom-0 w-[2px] rounded-l-xl bg-gradient-to-b from-transparent via-[#00FF41]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                    {!p.image_url && (
-                      <div className="project-num absolute right-5 top-1/2 -translate-y-1/2 text-[90px] leading-none hidden md:block">
-                        {String(i + 1).padStart(2, "0")}
+                      {/* External link icon */}
+                      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="w-7 h-7 rounded-lg bg-black/70 backdrop-blur-md border border-white/10 flex items-center justify-center">
+                          <ExternalLink size={12} className="text-white/70" />
+                        </div>
                       </div>
-                    )}
+                    </div>
 
-                    <div className="relative md:pr-28">
-                      <div className="flex flex-wrap items-center gap-2 mb-3">
-                        <span className="font-mono text-[9px] tracking-[0.2em] text-[#00FF41]/60 border border-[#00FF41]/15 bg-[#00FF41]/[0.05] px-3 py-1 rounded-full uppercase">{p.category}</span>
-                        <span className="font-mono text-[10px] text-gray-700">#{String(i + 1).padStart(2, "0")}</span>
-                      </div>
-                      <h3 className="text-[17px] font-bold mb-2 group-hover:text-white transition-colors">{p.title}</h3>
-                      <p className="text-gray-500 text-[13px] leading-relaxed mb-4 max-w-2xl">{p.description}</p>
+                    {/* Content */}
+                    <div className="p-5">
+                      <h3 className="text-[16px] font-bold mb-2 group-hover:text-white transition-colors leading-snug">{p.title}</h3>
+                      <p className="text-gray-500 text-[13px] leading-relaxed mb-4">{p.description}</p>
                       <div className="flex flex-wrap gap-1.5">
-                        {p.tech_tags.slice(0, 5).map((tag) => (
-                          <span key={tag} className="font-mono text-[10px] px-2.5 py-1 border border-white/[0.06] text-gray-600 rounded-md group-hover:text-gray-400 transition-colors duration-300">{tag}</span>
+                        {p.tech_tags.slice(0, 4).map((tag) => (
+                          <span key={tag} className="font-mono text-[10px] px-2.5 py-1 border border-white/[0.07] text-gray-600 rounded-md group-hover:border-white/[0.14] group-hover:text-gray-400 transition-all duration-300">{tag}</span>
                         ))}
-                        {p.tech_tags.length > 5 && <span className="font-mono text-[10px] px-2.5 py-1 text-gray-700">+{p.tech_tags.length - 5}</span>}
+                        {p.tech_tags.length > 4 && <span className="font-mono text-[10px] px-2 py-1 text-gray-700">+{p.tech_tags.length - 4}</span>}
                       </div>
                     </div>
-                    <div className="absolute right-6 bottom-6 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300">
-                      <ArrowRight size={15} className="text-[#00FF41]/60" />
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Text-only projects — compact list */}
+            <div className="space-y-2">
+              {textProjects.map((p) => (
+                <motion.div key={p.id} variants={fadeUp}>
+                  <div
+                    className="group relative border border-white/[0.06] bg-white/[0.015] backdrop-blur-xl rounded-xl px-6 py-5 hover:border-white/[0.12] hover:bg-white/[0.03] transition-all duration-500 overflow-hidden cursor-pointer flex items-center gap-4"
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => setSelectedProject(p)}
+                    onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setSelectedProject(p); }}
+                  >
+                    <div className="absolute left-0 top-0 bottom-0 w-[2px] rounded-l-xl bg-gradient-to-b from-transparent via-[#00FF41]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                        <span className="font-mono text-[9px] tracking-[0.18em] text-[#00FF41]/60 border border-[#00FF41]/15 bg-[#00FF41]/[0.04] px-2.5 py-0.5 rounded-full uppercase shrink-0">{p.category}</span>
+                        <h3 className="text-[15px] font-bold group-hover:text-white transition-colors">{p.title}</h3>
+                      </div>
+                      <p className="text-gray-600 text-[12px] leading-relaxed line-clamp-1">{p.description}</p>
                     </div>
+                    <div className="flex flex-wrap gap-1.5 shrink-0 hidden sm:flex">
+                      {p.tech_tags.slice(0, 3).map((tag) => (
+                        <span key={tag} className="font-mono text-[10px] px-2.5 py-1 border border-white/[0.06] text-gray-600 rounded-md group-hover:text-gray-400 transition-colors">{tag}</span>
+                      ))}
+                    </div>
+                    <ArrowRight size={14} className="text-gray-700 group-hover:text-[#00FF41]/70 group-hover:translate-x-0.5 transition-all duration-300 shrink-0" />
                   </div>
                 </motion.div>
               ))}
@@ -566,12 +566,11 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* ── EXPERIENCE ───────────────────────────────────────────────── */}
+        {/* ── EXPERIENCE ── */}
         <section id="experience" className="py-28 px-6">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-5xl mx-auto">
             <motion.div variants={fadeUp}><SectionLabel text="Experience" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-12 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Work History</motion.h2>
-
             <div className="relative">
               <div className="absolute left-[6px] top-4 bottom-16 w-px bg-gradient-to-b from-[#00FF41]/25 via-white/[0.05] to-transparent hidden sm:block" />
               <div className="space-y-4">
@@ -597,12 +596,11 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* ── CERTIFICATIONS ────────────────────────────────────────────── */}
+        {/* ── CERTIFICATIONS ── */}
         <section id="certifications" className="py-28 px-6">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-5xl mx-auto">
             <motion.div variants={fadeUp}><SectionLabel text="Certifications" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-12 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Certificates &amp; Learnings</motion.h2>
-
             <motion.div variants={stagger} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-24">
               {certifications.map((cert) => (
                 <motion.div key={cert.title} variants={fadeUp}>
@@ -621,7 +619,6 @@ export default function Home() {
 
             <motion.div variants={fadeUp}><SectionLabel text="Publications" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-12 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Research &amp; Writing</motion.h2>
-
             <motion.div variants={stagger} className="space-y-4">
               <motion.div variants={fadeUp}>
                 <GlassCard className="p-7">
@@ -656,17 +653,15 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* ── CONTACT ───────────────────────────────────────────────────── */}
+        {/* ── CONTACT ── */}
         <section id="contact" className="py-28 px-6 relative overflow-hidden">
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
             <span className="font-black text-white/[0.016] tracking-tighter leading-none whitespace-nowrap" style={{ fontSize: "clamp(80px, 18vw, 200px)" }}>HELLO</span>
           </div>
-
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-5xl mx-auto relative">
             <motion.div variants={fadeUp}><SectionLabel text="Contact" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-4 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Get In Touch</motion.h2>
             <motion.p variants={fadeUp} className="text-gray-500 text-[15px] mb-12 max-w-md">Open to AI/ML engineering roles, research collaborations, and interesting projects.</motion.p>
-
             <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
               <motion.div variants={fadeUp}>
                 <div className="space-y-3">
@@ -688,7 +683,6 @@ export default function Home() {
                   ))}
                 </div>
               </motion.div>
-
               <motion.div variants={fadeUp}>
                 <form name="contact" method="POST" data-netlify="true" action="/success" className="space-y-5">
                   <input type="hidden" name="form-name" value="contact" />
@@ -703,7 +697,7 @@ export default function Home() {
                   ))}
                   <div>
                     <label className="block font-mono text-[10px] text-gray-600 mb-2 tracking-[0.15em] uppercase">Message</label>
-                    <textarea name="message" required rows={5} placeholder="What&apos;s on your mind?" className="w-full bg-white/[0.025] border border-white/[0.07] p-4 text-white text-sm rounded-xl transition-all duration-300 resize-none placeholder-gray-800" />
+                    <textarea name="message" required rows={5} placeholder="What's on your mind?" className="w-full bg-white/[0.025] border border-white/[0.07] p-4 text-white text-sm rounded-xl transition-all duration-300 resize-none placeholder-gray-800" />
                   </div>
                   <button type="submit" className="w-full font-mono text-[11px] tracking-[0.15em] border border-[#00FF41]/60 text-[#00FF41] px-6 py-4 hover:bg-[#00FF41] hover:text-black transition-all duration-300 uppercase rounded-xl flex items-center justify-center gap-2">
                     <Send size={13} /> Send Message
