@@ -16,19 +16,56 @@ import {
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
+const IMGS = "https://raw.githubusercontent.com/iampreetdave-max/portfolio/main/images";
+
 const featuredProjects: Project[] = [
   {
     id: "1",
-    title: "Enterprise Sports Analytics Platform",
-    category: "Full-Stack / ML Engineering",
+    title: "NBA Prediction Engine",
+    category: "ML Engineering / Sports Analytics",
+    image_url: `${IMGS}/1777094425982.jpeg`,
     description:
-      "Production-grade sports analytics platform with custom ML prediction models, live data pipelines, and real-time game tracking across 7+ professional sports leagues.",
+      "Production-deployed XGBoost model predicting NBA game outcomes across Moneyline, Spread, and Over/Under markets — validated against live sportsbook odds across 1,064 settled games.",
     longDescription:
-      "I architected and delivered a comprehensive real-time sports analytics platform for a leading betting company, covering NBA, NCAAB, MLB, NHL, Soccer, F1, and UFC. This project is the umbrella for all the individual prediction models and scrapers I built:\n\n\u2022 Football Prediction System \u2014 Ridge Regression with 21+ features, automated daily pipeline, Streamlit dashboard (7 GitHub stars)\n\u2022 CTMCL Predictions \u2014 Novel consensus goals line method with Random Forest, 6 Premier League seasons\n\u2022 Goal Prediction Model \u2014 6-algorithm regression benchmark for match outcome forecasting\n\u2022 NBA Prediction Model \u2014 Pre-match feature engineering, odds integration, ML predictions with validation\n\u2022 NBA Analytics & Odds Scraper \u2014 Full data pipeline: odds scraping, database building, ensemble models\n\u2022 Multi-Sport Scraper Suite \u2014 Custom scrapers for NHL, MLB, and NCAAB with dashboards and validation\n\nThe full stack spans Go REST APIs, React frontends, Azure VM infrastructure, Docker containers, Redis caching, and PostgreSQL databases.",
-    tech_tags: ["Go", "React", "Ridge Regression", "Random Forest", "Azure", "Docker", "Redis", "PostgreSQL", "GitHub Actions", "Streamlit"],
+      `6+ months in production (Oct 2025 – Mar 2026). 1,064 NBA games settled. Real odds. Real outcomes. Real P&L.\n\nThe engine runs autonomously every morning before tip-off across 7 coordinated GitHub Actions workflows — fetching live team stats, pulling market odds, generating predictions, grading confidence tiers, and syncing results to a live Azure PostgreSQL database.\n\nResults:\n• Over/Under Grade A picks: +16.5% ROI across 95 bets\n• Moneyline win rate: 66.3% across all settled games\n• Custom A–D grading system that identifies market mispricing — not just winners\n• Analyzes rolling stats from last 5 games per team with 9 engineered features\n\nFully serverless. Zero human intervention daily.`,
+    tech_tags: ["XGBoost", "Python 3.11", "PostgreSQL", "GitHub Actions", "SportsRadar API", "The Odds API", "Azure"],
   },
   {
     id: "2",
+    title: "Soccer Prediction Models (V1 + V2)",
+    category: "ML Engineering / Sports Analytics",
+    image_url: `${IMGS}/Gemini_Generated_Image_bvspbvbvspbvbvsp.png`,
+    description:
+      "Dual-model soccer prediction system across 14+ leagues — Ridge Regression (V1) and a GPU-trained ensemble (V2) running in parallel for cross-validated, confidence-weighted predictions.",
+    longDescription:
+      `15+ months in production. 3,020 settled matches across 10 major leagues. Two models, one edge.\n\nV1 — Ridge Regression (21 weighted features):\n• 1,473 Grade A+B bets → +9.1% ROI\n• Grade A: 47.5% win rate, +14.8% ROI through contrarian value betting\n• Covers Premier League, La Liga, Serie A, MLS, Bundesliga, Champions League, and more\n• Mistral AI integration for real-time injury and news signal enrichment\n• 15+ consecutive automated daily runs with zero failures\n\nV2 — Ensemble (XGBoost + Gradient Boosting + Random Forest):\n• 40+ engineered features with dynamic Elo ratings (K=20)\n• GPU-accelerated training with CUDA\n• Separate ensemble models per market (Moneyline vs Over/Under)\n• Proprietary 0–100 confidence scoring\n\nBoth models run simultaneously. When both agree, confidence spikes significantly. 4 automated pipelines, dual database sync, fully serverless.`,
+    tech_tags: ["Ridge Regression", "XGBoost", "Gradient Boosting", "Python 3.11", "PostgreSQL", "Mistral AI", "Streamlit", "GitHub Actions"],
+  },
+  {
+    id: "3",
+    title: "NASCAR Prediction Engine",
+    category: "ML Engineering / Sports Analytics",
+    image_url: `${IMGS}/Gemini_Generated_Image_w4jr6qw4jr6qw4jr%20(1).png`,
+    description:
+      "Track-type-specific ensemble predicting NASCAR outcomes across 5 betting markets — live odds scraped from 9 sportsbooks via headless Chrome, trained on 7,566 historical race records.",
+    longDescription:
+      `NASCAR isn't one sport — it's three. Superspeedways, road courses, and short tracks demand completely different driving dynamics. So we built three separate models.\n\nArchitecture:\n• 3 track-type ensembles: Superspeedway / Road Course / Short Track\n• 4 algorithms per model: XGBoost, LightGBM, Random Forest, Gradient Boosting\n• 17 engineered features — starting position (3x weighted), driver form, track-specific history, team momentum, manufacturer performance by track type\n• Platt Scaling calibration for trustworthy, well-calibrated probabilities\n• Zero look-ahead bias — all features derived strictly from prior historical data\n\nPredicts: Winner, Top 3, Top 5, Top 10 finishes\nTrained on 7,566 historical race records.\n\nOdds pipeline scrapes 9 sportsbooks (DraftKings, FanDuel, BetMGM, Caesars, BetRivers, ESPN BET, Fanatics, Hard Rock, PointsBet) across 5 markets via Selenium + headless Chrome.`,
+    tech_tags: ["XGBoost", "LightGBM", "Random Forest", "Python", "Selenium", "Platt Scaling", "BeautifulSoup"],
+  },
+  {
+    id: "4",
+    title: "AI Race News",
+    category: "Data Engineering / Full-Stack",
+    image_url: `${IMGS}/Gemini_Generated_Image_txnn91txnn91txnn.png`,
+    description:
+      "Real-time AI/ML news aggregator pulling from 110+ sources every 15 minutes — audience-specific feeds, smart deduplication, and auto-tagging across 12 categories via a REST API.",
+    longDescription:
+      `The AI space moves faster than anyone can follow manually. So I automated the keeping-up part.\n\nEvery 15 minutes, a pipeline crawls 110+ sources — official blogs from top AI labs, arXiv, Hugging Face, Reddit, newsletters, funding announcements, and developer publications.\n\nKey features:\n• Audience filters: Developers, Business, Finance, Research, General — same news, different lens\n• Auto-tagging across 12 categories: LLM, computer vision, robotics, funding, regulation, and more\n• Smart deduplication: URL normalization + content hashing + title similarity matching\n• REST API: filter by audience, tag, source, or date — fully queryable with pagination\n• Docker deployment with APScheduler for 15-minute automated intervals\n\nStack: FastAPI backend, BeautifulSoup + RSS/Atom feed parsing, SQLite, APScheduler, Docker.`,
+    tech_tags: ["FastAPI", "Python", "BeautifulSoup", "APScheduler", "SQLite", "Docker", "RSS/Atom"],
+    repo_url: "https://github.com/iampreetdave-max/ai-race-news",
+  },
+  {
+    id: "5",
     title: "TalkToNotes",
     category: "Computer Vision / NLP",
     description:
@@ -39,7 +76,7 @@ const featuredProjects: Project[] = [
     repo_url: "https://github.com/iampreetdave/TalkNotes",
   },
   {
-    id: "3",
+    id: "6",
     title: "StudBud",
     category: "Web / Full-Stack",
     description:
@@ -50,7 +87,7 @@ const featuredProjects: Project[] = [
     repo_url: "https://github.com/iampreetdave/STUDBUD",
   },
   {
-    id: "4",
+    id: "7",
     title: "Find Ranks",
     category: "Web / Streamlit",
     description:
@@ -65,16 +102,16 @@ const featuredProjects: Project[] = [
 const skills = [
   { title: "Deep Learning & Neural Networks", Icon: Brain, items: ["TensorFlow", "PyTorch", "Keras", "CNNs", "Transformers", "Neural Network Optimization"] },
   { title: "Computer Vision & NLP", Icon: Eye, items: ["TrOCR", "Image Processing", "NLP", "Vector Embeddings & Search"] },
-  { title: "Machine Learning", Icon: Cpu, items: ["Scikit-Learn", "Pandas", "NumPy", "Regression & Classification", "Feature Engineering"] },
-  { title: "Development & Deployment", Icon: Code2, items: ["Python (Advanced)", "C++", "JavaScript", "Full-Stack", "API Development", "ML Pipeline Automation"] },
+  { title: "Machine Learning", Icon: Cpu, items: ["Scikit-Learn", "XGBoost", "LightGBM", "Regression & Classification", "Feature Engineering", "Ensemble Methods"] },
+  { title: "Development & Deployment", Icon: Code2, items: ["Python (Advanced)", "FastAPI", "JavaScript", "Full-Stack", "API Development", "ML Pipeline Automation"] },
 ];
 
 const experience = [
   {
     role: "Trainee Software Engineer",
-    period: "Sep 2025 \u2013 Present",
+    period: "Sep 2025 – Present",
     company: "Agility Innovations Pvt. Ltd., Ahmedabad",
-    description: "Building AI-powered product pipelines, deploying ML solutions in production environments, full-stack development with neural network integration.",
+    description: "Building and shipping production ML systems — prediction engines, data pipelines, and full-stack applications — deployed and validated against live data at scale.",
     active: true,
   },
   {
@@ -86,7 +123,7 @@ const experience = [
   },
   {
     role: "AI Research Lead",
-    period: "2024 \u2013 2025",
+    period: "2024 – 2025",
     company: "Smart India Hackathon & Rotaract Club Hackathon",
     description: "Led AI research teams in computer vision and TrOCR systems. Designed architectures for real-world document processing challenges.",
     active: false,
@@ -103,7 +140,7 @@ const certifications = [
 
 const stats = [
   { value: "14+", label: "Projects" },
-  { value: "8+",  label: "Automations" },
+  { value: "13+", label: "Automations" },
   { value: "2",   label: "Internships" },
   { value: "1",   label: "Hackathon Won" },
 ];
@@ -275,7 +312,7 @@ export default function Home() {
             className="md:hidden font-mono text-sm border border-white/10 w-10 h-10 flex items-center justify-center hover:border-[#00FF41]/30 hover:text-[#00FF41] transition-all duration-300 rounded-lg"
             aria-label="Toggle menu"
           >
-            {menuOpen ? "\u00d7" : "\u2261"}
+            {menuOpen ? "×" : "≡"}
           </button>
         </div>
         <AnimatePresence>
@@ -388,7 +425,7 @@ export default function Home() {
                     I&apos;m an AI-ML Engineer passionate about building intelligent systems that solve real-world problems. With expertise in deep learning, computer vision, and NLP, I develop end-to-end ML pipelines &mdash; from data preprocessing and feature engineering to model deployment and optimization.
                   </p>
                   <p className="text-gray-500 leading-[1.9] text-[14px] mb-7">
-                    Currently pursuing B.Tech in Computer Science (AI-ML) while gaining hands-on industry experience as a Trainee Software Engineer, bridging cutting-edge research with production-ready solutions.
+                    Currently pursuing B.Tech in Computer Science (AI-ML) while gaining hands-on industry experience as a Trainee Software Engineer, shipping production ML systems validated against live data at scale.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {["Deep Learning", "Computer Vision", "NLP", "MLOps", "Full-Stack"].map((tag) => (
@@ -478,10 +515,27 @@ export default function Home() {
                     onClick={() => setSelectedProject(p)}
                     onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setSelectedProject(p); }}
                   >
+                    {p.image_url && (
+                      <div className="absolute right-0 top-0 bottom-0 w-72 hidden md:block pointer-events-none">
+                        <Image
+                          src={p.image_url}
+                          alt=""
+                          fill
+                          className="object-cover opacity-[0.18] group-hover:opacity-[0.28] transition-opacity duration-700"
+                          sizes="288px"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/60 to-transparent" />
+                      </div>
+                    )}
+
                     <div className="absolute left-0 top-0 bottom-0 w-[2px] rounded-l-xl bg-gradient-to-b from-transparent via-[#00FF41]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="project-num absolute right-5 top-1/2 -translate-y-1/2 text-[90px] leading-none hidden md:block">
-                      {String(i + 1).padStart(2, "0")}
-                    </div>
+
+                    {!p.image_url && (
+                      <div className="project-num absolute right-5 top-1/2 -translate-y-1/2 text-[90px] leading-none hidden md:block">
+                        {String(i + 1).padStart(2, "0")}
+                      </div>
+                    )}
+
                     <div className="relative md:pr-28">
                       <div className="flex flex-wrap items-center gap-2 mb-3">
                         <span className="font-mono text-[9px] tracking-[0.2em] text-[#00FF41]/60 border border-[#00FF41]/15 bg-[#00FF41]/[0.05] px-3 py-1 rounded-full uppercase">{p.category}</span>
@@ -649,7 +703,7 @@ export default function Home() {
                   ))}
                   <div>
                     <label className="block font-mono text-[10px] text-gray-600 mb-2 tracking-[0.15em] uppercase">Message</label>
-                    <textarea name="message" required rows={5} placeholder="What's on your mind?" className="w-full bg-white/[0.025] border border-white/[0.07] p-4 text-white text-sm rounded-xl transition-all duration-300 resize-none placeholder-gray-800" />
+                    <textarea name="message" required rows={5} placeholder="What&apos;s on your mind?" className="w-full bg-white/[0.025] border border-white/[0.07] p-4 text-white text-sm rounded-xl transition-all duration-300 resize-none placeholder-gray-800" />
                   </div>
                   <button type="submit" className="w-full font-mono text-[11px] tracking-[0.15em] border border-[#00FF41]/60 text-[#00FF41] px-6 py-4 hover:bg-[#00FF41] hover:text-black transition-all duration-300 uppercase rounded-xl flex items-center justify-center gap-2">
                     <Send size={13} /> Send Message
@@ -662,7 +716,7 @@ export default function Home() {
 
         <footer className="border-t border-white/[0.04] py-8 px-6">
           <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="font-mono text-[10px] text-gray-600 tracking-widest">\u00a9 2026 PREET GHANSHYAM DAVE</p>
+            <p className="font-mono text-[10px] text-gray-600 tracking-widest">© 2026 PREET GHANSHYAM DAVE</p>
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#00FF41]/30" />
               <p className="font-mono text-[10px] text-gray-700 tracking-widest">NEXT.JS + TAILWIND + FRAMER MOTION</p>
