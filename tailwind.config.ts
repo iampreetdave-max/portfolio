@@ -9,15 +9,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Monochrome surface scale — true blacks rising to near-white
+        // Monochrome surface scale — near-blacks with a barely-warm shift
         ink: {
-          DEFAULT: "#0A0A0A",
-          50:  "#0A0A0A",
-          100: "#0E0E0E",
-          200: "#141414",
-          300: "#1A1A1A",
-          400: "#262626",
-          500: "#3A3A3A",
+          DEFAULT: "#0B0908",
+          50:  "#0B0908",
+          100: "#0F0D0B",
+          200: "#14110E",
+          300: "#1A1714",
+          400: "#272320",
+          500: "#3A3530",
         },
         paper: {
           DEFAULT: "#FAFAFA",
@@ -29,17 +29,19 @@ const config: Config = {
           600: "#3F3F3F",
           700: "#2A2A2A",
         },
-        // Single brand accent — muted amber, used for active state,
-        // live status, CTA hover, and editorial number prefixes.
+        // Single brand accent — muted amber
         accent: {
           DEFAULT: "#C9A86A",
           soft:    "#E5C994",
           deep:    "#B8965A",
         },
-        bg: "#0A0A0A",
-        surface: "rgba(255, 255, 255, 0.025)",
-        border: "rgba(255, 255, 255, 0.07)",
-        hairline: "rgba(255, 255, 255, 0.04)",
+        bg: "#0B0908",
+        // Warm-cream glass surface — white tint replaced with cream tint.
+        // Per element the shift is invisible; across the page it reads rich
+        // instead of clinical.
+        surface: "rgba(255, 250, 240, 0.030)",
+        border: "rgba(255, 250, 240, 0.075)",
+        hairline: "rgba(255, 250, 240, 0.045)",
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],
