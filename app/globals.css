@@ -98,6 +98,16 @@ input:focus, textarea:focus {
 /* ─── Tabular numerals for stats ─── */
 .tabular { font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
 
+/* ─── Tilt card — fast reset for 3D hover ─── */
+.tilt-card { transition: transform 0.15s ease-out, border-color 0.45s ease, box-shadow 0.45s ease; }
+
+/* ─── Availability badge — pulsing amber border ─── */
+@keyframes border-pulse {
+  0%, 100% { border-color: rgba(201,168,106,0.12); }
+  50% { border-color: rgba(201,168,106,0.50); }
+}
+.availability-badge { animation: border-pulse 2.8s ease-in-out infinite; }
+
 /* ─── Reduced motion ─── */
 @media (prefers-reduced-motion: reduce) {
   *,*::before,*::after {
