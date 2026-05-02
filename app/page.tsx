@@ -438,6 +438,7 @@ export default function Home() {
       <MouseSpotlight />
       <ScrollProgress />
       <BackToTop />
+      <div className="warm-vignette" aria-hidden="true" />
       <div className="noise-overlay" aria-hidden="true" />
       <NeuralNetwork paused={false} />
 
@@ -486,7 +487,7 @@ export default function Home() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.25 }}
-              className="md:hidden border-t border-white/[0.05] bg-[#0a0a0a]/98 backdrop-blur-3xl overflow-hidden"
+              className="md:hidden border-t border-white/[0.05] bg-[#0B0908]/98 backdrop-blur-3xl overflow-hidden"
             >
               <div className="px-6 py-6 flex flex-col gap-5">
                 {navItems.map((item) => (
@@ -511,7 +512,7 @@ export default function Home() {
 
         {/* HERO */}
         <section id="home" className="min-h-[100dvh] flex items-center justify-center px-6 pt-16 relative overflow-hidden">
-          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-white/[0.018] blur-[140px] pointer-events-none" />
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-[#C9A86A]/[0.045] blur-[140px] pointer-events-none" />
           <div className="max-w-5xl w-full relative">
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-8">
               <a
@@ -629,9 +630,9 @@ export default function Home() {
                       alt="Preet Dave"
                       fill
                       className="object-cover"
-                      style={{ filter: "grayscale(100%) contrast(1.05)" }}
+                      style={{ filter: "saturate(1.06) contrast(1.03)" }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0B0908]/80 to-transparent" />
                   </div>
                   <div className="space-y-2 px-1">
                     <div className="font-bold text-sm text-white">Preet Dave</div>
@@ -737,7 +738,7 @@ export default function Home() {
                       className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                       sizes="(max-width: 768px) 100vw, 50vw"
                       priority
-                      style={{ filter: "grayscale(60%) contrast(1.05)" }}
+                      style={{ filter: "saturate(1.04) contrast(1.02)" }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/10" />
                     <div className="absolute inset-0 p-6 flex flex-col justify-end">
@@ -778,7 +779,7 @@ export default function Home() {
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                         sizes="(max-width: 768px) 100vw, 50vw"
-                        style={{ filter: "grayscale(60%) contrast(1.05)" }}
+                        style={{ filter: "saturate(1.04) contrast(1.02)" }}
                       />
                       <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#0e0e0e] to-transparent" />
                       <span className="absolute top-3 left-3 font-mono text-[9px] tracking-[0.18em] text-white/85 border border-white/25 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full uppercase">
@@ -854,7 +855,7 @@ export default function Home() {
                       className={`absolute left-0 top-6 w-3 h-3 rounded-full border-2 transition-all duration-500 hidden sm:block ${
                         exp.active
                           ? "bg-[#C9A86A] border-[#C9A86A] shadow-[0_0_0_4px_rgba(201,168,106,0.18)]"
-                          : "bg-[#0a0a0a] border-white/20"
+                          : "bg-[#0B0908] border-white/20"
                       }`}
                     />
                     {exp.active && <div className="absolute left-0 top-6 w-3 h-3 rounded-full bg-[#C9A86A] animate-ping opacity-25 hidden sm:block" />}
