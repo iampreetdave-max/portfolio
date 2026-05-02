@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import type { Project } from "@/components/ProjectCard";
 import { ArrowUpRight, X } from "lucide-react";
+import GitHubBadge from "@/components/GitHubBadge";
 
 export default function ProjectModal({
   project,
@@ -78,7 +79,7 @@ export default function ProjectModal({
             {project.longDescription}
           </div>
 
-          <div className="flex flex-wrap gap-1.5 mb-7">
+          <div className="flex flex-wrap gap-1.5 mb-2">
             {project.tech_tags.map((tag) => (
               <span
                 key={tag}
@@ -89,22 +90,26 @@ export default function ProjectModal({
             ))}
           </div>
 
-          {project.repo_url ? (
-            <a
-              href={project.repo_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] border border-white/80 text-white px-6 py-3 hover:bg-[#C9A86A] hover:text-black hover:border-[#C9A86A] transition-all duration-300 rounded-lg cursor-pointer uppercase"
-            >
-              View Repository
-              <ArrowUpRight size={14} />
-            </a>
-          ) : (
-            <span className="inline-flex items-center gap-2 font-mono text-[11px] text-white/45 tracking-wider">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A86A]/55" />
-              Confidential &middot; Production Project
-            </span>
-          )}
+          <GitHubBadge repoUrl={project.repo_url} />
+
+          <div className="mt-7">
+            {project.repo_url ? (
+              <a
+                href={project.repo_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] border border-white/80 text-white px-6 py-3 hover:bg-[#C9A86A] hover:text-black hover:border-[#C9A86A] transition-all duration-300 rounded-lg cursor-pointer uppercase"
+              >
+                View Repository
+                <ArrowUpRight size={14} />
+              </a>
+            ) : (
+              <span className="inline-flex items-center gap-2 font-mono text-[11px] text-white/45 tracking-wider">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C9A86A]/55" />
+                Confidential &middot; Production Project
+              </span>
+            )}
+          </div>
         </div>
       </motion.div>
     </div>

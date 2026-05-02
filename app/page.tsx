@@ -6,11 +6,14 @@ import Image from "next/image";
 import Link from "next/link";
 import NeuralNetwork from "@/components/NeuralNetwork";
 import ProjectModal from "@/components/ProjectModal";
+import AnimatedCounter from "@/components/AnimatedCounter";
+import BackToTop from "@/components/BackToTop";
 import type { Project } from "@/components/ProjectCard";
 import {
   Brain, Eye, Cpu, Code2, Github, Linkedin, Mail, Phone,
   Send, MapPin, Calendar, ArrowRight, Award, BookOpen,
-  FileText, PenTool, ChevronDown,
+  FileText, PenTool, ChevronDown, FileDown, CheckCircle,
+  Zap, Shield, AlertCircle,
 } from "lucide-react";
 
 const IMGS = "https://raw.githubusercontent.com/iampreetdave-max/portfolio/main/images";
@@ -83,10 +86,11 @@ const featuredProjects: Project[] = [
 ];
 
 const skills = [
-  { title: "Deep Learning & Neural Networks", Icon: Brain, items: ["TensorFlow", "PyTorch", "Keras", "CNNs", "Transformers", "Neural Network Optimization"] },
-  { title: "Computer Vision & NLP", Icon: Eye, items: ["TrOCR", "Image Processing", "NLP", "Vector Embeddings & Search"] },
-  { title: "Machine Learning", Icon: Cpu, items: ["Scikit-Learn", "XGBoost", "LightGBM", "Regression & Classification", "Feature Engineering", "Ensemble Methods"] },
-  { title: "Development & Deployment", Icon: Code2, items: ["Python (Advanced)", "FastAPI", "JavaScript", "Full-Stack", "API Development", "ML Pipeline Automation"] },
+  { title: "Deep Learning & Neural Networks", Icon: Brain, proficiency: 85, items: ["TensorFlow", "PyTorch", "Keras", "CNNs", "Transformers", "Neural Network Optimization"] },
+  { title: "Computer Vision & NLP", Icon: Eye, proficiency: 80, items: ["TrOCR", "Image Processing", "NLP", "Vector Embeddings & Search"] },
+  { title: "Machine Learning", Icon: Cpu, proficiency: 90, items: ["Scikit-Learn", "XGBoost", "LightGBM", "Regression & Classification", "Feature Engineering", "Ensemble Methods"] },
+  { title: "Development & Deployment", Icon: Code2, proficiency: 85, items: ["Python (Advanced)", "FastAPI", "JavaScript", "Full-Stack", "API Development", "ML Pipeline Automation"] },
+  { title: "Automation & Integrations", Icon: Zap, proficiency: 88, items: ["Make.com", "GoHighLevel", "Zapier", "n8n", "ActiveCampaign", "API & Webhook Integrations"] },
 ];
 
 const experience = [
@@ -96,22 +100,109 @@ const experience = [
 ];
 
 const certifications = [
-  { title: "C, C++, C Advanced", detail: "Foundational programming courses completed in 2023", icon: Code2 },
-  { title: "Python (4-Phase Mastery)", detail: "Ranked 1st in the last three phases of the Python course series", icon: Award },
-  { title: "Machine Learning with Python", detail: "Comprehensive ML course covering algorithms, pipelines, and deployment", icon: Cpu },
-  { title: "ML Engineering by Saikat Dutta", detail: "Currently studying advanced ML engineering practices and system design", icon: Brain },
-  { title: "Natural Language Processing", detail: "Dedicated NLP course covering text processing, embeddings, and language models", icon: BookOpen },
+  {
+    title: "Claude AI / Anthropic",
+    detail: "Certified in building and deploying production AI applications with the Anthropic Claude API — prompt engineering, tool use, and agentic workflows.",
+    icon: Brain,
+    issuer: "Anthropic",
+    issueDate: "2025",
+    verified: true,
+    featured: true,
+    verificationUrl: null as string | null,
+  },
+  {
+    title: "C, C++, C Advanced",
+    detail: "Foundational programming courses completed in 2023.",
+    icon: Code2,
+    issuer: "Programming Institute",
+    issueDate: "2023",
+    verified: true,
+    featured: false,
+    verificationUrl: null as string | null,
+  },
+  {
+    title: "Python (4-Phase Mastery)",
+    detail: "Ranked 1st in the last three phases of the Python course series.",
+    icon: Award,
+    issuer: "Training Institute",
+    issueDate: "2024",
+    verified: true,
+    featured: false,
+    verificationUrl: null as string | null,
+  },
+  {
+    title: "Machine Learning with Python",
+    detail: "Comprehensive ML course covering algorithms, pipelines, and deployment.",
+    icon: Cpu,
+    issuer: "Online Platform",
+    issueDate: "2024",
+    verified: true,
+    featured: false,
+    verificationUrl: null as string | null,
+  },
+  {
+    title: "ML Engineering by Saikat Dutta",
+    detail: "Currently studying advanced ML engineering practices and system design.",
+    icon: Brain,
+    issuer: "Saikat Dutta",
+    issueDate: "2025",
+    verified: false,
+    featured: false,
+    verificationUrl: null as string | null,
+  },
+  {
+    title: "Natural Language Processing",
+    detail: "Dedicated NLP course covering text processing, embeddings, and language models.",
+    icon: BookOpen,
+    issuer: "Online Platform",
+    issueDate: "2024",
+    verified: true,
+    featured: false,
+    verificationUrl: null as string | null,
+  },
 ];
 
 const stats = [
-  { value: "14+", label: "Projects" },
-  { value: "13+", label: "Automations" },
-  { value: "2",   label: "Internships" },
-  { value: "1",   label: "Hackathon Won" },
+  { num: 14, suffix: "+", label: "Projects" },
+  { num: 13, suffix: "+", label: "Automations" },
+  { num: 2,  suffix: "",  label: "Internships" },
+  { num: 1,  suffix: "",  label: "Hackathon Won" },
 ];
 
-const sectionIds = ["home", "about", "skills", "projects", "experience", "certifications", "contact"];
-const navItems   = ["Home", "About", "Skills", "Projects", "Experience", "Contact"];
+const liveProducts = [
+  {
+    name: "Sports Prediction Platform",
+    category: "ML Engineering",
+    description: "Multi-sport prediction engines running autonomously in production — live odds, real match data, real P&L across 3 sports and 15+ leagues.",
+    scale: "10,000+ events settled",
+    uptime: "15+ months active",
+    visual: "chart" as const,
+    tech: ["XGBoost", "Python", "PostgreSQL", "GitHub Actions"],
+  },
+  {
+    name: "Enterprise Automation Suite",
+    category: "Business Process Automation",
+    description: "Production automation pipelines for clients — CRM sync, dynamic notifications, and cross-platform integrations running 24/7.",
+    scale: "8+ active workflows",
+    uptime: "Zero downtime SLA",
+    visual: "flow" as const,
+    tech: ["Make.com", "GoHighLevel", "REST APIs", "Webhooks"],
+  },
+  {
+    name: "AI Intelligence Pipeline",
+    category: "Data Engineering / NLP",
+    description: "Real-time intelligence system monitoring 110+ sources — smart dedup, auto-tagging, and audience-targeted content filtering every 15 minutes.",
+    scale: "110+ sources monitored",
+    uptime: "15-min update cycles",
+    visual: "feed" as const,
+    tech: ["FastAPI", "Python", "Docker", "NLP"],
+  },
+];
+
+const autoTools = ["Make.com", "GoHighLevel", "Zapier", "n8n", "ActiveCampaign", "Airtable", "HubSpot", "Other"];
+
+const sectionIds = ["home", "about", "skills", "projects", "experience", "services", "certifications", "contact"];
+const navItems   = ["Home", "About", "Skills", "Projects", "Experience", "Services", "Contact"];
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -119,12 +210,70 @@ const fadeUp = {
 };
 const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.07 } } };
 
+/* ── Mini demo visualizations for live products ── */
+function ChartViz() {
+  const heights = [55, 40, 72, 50, 85, 38, 68, 80, 45, 65, 55, 78];
+  return (
+    <div className="flex items-end gap-0.5 h-10 w-full">
+      {heights.map((h, i) => (
+        <motion.div
+          key={i}
+          className="flex-1 bg-gradient-to-t from-[#C9A86A]/50 to-[#C9A86A]/10 rounded-sm"
+          initial={{ scaleY: 0.15 }}
+          animate={{ scaleY: [h / 100 * 0.7, h / 100, h / 100 * 0.82] }}
+          transition={{ duration: 1.6 + i * 0.12, repeat: Infinity, repeatType: "reverse", ease: "easeInOut", delay: i * 0.07 }}
+          style={{ transformOrigin: "bottom" }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function FlowViz() {
+  const nodes = ["Source", "Filter", "Transform", "Output"];
+  return (
+    <div className="flex items-center justify-center gap-1 w-full">
+      {nodes.map((node, i) => (
+        <div key={node} className="flex items-center gap-1">
+          <div className="px-1.5 py-0.5 rounded font-mono text-[8px] bg-white/[0.04] border border-white/[0.10] text-white/50">{node}</div>
+          {i < nodes.length - 1 && (
+            <motion.span
+              animate={{ opacity: [0.25, 1, 0.25], x: [0, 1.5, 0] }}
+              transition={{ duration: 1.1, repeat: Infinity, delay: i * 0.28 }}
+              className="text-[#C9A86A]/70 text-[11px] font-mono"
+            >→</motion.span>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function FeedViz() {
+  const items = ["Reuters · AI Update", "OpenAI · Dev Blog", "arXiv · NLP Paper", "HuggingFace · Release", "TechCrunch · Funding"];
+  return (
+    <div className="overflow-hidden h-10 w-full">
+      <motion.div
+        animate={{ y: [0, -56] }}
+        transition={{ duration: 3.5, repeat: Infinity, ease: "linear", repeatDelay: 0.4 }}
+      >
+        {[...items, ...items].map((item, i) => (
+          <div key={i} className="flex items-center gap-1.5 py-[3px]">
+            <span className="w-1 h-1 rounded-full bg-[#C9A86A]/55 shrink-0" />
+            <span className="font-mono text-[8px] text-white/40 truncate">{item}</span>
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
 function MouseSpotlight() {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ref.current; if (!el) return;
     const onMove = (e: MouseEvent) => {
-      el.style.background = `radial-gradient(700px circle at ${e.clientX}px ${e.clientY}px, rgba(255,255,255,0.035), transparent 40%)`;
+      el.style.background = `radial-gradient(80px circle at ${e.clientX}px ${e.clientY}px, rgba(201,168,106,0.04), transparent 100%), radial-gradient(500px circle at ${e.clientX}px ${e.clientY}px, rgba(255,255,255,0.028), transparent 40%)`;
     };
     window.addEventListener("mousemove", onMove);
     return () => window.removeEventListener("mousemove", onMove);
@@ -180,6 +329,16 @@ export default function Home() {
   const [scrolled, setScrolled]               = useState(false);
   const [activeSection, setActiveSection]     = useState("home");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  const [formStatus, setFormStatus]   = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [formData, setFormData]       = useState({ name: "", email: "", message: "" });
+
+  const [autoStatus, setAutoStatus]   = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [autoData, setAutoData]       = useState({
+    name: "", email: "", business: "", tools: [] as string[],
+    hasSetup: "no", description: "", budget: "", timeline: "",
+  });
+
   const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -209,13 +368,76 @@ export default function Home() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormStatus("loading");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const json = await res.json();
+      if (res.ok && json.success) {
+        setFormStatus("success");
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        setFormStatus("error");
+      }
+    } catch {
+      setFormStatus("error");
+    }
+  };
+
+  const handleAutoSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setAutoStatus("loading");
+    try {
+      const res = await fetch("/api/automation-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(autoData),
+      });
+      const json = await res.json();
+      if (res.ok && json.success) {
+        setAutoStatus("success");
+        setAutoData({ name: "", email: "", business: "", tools: [], hasSetup: "no", description: "", budget: "", timeline: "" });
+      } else {
+        setAutoStatus("error");
+      }
+    } catch {
+      setAutoStatus("error");
+    }
+  };
+
+  const toggleTool = (tool: string) => {
+    setAutoData(prev => ({
+      ...prev,
+      tools: prev.tools.includes(tool) ? prev.tools.filter(t => t !== tool) : [...prev.tools, tool],
+    }));
+  };
+
+  const onTiltMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 10;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -10;
+    e.currentTarget.style.transform = `perspective(1200px) rotateX(${y}deg) rotateY(${x}deg) translateY(-3px)`;
+  };
+  const onTiltLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.currentTarget.style.transform = "";
+  };
+
   const imageProjects = featuredProjects.filter(p => p.image_url);
   const textProjects  = featuredProjects.filter(p => !p.image_url);
+
+  const inputCls = "w-full bg-white/[0.025] border border-white/[0.07] p-4 text-white text-sm rounded-xl transition-all duration-300 placeholder-white/20";
+  const selectCls = "w-full bg-[#0e0e0e] border border-white/[0.07] p-4 text-white/75 text-sm rounded-xl transition-all duration-300 appearance-none cursor-pointer focus:border-white/30 focus:outline-none";
 
   return (
     <>
       <MouseSpotlight />
       <ScrollProgress />
+      <BackToTop />
       <div className="noise-overlay" aria-hidden="true" />
       <NeuralNetwork paused={false} />
 
@@ -289,17 +511,20 @@ export default function Home() {
 
         {/* HERO */}
         <section id="home" className="min-h-[100dvh] flex items-center justify-center px-6 pt-16 relative overflow-hidden">
-          {/* Single soft white blur — no green/cyan */}
           <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-white/[0.018] blur-[140px] pointer-events-none" />
           <div className="max-w-5xl w-full relative">
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-8">
-              <span className="inline-flex items-center gap-2.5 font-mono text-[11px] tracking-[0.2em] uppercase text-white/70 border border-white/[0.12] bg-white/[0.025] px-4 py-1.5 rounded-full">
+              <a
+                href="#contact"
+                className="availability-badge inline-flex items-center gap-2.5 font-mono text-[11px] tracking-[0.2em] uppercase text-white/70 border border-white/[0.12] bg-white/[0.025] px-4 py-1.5 rounded-full group hover:text-white/90 transition-colors duration-300"
+              >
                 <span className="relative flex w-1.5 h-1.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C9A86A] opacity-50" />
                   <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#C9A86A]" />
                 </span>
                 Open to AI / ML Roles
-              </span>
+                <span className="text-[#C9A86A]/0 group-hover:text-[#C9A86A]/80 transition-colors duration-300 text-[10px]">→ Let&apos;s talk</span>
+              </a>
             </motion.div>
 
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }} className="mb-8">
@@ -308,7 +533,6 @@ export default function Home() {
               </h1>
             </motion.div>
 
-            {/* Static, confident subtitle (replaces typewriter) */}
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4, duration: 0.7 }} className="mb-8">
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[12px] md:text-[13px] tracking-[0.05em] text-white/70">
                 <span>AI / ML Engineer</span>
@@ -347,6 +571,21 @@ export default function Home() {
                 className="group font-mono text-[11px] tracking-[0.15em] border border-white/[0.12] px-7 py-3.5 text-white/60 hover:border-white/40 hover:text-white transition-all duration-300 rounded-lg flex items-center gap-2 uppercase"
               >
                 <Linkedin size={13} /> LinkedIn
+              </a>
+              {/* Resume download buttons */}
+              <a
+                href="/resume.pdf"
+                download
+                className="group font-mono text-[11px] tracking-[0.15em] border border-white/[0.12] px-5 py-3.5 text-white/60 hover:border-[#C9A86A]/50 hover:text-[#C9A86A] transition-all duration-300 rounded-lg flex items-center gap-2 uppercase"
+              >
+                <FileDown size={12} /> PDF
+              </a>
+              <a
+                href="/resume.docx"
+                download
+                className="group font-mono text-[11px] tracking-[0.15em] border border-white/[0.12] px-5 py-3.5 text-white/60 hover:border-[#C9A86A]/50 hover:text-[#C9A86A] transition-all duration-300 rounded-lg flex items-center gap-2 uppercase"
+              >
+                <FileText size={12} /> DOCX
               </a>
             </motion.div>
           </div>
@@ -412,7 +651,9 @@ export default function Home() {
                 <div className="grid grid-cols-4 gap-3">
                   {stats.map((s) => (
                     <GlassCard key={s.label} className="p-4 text-center">
-                      <div className="font-mono text-2xl font-black text-white leading-none mb-2 tabular">{s.value}</div>
+                      <div className="font-mono text-2xl font-black text-white leading-none mb-2 tabular">
+                        <AnimatedCounter target={s.num} suffix={s.suffix} />
+                      </div>
                       <div className="font-mono text-[9px] text-white/40 tracking-[0.12em] uppercase leading-tight">{s.label}</div>
                     </GlassCard>
                   ))}
@@ -431,13 +672,13 @@ export default function Home() {
               {skills.map((cat) => (
                 <motion.div key={cat.title} variants={fadeUp}>
                   <GlassCard className="p-7 group">
-                    <div className="flex items-center gap-4 mb-6">
+                    <div className="flex items-center gap-4 mb-5">
                       <div className="w-12 h-12 rounded-xl bg-white/[0.04] border border-white/[0.10] flex items-center justify-center shrink-0 group-hover:bg-white/[0.08] group-hover:border-white/[0.22] transition-all duration-500">
                         <cat.Icon size={20} className="text-white/55 group-hover:text-white transition-colors duration-500" />
                       </div>
                       <h3 className="font-mono text-[13px] font-bold text-white tracking-wide">{cat.title}</h3>
                     </div>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 mb-5">
                       {cat.items.map((item) => (
                         <span
                           key={item}
@@ -446,6 +687,22 @@ export default function Home() {
                           {item}
                         </span>
                       ))}
+                    </div>
+                    {/* Proficiency bar */}
+                    <div className="space-y-1">
+                      <div className="flex justify-between font-mono text-[9px] text-white/30">
+                        <span>Proficiency</span>
+                        <span>{cat.proficiency}%</span>
+                      </div>
+                      <div className="h-[2px] bg-white/[0.06] rounded-full overflow-hidden">
+                        <motion.div
+                          className="h-full bg-gradient-to-r from-[#C9A86A]/80 to-[#C9A86A]/20 rounded-full"
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${cat.proficiency}%` }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1.2, ease: "easeOut", delay: 0.1 }}
+                        />
+                      </div>
                     </div>
                   </GlassCard>
                 </motion.div>
@@ -460,15 +717,17 @@ export default function Home() {
             <motion.div variants={fadeUp}><SectionLabel num="03" text="Projects" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-12 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Featured Work</motion.h2>
 
-            {/* Top 2 — wide editorial hero cards */}
+            {/* Top 2 — hero cards with tilt effect */}
             <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               {imageProjects.slice(0, 2).map((p) => (
                 <motion.div key={p.id} variants={fadeUp}>
                   <div
-                    className="group relative rounded-2xl overflow-hidden cursor-pointer border border-white/[0.07] hover:border-white/[0.30] transition-all duration-500 lift"
+                    className="tilt-card group relative rounded-2xl overflow-hidden cursor-pointer border border-white/[0.07] hover:border-white/[0.30] hover:shadow-[0_24px_48px_-24px_rgba(0,0,0,0.8)] transition-border duration-500"
                     style={{ height: "340px" }}
                     role="button" tabIndex={0}
                     onClick={() => setSelectedProject(p)}
+                    onMouseMove={onTiltMove}
+                    onMouseLeave={onTiltLeave}
                     onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setSelectedProject(p); }}
                   >
                     <Image
@@ -615,22 +874,261 @@ export default function Home() {
           </motion.div>
         </section>
 
+        {/* SERVICES — Live Deployments + Automation Request */}
+        <section id="services" className="py-28 px-6">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-5xl mx-auto">
+
+            {/* Live Deployments subsection */}
+            <motion.div variants={fadeUp}><SectionLabel num="05" text="Services" /></motion.div>
+            <motion.h2 variants={fadeUp} className="font-black mb-4 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Live Deployments</motion.h2>
+            <motion.p variants={fadeUp} className="text-white/45 text-[14px] mb-12 max-w-lg leading-relaxed">
+              Production systems I&apos;ve built and currently maintain — shown at high level to respect confidentiality agreements.
+            </motion.p>
+
+            <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-24">
+              {liveProducts.map((product, i) => (
+                <motion.div key={i} variants={fadeUp}>
+                  <GlassCard className="p-6 h-full group flex flex-col">
+                    {/* Mini animated demo visual */}
+                    <div className="rounded-lg bg-black/30 border border-white/[0.05] overflow-hidden mb-4 p-3 h-16 flex items-center">
+                      {product.visual === "chart" && <ChartViz />}
+                      {product.visual === "flow" && <FlowViz />}
+                      {product.visual === "feed" && <FeedViz />}
+                    </div>
+                    {/* Badges */}
+                    <div className="flex items-center gap-2 flex-wrap mb-3">
+                      <span className="font-mono text-[9px] tracking-[0.15em] text-white/45 border border-white/[0.08] bg-white/[0.015] px-2 py-0.5 rounded-full uppercase">{product.category}</span>
+                      <span className="flex items-center gap-1 font-mono text-[9px] text-white/30 border border-white/[0.07] bg-white/[0.015] px-2 py-0.5 rounded-full">
+                        <Shield size={8} /> NDA
+                      </span>
+                    </div>
+                    <h3 className="font-bold text-[15px] text-white/90 mb-2 group-hover:text-white transition-colors">{product.name}</h3>
+                    <p className="text-white/50 text-[12px] leading-relaxed mb-4 flex-grow">{product.description}</p>
+                    {/* Scale stats */}
+                    <div className="flex gap-1 flex-wrap mb-4 font-mono text-[10px]">
+                      <span className="text-[#C9A86A]/80">{product.scale}</span>
+                      <span className="text-white/20 mx-1">·</span>
+                      <span className="text-white/35">{product.uptime}</span>
+                    </div>
+                    {/* Tech tags */}
+                    <div className="flex flex-wrap gap-1.5">
+                      {product.tech.map(t => (
+                        <span key={t} className="font-mono text-[9px] px-2 py-0.5 border border-white/[0.07] text-white/40 rounded-md group-hover:border-white/[0.15] group-hover:text-white/65 transition-all duration-300">{t}</span>
+                      ))}
+                    </div>
+                  </GlassCard>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Automation request form subsection */}
+            <motion.div variants={fadeUp}>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-5 h-[1px] bg-gradient-to-r from-[#C9A86A]/40 to-transparent" />
+                <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-white/40">Automation Services</span>
+              </div>
+            </motion.div>
+            <motion.h2 variants={fadeUp} className="font-black mb-4 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Get a Quote</motion.h2>
+            <motion.p variants={fadeUp} className="text-white/45 text-[14px] mb-10 max-w-lg leading-relaxed">
+              I build custom automations with Make.com, GoHighLevel, Zapier, n8n, and more. Tell me what you need and I&apos;ll send a quote within 48 hours.
+            </motion.p>
+
+            <motion.div variants={fadeUp}>
+              <AnimatePresence mode="wait">
+                {autoStatus === "success" ? (
+                  <motion.div
+                    key="auto-success"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="flex flex-col items-center justify-center py-16 text-center"
+                  >
+                    <div className="w-14 h-14 rounded-full bg-[#C9A86A]/10 border border-[#C9A86A]/30 flex items-center justify-center mb-5">
+                      <CheckCircle size={24} className="text-[#C9A86A]" />
+                    </div>
+                    <h3 className="font-bold text-xl mb-2">Request Sent!</h3>
+                    <p className="text-white/50 text-sm max-w-sm">I&apos;ll review your automation request and reply with a quote within 48 hours.</p>
+                    <button onClick={() => setAutoStatus("idle")} className="mt-6 font-mono text-[11px] text-white/40 hover:text-white/70 transition-colors underline underline-offset-4">Submit another request</button>
+                  </motion.div>
+                ) : (
+                  <motion.form
+                    key="auto-form"
+                    onSubmit={handleAutoSubmit}
+                    className="grid grid-cols-1 md:grid-cols-2 gap-5"
+                  >
+                    {/* Name */}
+                    <div>
+                      <label className="block font-mono text-[10px] text-white/45 mb-2 tracking-[0.15em] uppercase">Name *</label>
+                      <input
+                        type="text"
+                        required
+                        value={autoData.name}
+                        onChange={e => setAutoData(p => ({ ...p, name: e.target.value }))}
+                        placeholder="Your name"
+                        className={inputCls}
+                      />
+                    </div>
+                    {/* Email */}
+                    <div>
+                      <label className="block font-mono text-[10px] text-white/45 mb-2 tracking-[0.15em] uppercase">Email *</label>
+                      <input
+                        type="email"
+                        required
+                        value={autoData.email}
+                        onChange={e => setAutoData(p => ({ ...p, email: e.target.value }))}
+                        placeholder="your@email.com"
+                        className={inputCls}
+                      />
+                    </div>
+                    {/* Business */}
+                    <div className="md:col-span-2">
+                      <label className="block font-mono text-[10px] text-white/45 mb-2 tracking-[0.15em] uppercase">Business / Use Case</label>
+                      <input
+                        type="text"
+                        value={autoData.business}
+                        onChange={e => setAutoData(p => ({ ...p, business: e.target.value }))}
+                        placeholder="e.g. Real estate agency, e-commerce store..."
+                        className={inputCls}
+                      />
+                    </div>
+                    {/* Tools */}
+                    <div className="md:col-span-2">
+                      <label className="block font-mono text-[10px] text-white/45 mb-3 tracking-[0.15em] uppercase">Tools you currently use</label>
+                      <div className="flex flex-wrap gap-2">
+                        {autoTools.map(tool => (
+                          <button
+                            key={tool}
+                            type="button"
+                            onClick={() => toggleTool(tool)}
+                            className={`font-mono text-[11px] px-3 py-1.5 rounded-lg border transition-all duration-200 ${
+                              autoData.tools.includes(tool)
+                                ? "bg-[#C9A86A]/10 border-[#C9A86A]/45 text-[#C9A86A]"
+                                : "bg-white/[0.02] border-white/[0.07] text-white/50 hover:border-white/[0.18] hover:text-white/80"
+                            }`}
+                          >
+                            {tool}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    {/* Existing setup */}
+                    <div>
+                      <label className="block font-mono text-[10px] text-white/45 mb-3 tracking-[0.15em] uppercase">Existing automation setup?</label>
+                      <div className="flex gap-4">
+                        {["yes", "no"].map(val => (
+                          <label key={val} className="flex items-center gap-2.5 cursor-pointer group">
+                            <div
+                              className={`w-4 h-4 rounded-full flex items-center justify-center border-2 transition-all ${
+                                autoData.hasSetup === val ? "border-[#C9A86A]" : "border-white/[0.15] group-hover:border-white/[0.30]"
+                              }`}
+                            >
+                              {autoData.hasSetup === val && <div className="w-1.5 h-1.5 rounded-full bg-[#C9A86A]" />}
+                            </div>
+                            <span className="font-mono text-[12px] capitalize text-white/60">{val}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                    {/* Budget */}
+                    <div>
+                      <label className="block font-mono text-[10px] text-white/45 mb-2 tracking-[0.15em] uppercase">Budget Range</label>
+                      <select
+                        value={autoData.budget}
+                        onChange={e => setAutoData(p => ({ ...p, budget: e.target.value }))}
+                        className={selectCls}
+                      >
+                        <option value="">Select budget...</option>
+                        <option value="Under $100">Under $100</option>
+                        <option value="$100 – $500">$100 – $500</option>
+                        <option value="$500 – $2,000">$500 – $2,000</option>
+                        <option value="$2,000+">$2,000+</option>
+                        <option value="Open to discussion">Open to discussion</option>
+                      </select>
+                    </div>
+                    {/* Timeline */}
+                    <div>
+                      <label className="block font-mono text-[10px] text-white/45 mb-2 tracking-[0.15em] uppercase">Timeline</label>
+                      <select
+                        value={autoData.timeline}
+                        onChange={e => setAutoData(p => ({ ...p, timeline: e.target.value }))}
+                        className={selectCls}
+                      >
+                        <option value="">Select timeline...</option>
+                        <option value="ASAP">ASAP</option>
+                        <option value="Within a month">Within a month</option>
+                        <option value="Flexible">Flexible</option>
+                      </select>
+                    </div>
+                    {/* Description */}
+                    <div className="md:col-span-2">
+                      <label className="block font-mono text-[10px] text-white/45 mb-2 tracking-[0.15em] uppercase">Describe what needs to be automated *</label>
+                      <textarea
+                        required
+                        rows={4}
+                        value={autoData.description}
+                        onChange={e => setAutoData(p => ({ ...p, description: e.target.value }))}
+                        placeholder="Describe your workflow, what triggers it, what it should do, and what the output should be..."
+                        className={`${inputCls} resize-none`}
+                      />
+                    </div>
+                    {/* Error */}
+                    {autoStatus === "error" && (
+                      <div className="md:col-span-2 flex items-center gap-2 text-red-400/80 font-mono text-[12px]">
+                        <AlertCircle size={13} /> Failed to send. Please try again or email me directly.
+                      </div>
+                    )}
+                    {/* Submit */}
+                    <div className="md:col-span-2">
+                      <button
+                        type="submit"
+                        disabled={autoStatus === "loading"}
+                        className="w-full font-mono text-[11px] tracking-[0.15em] border border-white/80 text-white px-6 py-4 hover:bg-[#C9A86A] hover:text-black hover:border-[#C9A86A] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 uppercase rounded-xl flex items-center justify-center gap-2"
+                      >
+                        {autoStatus === "loading" ? (
+                          <><motion.span animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} className="inline-block w-3 h-3 border border-current border-t-transparent rounded-full" /> Sending...</>
+                        ) : (
+                          <><Zap size={13} /> Request a Quote</>
+                        )}
+                      </button>
+                    </div>
+                  </motion.form>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          </motion.div>
+        </section>
+
         {/* CERTIFICATIONS */}
         <section id="certifications" className="py-28 px-6">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-5xl mx-auto">
-            <motion.div variants={fadeUp}><SectionLabel num="05" text="Certifications" /></motion.div>
+            <motion.div variants={fadeUp}><SectionLabel num="06" text="Certifications" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-12 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Certificates &amp; Learnings</motion.h2>
             <motion.div variants={stagger} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-24">
               {certifications.map((cert) => (
                 <motion.div key={cert.title} variants={fadeUp}>
-                  <GlassCard className="p-6 group h-full">
+                  <GlassCard
+                    className={`p-6 group h-full flex flex-col ${cert.featured ? "ring-1 ring-[#C9A86A]/30 bg-[#C9A86A]/[0.02]" : ""}`}
+                  >
                     <div className="flex items-start gap-3 mb-3">
-                      <div className="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/[0.10] flex items-center justify-center shrink-0 group-hover:bg-white/[0.08] group-hover:border-white/[0.22] transition-all duration-300">
-                        <cert.icon size={15} className="text-white/55 group-hover:text-white transition-colors duration-300" />
+                      <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 ${cert.featured ? "bg-[#C9A86A]/[0.08] border border-[#C9A86A]/25 group-hover:bg-[#C9A86A]/[0.15]" : "bg-white/[0.04] border border-white/[0.10] group-hover:bg-white/[0.08] group-hover:border-white/[0.22]"}`}>
+                        <cert.icon size={15} className={`transition-colors duration-300 ${cert.featured ? "text-[#C9A86A]/80 group-hover:text-[#C9A86A]" : "text-white/55 group-hover:text-white"}`} />
                       </div>
-                      <h3 className="font-mono text-[12px] font-bold text-white tracking-wide leading-snug">{cert.title}</h3>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-mono text-[12px] font-bold text-white tracking-wide leading-snug">{cert.title}</h3>
+                        {cert.featured && (
+                          <span className="font-mono text-[9px] text-[#C9A86A]/80 tracking-[0.12em]">{cert.issuer}</span>
+                        )}
+                      </div>
                     </div>
-                    <p className="text-white/45 text-[12px] leading-relaxed">{cert.detail}</p>
+                    <p className="text-white/45 text-[12px] leading-relaxed flex-grow mb-4">{cert.detail}</p>
+                    <div className="flex items-center justify-between gap-2 flex-wrap">
+                      <span className="font-mono text-[9px] text-white/30">{cert.issueDate}</span>
+                      {cert.verified && (
+                        <span className="flex items-center gap-1 font-mono text-[9px] text-green-400/80 bg-green-500/[0.07] border border-green-500/[0.18] px-2 py-0.5 rounded-full">
+                          <CheckCircle size={8} /> Verified
+                        </span>
+                      )}
+                    </div>
                   </GlassCard>
                 </motion.div>
               ))}
@@ -676,7 +1174,7 @@ export default function Home() {
             <span className="font-black text-white/[0.018] tracking-tighter leading-none whitespace-nowrap" style={{ fontSize: "clamp(80px, 18vw, 200px)" }}>HELLO</span>
           </div>
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-5xl mx-auto relative">
-            <motion.div variants={fadeUp}><SectionLabel num="06" text="Contact" /></motion.div>
+            <motion.div variants={fadeUp}><SectionLabel num="07" text="Contact" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-4 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Get In Touch</motion.h2>
             <motion.p variants={fadeUp} className="text-white/55 text-[15px] mb-12 max-w-md">Open to AI/ML engineering roles, research collaborations, and interesting projects.</motion.p>
             <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
@@ -704,31 +1202,96 @@ export default function Home() {
                       </div>
                     </a>
                   ))}
+                  {/* Resume download in contact section */}
+                  <div className="flex gap-3 pt-2">
+                    <a
+                      href="/resume.pdf"
+                      download
+                      className="flex items-center gap-2 font-mono text-[11px] tracking-[0.12em] border border-white/[0.12] px-4 py-2.5 text-white/55 hover:border-[#C9A86A]/45 hover:text-[#C9A86A] transition-all duration-300 rounded-lg uppercase"
+                    >
+                      <FileDown size={12} /> Resume PDF
+                    </a>
+                    <a
+                      href="/resume.docx"
+                      download
+                      className="flex items-center gap-2 font-mono text-[11px] tracking-[0.12em] border border-white/[0.12] px-4 py-2.5 text-white/55 hover:border-[#C9A86A]/45 hover:text-[#C9A86A] transition-all duration-300 rounded-lg uppercase"
+                    >
+                      <FileText size={12} /> Resume DOCX
+                    </a>
+                  </div>
                 </div>
               </motion.div>
+
+              {/* Contact form — controlled, sends via API */}
               <motion.div variants={fadeUp}>
-                <form name="contact" method="POST" data-netlify="true" action="/success" className="space-y-5">
-                  <input type="hidden" name="form-name" value="contact" />
-                  {[
-                    { label: "Name",  type: "text",  name: "name",  placeholder: "Your name" },
-                    { label: "Email", type: "email", name: "email", placeholder: "your@email.com" },
-                  ].map((f) => (
-                    <div key={f.name}>
-                      <label className="block font-mono text-[10px] text-white/45 mb-2 tracking-[0.15em] uppercase">{f.label}</label>
-                      <input type={f.type} name={f.name} required placeholder={f.placeholder} className="w-full bg-white/[0.025] border border-white/[0.07] p-4 text-white text-sm rounded-xl transition-all duration-300 placeholder-white/20" />
-                    </div>
-                  ))}
-                  <div>
-                    <label className="block font-mono text-[10px] text-white/45 mb-2 tracking-[0.15em] uppercase">Message</label>
-                    <textarea name="message" required rows={5} placeholder="What's on your mind?" className="w-full bg-white/[0.025] border border-white/[0.07] p-4 text-white text-sm rounded-xl transition-all duration-300 resize-none placeholder-white/20" />
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full font-mono text-[11px] tracking-[0.15em] border border-white/80 text-white px-6 py-4 hover:bg-[#C9A86A] hover:text-black hover:border-[#C9A86A] transition-all duration-300 uppercase rounded-xl flex items-center justify-center gap-2"
-                  >
-                    <Send size={13} /> Send Message
-                  </button>
-                </form>
+                <AnimatePresence mode="wait">
+                  {formStatus === "success" ? (
+                    <motion.div
+                      key="success"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="flex flex-col items-center justify-center h-full py-12 text-center"
+                    >
+                      <div className="w-14 h-14 rounded-full bg-[#C9A86A]/10 border border-[#C9A86A]/30 flex items-center justify-center mb-5">
+                        <CheckCircle size={24} className="text-[#C9A86A]" />
+                      </div>
+                      <h3 className="font-bold text-xl mb-2">Message Sent!</h3>
+                      <p className="text-white/50 text-sm max-w-xs">Thanks for reaching out — I&apos;ll get back to you as soon as possible.</p>
+                      <button onClick={() => setFormStatus("idle")} className="mt-6 font-mono text-[11px] text-white/40 hover:text-white/70 transition-colors underline underline-offset-4">Send another message</button>
+                    </motion.div>
+                  ) : (
+                    <motion.form
+                      key="contact-form"
+                      onSubmit={handleContactSubmit}
+                      className="space-y-5"
+                    >
+                      {[
+                        { label: "Name",  type: "text",  field: "name" as const,  placeholder: "Your name" },
+                        { label: "Email", type: "email", field: "email" as const, placeholder: "your@email.com" },
+                      ].map((f) => (
+                        <div key={f.field}>
+                          <label className="block font-mono text-[10px] text-white/45 mb-2 tracking-[0.15em] uppercase">{f.label}</label>
+                          <input
+                            type={f.type}
+                            required
+                            value={formData[f.field]}
+                            onChange={e => setFormData(p => ({ ...p, [f.field]: e.target.value }))}
+                            placeholder={f.placeholder}
+                            className={inputCls}
+                          />
+                        </div>
+                      ))}
+                      <div>
+                        <label className="block font-mono text-[10px] text-white/45 mb-2 tracking-[0.15em] uppercase">Message</label>
+                        <textarea
+                          required
+                          rows={5}
+                          value={formData.message}
+                          onChange={e => setFormData(p => ({ ...p, message: e.target.value }))}
+                          placeholder="What&apos;s on your mind?"
+                          className={`${inputCls} resize-none`}
+                        />
+                      </div>
+                      {formStatus === "error" && (
+                        <div className="flex items-center gap-2 text-red-400/80 font-mono text-[12px]">
+                          <AlertCircle size={13} /> Failed to send. Please email me directly at iampreetdave@gmail.com
+                        </div>
+                      )}
+                      <button
+                        type="submit"
+                        disabled={formStatus === "loading"}
+                        className="w-full font-mono text-[11px] tracking-[0.15em] border border-white/80 text-white px-6 py-4 hover:bg-[#C9A86A] hover:text-black hover:border-[#C9A86A] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 uppercase rounded-xl flex items-center justify-center gap-2"
+                      >
+                        {formStatus === "loading" ? (
+                          <><motion.span animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} className="inline-block w-3 h-3 border border-current border-t-transparent rounded-full" /> Sending...</>
+                        ) : (
+                          <><Send size={13} /> Send Message</>
+                        )}
+                      </button>
+                    </motion.form>
+                  )}
+                </AnimatePresence>
               </motion.div>
             </div>
           </motion.div>

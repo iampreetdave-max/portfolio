@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import GitHubBadge from "@/components/GitHubBadge";
 
 export interface Project {
   id: string;
@@ -50,7 +51,7 @@ export default function ProjectCard({
         <p className="text-white/55 text-[13px] mb-4 leading-relaxed flex-grow">
           {project.description}
         </p>
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-1.5 mb-1">
           {project.tech_tags.slice(0, 4).map((tag) => (
             <span
               key={tag}
@@ -63,6 +64,7 @@ export default function ProjectCard({
             <span className="font-mono text-[9px] px-2 py-0.5 text-white/35">+{project.tech_tags.length - 4}</span>
           )}
         </div>
+        <GitHubBadge repoUrl={project.repo_url} />
       </div>
     </div>
   );
