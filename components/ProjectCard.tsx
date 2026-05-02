@@ -24,7 +24,7 @@ export default function ProjectCard({
   return (
     <div
       onClick={onClick}
-      className="group bg-white/[0.025] backdrop-blur-xl border border-white/[0.07] rounded-xl hover:bg-white/[0.045] hover:border-white/[0.18] hover:shadow-[0_24px_48px_-24px_rgba(0,0,0,0.7)] transition-all duration-500 cursor-pointer h-full flex flex-col overflow-hidden lift"
+      className="group rich-card bg-white/[0.025] backdrop-blur-xl border border-white/[0.07] rounded-xl hover:bg-white/[0.045] hover:border-[#C9A86A]/30 hover:shadow-[0_24px_48px_-24px_rgba(0,0,0,0.7)] transition-all duration-500 cursor-pointer h-full flex flex-col overflow-hidden lift"
     >
       {project.image_url && (
         <div className="relative w-full h-44 shrink-0">
@@ -34,9 +34,9 @@ export default function ProjectCard({
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 50vw"
-            style={{ filter: "grayscale(60%) contrast(1.05)" }}
+            style={{ filter: "saturate(1.04) contrast(1.02)" }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0a0a0a]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0B0908]" />
         </div>
       )}
       <div className="p-6 flex flex-col flex-grow">
@@ -55,7 +55,7 @@ export default function ProjectCard({
           {project.tech_tags.slice(0, 4).map((tag) => (
             <span
               key={tag}
-              className="font-mono text-[9px] px-2 py-0.5 border border-white/[0.07] text-white/45 rounded-md group-hover:border-white/[0.18] group-hover:text-white/75 transition-all duration-500"
+              className="font-mono text-[9px] px-2 py-0.5 border border-white/[0.07] text-white/45 rounded-md group-hover:border-[#C9A86A]/30 group-hover:text-white/75 transition-all duration-500"
             >
               {tag}
             </span>

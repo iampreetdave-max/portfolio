@@ -41,7 +41,8 @@ export default function ProjectModal({
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 20, scale: 0.97 }}
         transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-        className="relative w-full max-w-2xl bg-[#0e0e0e] border border-white/[0.12] rounded-2xl max-h-[88vh] overflow-y-auto shadow-2xl"
+        className="relative w-full max-w-2xl bg-[#0F0D0B] border border-white/[0.12] rounded-2xl max-h-[88vh] overflow-y-auto shadow-2xl"
+        style={{ boxShadow: "0 40px 80px -20px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,250,240,0.06)" }}
       >
         <button
           onClick={onClose}
@@ -60,14 +61,14 @@ export default function ProjectModal({
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 672px"
               priority
-              style={{ filter: "grayscale(50%) contrast(1.05)" }}
+              style={{ filter: "saturate(1.04) contrast(1.02)" }}
             />
-            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0e0e0e] to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0F0D0B] to-transparent" />
           </div>
         )}
 
         <div className="p-6 md:p-8">
-          <span className="inline-block font-mono text-[10px] px-3 py-1 border border-[#C9A86A]/35 text-[#C9A86A] mb-4 tracking-[0.2em] rounded-full bg-[#C9A86A]/[0.06] uppercase">
+          <span className="inline-block font-mono text-[10px] px-3 py-1 border border-[#C9A86A]/35 text-[#C9A86A] mb-4 tracking-[0.2em] rounded-full bg-[#C9A86A]/[0.08] uppercase">
             {project.category}
           </span>
 
