@@ -1,5 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+
+export const runtime = "edge";
+
+async function sendEmail(payload: {
+  to: string;
+  subject: string;
+  html: string;
+  replyTo?: string;
+}) {
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+    },
+    body: JSON.stringify({
+      from: "Portfolio <onboarding@resend.dev>",
+      to: [payload.to],
+      reply_to: payload.replyTo,
+      subject: payload.subject,
+      html: payload.html,
+    }),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Resend error: ${err}`);
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,16 +41,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid email address" }, { status: 400 });
     }
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_APP_PASSWORD,
-      },
-    });
-
-    await transporter.sendMail({
-      from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
+    await sendEmail({
       to: "iampreetdave@gmail.com",
       replyTo: email,
       subject: `Portfolio Message from ${name}`,
@@ -39,8 +57,7 @@ export async function POST(req: NextRequest) {
       `,
     });
 
-    await transporter.sendMail({
-      from: `"Preet Dave" <${process.env.EMAIL_USER}>`,
+    await sendEmail({
       to: email,
       subject: "Got your message! — Preet Dave",
       html: `

@@ -1,5 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+
+export const runtime = "edge";
+
+async function sendEmail(payload: {
+  to: string;
+  subject: string;
+  html: string;
+  replyTo?: string;
+}) {
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+    },
+    body: JSON.stringify({
+      from: "Portfolio <onboarding@resend.dev>",
+      to: [payload.to],
+      reply_to: payload.replyTo,
+      subject: payload.subject,
+      html: payload.html,
+    }),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Resend error: ${err}`);
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,18 +41,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid email address" }, { status: 400 });
     }
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_APP_PASSWORD,
-      },
-    });
-
     const toolsList = Array.isArray(tools) && tools.length > 0 ? tools.join(", ") : "Not specified";
 
-    await transporter.sendMail({
-      from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
+    await sendEmail({
       to: "iampreetdave@gmail.com",
       replyTo: email,
       subject: `Automation Request from ${name}`,
@@ -48,15 +66,14 @@ export async function POST(req: NextRequest) {
       `,
     });
 
-    await transporter.sendMail({
-      from: `"Preet Dave" <${process.env.EMAIL_USER}>`,
+    await sendEmail({
       to: email,
       subject: "Automation Request Received — Preet Dave",
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;background:#0a0a0a;color:#fafafa;border:1px solid rgba(255,255,255,0.1);border-radius:12px;">
           <h2 style="color:#C9A86A;font-size:18px;margin:0 0 16px;">Request Received, ${name}!</h2>
           <p style="color:rgba(250,250,250,0.75);line-height:1.8;margin:0 0 12px;">I've reviewed the details of your automation request. I'll get back to you within <strong>48 hours</strong> with a quote — including estimated timeline and pricing.</p>
-          <p style="color:rgba(250,250,250,0.55);line-height:1.7;font-size:13px;margin:0 0 20px;">If you have any additional details or questions in the meantime, feel free to reply to this email.</p>
+          <p style="color:rgba(250,250,250,0.55);line-height:1.7;font-size:13px;margin:0 0 20px;">If you have any additional details, feel free to reply to this email.</p>
           <p style="color:rgba(250,250,250,0.4);font-size:12px;margin:0;">— Preet Dave · Automation Developer</p>
         </div>
       `,
