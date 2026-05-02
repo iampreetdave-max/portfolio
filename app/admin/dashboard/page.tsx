@@ -100,7 +100,7 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white p-6">
+    <div className="min-h-screen bg-ink text-paper p-6">
       <div className="max-w-5xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <h1 className="font-mono text-lg font-bold">Admin Dashboard</h1>
@@ -109,15 +109,15 @@ export default function AdminDashboard() {
               setEditing(undefined);
               setShowForm(!showForm);
             }}
-            className="font-mono text-sm border border-border px-4 py-2 hover:bg-white hover:text-black transition-colors"
+            className="font-mono text-sm border border-white/[0.12] px-4 py-2 rounded-md hover:bg-white hover:text-black hover:border-white transition-colors"
           >
             {showForm ? "Cancel" : "+ Add Project"}
           </button>
         </div>
 
         {showForm && (
-          <div className="border border-border p-6 mb-8">
-            <h2 className="font-mono text-sm text-gray-400 mb-4">
+          <div className="border border-white/[0.07] rounded-xl bg-white/[0.02] p-6 mb-8">
+            <h2 className="font-mono text-sm text-white/55 mb-4">
               {editing?.id ? "Edit Project" : "New Project"}
             </h2>
             <AdminProjectForm
@@ -132,22 +132,22 @@ export default function AdminDashboard() {
         )}
 
         {loading ? (
-          <p className="font-mono text-sm text-gray-500">Loading...</p>
+          <p className="font-mono text-sm text-white/45">Loading...</p>
         ) : (
-          <div className="border border-border overflow-x-auto">
+          <div className="border border-white/[0.07] rounded-xl bg-white/[0.015] overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-border">
-                  <th className="font-mono text-xs text-gray-500 text-left p-3">
+                <tr className="border-b border-white/[0.06]">
+                  <th className="font-mono text-xs text-white/45 text-left p-3">
                     Title
                   </th>
-                  <th className="font-mono text-xs text-gray-500 text-left p-3">
+                  <th className="font-mono text-xs text-white/45 text-left p-3">
                     Category
                   </th>
-                  <th className="font-mono text-xs text-gray-500 text-left p-3">
+                  <th className="font-mono text-xs text-white/45 text-left p-3">
                     Tags
                   </th>
-                  <th className="font-mono text-xs text-gray-500 text-right p-3">
+                  <th className="font-mono text-xs text-white/45 text-right p-3">
                     Actions
                   </th>
                 </tr>
@@ -156,10 +156,10 @@ export default function AdminDashboard() {
                 {projects.map((project) => (
                   <tr
                     key={project.id}
-                    className="border-b border-border/50 hover:bg-white/5"
+                    className="border-b border-white/[0.04] hover:bg-white/[0.025]"
                   >
                     <td className="p-3 font-mono text-xs">{project.title}</td>
-                    <td className="p-3 font-mono text-xs text-gray-400">
+                    <td className="p-3 font-mono text-xs text-white/55">
                       {project.category}
                     </td>
                     <td className="p-3">
@@ -167,13 +167,13 @@ export default function AdminDashboard() {
                         {project.tech_tags.slice(0, 3).map((tag) => (
                           <span
                             key={tag}
-                            className="font-mono text-[10px] px-1.5 py-0.5 border border-border/50 text-gray-500"
+                            className="font-mono text-[10px] px-1.5 py-0.5 border border-white/[0.07] text-white/45 rounded-md"
                           >
                             {tag}
                           </span>
                         ))}
                         {project.tech_tags.length > 3 && (
-                          <span className="font-mono text-[10px] text-gray-600">
+                          <span className="font-mono text-[10px] text-white/35">
                             +{project.tech_tags.length - 3}
                           </span>
                         )}
@@ -183,13 +183,13 @@ export default function AdminDashboard() {
                       <div className="flex justify-end gap-2">
                         <button
                           onClick={() => startEdit(project)}
-                          className="font-mono text-xs border border-border px-2 py-1 hover:border-white transition-colors"
+                          className="font-mono text-xs border border-white/[0.12] px-2 py-1 rounded-md hover:border-white/40 hover:text-white transition-colors"
                         >
                           Edit
                         </button>
                         <button
                           onClick={() => handleDelete(project.id)}
-                          className="font-mono text-xs border border-border px-2 py-1 text-red-400 hover:border-red-400 transition-colors"
+                          className="font-mono text-xs border border-white/[0.12] px-2 py-1 rounded-md text-red-400/80 hover:border-red-400/60 hover:text-red-300 transition-colors"
                         >
                           Delete
                         </button>
@@ -201,7 +201,7 @@ export default function AdminDashboard() {
                   <tr>
                     <td
                       colSpan={4}
-                      className="p-6 text-center font-mono text-xs text-gray-600"
+                      className="p-6 text-center font-mono text-xs text-white/35"
                     >
                       No projects yet
                     </td>

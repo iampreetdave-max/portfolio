@@ -29,29 +29,29 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-6 bg-black">
+    <div className="min-h-screen flex items-center justify-center px-6 bg-ink text-paper">
       <div className="w-full max-w-sm">
         <h1 className="font-mono text-lg font-bold mb-6">Admin Login</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block font-mono text-xs text-gray-400 mb-1">
+            <label className="block font-mono text-xs text-white/55 mb-1">
               Password
             </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-black border border-border p-3 text-white font-mono text-sm focus:border-white outline-none"
+              className="w-full bg-white/[0.025] border border-white/[0.08] p-3 text-white font-mono text-sm rounded-md outline-none"
               required
             />
           </div>
           {error && (
-            <p className="font-mono text-xs text-red-400">{error}</p>
+            <p className="font-mono text-xs text-red-400/80">{error}</p>
           )}
           <button
             type="submit"
             disabled={loading}
-            className="w-full font-mono text-sm border border-white px-6 py-2 hover:bg-white hover:text-black transition-colors disabled:opacity-50"
+            className="w-full font-mono text-sm border border-white/80 px-6 py-2.5 rounded-md hover:bg-white hover:text-black transition-colors disabled:opacity-50"
           >
             {loading ? "Authenticating..." : "Login"}
           </button>
