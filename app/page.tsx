@@ -144,7 +144,7 @@ function ScrollProgress() {
   }, []);
   return (
     <div className="fixed top-0 left-0 right-0 z-[9998] h-[2px] pointer-events-none">
-      <div className="h-full bg-white" style={{ width: `${pct}%`, transition: "width 0.1s linear" }} />
+      <div className="h-full bg-[#C9A86A]" style={{ width: `${pct}%`, transition: "width 0.1s linear" }} />
     </div>
   );
 }
@@ -152,9 +152,9 @@ function ScrollProgress() {
 function SectionLabel({ text, num }: { text: string; num?: string }) {
   return (
     <div className="flex items-center gap-3 mb-4">
-      <div className="w-8 h-[1px] bg-gradient-to-r from-white/40 to-transparent" />
+      <div className="w-8 h-[1px] bg-gradient-to-r from-[#C9A86A]/65 to-transparent" />
       <span className="font-mono text-[11px] tracking-[0.25em] uppercase text-white/65">
-        {num && <span className="text-white/30 mr-2">{num}</span>}
+        {num && <span className="text-[#C9A86A] mr-2 font-bold">{num}</span>}
         {text}
       </span>
     </div>
@@ -242,7 +242,7 @@ export default function Home() {
                 key={item}
                 href={`#${item.toLowerCase()}`}
                 className={`nav-link font-mono text-[11px] tracking-[0.15em] uppercase transition-colors duration-300 ${
-                  activeSection === item.toLowerCase() ? "active text-white" : "text-white/45 hover:text-white/85"
+                  activeSection === item.toLowerCase() ? "active" : "text-white/45 hover:text-white/85"
                 }`}
               >
                 {item}
@@ -273,7 +273,7 @@ export default function Home() {
                     href={`#${item.toLowerCase()}`}
                     onClick={() => setMenuOpen(false)}
                     className={`font-mono text-sm tracking-wider transition-colors ${
-                      activeSection === item.toLowerCase() ? "text-white" : "text-white/55 hover:text-white"
+                      activeSection === item.toLowerCase() ? "text-[#C9A86A]" : "text-white/55 hover:text-white"
                     }`}
                   >
                     {item}
@@ -295,8 +295,8 @@ export default function Home() {
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-8">
               <span className="inline-flex items-center gap-2.5 font-mono text-[11px] tracking-[0.2em] uppercase text-white/70 border border-white/[0.12] bg-white/[0.025] px-4 py-1.5 rounded-full">
                 <span className="relative flex w-1.5 h-1.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-40" />
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white" />
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C9A86A] opacity-50" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#C9A86A]" />
                 </span>
                 Open to AI / ML Roles
               </span>
@@ -328,7 +328,7 @@ export default function Home() {
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.7 }} className="flex flex-wrap gap-3 items-center">
               <a
                 href="#contact"
-                className="group font-mono text-[11px] tracking-[0.15em] border border-white/80 text-white px-7 py-3.5 hover:bg-white hover:text-black transition-all duration-300 rounded-lg flex items-center gap-2 uppercase"
+                className="group font-mono text-[11px] tracking-[0.15em] border border-white/80 text-white px-7 py-3.5 hover:bg-[#C9A86A] hover:text-black hover:border-[#C9A86A] transition-all duration-300 rounded-lg flex items-center gap-2 uppercase"
               >
                 Contact Me <Send size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
@@ -400,8 +400,8 @@ export default function Home() {
                     <div className="flex items-center gap-1.5 font-mono text-[11px] text-white/40"><MapPin size={11} /> Ahmedabad, India</div>
                     <div className="flex items-center gap-1.5 font-mono text-[10px] text-white/55 pt-1">
                       <span className="relative flex w-1.5 h-1.5 flex-shrink-0">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-40" />
-                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white" />
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C9A86A] opacity-50" />
+                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#C9A86A]" />
                       </span>
                       Open to opportunities
                     </div>
@@ -495,14 +495,14 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-black/55 backdrop-blur-sm border border-white/15 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                      <ArrowRight size={14} className="text-white" />
+                      <ArrowRight size={14} className="text-[#C9A86A]" />
                     </div>
                   </div>
                 </motion.div>
               ))}
             </motion.div>
 
-            {/* Bottom 2 image projects — standard cards with top image */}
+            {/* Bottom 2 image projects */}
             <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               {imageProjects.slice(2).map((p) => (
                 <motion.div key={p.id} variants={fadeUp}>
@@ -551,7 +551,7 @@ export default function Home() {
                     onClick={() => setSelectedProject(p)}
                     onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setSelectedProject(p); }}
                   >
-                    <div className="absolute left-0 top-0 bottom-0 w-[2px] rounded-l-xl bg-gradient-to-b from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute left-0 top-0 bottom-0 w-[2px] rounded-l-xl bg-gradient-to-b from-transparent via-[#C9A86A]/55 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-wrap items-center gap-2 mb-1">
                         <span className="font-mono text-[9px] tracking-[0.18em] text-white/55 border border-white/[0.12] bg-white/[0.025] px-2 py-0.5 rounded-full uppercase shrink-0">{p.category}</span>
@@ -564,7 +564,7 @@ export default function Home() {
                         <span key={tag} className="font-mono text-[9px] px-2 py-0.5 border border-white/[0.07] text-white/45 rounded-md">{tag}</span>
                       ))}
                     </div>
-                    <ArrowRight size={13} className="text-white/30 group-hover:text-white group-hover:translate-x-0.5 transition-all duration-300 shrink-0" />
+                    <ArrowRight size={13} className="text-white/30 group-hover:text-[#C9A86A] group-hover:translate-x-0.5 transition-all duration-300 shrink-0" />
                   </div>
                 </motion.div>
               ))}
@@ -573,7 +573,7 @@ export default function Home() {
             <motion.div variants={fadeUp} className="mt-8 text-center">
               <Link
                 href="/projects"
-                className="group inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] border border-white/[0.12] px-8 py-3.5 text-white/65 hover:border-white/40 hover:text-white transition-all duration-300 rounded-xl uppercase"
+                className="group inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] border border-white/[0.12] px-8 py-3.5 text-white/65 hover:border-[#C9A86A]/45 hover:text-[#C9A86A] transition-all duration-300 rounded-xl uppercase"
               >
                 View All Projects <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
               </Link>
@@ -587,20 +587,22 @@ export default function Home() {
             <motion.div variants={fadeUp}><SectionLabel num="04" text="Experience" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-12 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Work History</motion.h2>
             <div className="relative">
-              <div className="absolute left-[6px] top-4 bottom-16 w-px bg-gradient-to-b from-white/30 via-white/[0.05] to-transparent hidden sm:block" />
+              <div className="absolute left-[6px] top-4 bottom-16 w-px bg-gradient-to-b from-[#C9A86A]/45 via-white/[0.05] to-transparent hidden sm:block" />
               <div className="space-y-4">
                 {experience.map((exp, i) => (
                   <motion.div key={i} variants={fadeUp} className="relative sm:pl-12">
                     <div
                       className={`absolute left-0 top-6 w-3 h-3 rounded-full border-2 transition-all duration-500 hidden sm:block ${
-                        exp.active ? "bg-white border-white shadow-[0_0_0_4px_rgba(255,255,255,0.1)]" : "bg-[#0a0a0a] border-white/20"
+                        exp.active
+                          ? "bg-[#C9A86A] border-[#C9A86A] shadow-[0_0_0_4px_rgba(201,168,106,0.18)]"
+                          : "bg-[#0a0a0a] border-white/20"
                       }`}
                     />
-                    {exp.active && <div className="absolute left-0 top-6 w-3 h-3 rounded-full bg-white animate-ping opacity-25 hidden sm:block" />}
+                    {exp.active && <div className="absolute left-0 top-6 w-3 h-3 rounded-full bg-[#C9A86A] animate-ping opacity-25 hidden sm:block" />}
                     <GlassCard className="p-6">
                       <div className="flex flex-wrap items-center gap-3 mb-3">
                         <span className="font-mono text-[11px] text-white/40 flex items-center gap-1.5"><Calendar size={11} />{exp.period}</span>
-                        {exp.active && <span className="font-mono text-[9px] tracking-[0.2em] text-white/85 border border-white/[0.18] bg-white/[0.05] px-2.5 py-0.5 rounded-full uppercase">Current</span>}
+                        {exp.active && <span className="font-mono text-[9px] tracking-[0.2em] text-[#C9A86A] border border-[#C9A86A]/40 bg-[#C9A86A]/[0.06] px-2.5 py-0.5 rounded-full uppercase">Current</span>}
                       </div>
                       <h3 className="text-[17px] font-bold mb-1">{exp.role}</h3>
                       <div className="font-mono text-[11px] text-white/45 mb-3 flex items-center gap-1.5"><MapPin size={11} />{exp.company}</div>
@@ -657,7 +659,7 @@ export default function Home() {
                       <div className="font-mono text-[10px] text-white/55 tracking-[0.2em] uppercase mb-2">LinkedIn Research Blogs</div>
                       <h3 className="font-bold text-[15px] mb-2">Technical Deep-Dives</h3>
                       <p className="text-white/45 text-[13px] leading-relaxed mb-4">Published deep-dives including <span className="text-white/85">How GPS Works</span>, <span className="text-white/85">Zipf&apos;s Law for LLMs</span>, and other explorations at the intersection of math, physics, and AI.</p>
-                      <a href="https://www.linkedin.com/in/preet-dave-452023271/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-mono text-[11px] text-white/55 hover:text-white transition-colors">
+                      <a href="https://www.linkedin.com/in/preet-dave-452023271/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-mono text-[11px] text-white/55 hover:text-[#C9A86A] transition-colors">
                         <Linkedin size={12} /> Follow on LinkedIn
                       </a>
                     </div>
@@ -693,8 +695,8 @@ export default function Home() {
                       rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
                       className="group flex items-center gap-4 text-white/55 hover:text-white transition-all duration-300"
                     >
-                      <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/[0.025] border border-white/[0.07] shrink-0 group-hover:border-white/[0.25] group-hover:bg-white/[0.06] transition-all duration-300">
-                        <link.Icon size={16} className="group-hover:text-white transition-colors duration-300" />
+                      <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/[0.025] border border-white/[0.07] shrink-0 group-hover:border-[#C9A86A]/45 group-hover:bg-[#C9A86A]/[0.06] transition-all duration-300">
+                        <link.Icon size={16} className="group-hover:text-[#C9A86A] transition-colors duration-300" />
                       </div>
                       <div>
                         <div className="font-mono text-[10px] text-white/35 tracking-[0.15em] uppercase mb-0.5">{link.label}</div>
@@ -722,7 +724,7 @@ export default function Home() {
                   </div>
                   <button
                     type="submit"
-                    className="w-full font-mono text-[11px] tracking-[0.15em] border border-white/80 text-white px-6 py-4 hover:bg-white hover:text-black transition-all duration-300 uppercase rounded-xl flex items-center justify-center gap-2"
+                    className="w-full font-mono text-[11px] tracking-[0.15em] border border-white/80 text-white px-6 py-4 hover:bg-[#C9A86A] hover:text-black hover:border-[#C9A86A] transition-all duration-300 uppercase rounded-xl flex items-center justify-center gap-2"
                   >
                     <Send size={13} /> Send Message
                   </button>
@@ -736,7 +738,7 @@ export default function Home() {
           <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="font-mono text-[10px] text-white/35 tracking-widest">© 2026 PREET GHANSHYAM DAVE</p>
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-white/30" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A86A]/60" />
               <p className="font-mono text-[10px] text-white/30 tracking-widest">NEXT.JS · TAILWIND · FRAMER MOTION</p>
             </div>
           </div>

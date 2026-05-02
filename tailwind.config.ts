@@ -29,6 +29,13 @@ const config: Config = {
           600: "#3F3F3F",
           700: "#2A2A2A",
         },
+        // Single brand accent — muted amber, used for active state,
+        // live status, CTA hover, and editorial number prefixes.
+        accent: {
+          DEFAULT: "#C9A86A",
+          soft:    "#E5C994",
+          deep:    "#B8965A",
+        },
         bg: "#0A0A0A",
         surface: "rgba(255, 255, 255, 0.025)",
         border: "rgba(255, 255, 255, 0.07)",

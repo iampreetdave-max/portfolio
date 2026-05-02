@@ -66,7 +66,7 @@ export default function ProjectModal({
         )}
 
         <div className="p-6 md:p-8">
-          <span className="inline-block font-mono text-[10px] px-3 py-1 border border-white/[0.18] text-white/70 mb-4 tracking-[0.2em] rounded-full bg-white/[0.03] uppercase">
+          <span className="inline-block font-mono text-[10px] px-3 py-1 border border-[#C9A86A]/35 text-[#C9A86A] mb-4 tracking-[0.2em] rounded-full bg-[#C9A86A]/[0.06] uppercase">
             {project.category}
           </span>
 
@@ -94,14 +94,14 @@ export default function ProjectModal({
               href={project.repo_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] border border-white/80 text-white px-6 py-3 hover:bg-white hover:text-black transition-all duration-300 rounded-lg cursor-pointer uppercase"
+              className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] border border-white/80 text-white px-6 py-3 hover:bg-[#C9A86A] hover:text-black hover:border-[#C9A86A] transition-all duration-300 rounded-lg cursor-pointer uppercase"
             >
               View Repository
               <ArrowUpRight size={14} />
             </a>
           ) : (
             <span className="inline-flex items-center gap-2 font-mono text-[11px] text-white/45 tracking-wider">
-              <span className="w-1.5 h-1.5 rounded-full bg-white/35" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A86A]/55" />
               Confidential &middot; Production Project
             </span>
           )}

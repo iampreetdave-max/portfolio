@@ -92,10 +92,6 @@ function ErrorBanner({ message, onRetry }: { message: string; onRetry: () => voi
   );
 }
 
-/**
- * Mono-leaning score chip. Color is opt-in for genuine semantic states
- * (errors / warnings); positive states stay white.
- */
 function ScoreDisplay({ label, value, color }: { label: string; value: string | number; color?: string }) {
   return (
     <div className="border border-white/[0.07] rounded-md px-4 py-3 text-center bg-white/[0.015]">
@@ -112,10 +108,6 @@ function ScoreDisplay({ label, value, color }: { label: string; value: string | 
   );
 }
 
-/**
- * Tension gradient: white (low) → amber (high) → red (critical).
- * Drops the rainbow look in favor of a single-axis severity scale.
- */
 function GTIBar({ score, showLabel = true }: { score: number; showLabel?: boolean }) {
   const getColor = (s: number) => {
     if (s <= 25) return "#FAFAFA";
@@ -229,7 +221,7 @@ function MarketGame() {
           </p>
           <button
             onClick={newRound}
-            className="font-mono text-[11px] tracking-wider border border-white/80 text-white px-6 py-2.5 hover:bg-white hover:text-black transition-colors rounded-md"
+            className="font-mono text-[11px] tracking-wider border border-white/80 text-white px-6 py-2.5 hover:bg-[#C9A86A] hover:text-black hover:border-[#C9A86A] transition-colors rounded-md"
           >
             START GAME
           </button>
@@ -406,7 +398,7 @@ function CountryGame() {
           </p>
           <button
             onClick={newRound}
-            className="font-mono text-[11px] tracking-wider border border-white/80 text-white px-6 py-2.5 hover:bg-white hover:text-black transition-colors rounded-md"
+            className="font-mono text-[11px] tracking-wider border border-white/80 text-white px-6 py-2.5 hover:bg-[#C9A86A] hover:text-black hover:border-[#C9A86A] transition-colors rounded-md"
           >
             START GAME
           </button>
@@ -437,7 +429,7 @@ function CountryGame() {
                   transition={{ delay: i * 0.1 }}
                   className="flex gap-3 items-start"
                 >
-                  <span className="font-mono text-[10px] text-white/30 mt-0.5 shrink-0 tabular">
+                  <span className="font-mono text-[10px] text-[#C9A86A]/70 mt-0.5 shrink-0 tabular">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <p className="text-white/65 text-sm leading-relaxed">{clue}</p>
@@ -469,7 +461,7 @@ function CountryGame() {
               <button
                 onClick={submitGuess}
                 disabled={!guess.trim()}
-                className="font-mono text-[11px] tracking-wider border border-white/[0.12] px-6 py-3 text-white/65 hover:border-white/40 hover:text-white transition-colors disabled:opacity-30 disabled:cursor-not-allowed rounded-md"
+                className="font-mono text-[11px] tracking-wider border border-white/[0.12] px-6 py-3 text-white/65 hover:border-[#C9A86A]/45 hover:text-[#C9A86A] transition-colors disabled:opacity-30 disabled:cursor-not-allowed rounded-md"
               >
                 GUESS ({3 - attempts} left)
               </button>
@@ -479,8 +471,8 @@ function CountryGame() {
               <div
                 className="border rounded-xl p-5 text-center"
                 style={{
-                  borderColor: score.correct === score.total ? "rgba(255,255,255,0.30)" : "rgba(224,160,64,0.35)",
-                  background: score.correct === score.total ? "rgba(255,255,255,0.04)" : "rgba(224,160,64,0.05)",
+                  borderColor: score.correct === score.total ? "rgba(201,168,106,0.45)" : "rgba(224,160,64,0.35)",
+                  background: score.correct === score.total ? "rgba(201,168,106,0.06)" : "rgba(224,160,64,0.05)",
                 }}
               >
                 <div className="font-mono text-[10px] text-white/40 tracking-widest mb-2 uppercase">THE COUNTRY IS</div>
@@ -570,8 +562,6 @@ function TensionGame() {
         )
       : 0;
 
-  // Quieter category palette — white / amber / red across the danger axis,
-  // with a single muted purple for non-physical (cyber, diplomatic).
   const getCategoryColor = (cat: string) => {
     switch (cat) {
       case "Military":     return "#E55A4A";
@@ -607,7 +597,7 @@ function TensionGame() {
           </p>
           <button
             onClick={newRound}
-            className="font-mono text-[11px] tracking-wider border border-white/80 text-white px-6 py-2.5 hover:bg-white hover:text-black transition-colors rounded-md"
+            className="font-mono text-[11px] tracking-wider border border-white/80 text-white px-6 py-2.5 hover:bg-[#C9A86A] hover:text-black hover:border-[#C9A86A] transition-colors rounded-md"
           >
             START GAME
           </button>
@@ -665,7 +655,7 @@ function TensionGame() {
               </div>
               <button
                 onClick={submit}
-                className="w-full font-mono text-[11px] tracking-wider border border-white py-3 hover:bg-white hover:text-black transition-colors rounded-md"
+                className="w-full font-mono text-[11px] tracking-wider border border-white py-3 hover:bg-[#C9A86A] hover:text-black hover:border-[#C9A86A] transition-colors rounded-md"
               >
                 SUBMIT ESTIMATE
               </button>
@@ -750,7 +740,7 @@ export default function FunZone() {
           <a href="/" className="flex items-center gap-2 font-mono text-base font-bold tracking-tight hover:opacity-85 transition-opacity">
             <span className="text-white">PD</span>
             <span className="text-white/30 font-light">/</span>
-            <span className="text-white/55 text-xs font-normal tracking-[0.3em] uppercase">Fun Zone</span>
+            <span className="text-[#C9A86A] text-xs font-normal tracking-[0.3em] uppercase">Fun Zone</span>
           </a>
           <a
             href="/"
@@ -769,9 +759,9 @@ export default function FunZone() {
             className="mb-10"
           >
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-[1px] bg-gradient-to-r from-white/40 to-transparent" />
-              <span className="font-mono text-[11px] text-white/45 tracking-[0.2em] uppercase">
-                Interactive
+              <div className="w-8 h-[1px] bg-gradient-to-r from-[#C9A86A]/65 to-transparent" />
+              <span className="font-mono text-[11px] text-white/65 tracking-[0.2em] uppercase">
+                <span className="text-[#C9A86A] mr-2 font-bold">—</span>Interactive
               </span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
@@ -789,7 +779,7 @@ export default function FunZone() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`font-mono text-[10px] tracking-wider px-4 py-2.5 border whitespace-nowrap rounded-md transition-all duration-300 ${
                   activeTab === tab.id
-                    ? "bg-white text-black border-white"
+                    ? "bg-[#C9A86A] text-black border-[#C9A86A]"
                     : "border-white/[0.10] text-white/45 hover:border-white/[0.25] hover:text-white/85"
                 }`}
               >

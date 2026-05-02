@@ -79,9 +79,9 @@ export default function ProjectsPage() {
         <div className="max-w-5xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-[1px] bg-gradient-to-r from-white/40 to-transparent" />
+              <div className="w-8 h-[1px] bg-gradient-to-r from-[#C9A86A]/65 to-transparent" />
               <span className="font-mono text-[11px] tracking-[0.25em] uppercase text-white/65">
-                <span className="text-white/30 mr-2">—</span>Work
+                <span className="text-[#C9A86A] mr-2 font-bold">—</span>Work
               </span>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">All Projects &amp; Automations</h1>
@@ -93,7 +93,7 @@ export default function ProjectsPage() {
               onClick={() => { setActiveTab("projects"); setFilter("All"); }}
               className={`flex items-center gap-2 font-mono text-[12px] tracking-wide px-5 py-2.5 rounded-md transition-all duration-300 cursor-pointer ${
                 activeTab === "projects"
-                  ? "bg-white text-black"
+                  ? "bg-[#C9A86A] text-black"
                   : "text-white/55 hover:text-white"
               }`}
             >
@@ -103,7 +103,7 @@ export default function ProjectsPage() {
               onClick={() => setActiveTab("automations")}
               className={`flex items-center gap-2 font-mono text-[12px] tracking-wide px-5 py-2.5 rounded-md transition-all duration-300 cursor-pointer ${
                 activeTab === "automations"
-                  ? "bg-white text-black"
+                  ? "bg-[#C9A86A] text-black"
                   : "text-white/55 hover:text-white"
               }`}
             >
@@ -120,7 +120,7 @@ export default function ProjectsPage() {
                     onClick={() => setFilter(f)}
                     className={`font-mono text-[11px] tracking-wide px-4 py-2 border rounded-md transition-all duration-300 cursor-pointer ${
                       filter === f
-                        ? "bg-white/[0.08] text-white border-white/[0.25]"
+                        ? "bg-[#C9A86A]/[0.10] text-[#C9A86A] border-[#C9A86A]/45"
                         : "border-white/[0.07] text-white/45 hover:border-white/[0.18] hover:text-white/85 bg-white/[0.015]"
                     }`}
                   >
@@ -174,7 +174,7 @@ export default function ProjectsPage() {
           <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="font-mono text-[10px] text-white/35 tracking-wider">© 2026 PREET GHANSHYAM DAVE</p>
             <div className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-white/30" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A86A]/55" />
               <p className="font-mono text-[10px] text-white/30 tracking-wider">BUILT WITH NEXT.JS · TAILWIND</p>
             </div>
           </div>
