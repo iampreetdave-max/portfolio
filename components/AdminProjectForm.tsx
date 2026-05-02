@@ -39,7 +39,7 @@ export default function AdminProjectForm({
   );
 
   const inputClass =
-    "w-full bg-black border border-border p-2 text-white font-mono text-sm focus:border-white outline-none";
+    "w-full bg-white/[0.02] border border-white/[0.08] p-2.5 text-white font-mono text-sm rounded-md focus:border-white/40 outline-none";
 
   return (
     <form
@@ -50,7 +50,7 @@ export default function AdminProjectForm({
       className="space-y-4"
     >
       <div>
-        <label className="block font-mono text-xs text-gray-400 mb-1">
+        <label className="block font-mono text-xs text-white/45 mb-1">
           Title
         </label>
         <input
@@ -61,7 +61,7 @@ export default function AdminProjectForm({
         />
       </div>
       <div>
-        <label className="block font-mono text-xs text-gray-400 mb-1">
+        <label className="block font-mono text-xs text-white/45 mb-1">
           Category
         </label>
         <input
@@ -72,7 +72,7 @@ export default function AdminProjectForm({
         />
       </div>
       <div>
-        <label className="block font-mono text-xs text-gray-400 mb-1">
+        <label className="block font-mono text-xs text-white/45 mb-1">
           Description
         </label>
         <textarea
@@ -83,7 +83,7 @@ export default function AdminProjectForm({
         />
       </div>
       <div>
-        <label className="block font-mono text-xs text-gray-400 mb-1">
+        <label className="block font-mono text-xs text-white/45 mb-1">
           Tech Tags (comma separated)
         </label>
         <input
@@ -94,7 +94,7 @@ export default function AdminProjectForm({
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block font-mono text-xs text-gray-400 mb-1">
+          <label className="block font-mono text-xs text-white/45 mb-1">
             Demo URL
           </label>
           <input
@@ -104,7 +104,7 @@ export default function AdminProjectForm({
           />
         </div>
         <div>
-          <label className="block font-mono text-xs text-gray-400 mb-1">
+          <label className="block font-mono text-xs text-white/45 mb-1">
             Repo URL
           </label>
           <input
@@ -115,7 +115,7 @@ export default function AdminProjectForm({
         </div>
       </div>
       <div>
-        <label className="block font-mono text-xs text-gray-400 mb-1">
+        <label className="block font-mono text-xs text-white/45 mb-1">
           Image URL
         </label>
         <input
@@ -126,7 +126,7 @@ export default function AdminProjectForm({
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block font-mono text-xs text-gray-400 mb-1">
+          <label className="block font-mono text-xs text-white/45 mb-1">
             Display Order
           </label>
           <input
@@ -139,7 +139,7 @@ export default function AdminProjectForm({
           />
         </div>
         <div className="flex items-end pb-2">
-          <label className="flex items-center gap-2 font-mono text-xs text-gray-400 cursor-pointer">
+          <label className="flex items-center gap-2 font-mono text-xs text-white/65 cursor-pointer">
             <input
               type="checkbox"
               checked={form.is_featured}
@@ -155,14 +155,14 @@ export default function AdminProjectForm({
       <div className="flex gap-3 pt-2">
         <button
           type="submit"
-          className="font-mono text-sm px-4 py-2 bg-white text-black hover:bg-gray-200 transition-colors"
+          className="font-mono text-sm px-4 py-2 bg-white text-black hover:bg-white/85 rounded-md transition-colors"
         >
           {initial?.id ? "Update" : "Create"} Project
         </button>
         <button
           type="button"
           onClick={onCancel}
-          className="font-mono text-sm px-4 py-2 border border-border text-gray-400 hover:border-white transition-colors"
+          className="font-mono text-sm px-4 py-2 border border-white/[0.12] text-white/65 hover:border-white/40 hover:text-white rounded-md transition-colors"
         >
           Cancel
         </button>
