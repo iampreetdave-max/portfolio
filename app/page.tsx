@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import NeuralNetwork from "@/components/NeuralNetwork";
-import TypewriterText from "@/components/TypewriterText";
 import ProjectModal from "@/components/ProjectModal";
 import type { Project } from "@/components/ProjectCard";
 import {
@@ -124,7 +123,9 @@ function MouseSpotlight() {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ref.current; if (!el) return;
-    const onMove = (e: MouseEvent) => { el.style.background = `radial-gradient(700px circle at ${e.clientX}px ${e.clientY}px, rgba(0,255,65,0.028), transparent 40%)`; };
+    const onMove = (e: MouseEvent) => {
+      el.style.background = `radial-gradient(700px circle at ${e.clientX}px ${e.clientY}px, rgba(255,255,255,0.035), transparent 40%)`;
+    };
     window.addEventListener("mousemove", onMove);
     return () => window.removeEventListener("mousemove", onMove);
   }, []);
@@ -134,29 +135,41 @@ function MouseSpotlight() {
 function ScrollProgress() {
   const [pct, setPct] = useState(0);
   useEffect(() => {
-    const onScroll = () => { const total = document.documentElement.scrollHeight - window.innerHeight; setPct(total > 0 ? (window.scrollY / total) * 100 : 0); };
+    const onScroll = () => {
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      setPct(total > 0 ? (window.scrollY / total) * 100 : 0);
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
   return (
     <div className="fixed top-0 left-0 right-0 z-[9998] h-[2px] pointer-events-none">
-      <div className="h-full bg-gradient-to-r from-[#00FF41] to-[#00D4FF]" style={{ width: `${pct}%`, transition: "width 0.1s linear" }} />
+      <div className="h-full bg-[#C9A86A]" style={{ width: `${pct}%`, transition: "width 0.1s linear" }} />
     </div>
   );
 }
 
-function SectionLabel({ text }: { text: string }) {
+function SectionLabel({ text, num }: { text: string; num?: string }) {
   return (
     <div className="flex items-center gap-3 mb-4">
-      <div className="w-8 h-[1px] bg-gradient-to-r from-[#00FF41]/50 to-transparent" />
-      <span className="font-mono text-[11px] text-[#00FF41]/70 tracking-[0.25em] uppercase">{text}</span>
+      <div className="w-8 h-[1px] bg-gradient-to-r from-[#C9A86A]/65 to-transparent" />
+      <span className="font-mono text-[11px] tracking-[0.25em] uppercase text-white/65">
+        {num && <span className="text-[#C9A86A] mr-2 font-bold">{num}</span>}
+        {text}
+      </span>
     </div>
   );
 }
 
 function GlassCard({ children, className = "", hover = true }: { children: React.ReactNode; className?: string; hover?: boolean }) {
   return (
-    <div className={`bg-white/[0.025] backdrop-blur-xl rounded-xl border border-white/[0.07] ${ hover ? "hover:bg-white/[0.04] hover:border-white/[0.12] hover:shadow-[0_0_40px_rgba(0,255,65,0.04)] transition-all duration-500" : "" } ${className}`}>
+    <div
+      className={`bg-white/[0.025] backdrop-blur-xl rounded-xl border border-white/[0.07] ${
+        hover
+          ? "lift hover:bg-white/[0.04] hover:border-white/[0.16] hover:shadow-[0_1px_0_rgba(255,255,255,0.04)_inset,0_24px_48px_-24px_rgba(0,0,0,0.6)]"
+          : ""
+      } ${className}`}
+    >
       {children}
     </div>
   );
@@ -187,7 +200,10 @@ export default function Home() {
     const observers: IntersectionObserver[] = [];
     for (const id of sectionIds) {
       const el = document.getElementById(id); if (!el) continue;
-      const obs = new IntersectionObserver((entries) => { for (const e of entries) { if (e.isIntersecting) setActiveSection(id); } }, { threshold: 0.3 });
+      const obs = new IntersectionObserver(
+        (entries) => { for (const e of entries) { if (e.isIntersecting) setActiveSection(id); } },
+        { threshold: 0.3 }
+      );
       obs.observe(el); observers.push(obs);
     }
     return () => observers.forEach((o) => o.disconnect());
@@ -201,37 +217,65 @@ export default function Home() {
       <MouseSpotlight />
       <ScrollProgress />
       <div className="noise-overlay" aria-hidden="true" />
-      <div className="scanlines"     aria-hidden="true" />
       <NeuralNetwork paused={false} />
 
       {/* NAV */}
-      <nav ref={navRef} className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-        style={{ background: scrolled ? "rgba(5,5,5,0.92)" : "transparent", borderBottom: scrolled ? "1px solid rgba(0,255,65,0.06)" : "1px solid transparent", backdropFilter: scrolled ? "blur(24px)" : "none", WebkitBackdropFilter: scrolled ? "blur(24px)" : "none" }}>
+      <nav
+        ref={navRef}
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+        style={{
+          background: scrolled ? "rgba(10,10,10,0.85)" : "transparent",
+          borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "1px solid transparent",
+          backdropFilter: scrolled ? "blur(24px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(24px)" : "none",
+        }}
+      >
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <a href="#home" className="group flex items-center gap-1 font-mono text-sm font-black tracking-tight">
-            <span className="text-white group-hover:text-[#00FF41] transition-colors duration-300">PD</span>
-            <span className="text-[#00FF41]/60 animate-pulse">_</span>
+          <a href="#home" className="group flex items-center gap-2 font-mono text-sm font-bold tracking-tight">
+            <span className="text-white">PD</span>
+            <span className="text-white/30 font-light">/</span>
+            <span className="text-white/40 text-[10px] tracking-[0.3em] uppercase">Folio</span>
           </a>
           <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`}
-                className={`nav-link font-mono text-[11px] tracking-[0.15em] uppercase transition-colors duration-300 ${ activeSection === item.toLowerCase() ? "active text-[#00FF41]" : "text-gray-600 hover:text-gray-300" }`}>
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                className={`nav-link font-mono text-[11px] tracking-[0.15em] uppercase transition-colors duration-300 ${
+                  activeSection === item.toLowerCase() ? "active" : "text-white/45 hover:text-white/85"
+                }`}
+              >
                 {item}
               </a>
             ))}
           </div>
-          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden font-mono text-sm border border-white/10 w-10 h-10 flex items-center justify-center hover:border-[#00FF41]/30 hover:text-[#00FF41] transition-all duration-300 rounded-lg" aria-label="Toggle menu">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="md:hidden font-mono text-sm border border-white/10 w-10 h-10 flex items-center justify-center hover:border-white/30 hover:text-white transition-all duration-300 rounded-lg"
+            aria-label="Toggle menu"
+          >
             {menuOpen ? "×" : "≡"}
           </button>
         </div>
         <AnimatePresence>
           {menuOpen && (
-            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.25 }}
-              className="md:hidden border-t border-white/[0.05] bg-[#050505]/98 backdrop-blur-3xl overflow-hidden">
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.25 }}
+              className="md:hidden border-t border-white/[0.05] bg-[#0a0a0a]/98 backdrop-blur-3xl overflow-hidden"
+            >
               <div className="px-6 py-6 flex flex-col gap-5">
                 {navItems.map((item) => (
-                  <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMenuOpen(false)}
-                    className={`font-mono text-sm tracking-wider transition-colors ${ activeSection === item.toLowerCase() ? "text-[#00FF41]" : "text-gray-400 hover:text-white" }`}>
+                  <a
+                    key={item}
+                    href={`#${item.toLowerCase()}`}
+                    onClick={() => setMenuOpen(false)}
+                    className={`font-mono text-sm tracking-wider transition-colors ${
+                      activeSection === item.toLowerCase() ? "text-[#C9A86A]" : "text-white/55 hover:text-white"
+                    }`}
+                  >
                     {item}
                   </a>
                 ))}
@@ -245,41 +289,72 @@ export default function Home() {
 
         {/* HERO */}
         <section id="home" className="min-h-[100dvh] flex items-center justify-center px-6 pt-16 relative overflow-hidden">
-          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full bg-[#00FF41]/[0.022] blur-[130px] pointer-events-none" />
-          <div className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] rounded-full bg-[#00D4FF]/[0.016] blur-[100px] pointer-events-none" />
+          {/* Single soft white blur — no green/cyan */}
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-white/[0.018] blur-[140px] pointer-events-none" />
           <div className="max-w-5xl w-full relative">
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-8">
-              <span className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.2em] uppercase text-[#00FF41]/70 border border-[#00FF41]/20 bg-[#00FF41]/[0.05] px-4 py-1.5 rounded-full">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#00FF41] animate-pulse" /> Available for AI / ML Roles
+              <span className="inline-flex items-center gap-2.5 font-mono text-[11px] tracking-[0.2em] uppercase text-white/70 border border-white/[0.12] bg-white/[0.025] px-4 py-1.5 rounded-full">
+                <span className="relative flex w-1.5 h-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C9A86A] opacity-50" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#C9A86A]" />
+                </span>
+                Open to AI / ML Roles
               </span>
             </motion.div>
+
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }} className="mb-8">
               <h1 className="font-black leading-[0.88] tracking-[-0.04em]" style={{ fontSize: "clamp(72px, 11vw, 120px)" }}>
                 <span className="text-white">Preet</span><br /><span className="text-white/20">Dave</span>
               </h1>
             </motion.div>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4, duration: 0.7 }} className="mb-8 h-8">
-              <TypewriterText />
+
+            {/* Static, confident subtitle (replaces typewriter) */}
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4, duration: 0.7 }} className="mb-8">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[12px] md:text-[13px] tracking-[0.05em] text-white/70">
+                <span>AI / ML Engineer</span>
+                <span className="text-white/20">—</span>
+                <span>Automation Developer</span>
+                <span className="text-white/20">—</span>
+                <span>Deep Learning</span>
+              </div>
             </motion.div>
+
             <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.7 }} className="mb-10 max-w-xl">
-              <p className="text-gray-400 text-[15px] leading-[1.85]">Building intelligent systems with deep learning, computer vision, and advanced ML algorithms. B.Tech CS (AI-ML) student &middot; Trainee SWE at Agility Innovations.</p>
+              <p className="text-white/55 text-[15px] leading-[1.85]">
+                Building intelligent systems with deep learning, computer vision, and advanced ML algorithms. B.Tech CS (AI-ML) student &middot; Trainee SWE at Agility Innovations.
+              </p>
             </motion.div>
+
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.7 }} className="flex flex-wrap gap-3 items-center">
-              <a href="#contact" className="group font-mono text-[11px] tracking-[0.15em] border border-[#00FF41]/60 text-[#00FF41] px-7 py-3.5 hover:bg-[#00FF41] hover:text-black transition-all duration-300 rounded-lg flex items-center gap-2 uppercase">
+              <a
+                href="#contact"
+                className="group font-mono text-[11px] tracking-[0.15em] border border-white/80 text-white px-7 py-3.5 hover:bg-[#C9A86A] hover:text-black hover:border-[#C9A86A] transition-all duration-300 rounded-lg flex items-center gap-2 uppercase"
+              >
                 Contact Me <Send size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
-              <a href="https://github.com/iampreetdave-max" target="_blank" rel="noopener noreferrer" className="group font-mono text-[11px] tracking-[0.15em] border border-white/[0.08] px-7 py-3.5 text-gray-500 hover:border-white/20 hover:text-white transition-all duration-300 rounded-lg flex items-center gap-2 uppercase">
+              <a
+                href="https://github.com/iampreetdave-max"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group font-mono text-[11px] tracking-[0.15em] border border-white/[0.12] px-7 py-3.5 text-white/60 hover:border-white/40 hover:text-white transition-all duration-300 rounded-lg flex items-center gap-2 uppercase"
+              >
                 <Github size={13} /> GitHub
               </a>
-              <a href="https://www.linkedin.com/in/preet-dave-452023271/" target="_blank" rel="noopener noreferrer" className="group font-mono text-[11px] tracking-[0.15em] border border-white/[0.08] px-7 py-3.5 text-gray-500 hover:border-white/20 hover:text-white transition-all duration-300 rounded-lg flex items-center gap-2 uppercase">
+              <a
+                href="https://www.linkedin.com/in/preet-dave-452023271/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group font-mono text-[11px] tracking-[0.15em] border border-white/[0.12] px-7 py-3.5 text-white/60 hover:border-white/40 hover:text-white transition-all duration-300 rounded-lg flex items-center gap-2 uppercase"
+              >
                 <Linkedin size={13} /> LinkedIn
               </a>
             </motion.div>
           </div>
+
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.6, duration: 0.8 }} className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-            <span className="font-mono text-[9px] tracking-[0.3em] text-gray-700 uppercase">Scroll</span>
+            <span className="font-mono text-[9px] tracking-[0.3em] text-white/30 uppercase">Scroll</span>
             <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}>
-              <ChevronDown size={16} className="text-gray-700" />
+              <ChevronDown size={16} className="text-white/30" />
             </motion.div>
           </motion.div>
         </section>
@@ -287,16 +362,22 @@ export default function Home() {
         {/* ABOUT */}
         <section id="about" className="py-28 px-6">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-5xl mx-auto">
-            <motion.div variants={fadeUp}><SectionLabel text="About" /></motion.div>
+            <motion.div variants={fadeUp}><SectionLabel num="01" text="About" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-12 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Who I Am</motion.h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <motion.div variants={fadeUp} className="md:col-span-2">
                 <GlassCard className="p-8 h-full" hover={false}>
-                  <p className="text-gray-300 leading-[1.9] text-[15px] mb-5">I&apos;m an AI-ML Engineer passionate about building intelligent systems that solve real-world problems. With expertise in deep learning, computer vision, and NLP, I develop end-to-end ML pipelines &mdash; from data preprocessing and feature engineering to model deployment and optimization.</p>
-                  <p className="text-gray-500 leading-[1.9] text-[14px] mb-7">Currently pursuing B.Tech in Computer Science (AI-ML) while gaining hands-on industry experience as a Trainee Software Engineer, shipping production ML systems validated against live data at scale.</p>
+                  <p className="text-white/80 leading-[1.9] text-[15px] mb-5">
+                    I&apos;m an AI-ML Engineer passionate about building intelligent systems that solve real-world problems. With expertise in deep learning, computer vision, and NLP, I develop end-to-end ML pipelines &mdash; from data preprocessing and feature engineering to model deployment and optimization.
+                  </p>
+                  <p className="text-white/45 leading-[1.9] text-[14px] mb-7">
+                    Currently pursuing B.Tech in Computer Science (AI-ML) while gaining hands-on industry experience as a Trainee Software Engineer, shipping production ML systems validated against live data at scale.
+                  </p>
                   <div className="flex flex-wrap gap-2">
                     {["Deep Learning", "Computer Vision", "NLP", "MLOps", "Full-Stack"].map((tag) => (
-                      <span key={tag} className="font-mono text-[10px] px-3 py-1.5 rounded-full border border-[#00FF41]/15 text-[#00FF41]/70 bg-[#00FF41]/[0.04]">{tag}</span>
+                      <span key={tag} className="font-mono text-[10px] px-3 py-1.5 rounded-full border border-white/[0.12] text-white/65 bg-white/[0.025]">
+                        {tag}
+                      </span>
                     ))}
                   </div>
                 </GlassCard>
@@ -304,15 +385,25 @@ export default function Home() {
               <motion.div variants={fadeUp} className="md:row-span-2">
                 <GlassCard className="p-5 h-full flex flex-col" hover={false}>
                   <div className="relative flex-1 min-h-[220px] rounded-lg overflow-hidden mb-4">
-                    <Image src="https://raw.githubusercontent.com/iampreetdave-max/portfolio/main/images/profile%20picture.jpeg" alt="Preet Dave" fill className="object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/70 to-transparent" />
+                    <Image
+                      src="https://raw.githubusercontent.com/iampreetdave-max/portfolio/main/images/profile%20picture.jpeg"
+                      alt="Preet Dave"
+                      fill
+                      className="object-cover"
+                      style={{ filter: "grayscale(100%) contrast(1.05)" }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 to-transparent" />
                   </div>
                   <div className="space-y-2 px-1">
                     <div className="font-bold text-sm text-white">Preet Dave</div>
-                    <div className="font-mono text-[11px] text-[#00FF41]/70 tracking-wider">AI-ML Engineer</div>
-                    <div className="flex items-center gap-1.5 font-mono text-[11px] text-gray-600"><MapPin size={11} /> Ahmedabad, India</div>
-                    <div className="flex items-center gap-1.5 font-mono text-[10px] text-[#00FF41]/60 pt-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#00FF41] animate-pulse flex-shrink-0" /> Open to opportunities
+                    <div className="font-mono text-[11px] text-white/55 tracking-wider">AI-ML Engineer</div>
+                    <div className="flex items-center gap-1.5 font-mono text-[11px] text-white/40"><MapPin size={11} /> Ahmedabad, India</div>
+                    <div className="flex items-center gap-1.5 font-mono text-[10px] text-white/55 pt-1">
+                      <span className="relative flex w-1.5 h-1.5 flex-shrink-0">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C9A86A] opacity-50" />
+                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#C9A86A]" />
+                      </span>
+                      Open to opportunities
                     </div>
                   </div>
                 </GlassCard>
@@ -321,8 +412,8 @@ export default function Home() {
                 <div className="grid grid-cols-4 gap-3">
                   {stats.map((s) => (
                     <GlassCard key={s.label} className="p-4 text-center">
-                      <div className="font-mono text-2xl font-black text-[#00FF41] leading-none mb-2">{s.value}</div>
-                      <div className="font-mono text-[9px] text-gray-600 tracking-[0.12em] uppercase leading-tight">{s.label}</div>
+                      <div className="font-mono text-2xl font-black text-white leading-none mb-2 tabular">{s.value}</div>
+                      <div className="font-mono text-[9px] text-white/40 tracking-[0.12em] uppercase leading-tight">{s.label}</div>
                     </GlassCard>
                   ))}
                 </div>
@@ -334,21 +425,26 @@ export default function Home() {
         {/* SKILLS */}
         <section id="skills" className="py-28 px-6">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-5xl mx-auto">
-            <motion.div variants={fadeUp}><SectionLabel text="Skills" /></motion.div>
+            <motion.div variants={fadeUp}><SectionLabel num="02" text="Skills" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-12 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Technical Expertise</motion.h2>
             <motion.div variants={stagger} className="grid md:grid-cols-2 gap-4">
               {skills.map((cat) => (
                 <motion.div key={cat.title} variants={fadeUp}>
                   <GlassCard className="p-7 group">
                     <div className="flex items-center gap-4 mb-6">
-                      <div className="w-12 h-12 rounded-xl bg-[#00FF41]/[0.07] border border-[#00FF41]/[0.12] flex items-center justify-center shrink-0 group-hover:bg-[#00FF41]/[0.13] group-hover:border-[#00FF41]/[0.28] transition-all duration-500">
-                        <cat.Icon size={20} className="text-[#00FF41]/60 group-hover:text-[#00FF41] transition-colors duration-500" />
+                      <div className="w-12 h-12 rounded-xl bg-white/[0.04] border border-white/[0.10] flex items-center justify-center shrink-0 group-hover:bg-white/[0.08] group-hover:border-white/[0.22] transition-all duration-500">
+                        <cat.Icon size={20} className="text-white/55 group-hover:text-white transition-colors duration-500" />
                       </div>
                       <h3 className="font-mono text-[13px] font-bold text-white tracking-wide">{cat.title}</h3>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {cat.items.map((item) => (
-                        <span key={item} className="font-mono text-[11px] px-3 py-1.5 border border-white/[0.06] text-gray-500 rounded-lg group-hover:border-white/[0.14] group-hover:text-gray-300 transition-all duration-300">{item}</span>
+                        <span
+                          key={item}
+                          className="font-mono text-[11px] px-3 py-1.5 border border-white/[0.07] text-white/55 rounded-lg group-hover:border-white/[0.18] group-hover:text-white/85 transition-all duration-300"
+                        >
+                          {item}
+                        </span>
                       ))}
                     </div>
                   </GlassCard>
@@ -361,7 +457,7 @@ export default function Home() {
         {/* PROJECTS */}
         <section id="projects" className="py-28 px-6">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-5xl mx-auto">
-            <motion.div variants={fadeUp}><SectionLabel text="Projects" /></motion.div>
+            <motion.div variants={fadeUp}><SectionLabel num="03" text="Projects" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-12 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Featured Work</motion.h2>
 
             {/* Top 2 — wide editorial hero cards */}
@@ -369,52 +465,49 @@ export default function Home() {
               {imageProjects.slice(0, 2).map((p) => (
                 <motion.div key={p.id} variants={fadeUp}>
                   <div
-                    className="group relative rounded-2xl overflow-hidden cursor-pointer border border-white/[0.07] hover:border-[#00FF41]/30 transition-all duration-500"
+                    className="group relative rounded-2xl overflow-hidden cursor-pointer border border-white/[0.07] hover:border-white/[0.30] transition-all duration-500 lift"
                     style={{ height: "340px" }}
                     role="button" tabIndex={0}
                     onClick={() => setSelectedProject(p)}
                     onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setSelectedProject(p); }}
                   >
-                    {/* Full-card image */}
                     <Image
                       src={p.image_url!}
                       alt={p.title}
                       fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                      className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                       sizes="(max-width: 768px) 100vw, 50vw"
                       priority
+                      style={{ filter: "grayscale(60%) contrast(1.05)" }}
                     />
-                    {/* Dark gradient — bottom only, content lives here */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/10" />
-                    {/* Content overlay */}
                     <div className="absolute inset-0 p-6 flex flex-col justify-end">
-                      <span className="self-start font-mono text-[9px] tracking-[0.2em] text-[#00FF41] border border-[#00FF41]/40 bg-black/50 backdrop-blur-sm px-2.5 py-1 rounded-full uppercase mb-3">
+                      <span className="self-start font-mono text-[9px] tracking-[0.2em] text-white/85 border border-white/30 bg-black/50 backdrop-blur-sm px-2.5 py-1 rounded-full uppercase mb-3">
                         {p.category}
                       </span>
                       <h3 className="text-[20px] font-black text-white mb-2 leading-tight">{p.title}</h3>
-                      <p className="text-gray-300 text-[13px] leading-relaxed mb-4 line-clamp-2">{p.description}</p>
+                      <p className="text-white/75 text-[13px] leading-relaxed mb-4 line-clamp-2">{p.description}</p>
                       <div className="flex flex-wrap gap-1.5">
                         {p.tech_tags.slice(0, 4).map((tag) => (
-                          <span key={tag} className="font-mono text-[9px] px-2 py-0.5 border border-white/20 text-gray-300 rounded-md bg-black/40 backdrop-blur-sm">{tag}</span>
+                          <span key={tag} className="font-mono text-[9px] px-2 py-0.5 border border-white/25 text-white/85 rounded-md bg-black/40 backdrop-blur-sm">{tag}</span>
                         ))}
-                        {p.tech_tags.length > 4 && <span className="font-mono text-[9px] text-gray-500">+{p.tech_tags.length - 4}</span>}
+                        {p.tech_tags.length > 4 && <span className="font-mono text-[9px] text-white/40">+{p.tech_tags.length - 4}</span>}
                       </div>
                     </div>
-                    {/* Hover arrow */}
-                    <div className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-black/50 backdrop-blur-sm border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                      <ArrowRight size={14} className="text-[#00FF41]" />
+                    <div className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-black/55 backdrop-blur-sm border border-white/15 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                      <ArrowRight size={14} className="text-[#C9A86A]" />
                     </div>
                   </div>
                 </motion.div>
               ))}
             </motion.div>
 
-            {/* Bottom 2 image projects — standard cards with top image */}
+            {/* Bottom 2 image projects */}
             <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               {imageProjects.slice(2).map((p) => (
                 <motion.div key={p.id} variants={fadeUp}>
                   <div
-                    className="group relative bg-[#0d0d0d] border border-white/[0.07] rounded-2xl overflow-hidden hover:border-[#00FF41]/25 hover:shadow-[0_0_40px_rgba(0,255,65,0.06)] transition-all duration-500 cursor-pointer"
+                    className="group relative bg-[#0e0e0e] border border-white/[0.07] rounded-2xl overflow-hidden hover:border-white/[0.22] hover:shadow-[0_24px_48px_-24px_rgba(0,0,0,0.7)] transition-all duration-500 cursor-pointer lift"
                     role="button" tabIndex={0}
                     onClick={() => setSelectedProject(p)}
                     onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setSelectedProject(p); }}
@@ -426,20 +519,21 @@ export default function Home() {
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                         sizes="(max-width: 768px) 100vw, 50vw"
+                        style={{ filter: "grayscale(60%) contrast(1.05)" }}
                       />
-                      <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#0d0d0d] to-transparent" />
-                      <span className="absolute top-3 left-3 font-mono text-[9px] tracking-[0.18em] text-[#00FF41] border border-[#00FF41]/30 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full uppercase">
+                      <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#0e0e0e] to-transparent" />
+                      <span className="absolute top-3 left-3 font-mono text-[9px] tracking-[0.18em] text-white/85 border border-white/25 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full uppercase">
                         {p.category}
                       </span>
                     </div>
                     <div className="p-5">
-                      <h3 className="text-[15px] font-bold mb-2 group-hover:text-white transition-colors">{p.title}</h3>
-                      <p className="text-gray-500 text-[12px] leading-relaxed mb-3">{p.description}</p>
+                      <h3 className="text-[15px] font-bold mb-2 text-white/85 group-hover:text-white transition-colors">{p.title}</h3>
+                      <p className="text-white/45 text-[12px] leading-relaxed mb-3">{p.description}</p>
                       <div className="flex flex-wrap gap-1.5">
                         {p.tech_tags.slice(0, 4).map((tag) => (
-                          <span key={tag} className="font-mono text-[9px] px-2 py-0.5 border border-white/[0.07] text-gray-600 rounded-md group-hover:text-gray-400 transition-colors">{tag}</span>
+                          <span key={tag} className="font-mono text-[9px] px-2 py-0.5 border border-white/[0.07] text-white/45 rounded-md group-hover:text-white/75 group-hover:border-white/[0.18] transition-colors">{tag}</span>
                         ))}
-                        {p.tech_tags.length > 4 && <span className="font-mono text-[9px] text-gray-600">+{p.tech_tags.length - 4}</span>}
+                        {p.tech_tags.length > 4 && <span className="font-mono text-[9px] text-white/40">+{p.tech_tags.length - 4}</span>}
                       </div>
                     </div>
                   </div>
@@ -452,32 +546,35 @@ export default function Home() {
               {textProjects.map((p) => (
                 <motion.div key={p.id} variants={fadeUp}>
                   <div
-                    className="group relative border border-white/[0.06] bg-white/[0.015] backdrop-blur-xl rounded-xl px-6 py-4 hover:border-white/[0.12] hover:bg-white/[0.03] transition-all duration-400 cursor-pointer flex items-center gap-4"
+                    className="group relative border border-white/[0.07] bg-white/[0.015] backdrop-blur-xl rounded-xl px-6 py-4 hover:border-white/[0.18] hover:bg-white/[0.035] transition-all duration-400 cursor-pointer flex items-center gap-4"
                     role="button" tabIndex={0}
                     onClick={() => setSelectedProject(p)}
                     onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setSelectedProject(p); }}
                   >
-                    <div className="absolute left-0 top-0 bottom-0 w-[2px] rounded-l-xl bg-gradient-to-b from-transparent via-[#00FF41]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute left-0 top-0 bottom-0 w-[2px] rounded-l-xl bg-gradient-to-b from-transparent via-[#C9A86A]/55 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-wrap items-center gap-2 mb-1">
-                        <span className="font-mono text-[9px] tracking-[0.18em] text-[#00FF41]/60 border border-[#00FF41]/15 bg-[#00FF41]/[0.04] px-2 py-0.5 rounded-full uppercase shrink-0">{p.category}</span>
-                        <h3 className="text-[14px] font-bold group-hover:text-white transition-colors">{p.title}</h3>
+                        <span className="font-mono text-[9px] tracking-[0.18em] text-white/55 border border-white/[0.12] bg-white/[0.025] px-2 py-0.5 rounded-full uppercase shrink-0">{p.category}</span>
+                        <h3 className="text-[14px] font-bold text-white/85 group-hover:text-white transition-colors">{p.title}</h3>
                       </div>
-                      <p className="text-gray-600 text-[12px] truncate">{p.description}</p>
+                      <p className="text-white/45 text-[12px] truncate">{p.description}</p>
                     </div>
                     <div className="hidden sm:flex flex-wrap gap-1.5 shrink-0">
                       {p.tech_tags.slice(0, 3).map((tag) => (
-                        <span key={tag} className="font-mono text-[9px] px-2 py-0.5 border border-white/[0.06] text-gray-600 rounded-md">{tag}</span>
+                        <span key={tag} className="font-mono text-[9px] px-2 py-0.5 border border-white/[0.07] text-white/45 rounded-md">{tag}</span>
                       ))}
                     </div>
-                    <ArrowRight size={13} className="text-gray-700 group-hover:text-[#00FF41]/70 group-hover:translate-x-0.5 transition-all duration-300 shrink-0" />
+                    <ArrowRight size={13} className="text-white/30 group-hover:text-[#C9A86A] group-hover:translate-x-0.5 transition-all duration-300 shrink-0" />
                   </div>
                 </motion.div>
               ))}
             </div>
 
             <motion.div variants={fadeUp} className="mt-8 text-center">
-              <Link href="/projects" className="group inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] border border-white/[0.08] px-8 py-3.5 text-gray-500 hover:border-[#00FF41]/40 hover:text-[#00FF41] transition-all duration-300 rounded-xl uppercase">
+              <Link
+                href="/projects"
+                className="group inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] border border-white/[0.12] px-8 py-3.5 text-white/65 hover:border-[#C9A86A]/45 hover:text-[#C9A86A] transition-all duration-300 rounded-xl uppercase"
+              >
                 View All Projects <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
@@ -487,23 +584,29 @@ export default function Home() {
         {/* EXPERIENCE */}
         <section id="experience" className="py-28 px-6">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-5xl mx-auto">
-            <motion.div variants={fadeUp}><SectionLabel text="Experience" /></motion.div>
+            <motion.div variants={fadeUp}><SectionLabel num="04" text="Experience" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-12 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Work History</motion.h2>
             <div className="relative">
-              <div className="absolute left-[6px] top-4 bottom-16 w-px bg-gradient-to-b from-[#00FF41]/25 via-white/[0.05] to-transparent hidden sm:block" />
+              <div className="absolute left-[6px] top-4 bottom-16 w-px bg-gradient-to-b from-[#C9A86A]/45 via-white/[0.05] to-transparent hidden sm:block" />
               <div className="space-y-4">
                 {experience.map((exp, i) => (
                   <motion.div key={i} variants={fadeUp} className="relative sm:pl-12">
-                    <div className={`absolute left-0 top-6 w-3 h-3 rounded-full border-2 transition-all duration-500 hidden sm:block ${ exp.active ? "bg-[#00FF41] border-[#00FF41] shadow-[0_0_16px_rgba(0,255,65,0.6)]" : "bg-[#050505] border-white/20" }`} />
-                    {exp.active && <div className="absolute left-0 top-6 w-3 h-3 rounded-full bg-[#00FF41] animate-ping opacity-25 hidden sm:block" />}
+                    <div
+                      className={`absolute left-0 top-6 w-3 h-3 rounded-full border-2 transition-all duration-500 hidden sm:block ${
+                        exp.active
+                          ? "bg-[#C9A86A] border-[#C9A86A] shadow-[0_0_0_4px_rgba(201,168,106,0.18)]"
+                          : "bg-[#0a0a0a] border-white/20"
+                      }`}
+                    />
+                    {exp.active && <div className="absolute left-0 top-6 w-3 h-3 rounded-full bg-[#C9A86A] animate-ping opacity-25 hidden sm:block" />}
                     <GlassCard className="p-6">
                       <div className="flex flex-wrap items-center gap-3 mb-3">
-                        <span className="font-mono text-[11px] text-gray-600 flex items-center gap-1.5"><Calendar size={11} />{exp.period}</span>
-                        {exp.active && <span className="font-mono text-[9px] tracking-[0.2em] text-[#00FF41]/70 border border-[#00FF41]/20 bg-[#00FF41]/[0.05] px-2.5 py-0.5 rounded-full uppercase">Current</span>}
+                        <span className="font-mono text-[11px] text-white/40 flex items-center gap-1.5"><Calendar size={11} />{exp.period}</span>
+                        {exp.active && <span className="font-mono text-[9px] tracking-[0.2em] text-[#C9A86A] border border-[#C9A86A]/40 bg-[#C9A86A]/[0.06] px-2.5 py-0.5 rounded-full uppercase">Current</span>}
                       </div>
                       <h3 className="text-[17px] font-bold mb-1">{exp.role}</h3>
-                      <div className="font-mono text-[11px] text-gray-500 mb-3 flex items-center gap-1.5"><MapPin size={11} />{exp.company}</div>
-                      <p className="text-gray-400 text-[13px] leading-relaxed">{exp.description}</p>
+                      <div className="font-mono text-[11px] text-white/45 mb-3 flex items-center gap-1.5"><MapPin size={11} />{exp.company}</div>
+                      <p className="text-white/65 text-[13px] leading-relaxed">{exp.description}</p>
                     </GlassCard>
                   </motion.div>
                 ))}
@@ -515,34 +618,35 @@ export default function Home() {
         {/* CERTIFICATIONS */}
         <section id="certifications" className="py-28 px-6">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-5xl mx-auto">
-            <motion.div variants={fadeUp}><SectionLabel text="Certifications" /></motion.div>
+            <motion.div variants={fadeUp}><SectionLabel num="05" text="Certifications" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-12 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Certificates &amp; Learnings</motion.h2>
             <motion.div variants={stagger} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-24">
               {certifications.map((cert) => (
                 <motion.div key={cert.title} variants={fadeUp}>
                   <GlassCard className="p-6 group h-full">
                     <div className="flex items-start gap-3 mb-3">
-                      <div className="w-9 h-9 rounded-xl bg-[#00FF41]/[0.07] border border-[#00FF41]/[0.12] flex items-center justify-center shrink-0 group-hover:bg-[#00FF41]/[0.14] group-hover:border-[#00FF41]/[0.28] transition-all duration-300">
-                        <cert.icon size={15} className="text-[#00FF41]/60 group-hover:text-[#00FF41] transition-colors duration-300" />
+                      <div className="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/[0.10] flex items-center justify-center shrink-0 group-hover:bg-white/[0.08] group-hover:border-white/[0.22] transition-all duration-300">
+                        <cert.icon size={15} className="text-white/55 group-hover:text-white transition-colors duration-300" />
                       </div>
                       <h3 className="font-mono text-[12px] font-bold text-white tracking-wide leading-snug">{cert.title}</h3>
                     </div>
-                    <p className="text-gray-500 text-[12px] leading-relaxed">{cert.detail}</p>
+                    <p className="text-white/45 text-[12px] leading-relaxed">{cert.detail}</p>
                   </GlassCard>
                 </motion.div>
               ))}
             </motion.div>
-            <motion.div variants={fadeUp}><SectionLabel text="Publications" /></motion.div>
+
+            <motion.div variants={fadeUp}><SectionLabel num="—" text="Publications" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-12 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Research &amp; Writing</motion.h2>
             <motion.div variants={stagger} className="space-y-4">
               <motion.div variants={fadeUp}>
                 <GlassCard className="p-7">
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-[#00FF41]/[0.07] border border-[#00FF41]/[0.12] flex items-center justify-center shrink-0"><FileText size={17} className="text-[#00FF41]/60" /></div>
+                    <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.10] flex items-center justify-center shrink-0"><FileText size={17} className="text-white/55" /></div>
                     <div>
-                      <div className="font-mono text-[10px] text-[#00FF41]/60 tracking-[0.2em] uppercase mb-2">Research Paper</div>
+                      <div className="font-mono text-[10px] text-white/55 tracking-[0.2em] uppercase mb-2">Research Paper</div>
                       <h3 className="font-bold text-[15px] mb-2">&ldquo;Engineers Fear AI, As Mathematicians Once Feared Calculators&rdquo;</h3>
-                      <p className="text-gray-500 text-[13px] leading-relaxed">A perspective on how engineering professionals can embrace AI as a tool for amplification rather than replacement, drawing historical parallels with the adoption of calculators in mathematics.</p>
+                      <p className="text-white/45 text-[13px] leading-relaxed">A perspective on how engineering professionals can embrace AI as a tool for amplification rather than replacement, drawing historical parallels with the adoption of calculators in mathematics.</p>
                     </div>
                   </div>
                 </GlassCard>
@@ -550,12 +654,12 @@ export default function Home() {
               <motion.div variants={fadeUp}>
                 <GlassCard className="p-7">
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-[#00FF41]/[0.07] border border-[#00FF41]/[0.12] flex items-center justify-center shrink-0"><PenTool size={17} className="text-[#00FF41]/60" /></div>
+                    <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.10] flex items-center justify-center shrink-0"><PenTool size={17} className="text-white/55" /></div>
                     <div>
-                      <div className="font-mono text-[10px] text-[#00FF41]/60 tracking-[0.2em] uppercase mb-2">LinkedIn Research Blogs</div>
+                      <div className="font-mono text-[10px] text-white/55 tracking-[0.2em] uppercase mb-2">LinkedIn Research Blogs</div>
                       <h3 className="font-bold text-[15px] mb-2">Technical Deep-Dives</h3>
-                      <p className="text-gray-500 text-[13px] leading-relaxed mb-4">Published deep-dives including <span className="text-gray-300">How GPS Works</span>, <span className="text-gray-300">Zipf&apos;s Law for LLMs</span>, and other explorations at the intersection of math, physics, and AI.</p>
-                      <a href="https://www.linkedin.com/in/preet-dave-452023271/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-mono text-[11px] text-[#00FF41]/60 hover:text-[#00FF41] transition-colors">
+                      <p className="text-white/45 text-[13px] leading-relaxed mb-4">Published deep-dives including <span className="text-white/85">How GPS Works</span>, <span className="text-white/85">Zipf&apos;s Law for LLMs</span>, and other explorations at the intersection of math, physics, and AI.</p>
+                      <a href="https://www.linkedin.com/in/preet-dave-452023271/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-mono text-[11px] text-white/55 hover:text-[#C9A86A] transition-colors">
                         <Linkedin size={12} /> Follow on LinkedIn
                       </a>
                     </div>
@@ -569,12 +673,12 @@ export default function Home() {
         {/* CONTACT */}
         <section id="contact" className="py-28 px-6 relative overflow-hidden">
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
-            <span className="font-black text-white/[0.016] tracking-tighter leading-none whitespace-nowrap" style={{ fontSize: "clamp(80px, 18vw, 200px)" }}>HELLO</span>
+            <span className="font-black text-white/[0.018] tracking-tighter leading-none whitespace-nowrap" style={{ fontSize: "clamp(80px, 18vw, 200px)" }}>HELLO</span>
           </div>
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="max-w-5xl mx-auto relative">
-            <motion.div variants={fadeUp}><SectionLabel text="Contact" /></motion.div>
+            <motion.div variants={fadeUp}><SectionLabel num="06" text="Contact" /></motion.div>
             <motion.h2 variants={fadeUp} className="font-black mb-4 tracking-tight" style={{ fontSize: "clamp(36px, 5vw, 56px)" }}>Get In Touch</motion.h2>
-            <motion.p variants={fadeUp} className="text-gray-500 text-[15px] mb-12 max-w-md">Open to AI/ML engineering roles, research collaborations, and interesting projects.</motion.p>
+            <motion.p variants={fadeUp} className="text-white/55 text-[15px] mb-12 max-w-md">Open to AI/ML engineering roles, research collaborations, and interesting projects.</motion.p>
             <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
               <motion.div variants={fadeUp}>
                 <div className="space-y-3">
@@ -584,12 +688,18 @@ export default function Home() {
                     { Icon: Github,   label: "GitHub",   href: "https://github.com/iampreetdave-max",               text: "iampreetdave-max" },
                     { Icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/preet-dave-452023271/", text: "preet-dave" },
                   ].map((link) => (
-                    <a key={link.label} href={link.href} target={link.href.startsWith("http") ? "_blank" : undefined} rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined} className="group flex items-center gap-4 text-gray-500 hover:text-white transition-all duration-300">
-                      <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/[0.025] border border-white/[0.07] shrink-0 group-hover:border-[#00FF41]/25 group-hover:bg-[#00FF41]/[0.06] transition-all duration-300">
-                        <link.Icon size={16} className="group-hover:text-[#00FF41] transition-colors duration-300" />
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      target={link.href.startsWith("http") ? "_blank" : undefined}
+                      rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="group flex items-center gap-4 text-white/55 hover:text-white transition-all duration-300"
+                    >
+                      <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/[0.025] border border-white/[0.07] shrink-0 group-hover:border-[#C9A86A]/45 group-hover:bg-[#C9A86A]/[0.06] transition-all duration-300">
+                        <link.Icon size={16} className="group-hover:text-[#C9A86A] transition-colors duration-300" />
                       </div>
                       <div>
-                        <div className="font-mono text-[10px] text-gray-700 tracking-[0.15em] uppercase mb-0.5">{link.label}</div>
+                        <div className="font-mono text-[10px] text-white/35 tracking-[0.15em] uppercase mb-0.5">{link.label}</div>
                         <div className="text-sm">{link.text}</div>
                       </div>
                     </a>
@@ -604,15 +714,18 @@ export default function Home() {
                     { label: "Email", type: "email", name: "email", placeholder: "your@email.com" },
                   ].map((f) => (
                     <div key={f.name}>
-                      <label className="block font-mono text-[10px] text-gray-600 mb-2 tracking-[0.15em] uppercase">{f.label}</label>
-                      <input type={f.type} name={f.name} required placeholder={f.placeholder} className="w-full bg-white/[0.025] border border-white/[0.07] p-4 text-white text-sm rounded-xl transition-all duration-300 placeholder-gray-800" />
+                      <label className="block font-mono text-[10px] text-white/45 mb-2 tracking-[0.15em] uppercase">{f.label}</label>
+                      <input type={f.type} name={f.name} required placeholder={f.placeholder} className="w-full bg-white/[0.025] border border-white/[0.07] p-4 text-white text-sm rounded-xl transition-all duration-300 placeholder-white/20" />
                     </div>
                   ))}
                   <div>
-                    <label className="block font-mono text-[10px] text-gray-600 mb-2 tracking-[0.15em] uppercase">Message</label>
-                    <textarea name="message" required rows={5} placeholder="What's on your mind?" className="w-full bg-white/[0.025] border border-white/[0.07] p-4 text-white text-sm rounded-xl transition-all duration-300 resize-none placeholder-gray-800" />
+                    <label className="block font-mono text-[10px] text-white/45 mb-2 tracking-[0.15em] uppercase">Message</label>
+                    <textarea name="message" required rows={5} placeholder="What's on your mind?" className="w-full bg-white/[0.025] border border-white/[0.07] p-4 text-white text-sm rounded-xl transition-all duration-300 resize-none placeholder-white/20" />
                   </div>
-                  <button type="submit" className="w-full font-mono text-[11px] tracking-[0.15em] border border-[#00FF41]/60 text-[#00FF41] px-6 py-4 hover:bg-[#00FF41] hover:text-black transition-all duration-300 uppercase rounded-xl flex items-center justify-center gap-2">
+                  <button
+                    type="submit"
+                    className="w-full font-mono text-[11px] tracking-[0.15em] border border-white/80 text-white px-6 py-4 hover:bg-[#C9A86A] hover:text-black hover:border-[#C9A86A] transition-all duration-300 uppercase rounded-xl flex items-center justify-center gap-2"
+                  >
                     <Send size={13} /> Send Message
                   </button>
                 </form>
@@ -621,12 +734,12 @@ export default function Home() {
           </motion.div>
         </section>
 
-        <footer className="border-t border-white/[0.04] py-8 px-6">
+        <footer className="border-t border-white/[0.05] py-8 px-6">
           <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="font-mono text-[10px] text-gray-600 tracking-widest">© 2026 PREET GHANSHYAM DAVE</p>
+            <p className="font-mono text-[10px] text-white/35 tracking-widest">© 2026 PREET GHANSHYAM DAVE</p>
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00FF41]/30" />
-              <p className="font-mono text-[10px] text-gray-700 tracking-widest">NEXT.JS + TAILWIND + FRAMER MOTION</p>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A86A]/60" />
+              <p className="font-mono text-[10px] text-white/30 tracking-widest">NEXT.JS · TAILWIND · FRAMER MOTION</p>
             </div>
           </div>
         </footer>

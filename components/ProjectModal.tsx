@@ -40,11 +40,11 @@ export default function ProjectModal({
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 20, scale: 0.97 }}
         transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-        className="relative w-full max-w-2xl bg-[#0a0a0a] border border-white/[0.1] rounded-2xl max-h-[88vh] overflow-y-auto shadow-2xl"
+        className="relative w-full max-w-2xl bg-[#0e0e0e] border border-white/[0.12] rounded-2xl max-h-[88vh] overflow-y-auto shadow-2xl"
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg border border-white/[0.1] text-gray-500 hover:text-white hover:border-white/[0.25] transition-all cursor-pointer z-10 bg-black/60 backdrop-blur-sm"
+          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg border border-white/[0.12] text-white/55 hover:text-white hover:border-white/[0.30] transition-all cursor-pointer z-10 bg-black/60 backdrop-blur-sm"
           aria-label="Close"
         >
           <X size={15} />
@@ -59,21 +59,22 @@ export default function ProjectModal({
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 672px"
               priority
+              style={{ filter: "grayscale(50%) contrast(1.05)" }}
             />
-            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0e0e0e] to-transparent" />
           </div>
         )}
 
         <div className="p-6 md:p-8">
-          <span className="inline-block font-mono text-[10px] px-3 py-1 border border-[#00FF41]/20 text-[#00FF41]/70 mb-4 tracking-[0.2em] rounded-full bg-[#00FF41]/[0.05] uppercase">
+          <span className="inline-block font-mono text-[10px] px-3 py-1 border border-[#C9A86A]/35 text-[#C9A86A] mb-4 tracking-[0.2em] rounded-full bg-[#C9A86A]/[0.06] uppercase">
             {project.category}
           </span>
 
-          <h2 className="text-2xl md:text-[28px] font-black mb-5 tracking-tight pr-8 leading-tight">
+          <h2 className="text-2xl md:text-[28px] font-black mb-5 tracking-tight pr-8 leading-tight text-white">
             {project.title}
           </h2>
 
-          <div className="text-gray-300 text-[14px] leading-[1.9] mb-6 whitespace-pre-line">
+          <div className="text-white/75 text-[14px] leading-[1.9] mb-6 whitespace-pre-line">
             {project.longDescription}
           </div>
 
@@ -81,7 +82,7 @@ export default function ProjectModal({
             {project.tech_tags.map((tag) => (
               <span
                 key={tag}
-                className="font-mono text-[10px] px-2.5 py-1 border border-white/[0.08] text-gray-400 rounded-md bg-white/[0.02]"
+                className="font-mono text-[10px] px-2.5 py-1 border border-white/[0.10] text-white/65 rounded-md bg-white/[0.025]"
               >
                 {tag}
               </span>
@@ -93,14 +94,14 @@ export default function ProjectModal({
               href={project.repo_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] border border-[#00FF41]/50 text-[#00FF41] px-6 py-3 hover:bg-[#00FF41] hover:text-black transition-all duration-300 rounded-lg cursor-pointer uppercase"
+              className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] border border-white/80 text-white px-6 py-3 hover:bg-[#C9A86A] hover:text-black hover:border-[#C9A86A] transition-all duration-300 rounded-lg cursor-pointer uppercase"
             >
               View Repository
               <ArrowUpRight size={14} />
             </a>
           ) : (
-            <span className="inline-flex items-center gap-2 font-mono text-[11px] text-gray-600 tracking-wider">
-              <span className="w-1.5 h-1.5 rounded-full bg-gray-700" />
+            <span className="inline-flex items-center gap-2 font-mono text-[11px] text-white/45 tracking-wider">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A86A]/55" />
               Confidential &middot; Production Project
             </span>
           )}
