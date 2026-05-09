@@ -72,6 +72,12 @@ export default function ProjectsPage() {
             <span className="text-white/30 font-light">/</span>
             <span className="text-white/40 text-[10px] tracking-[0.3em] uppercase">Folio</span>
           </Link>
+          <Link
+            href="/fun"
+            className="font-mono text-[11px] tracking-wider border border-white/[0.10] px-4 py-2 text-white/45 hover:border-[#C9A86A]/45 hover:text-[#C9A86A] transition-all duration-300 rounded-lg uppercase"
+          >
+            Fun Zone ↗
+          </Link>
         </div>
       </nav>
 
@@ -173,9 +179,14 @@ export default function ProjectsPage() {
         <footer className="border-t border-white/[0.05] mt-20 pt-8">
           <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="font-mono text-[10px] text-white/35 tracking-wider">© 2026 PREET GHANSHYAM DAVE</p>
-            <div className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A86A]/55" />
-              <p className="font-mono text-[10px] text-white/30 tracking-wider">BUILT WITH NEXT.JS · TAILWIND</p>
+            <div className="flex items-center gap-4">
+              <Link href="/fun" className="font-mono text-[10px] text-white/30 hover:text-[#C9A86A] transition-colors tracking-wider">
+                Fun Zone →
+              </Link>
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C9A86A]/55" />
+                <p className="font-mono text-[10px] text-white/30 tracking-wider">BUILT WITH NEXT.JS · TAILWIND</p>
+              </div>
             </div>
           </div>
         </footer>
