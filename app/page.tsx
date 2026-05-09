@@ -459,7 +459,7 @@ export default function Home() {
             <span className="text-white/30 font-light">/</span>
             <span className="text-white/40 text-[10px] tracking-[0.3em] uppercase">Folio</span>
           </a>
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-6">
             {navItems.map((item) => (
               <a
                 key={item}
@@ -471,6 +471,21 @@ export default function Home() {
                 {item}
               </a>
             ))}
+            {/* Divider */}
+            <span className="text-white/[0.12] font-light">|</span>
+            {/* Page links */}
+            <Link
+              href="/projects"
+              className="font-mono text-[11px] tracking-[0.15em] uppercase text-white/45 hover:text-[#C9A86A] transition-colors duration-300"
+            >
+              All Projects
+            </Link>
+            <Link
+              href="/fun"
+              className="font-mono text-[11px] tracking-[0.15em] border border-white/[0.10] px-3 py-1.5 text-white/45 hover:border-[#C9A86A]/45 hover:text-[#C9A86A] transition-all duration-300 rounded-md uppercase"
+            >
+              Fun Zone
+            </Link>
           </div>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
@@ -502,6 +517,32 @@ export default function Home() {
                     {item}
                   </a>
                 ))}
+                {/* Divider */}
+                <div className="border-t border-white/[0.06]" />
+                {/* Page links in mobile menu */}
+                <Link
+                  href="/projects"
+                  onClick={() => setMenuOpen(false)}
+                  className="font-mono text-sm tracking-wider text-white/55 hover:text-[#C9A86A] transition-colors flex items-center gap-2"
+                >
+                  All Projects <ArrowRight size={13} />
+                </Link>
+                <Link
+                  href="/fun"
+                  onClick={() => setMenuOpen(false)}
+                  className="font-mono text-sm tracking-wider text-white/55 hover:text-[#C9A86A] transition-colors flex items-center gap-2"
+                >
+                  Fun Zone <span className="text-[10px] opacity-60">(AI games)</span>
+                </Link>
+                <a
+                  href="https://github.com/iampreetdave-max/ai-race-news"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMenuOpen(false)}
+                  className="font-mono text-sm tracking-wider text-white/55 hover:text-[#C9A86A] transition-colors flex items-center gap-2"
+                >
+                  AI Race News <span className="text-[10px] opacity-60">(GitHub ↗)</span>
+                </a>
               </div>
             </motion.div>
           )}
@@ -587,6 +628,30 @@ export default function Home() {
                 className="group font-mono text-[11px] tracking-[0.15em] border border-white/[0.12] px-5 py-3.5 text-white/60 hover:border-[#C9A86A]/50 hover:text-[#C9A86A] transition-all duration-300 rounded-lg flex items-center gap-2 uppercase"
               >
                 <FileText size={12} /> DOCX
+              </a>
+            </motion.div>
+
+            {/* Quick page links below hero CTA */}
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1, duration: 0.6 }} className="flex flex-wrap gap-4 items-center mt-6">
+              <Link
+                href="/projects"
+                className="font-mono text-[10px] tracking-[0.15em] text-white/35 hover:text-white/70 transition-colors uppercase flex items-center gap-1.5"
+              >
+                All Projects ({14}+) →
+              </Link>
+              <Link
+                href="/fun"
+                className="font-mono text-[10px] tracking-[0.15em] text-white/35 hover:text-[#C9A86A] transition-colors uppercase flex items-center gap-1.5"
+              >
+                Fun Zone — AI games →
+              </Link>
+              <a
+                href="https://github.com/iampreetdave-max/ai-race-news"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono text-[10px] tracking-[0.15em] text-white/35 hover:text-[#C9A86A] transition-colors uppercase flex items-center gap-1.5"
+              >
+                AI Race News ↗
               </a>
             </motion.div>
           </div>
@@ -762,7 +827,7 @@ export default function Home() {
               ))}
             </motion.div>
 
-            {/* Bottom 2 image projects */}
+            {/* Bottom image projects */}
             <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               {imageProjects.slice(2).map((p) => (
                 <motion.div key={p.id} variants={fadeUp}>
@@ -785,6 +850,18 @@ export default function Home() {
                       <span className="absolute top-3 left-3 font-mono text-[9px] tracking-[0.18em] text-white/85 border border-white/25 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full uppercase">
                         {p.category}
                       </span>
+                      {/* AI Race News repo badge */}
+                      {p.repo_url && (
+                        <a
+                          href={p.repo_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="absolute top-3 right-3 font-mono text-[9px] tracking-wider border border-white/25 bg-black/60 backdrop-blur-md px-2 py-1 rounded-full text-white/75 hover:border-[#C9A86A]/60 hover:text-[#C9A86A] transition-colors"
+                        >
+                          GitHub ↗
+                        </a>
+                      )}
                     </div>
                     <div className="p-5">
                       <h3 className="text-[15px] font-bold mb-2 text-white/85 group-hover:text-white transition-colors">{p.title}</h3>
@@ -824,18 +901,36 @@ export default function Home() {
                         <span key={tag} className="font-mono text-[9px] px-2 py-0.5 border border-white/[0.07] text-white/45 rounded-md">{tag}</span>
                       ))}
                     </div>
-                    <ArrowRight size={13} className="text-white/30 group-hover:text-[#C9A86A] group-hover:translate-x-0.5 transition-all duration-300 shrink-0" />
+                    {p.repo_url ? (
+                      <a
+                        href={p.repo_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="font-mono text-[9px] text-white/30 hover:text-[#C9A86A] transition-colors shrink-0 border border-white/[0.07] px-2 py-1 rounded-md hover:border-[#C9A86A]/40"
+                      >
+                        GitHub ↗
+                      </a>
+                    ) : (
+                      <ArrowRight size={13} className="text-white/30 group-hover:text-[#C9A86A] group-hover:translate-x-0.5 transition-all duration-300 shrink-0" />
+                    )}
                   </div>
                 </motion.div>
               ))}
             </div>
 
-            <motion.div variants={fadeUp} className="mt-8 text-center">
+            <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Link
                 href="/projects"
                 className="group inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] border border-white/[0.12] px-8 py-3.5 text-white/65 hover:border-[#C9A86A]/45 hover:text-[#C9A86A] transition-all duration-300 rounded-xl uppercase"
               >
                 View All Projects <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
+                href="/fun"
+                className="group inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] border border-white/[0.07] px-8 py-3.5 text-white/45 hover:border-white/[0.20] hover:text-white/75 transition-all duration-300 rounded-xl uppercase"
+              >
+                Try Fun Zone
               </Link>
             </motion.div>
           </motion.div>
@@ -1298,12 +1393,45 @@ export default function Home() {
           </motion.div>
         </section>
 
-        <footer className="border-t border-white/[0.05] py-8 px-6">
-          <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="font-mono text-[10px] text-white/35 tracking-widest">© 2026 PREET GHANSHYAM DAVE</p>
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A86A]/60" />
-              <p className="font-mono text-[10px] text-white/30 tracking-widest">NEXT.JS · TAILWIND · FRAMER MOTION</p>
+        <footer className="border-t border-white/[0.05] py-10 px-6">
+          <div className="max-w-5xl mx-auto space-y-6">
+            {/* Site links row */}
+            <div className="flex flex-wrap items-center justify-between gap-6">
+              <div className="flex flex-wrap items-center gap-6">
+                <Link href="/projects" className="font-mono text-[10px] text-white/35 hover:text-white/70 tracking-wider transition-colors uppercase">
+                  All Projects →
+                </Link>
+                <Link href="/fun" className="font-mono text-[10px] text-white/35 hover:text-[#C9A86A] tracking-wider transition-colors uppercase">
+                  Fun Zone →
+                </Link>
+                <a
+                  href="https://github.com/iampreetdave-max/ai-race-news"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-[10px] text-white/35 hover:text-[#C9A86A] tracking-wider transition-colors uppercase flex items-center gap-1"
+                >
+                  AI Race News ↗
+                </a>
+              </div>
+              <div className="flex items-center gap-4">
+                <a href="https://github.com/iampreetdave-max" target="_blank" rel="noopener noreferrer" className="text-white/25 hover:text-white/60 transition-colors">
+                  <Github size={14} />
+                </a>
+                <a href="https://www.linkedin.com/in/preet-dave-452023271/" target="_blank" rel="noopener noreferrer" className="text-white/25 hover:text-white/60 transition-colors">
+                  <Linkedin size={14} />
+                </a>
+                <a href="mailto:iampreetdave@gmail.com" className="text-white/25 hover:text-white/60 transition-colors">
+                  <Mail size={14} />
+                </a>
+              </div>
+            </div>
+            {/* Copyright row */}
+            <div className="flex flex-col md:flex-row items-center justify-between gap-3 pt-4 border-t border-white/[0.04]">
+              <p className="font-mono text-[10px] text-white/35 tracking-widest">© 2026 PREET GHANSHYAM DAVE</p>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C9A86A]/60" />
+                <p className="font-mono text-[10px] text-white/30 tracking-widest">NEXT.JS · TAILWIND · FRAMER MOTION</p>
+              </div>
             </div>
           </div>
         </footer>
