@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 /* ─── TYPES ─── */
 
@@ -742,12 +743,21 @@ export default function FunZone() {
             <span className="text-white/30 font-light">/</span>
             <span className="text-[#C9A86A] text-xs font-normal tracking-[0.3em] uppercase">Fun Zone</span>
           </a>
-          <a
-            href="/"
-            className="font-mono text-[11px] tracking-wider text-white/45 hover:text-white transition-colors uppercase"
-          >
-            ← Portfolio
-          </a>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/projects"
+              className="font-mono text-[11px] tracking-wider text-white/45 hover:text-white transition-colors uppercase"
+            >
+              Projects
+            </Link>
+            <span className="text-white/15">|</span>
+            <a
+              href="/"
+              className="font-mono text-[11px] tracking-wider text-white/45 hover:text-white transition-colors uppercase"
+            >
+              ← Portfolio
+            </a>
+          </div>
         </div>
       </nav>
 
@@ -806,10 +816,23 @@ export default function FunZone() {
       </main>
 
       <footer className="border-t border-white/[0.06] py-8 px-6">
-        <div className="max-w-2xl mx-auto text-center">
+        <div className="max-w-2xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="font-mono text-[10px] text-white/30 tracking-wider">
             POWERED BY CLAUDE AI · FOR ENTERTAINMENT ONLY
           </p>
+          <div className="flex items-center gap-4">
+            <a
+              href="https://github.com/iampreetdave-max/ai-race-news"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-[10px] text-white/30 hover:text-[#C9A86A] transition-colors tracking-wider"
+            >
+              AI Race News →
+            </a>
+            <Link href="/projects" className="font-mono text-[10px] text-white/30 hover:text-[#C9A86A] transition-colors tracking-wider">
+              All Projects →
+            </Link>
+          </div>
         </div>
       </footer>
     </div>
