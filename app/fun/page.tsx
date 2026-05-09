@@ -822,7 +822,7 @@ export default function FunZone() {
           </p>
           <div className="flex items-center gap-4">
             <a
-              href="https://github.com/iampreetdave-max/ai-race-news"
+              href="https://ai-race-news.pages.dev/"
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono text-[10px] text-white/30 hover:text-[#C9A86A] transition-colors tracking-wider"
