@@ -20,10 +20,7 @@ export const metadata: Metadata = {
     description:
       "Building intelligent systems with deep learning, computer vision, and advanced ML algorithms.",
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
@@ -37,7 +34,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className="antialiased bg-ink text-paper">{children}</body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
