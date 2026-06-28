@@ -3,14 +3,15 @@
 @tailwind utilities;
 
 :root {
-  --bg:           #080A0F;
-  --surface:      #0E111A;
-  --line:         #1E2333;
-  --paper:        #E8EAF2;
-  --muted:        #9AA1B4;
-  --accent:       #7C8CFF;
-  --accent-strong:#5B6CFF;
-  --cyan:         #43E7FF;
+  --bg:           #0A0A0B;
+  --surface:      #141416;
+  --line:         #26262B;
+  --line-strong:  #36363D;
+  --paper:        #F2F2F3;
+  --muted:        #A0A0A6;
+  --accent:       #FFFFFF;
+  --accent-strong:#E6E6E9;
+  --cyan:         #C9C9CF;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,20 +27,20 @@ body {
   line-height: 1.6;
 }
 
-::selection { background: rgba(124, 140, 255, 0.28); color: #fff; }
+::selection { background: rgba(255, 255, 255, 0.20); color: #fff; }
 
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: #20263a; border-radius: 999px; border: 3px solid var(--bg); }
-::-webkit-scrollbar-thumb:hover { background: #2c3450; }
+::-webkit-scrollbar-thumb { background: #2a2a30; border-radius: 999px; border: 3px solid var(--bg); }
+::-webkit-scrollbar-thumb:hover { background: #3a3a42; }
 
-/* Ambient background: layered radial glows + faint masked grid */
+/* Ambient background: layered grey radial glows + faint masked grid */
 .bg-ambient {
   position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background:
-    radial-gradient(58rem 58rem at 82% -12%, rgba(124,140,255,0.12), transparent 60%),
-    radial-gradient(48rem 48rem at -8% 18%, rgba(67,231,255,0.07), transparent 55%),
-    radial-gradient(42rem 42rem at 50% 116%, rgba(167,139,250,0.07), transparent 60%);
+    radial-gradient(58rem 58rem at 82% -12%, rgba(255,255,255,0.06), transparent 60%),
+    radial-gradient(48rem 48rem at -8% 18%, rgba(255,255,255,0.035), transparent 55%),
+    radial-gradient(42rem 42rem at 50% 116%, rgba(255,255,255,0.03), transparent 60%);
 }
 .bg-grid {
   position: fixed; inset: 0; z-index: 0; pointer-events: none;
@@ -54,13 +55,13 @@ body {
 /* Typography helpers */
 .font-display { font-family: var(--font-display), var(--font-sans), sans-serif; }
 .text-gradient {
-  background: linear-gradient(102deg, #ffffff 0%, #c9cffb 42%, var(--accent) 76%, var(--cyan) 112%);
+  background: linear-gradient(100deg, #ffffff 0%, #d8d8dd 52%, #8e8e96 110%);
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent; color: transparent;
 }
 .kicker {
   font-family: var(--font-mono), monospace;
-  font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent);
+  font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--muted);
 }
 
 /* Surfaces */
@@ -71,10 +72,10 @@ body {
   transition: border-color .35s ease, transform .35s ease, background .35s ease, box-shadow .35s ease;
 }
 .card:hover {
-  border-color: rgba(124,140,255,0.42);
-  background: rgba(124,140,255,0.045);
+  border-color: rgba(255,255,255,0.28);
+  background: rgba(255,255,255,0.04);
   transform: translateY(-3px);
-  box-shadow: 0 26px 64px -34px rgba(124,140,255,0.5);
+  box-shadow: 0 26px 64px -34px rgba(255,255,255,0.14);
 }
 .chip {
   display: inline-flex; align-items: center;
@@ -97,20 +98,20 @@ body {
 .btn-primary {
   display: inline-flex; align-items: center; gap: 8px;
   height: 44px; padding: 0 20px; border-radius: 12px;
-  background: var(--accent); color: #07090f; font-weight: 600; font-size: 14px;
+  background: var(--accent); color: #0a0a0b; font-weight: 600; font-size: 14px;
   border: 1px solid transparent;
   transition: background .25s ease, transform .25s ease, box-shadow .25s ease;
 }
-.btn-primary:hover { background: var(--accent-strong); color:#fff; transform: translateY(-1px); box-shadow: 0 14px 34px -14px rgba(124,140,255,0.6); }
+.btn-primary:hover { background: var(--accent-strong); color: #0a0a0b; transform: translateY(-1px); box-shadow: 0 14px 34px -14px rgba(255,255,255,0.25); }
 
 .btn-ghost {
   display: inline-flex; align-items: center; gap: 8px;
   height: 44px; padding: 0 20px; border-radius: 12px;
-  border: 1px solid var(--line-strong, #2A3142); color: var(--paper); font-weight: 500; font-size: 14px;
+  border: 1px solid var(--line-strong, #36363D); color: var(--paper); font-weight: 500; font-size: 14px;
   background: rgba(255,255,255,0.02);
   transition: border-color .25s ease, background .25s ease, transform .25s ease;
 }
-.btn-ghost:hover { border-color: rgba(124,140,255,0.5); background: rgba(124,140,255,0.06); transform: translateY(-1px); }
+.btn-ghost:hover { border-color: rgba(255,255,255,0.45); background: rgba(255,255,255,0.05); transform: translateY(-1px); }
 
 /* Marquee (tech strip) */
 .marquee-mask {
