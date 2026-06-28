@@ -35,11 +35,11 @@ export default function BackToTop() {
           aria-label="Back to top"
         >
           <svg className="absolute inset-0" width="44" height="44" viewBox="0 0 44 44">
-            <circle cx="22" cy="22" r="16" fill="none" stroke="rgba(124,140,255,0.16)" strokeWidth="1.5" />
+            <circle cx="22" cy="22" r="16" fill="none" stroke="rgba(255,255,255,0.16)" strokeWidth="1.5" />
             <circle
               cx="22" cy="22" r="16"
               fill="none"
-              stroke="#7C8CFF"
+              stroke="#FFFFFF"
               strokeWidth="1.5"
               strokeDasharray={circumference}
               strokeDashoffset={strokeDashoffset}
