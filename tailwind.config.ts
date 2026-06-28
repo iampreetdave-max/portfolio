@@ -9,22 +9,22 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Base surfaces — deep charcoal "AI-lab"
-        ink:           "#080A0F",
-        paper:         "#E8EAF2",
-        bg:            "#080A0F",
-        surface:       "#0E111A",
-        "surface-2":   "#141826",
-        line:          "#1E2333",
-        "line-strong": "#2A3142",
-        muted:         "#9AA1B4",
-        faint:         "#646B80",
-        // Accent system — electric indigo + cyan
-        accent:         "#7C8CFF",
-        "accent-strong":"#5B6CFF",
-        "accent-soft":  "#A6B0FF",
-        cyan:           "#43E7FF",
-        violet:         "#A78BFA",
+        // Base surfaces — OLED monochrome
+        ink:           "#0A0A0B",
+        paper:         "#F2F2F3",
+        bg:            "#0A0A0B",
+        surface:       "#141416",
+        "surface-2":   "#1C1C1F",
+        line:          "#26262B",
+        "line-strong": "#36363D",
+        muted:         "#A0A0A6",
+        faint:         "#5E5E66",
+        // Accent — white / greyscale only
+        accent:         "#FFFFFF",
+        "accent-strong":"#E6E6E9",
+        "accent-soft":  "#C9C9CF",
+        cyan:           "#C9C9CF",
+        violet:         "#C9C9CF",
         danger:         "#FF6B6B",
       },
       fontFamily: {
@@ -33,7 +33,7 @@ const config: Config = {
         mono:    ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
       },
       boxShadow: {
-        glow: "0 0 0 1px rgba(124,140,255,0.18), 0 18px 60px -18px rgba(124,140,255,0.28)",
+        glow: "0 0 0 1px rgba(255,255,255,0.14), 0 18px 60px -18px rgba(255,255,255,0.18)",
         card: "0 24px 60px -28px rgba(0,0,0,0.85)",
       },
       keyframes: {

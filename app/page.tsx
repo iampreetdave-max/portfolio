@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   ArrowUpRight, ArrowRight, Github, Linkedin, Mail, FileText, MapPin,
@@ -10,6 +11,16 @@ import SiteNav from "@/components/SiteNav";
 import Reveal from "@/components/Reveal";
 import BackToTop from "@/components/BackToTop";
 import AnimatedCounter from "@/components/AnimatedCounter";
+import dynamic from "next/dynamic";
+
+const Transistor3D = dynamic(() => import("@/components/Transistor3D"), {
+  ssr: false,
+  loading: () => (
+    <div className="grid h-full w-full place-items-center">
+      <span className="font-mono text-[11px] text-faint animate-pulseSoft">initializing…</span>
+    </div>
+  ),
+});
 
 /* ════════════════════════ DATA ════════════════════════ */
 
@@ -235,7 +246,7 @@ export default function Home() {
               className="mt-7 flex flex-wrap items-center gap-3"
             >
               <Link href="/#work" className="btn-primary">View projects <ArrowRight size={16} /></Link>
-              <a href="/resume.html" target="_blank" rel="noopener noreferrer" className="btn-ghost"><FileDown size={16} /> Résumé</a>
+              <a href="/resume.pdf" download="Preet-Dave-Resume.pdf" className="btn-ghost"><FileDown size={16} /> Download résumé</a>
               <Link href="/#contact" className="btn-ghost"><Mail size={16} /> Contact</Link>
             </motion.div>
 
@@ -252,31 +263,18 @@ export default function Home() {
             </motion.div>
           </div>
 
-          {/* Spec card */}
+          {/* 3D transistor */}
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="hidden lg:block"
+            initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.9, delay: 0.2 }}
+            className="relative"
           >
-            <div className="card p-0 overflow-hidden animate-float">
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-line bg-surface/60">
-                <span className="w-3 h-3 rounded-full bg-[#FF5F57]" />
-                <span className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
-                <span className="w-3 h-3 rounded-full bg-[#28C840]" />
-                <span className="ml-2 font-mono text-[11px] text-faint">preet.profile.ts</span>
-              </div>
-              <div className="p-5 font-mono text-[12.5px] leading-[1.7] overflow-x-auto">
-                <div><span className="text-faint">const</span> <span className="text-cyan">preet</span> <span className="text-faint">=</span> {"{"}</div>
-                <div className="pl-4"><span className="text-accent-soft">role</span>: <span className="text-paper">&quot;AI / ML Engineer&quot;</span>,</div>
-                <div className="pl-4"><span className="text-accent-soft">now</span>: <span className="text-paper">&quot;Agility — full-time&quot;</span>,</div>
-                <div className="pl-4"><span className="text-accent-soft">building</span>: [<span className="text-paper">&quot;climate twin&quot;</span>,</div>
-                <div className="pl-8"><span className="text-paper">&quot;predictive policing&quot;</span>, <span className="text-paper">&quot;legal AI&quot;</span>],</div>
-                <div className="pl-4"><span className="text-accent-soft">stack</span>: [<span className="text-paper">&quot;Python&quot;</span>, <span className="text-paper">&quot;PyTorch&quot;</span>, <span className="text-paper">&quot;FastAPI&quot;</span>],</div>
-                <div className="pl-4"><span className="text-accent-soft">edu</span>: <span className="text-paper">&quot;B.Tech CSE (AI-ML), GTU&quot;</span>,</div>
-                <div className="pl-4"><span className="text-accent-soft">openTo</span>: <span className="text-cyan">true</span>,</div>
-                <div>{"}"}</div>
-              </div>
+            <div className="relative h-[360px] sm:h-[440px] lg:h-[560px] w-full">
+              <Transistor3D />
             </div>
+            <p className="text-center font-mono text-[11px] text-faint tracking-wide">
+              the transistor — from silicon to systems
+            </p>
           </motion.div>
         </div>
 
@@ -403,28 +401,41 @@ export default function Home() {
           </div>
 
           <Reveal delay={0.1}>
-            <div className="card p-6">
-              <p className="kicker mb-4">Currently</p>
-              <ul className="space-y-4 text-[14px]">
-                <li className="flex gap-3">
-                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-                  <span className="text-muted"><span className="text-paper font-medium">AI/ML Software Engineer</span> at Agility, Ahmedabad.</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-                  <span className="text-muted">Final-year <span className="text-paper font-medium">B.Tech CSE (AI &amp; ML)</span>, NLJIET — GTU.</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-                  <span className="text-muted">Building for <span className="text-paper font-medium">ISRO BAH</span> &amp; <span className="text-paper font-medium">KANAD S.H.I.E.L.D.</span> hackathons.</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-                  <span className="text-muted">Certified across the <span className="text-paper font-medium">Claude API, MCP &amp; Agent Skills</span> (Anthropic).</span>
-                </li>
-              </ul>
-              <div className="mt-5 pt-5 border-t border-line flex items-center gap-2 text-[13px] text-muted">
-                <MapPin size={14} className="text-accent" /> Ahmedabad, Gujarat, India
+            <div className="card overflow-hidden">
+              <div className="relative h-60 w-full">
+                <Image
+                  src="https://raw.githubusercontent.com/iampreetdave-max/portfolio/main/images/profile%20picture.jpeg"
+                  alt="Preet Dave"
+                  fill
+                  className="object-cover grayscale"
+                  style={{ objectPosition: "62% 38%" }}
+                  sizes="(max-width: 1024px) 100vw, 34vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/10 to-transparent" />
+              </div>
+              <div className="p-6">
+                <p className="kicker mb-4">Currently</p>
+                <ul className="space-y-4 text-[14px]">
+                  <li className="flex gap-3">
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                    <span className="text-muted"><span className="text-paper font-medium">AI/ML Software Engineer</span> at Agility, Ahmedabad.</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                    <span className="text-muted">Final-year <span className="text-paper font-medium">B.Tech CSE (AI &amp; ML)</span>, NLJIET — GTU.</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                    <span className="text-muted">Building for <span className="text-paper font-medium">ISRO BAH</span> &amp; <span className="text-paper font-medium">KANAD S.H.I.E.L.D.</span> hackathons.</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                    <span className="text-muted">Certified across the <span className="text-paper font-medium">Claude API, MCP &amp; Agent Skills</span> (Anthropic).</span>
+                  </li>
+                </ul>
+                <div className="mt-5 pt-5 border-t border-line flex items-center gap-2 text-[13px] text-muted">
+                  <MapPin size={14} className="text-accent" /> Ahmedabad, Gujarat, India
+                </div>
               </div>
             </div>
           </Reveal>
@@ -511,8 +522,8 @@ export default function Home() {
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <a href="mailto:iampreetdave@gmail.com" className="btn-primary"><Mail size={16} /> iampreetdave@gmail.com</a>
-              <a href="/resume.html" target="_blank" rel="noopener noreferrer" className="btn-ghost"><FileText size={16} /> Résumé</a>
-              <a href="/cv.html" target="_blank" rel="noopener noreferrer" className="btn-ghost"><FileText size={16} /> Full CV</a>
+              <a href="/resume.pdf" download="Preet-Dave-Resume.pdf" className="btn-ghost"><FileText size={16} /> Download résumé</a>
+              <a href="/cv.pdf" download="Preet-Dave-CV.pdf" className="btn-ghost"><FileText size={16} /> Download CV</a>
             </div>
             <div className="mt-8 flex items-center justify-center gap-3">
               <a href="https://github.com/iampreetdave-max" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="grid place-items-center w-10 h-10 rounded-lg border border-line text-muted hover:text-paper hover:border-line-strong transition-colors"><Github size={17} /></a>

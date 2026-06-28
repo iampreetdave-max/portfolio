@@ -65,9 +65,8 @@ export default function SiteNav() {
             <Linkedin size={16} />
           </a>
           <a
-            href="/resume.html"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/resume.pdf"
+            download="Preet-Dave-Resume.pdf"
             className="hidden sm:inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg bg-accent text-ink text-[13px] font-semibold hover:bg-accent-soft transition-colors"
           >
             <FileText size={15} /> Résumé
@@ -96,9 +95,8 @@ export default function SiteNav() {
               </Link>
             ))}
             <a
-              href="/resume.html"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/resume.pdf"
+              download="Preet-Dave-Resume.pdf"
               className="mt-2 inline-flex items-center gap-1.5 h-10 px-4 rounded-lg bg-accent text-ink text-[14px] font-semibold w-fit"
             >
               <FileText size={15} /> Download Résumé
