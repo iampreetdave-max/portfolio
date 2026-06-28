@@ -39,10 +39,10 @@ export default function GitHubBadge({ repoUrl }: { repoUrl?: string | null }) {
   if (stats.stars === 0 && stats.forks === 0 && !stats.language) return null;
 
   return (
-    <div className="flex items-center gap-3 font-mono text-[10px] text-white/40 mt-2">
+    <div className="flex items-center gap-3 font-mono text-[10px] text-faint mt-3">
       {stats.stars > 0 && (
         <span className="flex items-center gap-1">
-          <Star size={10} className="text-[#C9A86A]/70" />
+          <Star size={10} className="text-accent" />
           {stats.stars}
         </span>
       )}
@@ -54,7 +54,7 @@ export default function GitHubBadge({ repoUrl }: { repoUrl?: string | null }) {
       )}
       {stats.language && (
         <span className="flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#C9A86A]/60" />
+          <span className="w-1.5 h-1.5 rounded-full bg-accent" />
           {stats.language}
         </span>
       )}

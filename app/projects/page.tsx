@@ -3,196 +3,263 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import NeuralNetwork from "@/components/NeuralNetwork";
+import { ArrowLeft, Zap, Code2, Workflow } from "lucide-react";
 import ProjectCard from "@/components/ProjectCard";
 import type { Project } from "@/components/ProjectCard";
 import ProjectModal from "@/components/ProjectModal";
-import { ArrowLeft, Zap, Code2 } from "lucide-react";
+import BackToTop from "@/components/BackToTop";
 
+/* ── Real, verified projects ── */
 const allProjects: Project[] = [
-  { id: "1", title: "Enterprise Sports Analytics Platform", category: "Full-Stack / ML Engineering", description: "Production-grade sports analytics platform with custom ML models, live data pipelines, and real-time game tracking across 7+ leagues.", longDescription: "I architected and delivered a real-time sports analytics platform for a leading betting company covering NBA, NCAAB, MLB, NHL, Soccer, F1, and UFC. The full stack spans Go REST APIs, React frontends, Azure VM infrastructure, Docker containers, Redis caching, and PostgreSQL databases. This is the umbrella project that includes all the individual prediction models and scrapers listed below.", tech_tags: ["Go", "React", "Azure", "Docker", "Redis", "PostgreSQL", "REST API", "ML Engineering"] },
-  { id: "2", title: "Football Prediction System", category: "ML / Predictive Analytics", description: "Ridge Regression models with 21+ engineered features, automated daily predictions via GitHub Actions, and a live Streamlit dashboard. 7 GitHub stars.", longDescription: "I built a production-ready football match prediction system using Ridge Regression with 21+ engineered features including xG metrics, market odds intelligence, and team performance stats. Features confidence scoring, BTTS predictions, and profit optimization. Demonstrates my ability to build ML systems that run autonomously in production with zero manual intervention.", tech_tags: ["scikit-learn", "Ridge Regression", "Streamlit", "GitHub Actions", "Pandas", "Feature Engineering"], repo_url: "https://github.com/iampreetdave-max/football-predictions" },
-  { id: "3", title: "CTMCL Predictions", category: "ML / Sports Analytics", description: "Novel consensus goals line method using Random Forest classification and xG analysis across 6 Premier League seasons.", longDescription: "I developed a novel approach to football match prediction by creating the CTMCL method. It derives custom total goals lines from betting odds using linear interpolation, then compares against pre-match xG data. Includes a Random Forest Classifier variant. Demonstrates my ability to develop original analytical methods.", tech_tags: ["Random Forest", "scikit-learn", "Pandas", "NumPy", "xG Analytics", "Linear Interpolation"], repo_url: "https://github.com/iampreetdave/CTMCL-predictions" },
-  { id: "4", title: "Goal Prediction Model", category: "ML / Regression", description: "6-algorithm regression benchmark pipeline with comprehensive feature engineering and statistical analysis for match outcome prediction.", longDescription: "I built a rigorous ML benchmarking pipeline that tests 6 different regression algorithms with full feature engineering and statistical evaluation. Shows my methodical approach — I systematically evaluate options and choose what performs best.", tech_tags: ["Machine Learning", "Regression", "Statistical Modeling", "Python", "Benchmarking"], repo_url: "https://github.com/iampreetdave/Goal-Prediction-Model" },
-  { id: "5", title: "NBA Prediction Model", category: "ML / Sports Analytics", description: "NBA game prediction system with pre-match feature engineering, odds integration from DraftKings, and ML-based score forecasting with validation.", longDescription: "I built an NBA prediction model combining pre-match feature engineering with live odds data from DraftKings. Extracts team metrics, integrates market intelligence, generates predictions, and validates against outcomes. Demonstrates my ability to work with real-time sports data APIs and market signals.", tech_tags: ["Python", "ML Models", "Odds API", "Feature Engineering", "Validation", "DraftKings"], repo_url: "https://github.com/iampreetdave-max/basketball-NBA" },
-  { id: "6", title: "NBA Analytics & Odds Scraper", category: "Data Engineering / Scraping", description: "Complete NBA data pipeline: odds scraping, database building, ensemble models with P/L tracking, and pre-match analysis.", longDescription: "Full data engineering backbone for NBA analytics: odds scraping from sportsbooks, database building, ensemble ML models with profit/loss tracking, and pre-match feature extraction. Shows my data engineering skills — building reliable pipelines that feed ML systems with clean data at scale.", tech_tags: ["Python", "Web Scraping", "Database Building", "Ensemble Models", "Data Pipeline"], repo_url: "https://github.com/iampreetdave-max/basketball" },
-  { id: "7", title: "Multi-Sport Scraper Suite", category: "Data Engineering / Scraping", description: "Custom data scrapers and prediction dashboards for NHL, MLB, and NCAAB with multi-version dashboard iterations.", longDescription: "Comprehensive scraper suite: NHL hockey (scraper, model, validation), MLB baseball (data pipeline), and NCAAB college basketball (games, dashboards). Includes 3 iterative dashboard versions and data sync utilities. Demonstrates scalable data collection across domains.", tech_tags: ["Python", "NHL Scraper", "MLB Scraper", "NCAAB Scraper", "Dashboards", "Data Sync"] },
-  { id: "8", title: "TalkToNotes", category: "Computer Vision / NLP", description: "Intelligent OCR system converting handwritten notes into searchable knowledge bases using TrOCR transformers and neural embeddings.", longDescription: "Intelligent document processing pipeline using TrOCR for OCR, neural embeddings for semantic understanding, and a chatbot for querying. If you need someone who understands computer vision, transformers, and NLP — and can turn them into real products — this is what I do.", tech_tags: ["TrOCR", "Transformers", "Computer Vision", "NLP", "Vector Search", "Python"], repo_url: "https://github.com/iampreetdave/TalkNotes" },
-  { id: "9", title: "StudBud", category: "Web / Full-Stack", description: "Full-stack academic management platform with ML-powered study recommendations and adaptive scheduling.", longDescription: "Full-stack student management platform with ML-powered recommendations and adaptive scheduling. Built with TypeScript. Demonstrates combining web engineering with AI features into a polished user experience.", tech_tags: ["TypeScript", "Full-Stack", "Machine Learning", "Data Analysis"], repo_url: "https://github.com/iampreetdave/STUDBUD" },
-  { id: "10", title: "Find Ranks", category: "Web / Streamlit", description: "Automates mark extraction from PDF mark sheets, calculates performance, and generates institutional rankings.", longDescription: "Automates extracting marks from PDFs, calculating performance, and generating ranked analytics. Streamlit-based for non-technical users. If you have manual data workflows that need streamlining, this is the kind of solution I deliver.", tech_tags: ["Streamlit", "PDF Processing", "Python", "Data Analytics"], repo_url: "https://github.com/iampreetdave-max/Find-Ranks" },
-  { id: "11", title: "Automated Timesheet", category: "Automation", description: "Hands-off timesheet automation with SharePoint integration and scheduled GitHub Actions workflows.", longDescription: "Fully automated timesheet system with SharePoint API, daily summaries, reaction-based tracking — all via GitHub Actions. Zero manual intervention. I find repetitive processes and build reliable, self-running systems.", tech_tags: ["Python", "Automation", "SharePoint API", "GitHub Actions"], repo_url: "https://github.com/iampreetdave-max/automated_timesheet" },
-  { id: "12", title: "Bulk Email Tool", category: "Automation", description: "Professional email campaign tool with live tracking, PDF attachments, and multi-provider support.", longDescription: "Professional email campaign tool via Streamlit: bulk sending, live progress, PDF attachments, Gmail/Outlook/Yahoo support. Non-technical teams run campaigns without code.", tech_tags: ["Streamlit", "Python", "SMTP", "Email Automation"], repo_url: "https://github.com/iampreetdave-max/bulk-email" },
-  { id: "13", title: "Claude Prompt Extension", category: "Browser Extension / AI", description: "Chrome extension enhancing AI workflows with prompt management, templates, and productivity features.", longDescription: "Chrome extension (Manifest V3) enhancing Claude AI with saved prompts, templates, and workflow optimization. Shows my ability to identify AI workflow bottlenecks and build tools that solve them.", tech_tags: ["JavaScript", "Chrome Extension", "AI", "Manifest V3"], repo_url: "https://github.com/iampreetdave-max/Claude-Prompt-extension" },
-  { id: "14", title: "Chat Application", category: "Network / Python", description: "Real-time Python socket chat system with efficient message routing and clean architecture.", longDescription: "Real-time communication via Python socket programming with low-latency message routing. Foundational skills for real-time data systems, IoT, and communication infrastructure.", tech_tags: ["Python", "Socket Programming", "Network Architecture"], repo_url: "https://github.com/iampreetdave/chat-application" },
+  {
+    id: "therma-netra",
+    title: "Therma Netra — Digital Twin of India's Climate",
+    category: "Climate ML · Digital Twin",
+    description:
+      "An AI-powered digital twin of India's climate, built entirely on national datasets (IMD, INSAT/MOSDAC, IMDAA, CPCB). One continuously-assimilated twin powers climate forecast, urban-heat mitigation, and air-quality apps.",
+    longDescription:
+      "Therma Netra is an AI-powered digital twin of India's climate, built entirely on national datasets — IMD gridded rainfall (0.25°) and temperature (1°), INSAT/MOSDAC satellite data, IMDAA reanalysis, and CPCB air quality. It continuously fuses incoming observations into a live virtual climate state using observation-guided nudging plus bias correction. A single twin powers three connected applications: climate state and short-term forecast, urban-heat mitigation, and surface air quality. The short-term forecast uses a persistence-of-anomaly baseline (~30% skill over persistence) and is architected to upgrade to a ConvLSTM on BharatBench/IMDAA, while a what-if simulator drives live Heat-Stress and AQI impacts with urban °C-cooling maps.\n\nFramed honestly throughout: an AI nowcast (not a full GCM), observation nudging (not 4D-Var/EnKF), and physics-informed proxies (NWS heat index, CPCB AQI). Built for ISRO's Bharatiya Antariksh Hackathon (BAH) 2026, Problem Statement #5.",
+    tech_tags: ["Python", "Streamlit", "xarray", "imdlib", "Pydeck", "Climate ML", "Digital Twin"],
+    repo_url: null,
+    demo_url: null,
+  },
+  {
+    id: "cityshield",
+    title: "CityShield · VisionScan — Unified AI Policing Platform",
+    category: "Computer Vision · GovTech",
+    description:
+      "A unified AI policing platform that fuses physical and cyber crime onto one GIS map, forecasts next-week risk, and closes the loop from live CCTV anomaly to dispatched patrol unit — running fully offline on CPU.",
+    longDescription:
+      "CityShield unifies physical and cyber crime on a single GIS map, forecasts next-week risk, and converts it into optimized patrol routes — all offline on CPU. It runs as a closed loop: a live CCTV anomaly (a hybrid CLIP+YOLO detector for fire, smoke, accident, weapon, and violence) auto-opens a geo-tagged case, bumps the predictive risk surface, and dispatches the nearest unit. The forecasting model is transparent and auditable (recency-weighted risk + priors + anomaly boost) and was validated with rolling-origin walk-forward cross-validation; backtested on synthetic demo data it captured ~77% of next-week crime within 33% of the city (Hit-Rate@10 0.771, PAI@10 2.31x over 8 weekly folds) — a methodology demonstration, not real-world accuracy.\n\nVisionScan adds a four-mode CCTV semantic search over one offline index — natural-language and reference-image retrieval (CLIP ViT-B/32 → FAISS), suspect face re-ID (InsightFace ArcFace), and object search (YOLOv8). CrimeGPT generates 7 statutory Gujarat-police documents in English/Hindi/Gujarati. Ships as a FastAPI + SQLite backend, React + react-leaflet frontend, one-command Docker, 77 passing backend tests, and a 4-layer OWASP security middleware. Built for KANAD S.H.I.E.L.D. 2026 with the Cyber Crime Branch, Ahmedabad City Police.",
+    tech_tags: ["FastAPI", "React", "CLIP", "FAISS", "YOLOv8", "InsightFace", "RAG", "Docker"],
+    repo_url: "https://github.com/iampreetdave-max/Guardian-Angle",
+    demo_url: "https://visionscan.centralindia.cloudapp.azure.com",
+  },
+  {
+    id: "arbiter",
+    title: "Arbiter — Agentic Legal AI",
+    category: "Agentic AI · Legal Tech",
+    description:
+      "A full-stack AI legal assistant that turns a problem described in plain English or Hindi into a properly structured, citation-backed legal document — no upfront lawyer fees.",
+    longDescription:
+      "Arbiter converts a problem described in plain language into a properly structured legal document, removing the barrier of upfront lawyer fees. Built on Google's Agent Development Kit, its Gemini 2.0 agents research applicable law in real time using Google Search grounding, then draft documents with relevant citations and stream the output back. It generates 6 document types — demand letters, legal notices, RTI applications, consumer complaints, cease & desist, and employment complaints — with plain-English or Hindi intake aimed at users across India, the US, UK, Canada, and Australia.\n\nA Next.js 14 frontend pairs with a FastAPI backend, Firebase Auth + Firestore, Google Cloud Storage, and Razorpay payments, deployed on Google Cloud Run (asia-south1). Built for the XPRIZE \"Build with Gemini\" 2026 program (Professional Services Access track).",
+    tech_tags: ["Next.js 14", "FastAPI", "Google Gemini 2.0", "Agent ADK", "Firebase", "Cloud Run", "Razorpay"],
+    repo_url: "https://github.com/iampreetdave-max/arbiter",
+    demo_url: null,
+  },
+  {
+    id: "ai-race-news",
+    title: "AI Race News — AI/ML News Aggregation Platform",
+    category: "Data Engineering · Backend",
+    description:
+      "A production pipeline that ingests 110+ AI/ML sources every 15 minutes, deduplicates and auto-tags articles, and serves audience-specific feeds through a public FastAPI REST API and a Next.js frontend.",
+    longDescription:
+      "AI Race News is a production news-aggregation platform built around a scheduled ingestion pipeline that pulls from 110+ AI/ML sources every 15 minutes. Articles pass through a three-layer deduplication system — URL normalization, content hashing, and title-similarity matching — to keep feeds clean across overlapping sources. Each story is run through audience classification (developers, business, finance, research, general) and auto-tagged across 12 topic categories.\n\nThe platform exposes a public FastAPI REST API with filtering and pagination, backed by a Next.js frontend. APScheduler orchestrates the full ingest-dedupe-tag cycle, and the API and scraper run as Dockerized services covered by a pytest suite.",
+    tech_tags: ["FastAPI", "Python", "BeautifulSoup", "APScheduler", "Docker", "Next.js", "SQLite", "pytest"],
+    repo_url: "https://github.com/iampreetdave-max/ai-race-news",
+    demo_url: "https://ai-race-news.pages.dev/",
+  },
+  {
+    id: "football-predictions",
+    title: "Sports Match-Prediction Engines",
+    category: "ML · Sports Analytics",
+    description:
+      "A production ML suite forecasting NBA, soccer, and NASCAR outcomes from engineered pre-match features and live sportsbook odds, with predictions logged to PostgreSQL and graded against real settled results. +16.5% tracked ROI on Grade-A NBA picks.",
+    longDescription:
+      "A multi-sport machine-learning suite that forecasts match and race outcomes from engineered pre-match features and live sportsbook odds. Each engine fetches fixtures, builds features, predicts, and logs every prediction to PostgreSQL before grading it against the real settled result with full profit-and-loss tracking. The engines run autonomously on daily GitHub Actions workflows.\n\nTracked results across the suite: the NBA engine reached +16.5% ROI on Grade-A picks and a 66.3% moneyline win rate over 1,064 settled games; the soccer models (15+ leagues, 3,020 matches) reached +9.1% ROI on Grade A+B picks; and the NASCAR engine spans 7,566 historical records with odds scraped from multiple sportsbooks. In total the suite has logged 4,084+ live predictions over 15+ months of uptime. Models range from Ridge regression (soccer) to XGBoost / LightGBM / Random Forest ensembles (NBA, NASCAR), with Platt scaling for probability calibration.",
+    tech_tags: ["XGBoost", "LightGBM", "Ridge Regression", "Python", "PostgreSQL", "GitHub Actions", "Streamlit"],
+    repo_url: "https://github.com/iampreetdave-max/football-predictions",
+    demo_url: null,
+  },
+  {
+    id: "code-convertor",
+    title: "CodeTransform — Python ↔ JavaScript Converter",
+    category: "Developer Tools",
+    description:
+      "A web-based code converter that transforms code between Python and JavaScript using 122+ tested conversion rules, with auto language detection and color-coded confidence scoring.",
+    longDescription:
+      "CodeTransform translates source between Python and JavaScript, driven by 122+ tested conversion rules and color-coded confidence scoring that flags how reliable each translation is. It auto-detects the source language from code patterns and file extension, and supports file upload, one-click download with the correct extension, copy-to-clipboard, conversion history, and swap-direction.\n\nThe system pairs a FastAPI Python backend with a vanilla JavaScript and Tailwind CSS frontend, deliberately requiring no build tools. Led from inception through a state-level GTU Design Engineering presentation as Project Lead.",
+    tech_tags: ["FastAPI", "Python", "JavaScript", "Tailwind CSS", "Language Detection"],
+    repo_url: "https://github.com/iampreetdave-max/code-convertor",
+    demo_url: null,
+  },
+  {
+    id: "find-ranks",
+    title: "Find-Ranks — PDF Marksheet Analytics",
+    category: "Utility · Python",
+    description:
+      "A Streamlit utility that extracts marks from multiple PDF mark-sheets, computes cumulative performance, and generates rankings with analytics for educational institutions.",
+    longDescription:
+      "Find-Ranks aggregates student results spread across many PDF mark-sheets. It ingests multiple PDFs, extracts the marks from each document, and computes cumulative performance per student, then generates rankings together with supporting analytics — all through a Streamlit interface. The project spans the full flow, from PDF text extraction and data handling with pandas to the ranking logic and presentation layer.",
+    tech_tags: ["Streamlit", "Python", "PDF Processing", "pandas"],
+    repo_url: "https://github.com/iampreetdave-max/Find-Ranks",
+    demo_url: null,
+  },
+  {
+    id: "talktonotes",
+    title: "TalkToNotes — Handwriting to Knowledge Base",
+    category: "NLP · Document Intelligence",
+    description:
+      "A hackathon project that digitizes handwritten and printed notes with TrOCR, then turns them into a searchable knowledge base powering a chatbot and one-click quiz generation.",
+    longDescription:
+      "TalkToNotes, built for the Rotaract Club Hackathon, bridges the gap between messy handwritten study notes and usable digital knowledge. It uses Microsoft's TrOCR transformer to recognize handwritten and printed text and convert it into editable content. The notes are organized into a searchable knowledge base, with vector search experimented on to ground a chatbot over a user's own material, and the system generates quizzes from the captured notes in a single click — closing the loop from capture to study aid.",
+    tech_tags: ["TrOCR", "Transformers", "Vector Search", "Python", "NLP", "OCR"],
+    repo_url: null,
+    demo_url: null,
+  },
 ];
 
+/* ── Automation capabilities (no client names — generalized & honest) ── */
 const automations = [
-  { title: "Change Request & Notifications", description: "Automated change request workflows with real-time completion notifications to stakeholders.", tags: ["Workflow", "Notifications", "Status Tracking"] },
-  { title: "Dynamic Dropdown System", description: "Context-aware dynamic dropdown automation for client portal forms with cascading data dependencies.", tags: ["Forms", "Dynamic Data", "UI Automation"] },
-  { title: "GNO Partners Integration", description: "Client wins tracking and team collaboration system with automated reporting and partner management.", tags: ["CRM", "Reporting", "Collaboration"] },
-  { title: "GNO CloudBot", description: "Cloud-based bot automation for client operations, handling routine data processing tasks autonomously.", tags: ["Bot", "Cloud", "Task Automation"] },
-  { title: "NPS Survey Automation", description: "End-to-end Net Promoter Score survey pipeline — automated distribution, collection, scoring, and analytics.", tags: ["Surveys", "Analytics", "Feedback"] },
-  { title: "Slack-CB Integration", description: "Bidirectional Slack integration syncing messages, updates, and alerts across internal tools.", tags: ["Slack API", "Integration", "Messaging"] },
-  { title: "Stop Service Notifications", description: "Automated Slack alerts triggered by service stop requests for immediate team awareness.", tags: ["Slack", "Alerts", "Incident Response"] },
-  { title: "Client Onboarding Pipeline", description: "Automated new client onboarding pushing structured updates to BA and QA teams.", tags: ["Onboarding", "Pipeline", "Team Sync"] },
+  { title: "CRM & Lead-Flow Sync", description: "Two-way CRM synchronization and lead routing across tools, keeping pipelines and contact records consistent automatically.", tags: ["GoHighLevel", "Make.com", "CRM"] },
+  { title: "Notification & Alerting Pipelines", description: "Event-driven Slack and email alerting so the right people are notified the moment a status changes.", tags: ["Slack API", "Webhooks", "Alerts"] },
+  { title: "Survey & Feedback Automation", description: "End-to-end NPS / feedback pipelines — distribution, collection, scoring, and reporting without manual steps.", tags: ["Surveys", "Analytics", "Reporting"] },
+  { title: "Client Onboarding Workflows", description: "Structured onboarding flows that push updates to the right teams and track each step to completion.", tags: ["Onboarding", "Workflow", "Status Tracking"] },
+  { title: "Dynamic Forms & Data Routing", description: "Context-aware forms with cascading fields and rules that route submitted data to the correct destination.", tags: ["Forms", "Dynamic Data", "Routing"] },
+  { title: "Cross-Platform API Integrations", description: "Custom webhook and API integrations stitching together services that don't natively talk to each other.", tags: ["n8n", "Zapier", "REST / Webhooks"] },
 ];
 
-const projectFilters = ["All", "ML & Analytics", "Data Engineering", "Automation", "Web & Tools", "Extensions"];
-const projectFilterMap: Record<string, string[]> = {
-  "ML & Analytics": ["ML", "Predictive", "Analytics", "Regression", "Computer Vision", "NLP", "Random Forest", "Ridge"],
-  "Data Engineering": ["Scraping", "Scraper", "Data Engineering", "Database", "Pipeline"],
-  Automation: ["Automation", "Email", "Timesheet", "SMTP", "SharePoint"],
-  "Web & Tools": ["Web", "Streamlit", "Full-Stack", "PDF", "TypeScript", "Socket", "Network"],
-  Extensions: ["Extension", "Browser", "Chrome", "Manifest"],
+const projectFilters = ["All", "AI / ML", "Computer Vision", "Data & Backend", "Developer Tools"];
+const filterMap: Record<string, string[]> = {
+  "AI / ML": ["Climate", "Agentic", "Sports", "NLP", "RAG", "Digital Twin", "Document Intelligence"],
+  "Computer Vision": ["Computer Vision", "CLIP", "YOLOv8", "TrOCR", "OCR", "InsightFace"],
+  "Data & Backend": ["Data Engineering", "Backend", "FastAPI", "APScheduler"],
+  "Developer Tools": ["Developer Tools", "Utility"],
 };
 
 export default function ProjectsPage() {
   const [activeTab, setActiveTab] = useState<"projects" | "automations">("projects");
   const [filter, setFilter] = useState("All");
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selected, setSelected] = useState<Project | null>(null);
 
-  const filteredProjects = filter === "All" ? allProjects : allProjects.filter((p) => {
-    const kws = projectFilterMap[filter] || [];
-    return kws.some((kw) => p.category.toLowerCase().includes(kw.toLowerCase()) || p.tech_tags.some((t) => t.toLowerCase().includes(kw.toLowerCase())));
-  });
+  const filtered =
+    filter === "All"
+      ? allProjects
+      : allProjects.filter((p) => {
+          const kws = filterMap[filter] || [];
+          return kws.some(
+            (kw) =>
+              p.category.toLowerCase().includes(kw.toLowerCase()) ||
+              p.tech_tags.some((t) => t.toLowerCase().includes(kw.toLowerCase()))
+          );
+        });
 
   const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.05 } } };
-  const fadeUp = { hidden: { opacity: 0, y: 15 }, show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] as const } } };
+  const fadeUp = { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.4 } } };
 
   return (
-    <>
-      <NeuralNetwork paused={false} />
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a]/85 border-b border-white/[0.06] backdrop-blur-xl">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-2 font-mono text-sm text-white/55 hover:text-white transition-colors cursor-pointer">
-            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Home
+    <div className="relative z-10 min-h-screen">
+      <nav className="fixed top-0 inset-x-0 z-50 bg-ink/80 border-b border-line backdrop-blur-xl">
+        <div className="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between">
+          <Link href="/" className="group flex items-center gap-2 text-[13px] text-muted hover:text-paper transition-colors">
+            <ArrowLeft size={16} className="group-hover:-translate-x-0.5 transition-transform" /> Home
           </Link>
-          <Link href="/" className="group flex items-center gap-2 font-mono text-base font-bold tracking-tight">
-            <span className="text-white">PD</span>
-            <span className="text-white/30 font-light">/</span>
-            <span className="text-white/40 text-[10px] tracking-[0.3em] uppercase">Folio</span>
+          <Link href="/" className="flex items-center gap-2.5">
+            <span className="grid place-items-center w-8 h-8 rounded-lg bg-accent/[0.12] border border-accent/30 font-mono text-sm font-bold text-accent">PD</span>
+            <span className="font-display text-[15px] font-semibold tracking-tight">Preet Dave</span>
           </Link>
-          <Link
-            href="/fun"
-            className="font-mono text-[11px] tracking-wider border border-white/[0.10] px-4 py-2 text-white/45 hover:border-[#C9A86A]/45 hover:text-[#C9A86A] transition-all duration-300 rounded-lg uppercase"
-          >
+          <Link href="/fun" className="text-[12px] font-mono tracking-wider text-muted hover:text-accent transition-colors">
             Fun Zone ↗
           </Link>
         </div>
       </nav>
 
-      <main className="relative z-10 pt-28 pb-16 px-6">
-        <div className="max-w-5xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-[1px] bg-gradient-to-r from-[#C9A86A]/65 to-transparent" />
-              <span className="font-mono text-[11px] tracking-[0.25em] uppercase text-white/65">
-                <span className="text-[#C9A86A] mr-2 font-bold">—</span>Work
-              </span>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">All Projects &amp; Automations</h1>
-            <p className="text-white/55 text-[15px] mb-8 max-w-2xl">Click any project to see how my skills and expertise were applied.</p>
-          </motion.div>
+      <main className="mx-auto max-w-6xl px-6 pt-28 pb-20">
+        <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+          <p className="kicker mb-3">Work</p>
+          <h1 className="font-display text-4xl md:text-5xl font-bold tracking-tight mb-3">
+            Projects &amp; Automations
+          </h1>
+          <p className="text-muted text-[15px] max-w-2xl leading-relaxed">
+            Applied ML, computer-vision, and agentic-AI systems — plus the workflow automations I build for clients. Click any project for the full write-up.
+          </p>
+        </motion.div>
 
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15, duration: 0.5 }} className="flex gap-1 mb-8 bg-white/[0.025] border border-white/[0.07] rounded-lg p-1 w-fit">
-            <button
-              onClick={() => { setActiveTab("projects"); setFilter("All"); }}
-              className={`flex items-center gap-2 font-mono text-[12px] tracking-wide px-5 py-2.5 rounded-md transition-all duration-300 cursor-pointer ${
-                activeTab === "projects"
-                  ? "bg-[#C9A86A] text-black"
-                  : "text-white/55 hover:text-white"
-              }`}
-            >
-              <Code2 size={14} /> Projects <span className="text-[10px] opacity-70">({allProjects.length})</span>
-            </button>
-            <button
-              onClick={() => setActiveTab("automations")}
-              className={`flex items-center gap-2 font-mono text-[12px] tracking-wide px-5 py-2.5 rounded-md transition-all duration-300 cursor-pointer ${
-                activeTab === "automations"
-                  ? "bg-[#C9A86A] text-black"
-                  : "text-white/55 hover:text-white"
-              }`}
-            >
-              <Zap size={14} /> Automations <span className="text-[10px] opacity-70">({automations.length})</span>
-            </button>
-          </motion.div>
-
-          {activeTab === "projects" && (
-            <>
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }} className="flex flex-wrap gap-2 mb-8">
-                {projectFilters.map((f) => (
-                  <button
-                    key={f}
-                    onClick={() => setFilter(f)}
-                    className={`font-mono text-[11px] tracking-wide px-4 py-2 border rounded-md transition-all duration-300 cursor-pointer ${
-                      filter === f
-                        ? "bg-[#C9A86A]/[0.10] text-[#C9A86A] border-[#C9A86A]/45"
-                        : "border-white/[0.07] text-white/45 hover:border-white/[0.18] hover:text-white/85 bg-white/[0.015]"
-                    }`}
-                  >
-                    {f}
-                  </button>
-                ))}
-              </motion.div>
-              <motion.div key={filter} initial="hidden" animate="show" variants={stagger} className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {filteredProjects.map((p) => (
-                  <motion.div key={p.id} variants={fadeUp}>
-                    <ProjectCard project={p} onClick={() => setSelectedProject(p)} />
-                  </motion.div>
-                ))}
-              </motion.div>
-              {filteredProjects.length === 0 && (
-                <div className="bg-white/[0.025] border border-white/[0.07] py-12 text-center rounded-xl">
-                  <p className="text-white/45 font-mono text-xs tracking-wider">NO PROJECTS MATCH THIS FILTER</p>
-                </div>
-              )}
-            </>
-          )}
-
-          {activeTab === "automations" && (
-            <motion.div initial="hidden" animate="show" variants={stagger}>
-              <motion.p variants={fadeUp} className="text-white/55 text-[15px] mb-8 max-w-2xl">Workflow automations I built for clients at Agility Innovations — Slack integrations, notification pipelines, survey systems, and operational tools.</motion.p>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {automations.map((a, i) => (
-                  <motion.div key={i} variants={fadeUp}>
-                    <div className="bg-white/[0.025] backdrop-blur-xl border border-white/[0.07] p-5 rounded-xl hover:bg-white/[0.045] hover:border-white/[0.18] transition-all duration-500 h-full lift">
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className="w-7 h-7 rounded-md bg-white/[0.05] border border-white/[0.10] flex items-center justify-center">
-                          <Zap size={13} className="text-white/65" />
-                        </div>
-                        <h3 className="font-mono text-[12px] font-semibold text-white tracking-wide">{a.title}</h3>
-                      </div>
-                      <p className="text-white/55 text-[13px] mb-4 leading-relaxed">{a.description}</p>
-                      <div className="flex flex-wrap gap-1.5">
-                        {a.tags.map((t) => (
-                          <span key={t} className="font-mono text-[9px] px-2 py-0.5 border border-white/[0.07] text-white/45 rounded-md">{t}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          )}
+        <div className="mt-9 inline-flex gap-1 rounded-xl border border-line bg-surface/60 p-1">
+          <button
+            onClick={() => { setActiveTab("projects"); setFilter("All"); }}
+            className={`inline-flex items-center gap-2 text-[13px] px-4 py-2 rounded-lg transition-colors ${activeTab === "projects" ? "bg-accent text-ink font-semibold" : "text-muted hover:text-paper"}`}
+          >
+            <Code2 size={14} /> Projects <span className="opacity-70">({allProjects.length})</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("automations")}
+            className={`inline-flex items-center gap-2 text-[13px] px-4 py-2 rounded-lg transition-colors ${activeTab === "automations" ? "bg-accent text-ink font-semibold" : "text-muted hover:text-paper"}`}
+          >
+            <Workflow size={14} /> Automations <span className="opacity-70">({automations.length})</span>
+          </button>
         </div>
 
-        <footer className="border-t border-white/[0.05] mt-20 pt-8">
-          <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="font-mono text-[10px] text-white/35 tracking-wider">© 2026 PREET GHANSHYAM DAVE</p>
-            <div className="flex items-center gap-4">
-              <Link href="/fun" className="font-mono text-[10px] text-white/30 hover:text-[#C9A86A] transition-colors tracking-wider">
-                Fun Zone →
-              </Link>
-              <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C9A86A]/55" />
-                <p className="font-mono text-[10px] text-white/30 tracking-wider">BUILT WITH NEXT.JS · TAILWIND</p>
-              </div>
+        {activeTab === "projects" && (
+          <>
+            <div className="mt-8 flex flex-wrap gap-2">
+              {projectFilters.map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setFilter(f)}
+                  className={`font-mono text-[11px] tracking-wide px-3.5 py-2 rounded-lg border transition-colors ${
+                    filter === f
+                      ? "border-accent/45 text-accent bg-accent/[0.08]"
+                      : "border-line text-muted hover:text-paper hover:border-line-strong"
+                  }`}
+                >
+                  {f}
+                </button>
+              ))}
             </div>
+
+            <motion.div key={filter} initial="hidden" animate="show" variants={stagger} className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {filtered.map((p) => (
+                <motion.div key={p.id} variants={fadeUp}>
+                  <ProjectCard project={p} onClick={() => setSelected(p)} />
+                </motion.div>
+              ))}
+            </motion.div>
+            {filtered.length === 0 && (
+              <div className="mt-8 card py-14 text-center">
+                <p className="text-muted font-mono text-xs tracking-wider">NO PROJECTS MATCH THIS FILTER</p>
+              </div>
+            )}
+          </>
+        )}
+
+        {activeTab === "automations" && (
+          <motion.div initial="hidden" animate="show" variants={stagger} className="mt-8">
+            <motion.p variants={fadeUp} className="text-muted text-[14px] mb-7 max-w-2xl leading-relaxed">
+              Workflow automations I build with Make.com, n8n, Zapier, and GoHighLevel — the kinds of self-running systems I deliver for clients.
+            </motion.p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {automations.map((a, i) => (
+                <motion.div key={i} variants={fadeUp} className="card p-5">
+                  <div className="flex items-center gap-2.5 mb-3">
+                    <span className="grid place-items-center w-8 h-8 rounded-lg bg-accent/[0.1] border border-accent/25">
+                      <Zap size={14} className="text-accent" />
+                    </span>
+                    <h3 className="font-display text-[14px] font-semibold text-paper">{a.title}</h3>
+                  </div>
+                  <p className="text-muted text-[13px] leading-relaxed mb-4">{a.description}</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {a.tags.map((t) => (
+                      <span key={t} className="font-mono text-[10px] px-2 py-0.5 rounded-md border border-line text-faint">{t}</span>
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
+        <footer className="mt-20 pt-8 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="font-mono text-[11px] text-faint tracking-wider">© 2026 Preet Dave</p>
+          <div className="flex items-center gap-5">
+            <Link href="/fun" className="font-mono text-[11px] text-faint hover:text-accent transition-colors tracking-wider">Fun Zone →</Link>
+            <a href="https://github.com/iampreetdave-max" target="_blank" rel="noopener noreferrer" className="font-mono text-[11px] text-faint hover:text-accent transition-colors tracking-wider">GitHub →</a>
           </div>
         </footer>
       </main>
 
-      <AnimatePresence>{selectedProject && <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />}</AnimatePresence>
-    </>
+      <AnimatePresence>{selected && <ProjectModal project={selected} onClose={() => setSelected(null)} />}</AnimatePresence>
+      <BackToTop />
+    </div>
   );
 }

@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import GitHubBadge from "@/components/GitHubBadge";
 
@@ -24,44 +25,41 @@ export default function ProjectCard({
   return (
     <div
       onClick={onClick}
-      className="group rich-card bg-white/[0.025] backdrop-blur-xl border border-white/[0.07] rounded-xl hover:bg-white/[0.045] hover:border-[#C9A86A]/30 hover:shadow-[0_24px_48px_-24px_rgba(0,0,0,0.7)] transition-all duration-500 cursor-pointer h-full flex flex-col overflow-hidden lift"
+      className="card group cursor-pointer h-full flex flex-col overflow-hidden"
     >
       {project.image_url && (
-        <div className="relative w-full h-44 shrink-0">
+        <div className="relative w-full h-40 shrink-0 overflow-hidden">
           <Image
             src={project.image_url}
             alt={project.title}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 50vw"
-            style={{ filter: "saturate(1.04) contrast(1.02)" }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0B0908]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-surface" />
         </div>
       )}
-      <div className="p-6 flex flex-col flex-grow">
-        <div className="flex items-start justify-between mb-3">
-          <h3 className="text-base font-semibold text-white/85 group-hover:text-white transition-colors duration-300 leading-tight">
-            {project.title}
-          </h3>
-        </div>
-        <span className="inline-block self-start font-mono text-[10px] px-2 py-0.5 border border-white/[0.12] text-white/55 mb-3 tracking-wide rounded-md bg-white/[0.025]">
-          {project.category}
-        </span>
-        <p className="text-white/55 text-[13px] mb-4 leading-relaxed flex-grow">
+      <div className="p-5 flex flex-col flex-grow">
+        <span className="chip self-start mb-3">{project.category}</span>
+        <h3 className="font-display text-[16px] font-semibold text-paper mb-2 leading-snug group-hover:text-white transition-colors">
+          {project.title}
+        </h3>
+        <p className="text-[13.5px] text-muted leading-relaxed mb-4 flex-grow">
           {project.description}
         </p>
-        <div className="flex flex-wrap gap-1.5 mb-1">
+        <div className="flex flex-wrap gap-1.5">
           {project.tech_tags.slice(0, 4).map((tag) => (
             <span
               key={tag}
-              className="font-mono text-[9px] px-2 py-0.5 border border-white/[0.07] text-white/45 rounded-md group-hover:border-[#C9A86A]/30 group-hover:text-white/75 transition-all duration-500"
+              className="font-mono text-[10px] px-2 py-0.5 rounded-md border border-line text-faint group-hover:text-muted group-hover:border-line-strong transition-colors"
             >
               {tag}
             </span>
           ))}
           {project.tech_tags.length > 4 && (
-            <span className="font-mono text-[9px] px-2 py-0.5 text-white/35">+{project.tech_tags.length - 4}</span>
+            <span className="font-mono text-[10px] px-1.5 py-0.5 text-faint">
+              +{project.tech_tags.length - 4}
+            </span>
           )}
         </div>
         <GitHubBadge repoUrl={project.repo_url} />
