@@ -1,879 +1,542 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import {
+  ArrowUpRight, ArrowRight, Github, Linkedin, Mail, FileText, MapPin,
+  Lock, Globe, FileDown, Dot,
+} from "lucide-react";
+import SiteNav from "@/components/SiteNav";
+import Reveal from "@/components/Reveal";
+import BackToTop from "@/components/BackToTop";
+import AnimatedCounter from "@/components/AnimatedCounter";
 
-/* ═══════════════════════════════════════════════════════════════
-   DATA
-═══════════════════════════════════════════════════════════════ */
+/* ════════════════════════ DATA ════════════════════════ */
 
-const BOOT_LINES = [
-  { text: "PREET-OS v2.0.1  —  Neural Bootstrap Sequence", color: "amber", delay: 0 },
-  { text: "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", color: "dim", delay: 80 },
-  { text: "[  OK  ] CPU: Neural Engine ×8 @ 4.2GHz  —  loaded", color: "green", delay: 220 },
-  { text: "[  OK  ] ML Stack: XGBoost · LightGBM · TensorFlow · PyTorch · Scikit-Learn", color: "green", delay: 400 },
-  { text: "[  OK  ] Automation Stack: Make.com · Zapier · n8n · GoHighLevel", color: "green", delay: 580 },
-  { text: "[  OK  ] Database: PostgreSQL/Azure  —  4,084+ live prediction records", color: "green", delay: 760 },
-  { text: "[  OK  ] Prediction Engines: NBA (1,064 games) · Soccer (3,020) · NASCAR (7,566)", color: "green", delay: 940 },
-  { text: "[  OK  ] AI Race Pipeline: 110+ sources · 15-min intervals  —  ACTIVE", color: "green", delay: 1120 },
-  { text: "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", color: "dim", delay: 1280 },
-  { text: "All systems NOMINAL. Type 'help' to view available commands.", color: "white", delay: 1440 },
+const TAGLINE = [
+  "ISRO climate digital twin",
+  "offline predictive policing",
+  "agentic legal AI",
+  "AI-news aggregation",
 ];
 
-const PROJECTS = [
+const STATS = [
+  { n: 4084, suffix: "+", label: "live predictions tracked — NBA · soccer · NASCAR" },
+  { n: 110,  suffix: "+", label: "AI/ML sources monitored, every 15 min" },
+  { n: 5,    suffix: "",  label: "hackathons & competitions built for" },
+  { n: 10,   suffix: " mo", label: "at Agility — intern to engineer" },
+];
+
+const TECH = [
+  "Python", "PyTorch", "TensorFlow", "scikit-learn", "FastAPI", "Next.js", "React",
+  "CLIP", "FAISS", "YOLOv8", "TrOCR", "Docker", "Gemini ADK", "Claude API", "MCP",
+  "Streamlit", "Supabase", "Azure", "Cloud Run", "RAG",
+];
+
+type Featured = {
+  title: string; sub: string; category: string; program?: string;
+  blurb: string; metrics: string[]; tags: string[];
+  live?: string; repo?: string; demo2?: { label: string; url: string }; private?: boolean;
+};
+
+const FEATURED: Featured[] = [
   {
-    id: "nba-engine",
-    name: "nba-prediction-engine",
-    category: "ML Engineering · Sports Analytics",
-    desc: "Production XGBoost model — 1,064 settled games, live sportsbook odds, real P&L. +16.5% ROI on Grade A picks. 66.3% Moneyline win rate.",
-    tech: ["XGBoost", "Python 3.11", "PostgreSQL", "GitHub Actions", "Azure", "SportsRadar API"],
-    roi: "+16.5%",
-    records: "1,064",
-    status: "LIVE" as const,
-    link: "https://github.com/iampreetdave-max",
+    title: "Therma Netra",
+    sub: "Digital Twin of India's Climate",
+    category: "Climate ML · Digital Twin",
+    program: "ISRO BAH 2026 · PS #5",
+    blurb:
+      "An AI-powered digital twin of India's climate built entirely on national datasets (IMD, INSAT/MOSDAC, IMDAA, CPCB). One continuously-assimilated twin powers climate forecast, urban-heat mitigation, and air-quality apps, with a what-if simulator for cooling strategies.",
+    metrics: ["~30% skill over persistence", "3 connected apps", "national datasets only"],
+    tags: ["Python", "Streamlit", "xarray", "Pydeck", "Climate ML"],
+    private: true,
   },
   {
-    id: "soccer-engine",
-    name: "soccer-prediction-v1-v2",
-    category: "ML Engineering · Sports Analytics",
-    desc: "Dual-model system — Ridge Regression + GPU ensemble. 3,020 matches, 15+ leagues. +9.1% ROI on Grade A+B picks.",
-    tech: ["Ridge Regression", "XGBoost", "CUDA", "Python", "Mistral AI", "PostgreSQL"],
-    roi: "+9.1%",
-    records: "3,020",
-    status: "LIVE" as const,
-    link: "https://github.com/iampreetdave-max",
+    title: "CityShield · VisionScan",
+    sub: "Unified AI Policing Platform",
+    category: "Computer Vision · GovTech",
+    program: "KANAD S.H.I.E.L.D. 2026 · Ahmedabad City Police",
+    blurb:
+      "Fuses physical and cyber crime onto one GIS map, forecasts next-week risk, and closes the loop from a live CCTV anomaly to a dispatched patrol unit — running fully offline on CPU. Adds four-mode CCTV semantic search (CLIP→FAISS, ArcFace, YOLOv8).",
+    metrics: ["Hit-Rate@10 0.771 (synthetic)", "77 backend tests", "runs offline on CPU"],
+    tags: ["FastAPI", "React", "CLIP", "FAISS", "YOLOv8", "Docker"],
+    live: "https://visionscan.centralindia.cloudapp.azure.com",
+    repo: "https://github.com/iampreetdave-max/Guardian-Angle",
   },
   {
-    id: "nascar-engine",
-    name: "nascar-prediction-engine",
-    category: "ML Engineering · Sports Analytics",
-    desc: "3 track-type ensembles. 5 prediction markets. 7,566 historical records. Odds scraped from 9 sportsbooks via Selenium.",
-    tech: ["XGBoost", "LightGBM", "Random Forest", "Python", "Selenium", "Platt Scaling"],
-    records: "7,566",
-    status: "LIVE" as const,
-    link: "https://github.com/iampreetdave-max",
+    title: "Arbiter",
+    sub: "Agentic Legal AI",
+    category: "Agentic AI · Legal Tech",
+    program: "XPRIZE — Build with Gemini 2026",
+    blurb:
+      "Turns a problem described in plain English or Hindi into a structured, citation-backed legal document. Gemini 2.0 agents (Google ADK) research applicable law in real time via Search grounding, then stream the draft — no upfront lawyer fees.",
+    metrics: ["6 document types", "5 jurisdictions", "Cloud Run (asia-south1)"],
+    tags: ["Next.js 14", "FastAPI", "Gemini 2.0", "Agent ADK", "Firebase"],
+    repo: "https://github.com/iampreetdave-max/arbiter",
   },
   {
-    id: "ai-race",
-    name: "ai-race-news",
-    category: "Data Engineering · Full-Stack",
-    desc: "110+ sources scraped every 15 min. Audience-specific feeds (Dev/Business/Finance/Research), smart dedup, 12 auto-tags.",
-    tech: ["FastAPI", "Python", "BeautifulSoup", "Docker", "APScheduler", "SQLite"],
-    records: "110+ sources",
-    status: "LIVE" as const,
-    link: "https://github.com/iampreetdave-max/ai-race-news",
+    title: "AI Race News",
+    sub: "AI/ML News Aggregation Platform",
+    category: "Data Engineering · Backend",
+    blurb:
+      "A production pipeline that ingests 110+ AI/ML sources every 15 minutes, deduplicates with a three-layer system (URL, content-hash, title-similarity), auto-tags into 12 categories, and serves five audience-specific feeds via a public FastAPI REST API.",
+    metrics: ["110+ sources", "every 15 min", "3-layer dedup"],
+    tags: ["FastAPI", "APScheduler", "BeautifulSoup", "Docker", "Next.js"],
+    live: "https://ai-race-news.pages.dev/",
+    repo: "https://github.com/iampreetdave-max/ai-race-news",
   },
   {
-    id: "talknotes",
-    name: "TalkToNotes",
-    category: "Computer Vision · NLP",
-    desc: "TrOCR system converting handwritten notes into searchable knowledge bases with chatbot interface for natural language querying.",
-    tech: ["TrOCR", "Transformers", "Vector Search", "Python"],
-    status: "COMPLETE" as const,
-    link: "https://github.com/iampreetdave/TalkNotes",
+    title: "Sports Match-Prediction Engines",
+    sub: "Production ML betting-model suite",
+    category: "ML · Sports Analytics",
+    blurb:
+      "A multi-sport ML suite forecasting NBA, soccer, and NASCAR outcomes from engineered pre-match features and live sportsbook odds, with every prediction logged to PostgreSQL and graded against the real settled result. Runs autonomously on daily GitHub Actions workflows with full profit-and-loss tracking.",
+    metrics: ["+16.5% ROI · Grade-A NBA picks", "66.3% moneyline win rate (1,064 games)", "4,084+ predictions tracked"],
+    tags: ["XGBoost", "LightGBM", "Ridge", "Python", "PostgreSQL", "GitHub Actions"],
+    repo: "https://github.com/iampreetdave-max/football-predictions",
   },
   {
-    id: "studbud",
-    name: "StudBud",
-    category: "Web · Full-Stack",
-    desc: "Full-stack academic platform with ML-powered study recommendations and adaptive scheduling.",
-    tech: ["TypeScript", "Machine Learning", "Full-Stack"],
-    status: "COMPLETE" as const,
-    link: "https://github.com/iampreetdave/STUDBUD",
+    title: "CodeTransform",
+    sub: "Python ↔ JavaScript Converter",
+    category: "Developer Tools",
+    program: "GTU state-level · Project Lead",
+    blurb:
+      "A web-based code converter between Python and JavaScript built on 122+ tested conversion rules, with automatic source-language detection and color-coded confidence scoring. Zero build tools — FastAPI backend, vanilla-JS + Tailwind frontend.",
+    metrics: ["122+ rules", "auto-detect", "confidence scoring"],
+    tags: ["FastAPI", "Python", "JavaScript", "Tailwind"],
+    repo: "https://github.com/iampreetdave-max/code-convertor",
+  },
+];
+
+const EXPERIENCE = [
+  {
+    role: "AI/ML Software Engineer",
+    company: "Agility",
+    period: "Mar 2026 — Present",
+    location: "Gujarat, India · On-site",
+    active: true,
+    bullets: [
+      "Develop and deploy machine-learning models in direct collaboration with clients, translating business needs into production features that enhance existing software.",
+      "Lead delivery on client ML projects at a fast-moving startup, owning problems from data and modelling through deployment.",
+      "Promoted from intern to full-time engineer over a 10-month tenure on the strength of real-world delivery.",
+    ],
   },
   {
-    id: "find-ranks",
-    name: "Find-Ranks",
-    category: "Web · Data Processing",
-    desc: "Automates mark extraction from PDF mark sheets and generates ranked institutional analytics.",
-    tech: ["Streamlit", "Python", "PDF Processing"],
-    status: "COMPLETE" as const,
-    link: "https://github.com/iampreetdave-max/Find-Ranks",
+    role: "Machine Learning Intern",
+    company: "Agility",
+    period: "Sep 2025 — Mar 2026",
+    location: "Gujarat, India · On-site",
+    bullets: [
+      "Collaborated on ML projects that enhanced client automation processes, engaging directly with clients to deliver tailored solutions.",
+      "Assisted in deploying predictive models that improved operational efficiency for client workflows.",
+    ],
+  },
+  {
+    role: "Project Lead",
+    company: "Gujarat Technological University (GTU)",
+    period: "Oct 2023 — Present",
+    location: "Gujarat, India",
+    bullets: [
+      "Lead development of CodeTransform, a Python ↔ JavaScript code converter, from inception to a GTU state-level Design Engineering presentation.",
+      "Designed the system architecture while concurrently building the product, and coordinated cross-functional teams to align goals and deliverables.",
+    ],
+  },
+  {
+    role: "Student Intern (AI/ML)",
+    company: "Stealth AI Startup",
+    period: "Jan 2025 — Aug 2025",
+    location: "Remote",
+    bullets: [
+      "Owned ML models and pipelines, applying reinforcement-learning techniques to the product's core logic.",
+      "Built an MVP, pitched it to potential business partners, and helped prepare the project for a Y Combinator application.",
+    ],
+  },
+  {
+    role: "Team Lead",
+    company: "Smart India Hackathon (SIH)",
+    period: "Aug 2024 — Dec 2024",
+    location: "India · National",
+    bullets: [
+      "Directed a team building a virtual herbal garden with detailed 3D models, presented at the national level.",
+      "Managed team coordination and execution to deliver a working demo under hackathon deadlines.",
+    ],
   },
 ];
 
 const SKILLS = [
-  { name: "Machine Learning",              pct: 90, items: ["Scikit-Learn", "XGBoost", "LightGBM", "Regression & Classification", "Feature Engineering", "Ensemble Methods"] },
-  { name: "Automation & Integrations",     pct: 88, items: ["Make.com", "GoHighLevel", "Zapier", "n8n", "ActiveCampaign", "API & Webhook Integrations"] },
-  { name: "Deep Learning & Neural Nets",   pct: 85, items: ["TensorFlow", "PyTorch", "Keras", "CNNs", "Transformers", "Neural Network Optimization"] },
-  { name: "Development & Deployment",      pct: 85, items: ["Python (Advanced)", "FastAPI", "JavaScript", "Full-Stack", "API Development", "ML Pipeline Automation"] },
-  { name: "Computer Vision & NLP",         pct: 80, items: ["TrOCR", "Image Processing", "NLP", "Vector Embeddings & Search"] },
+  { group: "Languages", items: ["Python", "C / C++", "JavaScript", "TypeScript", "SQL", "HTML / CSS"] },
+  { group: "ML & Deep Learning", items: ["scikit-learn", "XGBoost", "LightGBM", "TensorFlow", "PyTorch", "Keras", "pandas", "NumPy", "feature engineering"] },
+  { group: "AI / LLM & Agents", items: ["LLMs", "RAG", "Claude API", "Claude Agent SDK", "Model Context Protocol (MCP)", "Google Gemini ADK", "prompt engineering", "FAISS / ChromaDB"] },
+  { group: "Computer Vision", items: ["YOLOv8", "CLIP", "TrOCR", "InsightFace / ArcFace", "OCR"] },
+  { group: "Backend & Full-stack", items: ["FastAPI", "Next.js", "React", "Node.js", "REST APIs", "Streamlit"] },
+  { group: "Data & Infra", items: ["PostgreSQL / Supabase", "Docker", "GitHub Actions / CI", "Azure", "Google Cloud Run", "Netlify", "Hugging Face"] },
+  { group: "Automation", items: ["Make.com", "n8n", "Zapier", "GoHighLevel", "webhooks & API integrations"] },
 ];
 
-const EXP = [
-  {
-    role: "Trainee Software Engineer",
-    company: "Agility Innovations Pvt. Ltd.",
-    period: "Sep 2025 – Present",
-    location: "Ahmedabad, India",
-    desc: "Building and shipping production ML systems — prediction engines, data pipelines, and full-stack applications deployed and validated against live data at scale.",
-    active: true,
-  },
-  {
-    role: "Machine Learning Intern",
-    company: "Oasis Infobyte",
-    period: "2025",
-    location: "Remote",
-    desc: "Developed ML projects across neural network architectures, built end-to-end ML pipelines from data ingestion to deployment.",
-    active: false,
-  },
-  {
-    role: "AI Research Lead",
-    company: "Smart India Hackathon & Rotaract Club Hackathon",
-    period: "2024 – 2025",
-    location: "India",
-    desc: "Led AI research teams in computer vision and TrOCR systems. Designed architectures for real-world document processing challenges.",
-    active: false,
-  },
+const WRITING = [
+  { type: "Research paper", title: "Engineers Fear AI, As Mathematicians Once Feared Calculators", note: "Authored", url: "https://www.linkedin.com/in/preet-dave-452023271/" },
+  { type: "Article", title: "Zipf's Law for LLMs", note: "LinkedIn", url: "https://www.linkedin.com/in/preet-dave-452023271/" },
+  { type: "Article", title: "How GPS Works", note: "LinkedIn", url: "https://www.linkedin.com/in/preet-dave-452023271/" },
 ];
 
-const CERTS = [
-  { name: "Claude AI / Anthropic",          issuer: "Anthropic",          year: "2025", verified: true },
-  { name: "Python (4-Phase Mastery)",        issuer: "Training Institute",  year: "2024", verified: true },
-  { name: "Machine Learning with Python",   issuer: "Online Platform",     year: "2024", verified: true },
-  { name: "Natural Language Processing",    issuer: "Online Platform",     year: "2024", verified: true },
-  { name: "C, C++, C Advanced",             issuer: "Programming Institute",year: "2023", verified: true },
-  { name: "ML Engineering by Saikat Dutta", issuer: "Saikat Dutta",        year: "2025", verified: false },
-];
+/* ════════════════════════ HELPERS ════════════════════════ */
 
-const LIVE_SYSTEMS = [
-  {
-    name: "sports-prediction-platform.service",
-    desc: "NBA · Soccer · NASCAR engines — 7 GitHub Actions workflows, autonomous daily runs",
-    uptime: "15+ months",
-    scale: "10,000+ events",
-  },
-  {
-    name: "enterprise-automation-suite.service",
-    desc: "CRM sync · dynamic notifications · cross-platform integrations 24/7",
-    uptime: "Zero downtime SLA",
-    scale: "8+ active workflows",
-  },
-  {
-    name: "ai-intelligence-pipeline.service",
-    desc: "110+ sources · smart dedup · audience-targeted auto-tagged feeds",
-    uptime: "15-min update cycles",
-    scale: "110+ sources",
-  },
-];
-
-const CMD_HELP = [
-  "┌─────────────────────────────────────────────────────────────────┐",
-  "│  AVAILABLE COMMANDS                                             │",
-  "├───────────────────────┬─────────────────────────────────────────┤",
-  "│  whoami               │  display identity                       │",
-  "│  about                │  background & bio                       │",
-  "│  skills               │  technical stack overview               │",
-  "│  projects             │  all 14+ projects                       │",
-  "│  experience           │  work history                           │",
-  "│  certs                │  certifications                         │",
-  "│  stats                │  live system metrics                    │",
-  "│  contact              │  get in touch                           │",
-  "│  ls                   │  list sections                          │",
-  "│  clear                │  clear interactive log                  │",
-  "└───────────────────────┴─────────────────────────────────────────┘",
-  "  ↑ / ↓   navigate command history",
-  "  Tab     autocomplete",
-];
-
-/* ═══════════════════════════════════════════════════════════════
-   COMPONENTS
-═══════════════════════════════════════════════════════════════ */
-
-function Prompt() {
+function SectionHead({ kicker, title, sub }: { kicker: string; title: string; sub?: string }) {
   return (
-    <span className="select-none shrink-0 whitespace-nowrap font-mono">
-      <span className="text-[#F5A623]">preet</span>
-      <span className="text-[#444]">@</span>
-      <span className="text-[#00D96E]">portfolio</span>
-      <span className="text-[#444]">:</span>
-      <span className="text-[#00D4FF]">~</span>
-      <span className="text-[#999]">$</span>
-      <span>&nbsp;</span>
-    </span>
+    <Reveal>
+      <p className="kicker mb-3">{kicker}</p>
+      <h2 className="font-display text-3xl md:text-[40px] font-bold tracking-tight leading-tight">{title}</h2>
+      {sub && <p className="mt-3 text-muted text-[15px] max-w-2xl leading-relaxed">{sub}</p>}
+    </Reveal>
   );
 }
 
-function CmdLine({ cmd }: { cmd: string }) {
+/* ════════════════════════ PAGE ════════════════════════ */
+
+export default function Home() {
   return (
-    <div className="flex items-center mt-6 mb-2">
-      <Prompt />
-      <span className="text-[#E2E2E2]">{cmd}</span>
-    </div>
-  );
-}
+    <div className="relative z-10">
+      <SiteNav />
 
-function SkillBar({
-  pct,
-  name,
-  items,
-}: {
-  pct: number;
-  name: string;
-  items: string[];
-}) {
-  const [on, setOn] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+      {/* ───── HERO ───── */}
+      <section className="relative mx-auto max-w-6xl px-5 sm:px-6 pt-32 md:pt-40 pb-16">
+        <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-12 items-center">
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/60 px-3 py-1.5 mb-6"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-accent opacity-75 animate-ping" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+              </span>
+              <span className="font-mono text-[11px] tracking-wide text-muted">Open to AI / ML engineering roles</span>
+            </motion.div>
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setOn(true); },
-      { threshold: 0.4 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
+            <motion.h1
+              initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.05 }}
+              className="font-display text-[clamp(2.6rem,7vw,4.5rem)] font-bold leading-[1.02] tracking-tight"
+            >
+              I build ML systems<br />
+              that <span className="text-gradient">actually ship.</span>
+            </motion.h1>
 
-  return (
-    <div ref={ref} className="mb-4">
-      <div className="flex items-center gap-2 text-xs">
-        <span className="text-[#555] w-8 text-right tabular-nums shrink-0">{pct}%</span>
-        <span className="text-[#2A2A2A] shrink-0">[</span>
-        {/* Bar container */}
-        <div
-          className="relative overflow-hidden shrink-0"
-          style={{ width: "160px", height: "1.1em" }}
-        >
-          {/* Empty track */}
-          <div
-            className="absolute inset-0 text-[#1A1A1A] whitespace-nowrap overflow-hidden leading-none pt-px"
-            aria-hidden
-          >
-            {"░".repeat(28)}
+            <motion.p
+              initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.12 }}
+              className="mt-6 text-[16px] md:text-[17px] text-muted leading-relaxed max-w-xl"
+            >
+              I&apos;m Preet Dave — an AI/ML engineer in Ahmedabad designing and shipping applied
+              machine-learning and agentic-AI systems, from a national-dataset climate twin to
+              offline computer-vision and LLM-driven automation.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.18 }}
+              className="mt-7 flex flex-wrap items-center gap-3"
+            >
+              <Link href="/#work" className="btn-primary">View projects <ArrowRight size={16} /></Link>
+              <a href="/resume.html" target="_blank" rel="noopener noreferrer" className="btn-ghost"><FileDown size={16} /> Résumé</a>
+              <Link href="/#contact" className="btn-ghost"><Mail size={16} /> Contact</Link>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.3 }}
+              className="mt-8 flex flex-wrap items-center gap-x-1 gap-y-2 text-[13px] text-faint"
+            >
+              {TAGLINE.map((t, i) => (
+                <span key={t} className="inline-flex items-center">
+                  {i > 0 && <Dot size={16} className="text-line-strong" />}
+                  <span className="hover:text-muted transition-colors">{t}</span>
+                </span>
+              ))}
+            </motion.div>
           </div>
-          {/* Filled bar — animated width */}
+
+          {/* Spec card */}
           <motion.div
-            className="absolute inset-0 text-[#00D96E] whitespace-nowrap overflow-hidden leading-none pt-px"
-            style={{ textShadow: "0 0 6px rgba(0,217,110,0.55)" }}
-            initial={{ width: "0%" }}
-            animate={{ width: on ? `${pct}%` : "0%" }}
-            transition={{ duration: 1.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+            initial={{ opacity: 0, y: 20, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="hidden lg:block"
           >
-            {"█".repeat(28)}
+            <div className="card p-0 overflow-hidden animate-float">
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-line bg-surface/60">
+                <span className="w-3 h-3 rounded-full bg-[#FF5F57]" />
+                <span className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
+                <span className="w-3 h-3 rounded-full bg-[#28C840]" />
+                <span className="ml-2 font-mono text-[11px] text-faint">preet.profile.ts</span>
+              </div>
+              <div className="p-5 font-mono text-[12.5px] leading-[1.7] overflow-x-auto">
+                <div><span className="text-faint">const</span> <span className="text-cyan">preet</span> <span className="text-faint">=</span> {"{"}</div>
+                <div className="pl-4"><span className="text-accent-soft">role</span>: <span className="text-paper">&quot;AI / ML Engineer&quot;</span>,</div>
+                <div className="pl-4"><span className="text-accent-soft">now</span>: <span className="text-paper">&quot;Agility — full-time&quot;</span>,</div>
+                <div className="pl-4"><span className="text-accent-soft">building</span>: [<span className="text-paper">&quot;climate twin&quot;</span>,</div>
+                <div className="pl-8"><span className="text-paper">&quot;predictive policing&quot;</span>, <span className="text-paper">&quot;legal AI&quot;</span>],</div>
+                <div className="pl-4"><span className="text-accent-soft">stack</span>: [<span className="text-paper">&quot;Python&quot;</span>, <span className="text-paper">&quot;PyTorch&quot;</span>, <span className="text-paper">&quot;FastAPI&quot;</span>],</div>
+                <div className="pl-4"><span className="text-accent-soft">edu</span>: <span className="text-paper">&quot;B.Tech CSE (AI-ML), GTU&quot;</span>,</div>
+                <div className="pl-4"><span className="text-accent-soft">openTo</span>: <span className="text-cyan">true</span>,</div>
+                <div>{"}"}</div>
+              </div>
+            </div>
           </motion.div>
         </div>
-        <span className="text-[#2A2A2A] shrink-0">]</span>
-        <span className="text-[#D0D0D0] ml-2 shrink-0">{name}</span>
-      </div>
-      <div className="pl-12 flex flex-wrap gap-1 mt-1.5">
-        {items.map((item) => (
-          <span
-            key={item}
-            className="text-[10px] text-[#3A3A3A] border border-[#1A1A1A] px-1.5 py-px bg-[#0A0A0A] rounded-sm"
-          >
-            {item}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
 
-/* ═══════════════════════════════════════════════════════════════
-   MAIN PAGE
-═══════════════════════════════════════════════════════════════ */
-
-export default function TerminalPortfolio() {
-  const [bootCount, setBootCount]   = useState(0);
-  const [bootDone, setBootDone]     = useState(false);
-  const [input, setInput]           = useState("");
-  const [cmdHistory, setCmdHistory] = useState<string[]>([]);
-  const [histIdx, setHistIdx]       = useState(-1);
-  const [cmdLog, setCmdLog]         = useState<Array<{ cmd: string; out: string[] }>>([]);
-
-  const bodyRef  = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  /* ── Boot sequence ── */
-  useEffect(() => {
-    const timers = BOOT_LINES.map((line, i) =>
-      setTimeout(() => {
-        setBootCount(i + 1);
-        if (i === BOOT_LINES.length - 1) {
-          setTimeout(() => setBootDone(true), 500);
-        }
-      }, line.delay)
-    );
-    return () => timers.forEach(clearTimeout);
-  }, []);
-
-  /* ── Auto-scroll ── */
-  useEffect(() => {
-    if (bodyRef.current) {
-      bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
-    }
-  }, [bootCount, bootDone, cmdLog]);
-
-  /* ── Run command ── */
-  const runCmd = useCallback((raw: string) => {
-    const cmd = raw.trim().toLowerCase();
-    if (!cmd) return;
-
-    setCmdHistory((h) => [cmd, ...h.slice(0, 49)]);
-    setHistIdx(-1);
-
-    if (cmd === "clear") { setCmdLog([]); return; }
-
-    const RESPONSES: Record<string, string[]> = {
-      help: CMD_HELP,
-      ls: [
-        "about/",
-        "skills/",
-        `projects/  (${PROJECTS.length} items)`,
-        "experience/",
-        "certs/",
-        "live-systems/",
-        "contact/",
-        "stats/",
-      ],
-      whoami: [
-        "Preet Ghanshyam Dave",
-        "AI/ML Engineer · Automation Developer · Deep Learning",
-        "B.Tech CS (AI-ML) · Trainee SWE @ Agility Innovations",
-        "Ahmedabad, India",
-        "",
-        "Status: ● Open to AI/ML Roles",
-      ],
-      about: [
-        "I'm an AI-ML Engineer passionate about building intelligent",
-        "systems that solve real-world problems.",
-        "",
-        "Expertise: deep learning · computer vision · NLP",
-        "End-to-end ML pipelines from data ingestion to production.",
-        "",
-        "Currently: B.Tech CS (AI-ML) + Trainee SWE @ Agility,",
-        "shipping production ML systems validated at scale.",
-      ],
-      skills: SKILLS.map(
-        (s) =>
-          `${String(s.pct).padStart(3)}%  [${
-            ("█".repeat(Math.round(s.pct / 5)) + "░".repeat(20)).slice(0, 20)
-          }]  ${s.name}`
-      ),
-      projects: PROJECTS.map(
-        (p) =>
-          `${p.status.padEnd(10)}${p.name.padEnd(36)}${p.category}`
-      ),
-      experience: EXP.map(
-        (e) =>
-          `${e.active ? "● ACTIVE   " : "○ --------- "}${e.role} @ ${e.company}`
-      ),
-      certs: CERTS.map(
-        (c) =>
-          `${c.verified ? "[✓]" : "[ ]"} ${c.name.padEnd(38)}${c.issuer} (${c.year})`
-      ),
-      stats: [
-        "14+    Projects shipped",
-        "13+    Automation workflows built",
-        " 4,084 Live prediction records",
-        "15mo+  Production uptime (sports engines)",
-        "110+   AI sources monitored (every 15 min)",
-        "  2    Internships completed",
-        "  1    Hackathon won",
-      ],
-      contact: [
-        "email     →  iampreetdave@gmail.com",
-        "phone     →  +91 90810 25277",
-        "github    →  github.com/iampreetdave-max",
-        "linkedin  →  linkedin.com/in/preet-dave-452023271",
-        "location  →  Ahmedabad, India",
-        "resume    →  /resume.pdf (PDF)  ·  /resume.docx (DOCX)",
-      ],
-    };
-
-    const out =
-      RESPONSES[cmd] ??
-      [`bash: ${cmd}: command not found`, "Type 'help' for available commands."];
-
-    setCmdLog((l) => [...l, { cmd: raw, out }]);
-  }, []);
-
-  /* ── Keyboard handler ── */
-  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      runCmd(input);
-      setInput("");
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      const i = Math.min(histIdx + 1, cmdHistory.length - 1);
-      setHistIdx(i);
-      setInput(cmdHistory[i] ?? "");
-    } else if (e.key === "ArrowDown") {
-      e.preventDefault();
-      const i = Math.max(histIdx - 1, -1);
-      setHistIdx(i);
-      setInput(i === -1 ? "" : cmdHistory[i]);
-    } else if (e.key === "Tab") {
-      e.preventDefault();
-      const cmds = [
-        "help", "ls", "whoami", "about", "skills",
-        "projects", "experience", "certs", "stats", "contact", "clear",
-      ];
-      const match = cmds.find(
-        (c) => c.startsWith(input.toLowerCase()) && c !== input.toLowerCase()
-      );
-      if (match) setInput(match);
-    }
-  };
-
-  /* ═══════════════════════════════════════════════════════════
-     RENDER
-  ═══════════════════════════════════════════════════════════ */
-  return (
-    <div className="min-h-screen bg-[#050505] font-mono text-sm text-[#E2E2E2] flex items-start justify-center py-4 px-4 relative overflow-x-hidden">
-      {/* CRT overlays */}
-      <div className="crt-scanlines" />
-      <div className="crt-vignette" />
-      <div className="scanline-beam" />
-
-      {/* ── Terminal window ── */}
-      <div
-        className="w-full max-w-5xl flex flex-col rounded-lg overflow-hidden border border-[#1C1C1C]"
-        style={{
-          height: "calc(100vh - 2rem)",
-          boxShadow:
-            "0 0 0 1px #111, 0 24px 80px rgba(0,0,0,0.92), 0 0 80px rgba(0,217,110,0.03)",
-        }}
-      >
-        {/* ── Title bar ── */}
-        <div className="flex items-center justify-between bg-[#0C0C0C] border-b border-[#1C1C1C] px-4 py-2.5 shrink-0 select-none">
-          {/* Traffic lights */}
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-[#FF5F57] border border-[#BF3530]" />
-            <div className="w-3 h-3 rounded-full bg-[#FEBC2E] border border-[#C79400]" />
-            <div className="w-3 h-3 rounded-full bg-[#28C840] border border-[#17A328]" />
-          </div>
-          {/* Title */}
-          <div className="text-[#3A3A3A] text-xs tracking-widest">
-            preet@portfolio — bash — 220×52
-          </div>
-          {/* Quick links */}
-          <div className="flex items-center gap-4 text-[#3A3A3A] text-xs">
-            <a
-              href="https://github.com/iampreetdave-max"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[#00D96E] transition-colors duration-200"
-              title="GitHub"
-            >
-              github
-            </a>
-            <a
-              href="https://www.linkedin.com/in/preet-dave-452023271/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[#00D4FF] transition-colors duration-200"
-              title="LinkedIn"
-            >
-              linkedin
-            </a>
-            <a
-              href="mailto:iampreetdave@gmail.com"
-              className="hover:text-[#F5A623] transition-colors duration-200"
-              title="Email"
-            >
-              email
-            </a>
-          </div>
-        </div>
-
-        {/* ── Body ── */}
-        <div
-          ref={bodyRef}
-          className="flex-1 overflow-y-auto p-5 pb-6 bg-[#050505] cursor-text"
-          onClick={() => inputRef.current?.focus()}
-          role="main"
-          aria-label="Terminal portfolio — type help for commands"
-        >
-
-          {/* ══ BOOT SEQUENCE ══ */}
-          <div className="space-y-0.5 mb-1" aria-live="polite" aria-label="Boot sequence">
-            {BOOT_LINES.slice(0, bootCount).map((line, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -6 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.12 }}
-                className={
-                  line.color === "amber"
-                    ? "text-[#F5A623] font-semibold"
-                    : line.color === "green"
-                    ? "text-[#00D96E]"
-                    : line.color === "dim"
-                    ? "text-[#1E1E1E]"
-                    : "text-[#B0B0B0]"
-                }
-              >
-                {line.text}
-              </motion.div>
+        {/* Tech marquee */}
+        <div className="mt-16 marquee-mask overflow-hidden">
+          <div className="flex w-max gap-3 animate-marquee">
+            {[...TECH, ...TECH].map((t, i) => (
+              <span key={i} className="chip shrink-0">{t}</span>
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* ══ PORTFOLIO SECTIONS (after boot) ══ */}
-          {bootDone && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4 }}
-            >
-
-              {/* ─ HERO ─ */}
-              <CmdLine cmd="whoami --full" />
-              <div className="ml-2 mb-3 border border-[#F5A623]/20 p-4 bg-[#0A0A0A]">
-                <div
-                  className="text-[#F5A623] font-bold tracking-[0.25em] text-sm mb-1 glow-green"
-                  style={{ textShadow: "0 0 12px rgba(245,166,35,0.5)" }}
-                >
-                  P R E E T &nbsp; G H A N S H Y A M &nbsp; D A V E
+      {/* ───── STATS ───── */}
+      <section className="mx-auto max-w-6xl px-5 sm:px-6 py-10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {STATS.map((s, i) => (
+            <Reveal key={s.label} delay={i * 0.06}>
+              <div className="card p-5 h-full">
+                <div className="font-display text-[34px] md:text-[40px] font-bold tracking-tight text-paper">
+                  <AnimatedCounter target={s.n} suffix={s.suffix} />
                 </div>
-                <div className="text-[#555] text-xs mb-0.5">
-                  AI/ML Engineer &nbsp;·&nbsp; Automation Developer &nbsp;·&nbsp; Deep Learning
-                </div>
-                <div className="text-[#555] text-xs">
-                  B.Tech CS(AI-ML) &nbsp;·&nbsp; Trainee SWE @ Agility Innovations
-                </div>
-                <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-xs">
-                  <span className="text-[#00D96E] font-bold">● Open to AI/ML Roles</span>
-                  <span>
-                    <span className="text-[#444]">loc: </span>
-                    <span className="text-[#E2E2E2]">Ahmedabad, India</span>
-                  </span>
-                  <a href="mailto:iampreetdave@gmail.com" className="t-link">
-                    iampreetdave@gmail.com
-                  </a>
-                  <a
-                    href="https://github.com/iampreetdave-max"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="t-link"
-                  >
-                    github ↗
-                  </a>
-                  <a
-                    href="https://www.linkedin.com/in/preet-dave-452023271/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="t-link"
-                  >
-                    linkedin ↗
-                  </a>
-                  <a href="/resume.pdf" download className="t-link">
-                    resume.pdf ↓
-                  </a>
-                </div>
+                <div className="mt-1 text-[12.5px] text-muted leading-snug">{s.label}</div>
               </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
-              {/* ─ ABOUT ─ */}
-              <CmdLine cmd="cat about.txt" />
-              <div className="ml-2 border-l-2 border-[#1A1A1A] pl-4 mb-1 hover:border-[#F5A623]/30 transition-colors duration-300">
-                <p className="text-[#888] leading-relaxed max-w-2xl text-xs">
-                  I&apos;m an AI-ML Engineer passionate about building intelligent systems that solve
-                  real-world problems. With expertise in deep learning, computer vision, and NLP,
-                  I develop end-to-end ML pipelines — from data preprocessing and feature engineering
-                  to model deployment and optimization.
-                </p>
-                <p className="text-[#888] leading-relaxed max-w-2xl text-xs mt-2">
-                  Currently pursuing B.Tech in CS (AI-ML) while gaining hands-on industry experience
-                  as a Trainee Software Engineer, shipping production ML systems validated against
-                  live data at scale.
-                </p>
-                <div className="flex flex-wrap gap-1.5 mt-3">
-                  {["Deep Learning", "Computer Vision", "NLP", "MLOps", "Full-Stack", "Automation"].map(
-                    (tag) => (
-                      <span
-                        key={tag}
-                        className="text-[10px] border border-[#00D96E]/20 text-[#00D96E] px-2 py-0.5"
-                      >
-                        {tag}
-                      </span>
-                    )
+      {/* ───── WORK ───── */}
+      <section id="work" className="mx-auto max-w-6xl px-5 sm:px-6 py-20 scroll-mt-20">
+        <SectionHead
+          kicker="Selected work"
+          title="Systems I've designed and shipped"
+          sub="Each one is real and running. Numbers are stated honestly — where a metric is from synthetic/demo data, it says so."
+        />
+        <div className="mt-10 grid md:grid-cols-2 gap-5">
+          {FEATURED.map((p, i) => (
+            <Reveal key={p.title} delay={(i % 2) * 0.06}>
+              <article className="card h-full p-6 flex flex-col">
+                <div className="flex items-start justify-between gap-3">
+                  <span className="inline-flex items-center font-mono text-[11px] px-2.5 py-1 rounded-md border border-accent/30 text-accent bg-accent/[0.08]">
+                    {p.category}
+                  </span>
+                  {p.private && (
+                    <span className="inline-flex items-center gap-1 font-mono text-[10px] text-faint"><Lock size={11} /> Private</span>
                   )}
                 </div>
-              </div>
 
-              {/* ─ STATS ─ */}
-              <CmdLine cmd="stats --live" />
-              <div className="ml-2 mb-1 grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {[
-                  { v: "14+",    l: "Projects" },
-                  { v: "13+",    l: "Automations" },
-                  { v: "4,084+", l: "Live Predictions" },
-                  { v: "15mo+",  l: "Prod. Uptime" },
-                ].map((s) => (
-                  <div
-                    key={s.l}
-                    className="stat-card border border-[#1C1C1C] p-3 bg-[#0A0A0A]"
-                  >
-                    <div className="text-[#00D96E] font-bold text-xl tabular-nums">{s.v}</div>
-                    <div className="text-[#3A3A3A] text-[10px] mt-0.5">{s.l}</div>
-                  </div>
-                ))}
-              </div>
+                <h3 className="font-display text-[20px] font-bold mt-4 tracking-tight">{p.title}</h3>
+                <p className="text-[13px] text-accent-soft/90 font-medium">{p.sub}</p>
+                {p.program && <p className="mt-1 font-mono text-[11px] text-faint">{p.program}</p>}
 
-              {/* ─ SKILLS ─ */}
-              <CmdLine cmd="cat skills.json" />
-              <div className="ml-2 mb-1">
-                {SKILLS.map((s) => (
-                  <SkillBar key={s.name} pct={s.pct} name={s.name} items={s.items} />
-                ))}
-              </div>
+                <p className="mt-4 text-[14px] text-muted leading-relaxed flex-grow">{p.blurb}</p>
 
-              {/* ─ PROJECTS ─ */}
-              <CmdLine cmd="ls -la projects/" />
-              <div className="ml-2 text-[#333] text-[10px] mb-2">
-                total {PROJECTS.length} — click any project to open
-              </div>
-              <div className="ml-2 mb-1 space-y-2">
-                {PROJECTS.map((p, i) => (
-                  <motion.a
-                    key={p.id}
-                    href={p.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.06, duration: 0.25 }}
-                    className="proj-card block border border-[#1C1C1C] p-3 bg-[#0A0A0A] rounded-sm no-underline"
-                    aria-label={`${p.name} — ${p.category}`}
-                  >
-                    <div className="flex items-center justify-between flex-wrap gap-2 mb-1.5">
-                      <div className="flex items-center gap-2">
-                        <span
-                          className={`text-[10px] px-1.5 py-0.5 font-bold border ${
-                            p.status === "LIVE"
-                              ? "text-[#00D96E] border-[#00D96E]/22 bg-[#00D96E]/5"
-                              : "text-[#555] border-[#333]/40 bg-transparent"
-                          }`}
-                        >
-                          {p.status}
-                        </span>
-                        <span className="text-[#00D4FF] font-bold text-xs">{p.name}</span>
-                      </div>
-                      <span className="text-[#2A2A2A] text-[10px]">{p.category}</span>
-                    </div>
-                    <div className="text-[#666] text-[11px] leading-relaxed">{p.desc}</div>
-                    <div className="flex flex-wrap gap-1 mt-2">
-                      {p.tech.slice(0, 5).map((t) => (
-                        <span
-                          key={t}
-                          className="text-[10px] text-[#333] border border-[#1A1A1A] px-1.5 py-px bg-[#0D0D0D] rounded-sm"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                      {p.tech.length > 5 && (
-                        <span className="text-[10px] text-[#272727]">
-                          +{p.tech.length - 5} more
-                        </span>
-                      )}
-                    </div>
-                    {("roi" in p || "records" in p) && (
-                      <div className="flex gap-4 mt-1.5 text-[10px]">
-                        {"roi" in p && p.roi && (
-                          <span>
-                            <span className="text-[#3A3A3A]">roi: </span>
-                            <span className="text-[#F5A623] font-bold">{p.roi}</span>
-                          </span>
-                        )}
-                        {"records" in p && p.records && (
-                          <span>
-                            <span className="text-[#3A3A3A]">records: </span>
-                            <span className="text-[#00D96E]">{p.records}</span>
-                          </span>
-                        )}
-                      </div>
-                    )}
-                  </motion.a>
-                ))}
-              </div>
-
-              {/* ─ EXPERIENCE ─ */}
-              <CmdLine cmd="cat experience.log" />
-              <div className="ml-2 mb-1 space-y-4">
-                {EXP.map((e, i) => (
-                  <div
-                    key={i}
-                    className="border-l-2 border-[#1A1A1A] pl-4 hover:border-[#F5A623]/35 transition-colors duration-300"
-                  >
-                    <div className="flex items-center gap-2 flex-wrap mb-0.5">
-                      {e.active && (
-                        <span className="text-[10px] text-[#F5A623] border border-[#F5A623]/22 px-1.5 py-px">
-                          ACTIVE
-                        </span>
-                      )}
-                      <span className="text-[#E2E2E2] font-bold text-xs">{e.role}</span>
-                    </div>
-                    <div className="text-[#F5A623] text-xs">{e.company}</div>
-                    <div className="text-[#3A3A3A] text-[10px] mt-0.5">
-                      {e.period} &nbsp;·&nbsp; {e.location}
-                    </div>
-                    <div className="text-[#555] text-[11px] mt-1 leading-relaxed max-w-2xl">
-                      {e.desc}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* ─ CERTIFICATIONS ─ */}
-              <CmdLine cmd="cat certifications.txt" />
-              <div className="ml-2 mb-1">
-                {CERTS.map((c, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center gap-2 text-xs py-1.5 border-b border-[#0D0D0D]"
-                  >
-                    <span
-                      className={`shrink-0 ${
-                        c.verified ? "text-[#00D96E]" : "text-[#333]"
-                      }`}
-                    >
-                      {c.verified ? "[✓]" : "[ ]"}
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {p.metrics.map((m) => (
+                    <span key={m} className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-surface/60 px-2.5 py-1 text-[11px] text-muted">
+                      <span className="w-1 h-1 rounded-full bg-accent" /> {m}
                     </span>
-                    <span className="text-[#C0C0C0]">{c.name}</span>
-                    <span className="text-[#2A2A2A]">—</span>
-                    <span className="text-[#444]">{c.issuer}</span>
-                    <span className="text-[#222] ml-auto tabular-nums">{c.year}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* ─ LIVE SYSTEMS ─ */}
-              <CmdLine cmd="systemctl status --all" />
-              <div className="ml-2 mb-1 space-y-2">
-                {LIVE_SYSTEMS.map((s, i) => (
-                  <div key={i} className="text-xs">
-                    <div className="flex items-center gap-2">
-                      <span
-                        className="text-[#00D96E]"
-                        style={{ textShadow: "0 0 6px rgba(0,217,110,0.6)" }}
-                      >
-                        ●
-                      </span>
-                      <span className="text-[#E2E2E2] font-bold">{s.name}</span>
-                      <span className="text-[#3A3A3A]">— active (running)</span>
-                    </div>
-                    <div className="pl-5 text-[#555] text-[10px] mt-0.5">
-                      {s.desc}
-                    </div>
-                    <div className="pl-5 flex gap-5 text-[10px] mt-0.5">
-                      <span>
-                        <span className="text-[#2A2A2A]">uptime: </span>
-                        <span className="text-[#00D96E]">{s.uptime}</span>
-                      </span>
-                      <span>
-                        <span className="text-[#2A2A2A]">scale: </span>
-                        <span className="text-[#F5A623]">{s.scale}</span>
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* ─ CONTACT ─ */}
-              <CmdLine cmd="contact --all" />
-              <div className="ml-2 mb-1 space-y-1.5 text-xs">
-                {([
-                  { k: "email",    v: "iampreetdave@gmail.com",                  href: "mailto:iampreetdave@gmail.com" },
-                  { k: "phone",    v: "+91 90810 25277",                         href: "tel:+919081025277" },
-                  { k: "github",   v: "github.com/iampreetdave-max",             href: "https://github.com/iampreetdave-max" },
-                  { k: "linkedin", v: "linkedin.com/in/preet-dave-452023271",    href: "https://www.linkedin.com/in/preet-dave-452023271/" },
-                  { k: "location", v: "Ahmedabad, India",                        href: null },
-                  { k: "resume",   v: "resume.pdf  ↓",                          href: "/resume.pdf" },
-                ] as { k: string; v: string; href: string | null }[]).map(({ k, v, href }) => (
-                  <div key={k} className="flex items-center gap-3">
-                    <span className="text-[#3A3A3A] w-16 text-right shrink-0">{k}:</span>
-                    {href ? (
-                      <a
-                        href={href}
-                        target={href.startsWith("http") ? "_blank" : undefined}
-                        rel="noopener noreferrer"
-                        download={href === "/resume.pdf" || undefined}
-                        className="t-link"
-                      >
-                        {v}
-                      </a>
-                    ) : (
-                      <span className="text-[#E2E2E2]">{v}</span>
-                    )}
-                  </div>
-                ))}
-                <div className="mt-4 text-[#222] text-[10px]">
-                  # Type &apos;help&apos; for interactive commands &nbsp;·&nbsp; ↑↓ history &nbsp;·&nbsp; Tab autocomplete
+                  ))}
                 </div>
-              </div>
 
-              {/* ─ FOOTER ─ */}
-              <div className="border-t border-[#111] pt-4 mt-6">
-                <div className="flex flex-wrap gap-x-6 gap-y-1 text-[10px] text-[#252525]">
-                  <span>© 2026 PREET GHANSHYAM DAVE</span>
-                  <span>NEXT.JS · TAILWIND · FRAMER MOTION</span>
-                  <Link href="/projects" className="t-link text-[10px]">
-                    all-projects →
-                  </Link>
-                  <Link href="/fun" className="t-link text-[10px]">
-                    fun-zone →
-                  </Link>
-                  <a
-                    href="https://github.com/iampreetdave-max/ai-race-news"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="t-link text-[10px]"
-                  >
-                    ai-race-news ↗
-                  </a>
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {p.tags.map((t) => (
+                    <span key={t} className="font-mono text-[10px] px-2 py-0.5 rounded-md border border-line text-faint">{t}</span>
+                  ))}
                 </div>
-              </div>
 
-            </motion.div>
-          )}
-
-          {/* ══ INTERACTIVE COMMAND LOG ══ */}
-          {cmdLog.map((entry, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="mt-4"
-            >
-              <div className="flex items-center">
-                <Prompt />
-                <span className="text-[#E2E2E2]">{entry.cmd}</span>
-              </div>
-              <div className="pl-4 mt-1 space-y-0.5">
-                {entry.out.map((line, j) => (
-                  <div key={j} className="text-[#00D96E] text-xs leading-relaxed">
-                    {line || " "}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
+                <div className="mt-5 pt-4 border-t border-line flex flex-wrap items-center gap-4">
+                  {p.live && (
+                    <a href={p.live} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-[13px] text-paper hover:text-accent transition-colors">
+                      <Globe size={14} /> Live demo <ArrowUpRight size={13} />
+                    </a>
+                  )}
+                  {p.repo && (
+                    <a href={p.repo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-[13px] text-muted hover:text-paper transition-colors">
+                      <Github size={14} /> Code
+                    </a>
+                  )}
+                  {p.private && !p.repo && (
+                    <span className="inline-flex items-center gap-1.5 text-[12px] text-faint font-mono">Code available on request</span>
+                  )}
+                </div>
+              </article>
+            </Reveal>
           ))}
+        </div>
 
-          {/* ══ INPUT LINE ══ */}
-          {bootDone && (
-            <div className="flex items-center mt-4 pt-3 border-t border-[#0D0D0D]">
-              <Prompt />
-              <input
-                ref={inputRef}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={onKeyDown}
-                className="flex-1 bg-transparent border-none outline-none text-[#E2E2E2] caret-[#00D96E] font-mono text-sm"
-                autoFocus
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-                spellCheck={false}
-                aria-label="Terminal input — type help for commands"
-              />
+        <Reveal delay={0.1}>
+          <div className="mt-10 flex justify-center">
+            <Link href="/projects" className="btn-ghost">
+              View all projects &amp; automations <ArrowRight size={16} />
+            </Link>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ───── ABOUT ───── */}
+      <section id="about" className="mx-auto max-w-6xl px-5 sm:px-6 py-20 scroll-mt-20">
+        <div className="grid lg:grid-cols-[1fr_0.8fr] gap-12">
+          <div>
+            <SectionHead kicker="About" title="Applied research that has to run in production" />
+            <div className="mt-6 space-y-4 text-[15.5px] text-muted leading-relaxed max-w-2xl">
+              <p>
+                I work full-time at a Gujarat startup, building machine-learning models in direct
+                collaboration with clients — translating real operational needs into working software.
+                I started there as an intern and moved into the full-time engineering role over roughly
+                ten months of hands-on delivery.
+              </p>
+              <p>
+                Most of what I build sits at the intersection of ML and systems engineering: digital
+                twins on national climate datasets, computer-vision pipelines that run offline on CPU,
+                RAG and agentic workflows over LLMs, and production data pipelines. I care less about
+                chasing a single benchmark number and more about architecture, deployment, and whether
+                the system holds up when a real user touches it.
+              </p>
+              <p>
+                Alongside that I lead a GTU state-level project, write about how engineers actually work
+                with AI, and keep building across the Claude API, MCP, agent SDKs, and the wider Python
+                ML stack.
+              </p>
             </div>
-          )}
+          </div>
 
-        </div>{/* end body */}
-      </div>{/* end terminal window */}
+          <Reveal delay={0.1}>
+            <div className="card p-6">
+              <p className="kicker mb-4">Currently</p>
+              <ul className="space-y-4 text-[14px]">
+                <li className="flex gap-3">
+                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                  <span className="text-muted"><span className="text-paper font-medium">AI/ML Software Engineer</span> at Agility, Ahmedabad.</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                  <span className="text-muted">Final-year <span className="text-paper font-medium">B.Tech CSE (AI &amp; ML)</span>, NLJIET — GTU.</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                  <span className="text-muted">Building for <span className="text-paper font-medium">ISRO BAH</span> &amp; <span className="text-paper font-medium">KANAD S.H.I.E.L.D.</span> hackathons.</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                  <span className="text-muted">Certified across the <span className="text-paper font-medium">Claude API, MCP &amp; Agent Skills</span> (Anthropic).</span>
+                </li>
+              </ul>
+              <div className="mt-5 pt-5 border-t border-line flex items-center gap-2 text-[13px] text-muted">
+                <MapPin size={14} className="text-accent" /> Ahmedabad, Gujarat, India
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ───── EXPERIENCE ───── */}
+      <section id="experience" className="mx-auto max-w-6xl px-5 sm:px-6 py-20 scroll-mt-20">
+        <SectionHead kicker="Experience" title="Where I've worked" />
+        <div className="mt-10 max-w-3xl">
+          {EXPERIENCE.map((e, i) => (
+            <Reveal key={`${e.company}-${e.role}`} delay={i * 0.04}>
+              <div className="relative pl-7 pb-9 border-l border-line last:border-l-transparent last:pb-0">
+                <span className={`absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full ${e.active ? "bg-accent" : "bg-line-strong"}`} />
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <h3 className="font-display text-[17px] font-semibold text-paper">{e.role}</h3>
+                  {e.active && <span className="font-mono text-[10px] px-1.5 py-0.5 rounded border border-accent/30 text-accent bg-accent/[0.08]">CURRENT</span>}
+                </div>
+                <div className="mt-0.5 text-[14px] text-accent-soft">{e.company}</div>
+                <div className="mt-0.5 font-mono text-[11px] text-faint">{e.period} · {e.location}</div>
+                <ul className="mt-3 space-y-2">
+                  {e.bullets.map((b, j) => (
+                    <li key={j} className="flex gap-2.5 text-[14px] text-muted leading-relaxed">
+                      <span className="mt-2 w-1 h-1 rounded-full bg-line-strong shrink-0" />
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ───── SKILLS ───── */}
+      <section id="skills" className="mx-auto max-w-6xl px-5 sm:px-6 py-20 scroll-mt-20">
+        <SectionHead kicker="Toolkit" title="What I build with" />
+        <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {SKILLS.map((s, i) => (
+            <Reveal key={s.group} delay={(i % 3) * 0.05}>
+              <div className="card p-5 h-full">
+                <h3 className="font-mono text-[12px] tracking-wider uppercase text-accent mb-3">{s.group}</h3>
+                <div className="flex flex-wrap gap-1.5">
+                  {s.items.map((it) => (
+                    <span key={it} className="chip">{it}</span>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ───── WRITING ───── */}
+      <section id="writing" className="mx-auto max-w-6xl px-5 sm:px-6 py-20 scroll-mt-20">
+        <SectionHead kicker="Writing" title="Research &amp; notes" sub="A research paper and short technical essays on how AI actually works and how engineers work with it." />
+        <div className="mt-10 grid sm:grid-cols-3 gap-5">
+          {WRITING.map((w, i) => (
+            <Reveal key={w.title} delay={i * 0.06}>
+              <a href={w.url} target="_blank" rel="noopener noreferrer" className="card group p-5 h-full flex flex-col">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[10px] tracking-wider uppercase text-accent">{w.type}</span>
+                  <ArrowUpRight size={15} className="text-faint group-hover:text-accent transition-colors" />
+                </div>
+                <h3 className="font-display text-[16px] font-semibold mt-3 leading-snug flex-grow">{w.title}</h3>
+                <span className="mt-4 font-mono text-[11px] text-faint">{w.note}</span>
+              </a>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ───── CONTACT ───── */}
+      <section id="contact" className="mx-auto max-w-6xl px-5 sm:px-6 py-20 scroll-mt-20">
+        <Reveal>
+          <div className="card p-8 md:p-12 text-center relative overflow-hidden">
+            <p className="kicker mb-4">Contact</p>
+            <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight">
+              Let&apos;s build something <span className="text-gradient">intelligent.</span>
+            </h2>
+            <p className="mt-4 text-muted text-[15px] max-w-xl mx-auto leading-relaxed">
+              I&apos;m open to AI/ML engineering roles and interesting applied-AI problems.
+              The fastest way to reach me is email.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <a href="mailto:iampreetdave@gmail.com" className="btn-primary"><Mail size={16} /> iampreetdave@gmail.com</a>
+              <a href="/resume.html" target="_blank" rel="noopener noreferrer" className="btn-ghost"><FileText size={16} /> Résumé</a>
+              <a href="/cv.html" target="_blank" rel="noopener noreferrer" className="btn-ghost"><FileText size={16} /> Full CV</a>
+            </div>
+            <div className="mt-8 flex items-center justify-center gap-3">
+              <a href="https://github.com/iampreetdave-max" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="grid place-items-center w-10 h-10 rounded-lg border border-line text-muted hover:text-paper hover:border-line-strong transition-colors"><Github size={17} /></a>
+              <a href="https://www.linkedin.com/in/preet-dave-452023271/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="grid place-items-center w-10 h-10 rounded-lg border border-line text-muted hover:text-paper hover:border-line-strong transition-colors"><Linkedin size={17} /></a>
+              <a href="https://iampreetdave.me" target="_blank" rel="noopener noreferrer" aria-label="Website" className="grid place-items-center w-10 h-10 rounded-lg border border-line text-muted hover:text-paper hover:border-line-strong transition-colors"><Globe size={17} /></a>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ───── FOOTER ───── */}
+      <footer className="border-t border-line mt-10">
+        <div className="mx-auto max-w-6xl px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="font-mono text-[11px] text-faint tracking-wider">© 2026 Preet Dave · Ahmedabad, India</p>
+          <div className="flex items-center gap-5 font-mono text-[11px] text-faint">
+            <Link href="/projects" className="hover:text-accent transition-colors">Projects</Link>
+            <Link href="/fun" className="hover:text-accent transition-colors">Fun Zone</Link>
+            <a href="https://github.com/iampreetdave-max" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">GitHub</a>
+            <span className="text-line-strong">Next.js · Tailwind</span>
+          </div>
+        </div>
+      </footer>
+
+      <BackToTop />
     </div>
   );
 }
