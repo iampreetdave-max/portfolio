@@ -68,13 +68,13 @@ export async function POST(req: NextRequest) {
 
     await sendEmail({
       to: email,
-      subject: "Automation Request Received — Preet Dave",
+      subject: "Automation Request Received · Preet Dave",
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;background:#0a0a0a;color:#fafafa;border:1px solid rgba(255,255,255,0.1);border-radius:12px;">
           <h2 style="color:#C9A86A;font-size:18px;margin:0 0 16px;">Request Received, ${name}!</h2>
-          <p style="color:rgba(250,250,250,0.75);line-height:1.8;margin:0 0 12px;">I've reviewed the details of your automation request. I'll get back to you within <strong>48 hours</strong> with a quote — including estimated timeline and pricing.</p>
+          <p style="color:rgba(250,250,250,0.75);line-height:1.8;margin:0 0 12px;">I've reviewed the details of your automation request. I'll get back to you within <strong>48 hours</strong> with a quote, including estimated timeline and pricing.</p>
           <p style="color:rgba(250,250,250,0.55);line-height:1.7;font-size:13px;margin:0 0 20px;">If you have any additional details, feel free to reply to this email.</p>
-          <p style="color:rgba(250,250,250,0.4);font-size:12px;margin:0;">— Preet Dave · Automation Developer</p>
+          <p style="color:rgba(250,250,250,0.4);font-size:12px;margin:0;">Preet Dave · Automation Developer</p>
         </div>
       `,
     });

@@ -6,11 +6,25 @@ import { Github, Linkedin, FileText, Menu, X } from "lucide-react";
 
 const LINKS = [
   { href: "/#work", label: "Work" },
-  { href: "/#projects", label: "Projects" },
+  { href: "/projects", label: "Projects" },
   { href: "/#about", label: "About" },
   { href: "/#writing", label: "Writing" },
   { href: "/#contact", label: "Contact" },
 ];
+
+/* Transistor-glyph logo mark */
+function LogoMark() {
+  return (
+    <span className="grid place-items-center w-9 h-9 rounded-lg bg-accent/[0.08] border border-line shrink-0">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="text-paper">
+        <path d="M6 10a6 6 0 0 1 12 0v2.5H6z" />
+        <line x1="9" y1="12.5" x2="9" y2="19" />
+        <line x1="12" y1="12.5" x2="12" y2="20.5" />
+        <line x1="15" y1="12.5" x2="15" y2="19" />
+      </svg>
+    </span>
+  );
+}
 
 export default function SiteNav() {
   const [scrolled, setScrolled] = useState(false);
@@ -29,12 +43,10 @@ export default function SiteNav() {
         scrolled ? "bg-ink/80 backdrop-blur-xl border-b border-line" : "bg-transparent border-b border-transparent"
       }`}
     >
-      <nav className="mx-auto max-w-6xl px-5 sm:px-6 h-16 flex items-center justify-between">
+      <nav className="mx-auto max-w-6xl px-5 sm:px-6 h-16 flex items-center justify-between gap-3">
         <Link href="/" className="flex items-center gap-2.5 shrink-0">
-          <span className="grid place-items-center w-8 h-8 rounded-lg bg-accent/[0.12] border border-accent/30 font-mono text-sm font-bold text-accent">
-            PD
-          </span>
-          <span className="font-display text-[15px] font-semibold tracking-tight text-paper">Preet Dave</span>
+          <LogoMark />
+          <span className="font-display text-[14.5px] font-semibold tracking-tight text-paper whitespace-nowrap">Preet Ghanshyam Dave</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-7">
