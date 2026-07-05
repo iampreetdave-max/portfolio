@@ -9,6 +9,7 @@ const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", displ
 export const metadata: Metadata = {
   metadataBase: new URL("https://iampreetdave.me"),
   title: "Preet Ghanshyam Dave Portfolio",
+  icons: { icon: "/icon.svg" },
   description:
     "Preet Ghanshyam Dave is an AI/ML engineer in Ahmedabad building applied machine-learning and agentic-AI systems: a national-dataset climate digital twin, an offline computer-vision policing platform, agentic legal AI, and an AI-news pipeline ingesting 110+ sources every 15 minutes.",
   keywords: [
