@@ -13,48 +13,48 @@ import BackToTop from "@/components/BackToTop";
 const allProjects: Project[] = [
   {
     id: "therma-netra",
-    title: "Therma Netra — Digital Twin of India's Climate",
+    title: "Therma Netra, Digital Twin of India's Climate",
     category: "Climate ML · Digital Twin",
     description:
       "An AI-powered digital twin of India's climate, built entirely on national datasets (IMD, INSAT/MOSDAC, IMDAA, CPCB). One continuously-assimilated twin powers climate forecast, urban-heat mitigation, and air-quality apps.",
     longDescription:
-      "Therma Netra is an AI-powered digital twin of India's climate, built entirely on national datasets — IMD gridded rainfall (0.25°) and temperature (1°), INSAT/MOSDAC satellite data, IMDAA reanalysis, and CPCB air quality. It continuously fuses incoming observations into a live virtual climate state using observation-guided nudging plus bias correction. A single twin powers three connected applications: climate state and short-term forecast, urban-heat mitigation, and surface air quality. The short-term forecast uses a persistence-of-anomaly baseline (~30% skill over persistence) and is architected to upgrade to a ConvLSTM on BharatBench/IMDAA, while a what-if simulator drives live Heat-Stress and AQI impacts with urban °C-cooling maps.\n\nFramed honestly throughout: an AI nowcast (not a full GCM), observation nudging (not 4D-Var/EnKF), and physics-informed proxies (NWS heat index, CPCB AQI). Built for ISRO's Bharatiya Antariksh Hackathon (BAH) 2026, Problem Statement #5.",
+      "Therma Netra is an AI-powered digital twin of India's climate, built entirely on national datasets, IMD gridded rainfall (0.25°) and temperature (1°), INSAT/MOSDAC satellite data, IMDAA reanalysis, and CPCB air quality. It continuously fuses incoming observations into a live virtual climate state using observation-guided nudging plus bias correction. A single twin powers three connected applications: climate state and short-term forecast, urban-heat mitigation, and surface air quality. The short-term forecast uses a persistence-of-anomaly baseline (~30% skill over persistence) and is architected to upgrade to a ConvLSTM on BharatBench/IMDAA, while a what-if simulator drives live Heat-Stress and AQI impacts with urban °C-cooling maps.\n\nFramed honestly throughout: an AI nowcast (not a full GCM), observation nudging (not 4D-Var/EnKF), and physics-informed proxies (NWS heat index, CPCB AQI). Built for ISRO's Bharatiya Antariksh Hackathon (BAH) 2026, Problem Statement #5.",
     tech_tags: ["Python", "Streamlit", "xarray", "imdlib", "Pydeck", "Climate ML", "Digital Twin"],
     repo_url: null,
     demo_url: null,
   },
   {
     id: "cityshield",
-    title: "CityShield · VisionScan — Unified AI Policing Platform",
+    title: "CityShield · VisionScan, Unified AI Policing Platform",
     category: "Computer Vision · GovTech",
     description:
-      "A unified AI policing platform that fuses physical and cyber crime onto one GIS map, forecasts next-week risk, and closes the loop from live CCTV anomaly to dispatched patrol unit — running fully offline on CPU.",
+      "A unified AI policing platform that fuses physical and cyber crime onto one GIS map, forecasts next-week risk, and closes the loop from live CCTV anomaly to dispatched patrol unit, running fully offline on CPU.",
     longDescription:
-      "CityShield unifies physical and cyber crime on a single GIS map, forecasts next-week risk, and converts it into optimized patrol routes — all offline on CPU. It runs as a closed loop: a live CCTV anomaly (a hybrid CLIP+YOLO detector for fire, smoke, accident, weapon, and violence) auto-opens a geo-tagged case, bumps the predictive risk surface, and dispatches the nearest unit. The forecasting model is transparent and auditable (recency-weighted risk + priors + anomaly boost) and was validated with rolling-origin walk-forward cross-validation; backtested on synthetic demo data it captured ~77% of next-week crime within 33% of the city (Hit-Rate@10 0.771, PAI@10 2.31x over 8 weekly folds) — a methodology demonstration, not real-world accuracy.\n\nVisionScan adds a four-mode CCTV semantic search over one offline index — natural-language and reference-image retrieval (CLIP ViT-B/32 → FAISS), suspect face re-ID (InsightFace ArcFace), and object search (YOLOv8). CrimeGPT generates 7 statutory Gujarat-police documents in English/Hindi/Gujarati. Ships as a FastAPI + SQLite backend, React + react-leaflet frontend, one-command Docker, 77 passing backend tests, and a 4-layer OWASP security middleware. Built for KANAD S.H.I.E.L.D. 2026 with the Cyber Crime Branch, Ahmedabad City Police.",
+      "CityShield unifies physical and cyber crime on a single GIS map, forecasts next-week risk, and converts it into optimized patrol routes, all offline on CPU. It runs as a closed loop: a live CCTV anomaly (a hybrid CLIP+YOLO detector for fire, smoke, accident, weapon, and violence) auto-opens a geo-tagged case, bumps the predictive risk surface, and dispatches the nearest unit. The forecasting model is transparent and auditable (recency-weighted risk + priors + anomaly boost) and was validated with rolling-origin walk-forward cross-validation; backtested on synthetic demo data it captured ~77% of next-week crime within 33% of the city (Hit-Rate@10 0.771, PAI@10 2.31x over 8 weekly folds), a methodology demonstration, not real-world accuracy.\n\nVisionScan adds a four-mode CCTV semantic search over one offline index, natural-language and reference-image retrieval (CLIP ViT-B/32 → FAISS), suspect face re-ID (InsightFace ArcFace), and object search (YOLOv8). CrimeGPT generates 7 statutory Gujarat-police documents in English/Hindi/Gujarati. Ships as a FastAPI + SQLite backend, React + react-leaflet frontend, one-command Docker, 77 passing backend tests, and a 4-layer OWASP security middleware. Built for KANAD S.H.I.E.L.D. 2026 with the Cyber Crime Branch, Ahmedabad City Police.",
     tech_tags: ["FastAPI", "React", "CLIP", "FAISS", "YOLOv8", "InsightFace", "RAG", "Docker"],
     repo_url: "https://github.com/iampreetdave-max/Guardian-Angle",
     demo_url: "https://visionscan.centralindia.cloudapp.azure.com",
   },
   {
     id: "arbiter",
-    title: "Arbiter — Agentic Legal AI",
+    title: "Arbiter, Agentic Legal AI",
     category: "Agentic AI · Legal Tech",
     description:
-      "A full-stack AI legal assistant that turns a problem described in plain English or Hindi into a properly structured, citation-backed legal document — no upfront lawyer fees.",
+      "A full-stack AI legal assistant that turns a problem described in plain English or Hindi into a properly structured, citation-backed legal document, no upfront lawyer fees.",
     longDescription:
-      "Arbiter converts a problem described in plain language into a properly structured legal document, removing the barrier of upfront lawyer fees. Built on Google's Agent Development Kit, its Gemini 2.0 agents research applicable law in real time using Google Search grounding, then draft documents with relevant citations and stream the output back. It generates 6 document types — demand letters, legal notices, RTI applications, consumer complaints, cease & desist, and employment complaints — with plain-English or Hindi intake aimed at users across India, the US, UK, Canada, and Australia.\n\nA Next.js 14 frontend pairs with a FastAPI backend, Firebase Auth + Firestore, Google Cloud Storage, and Razorpay payments, deployed on Google Cloud Run (asia-south1). Built for the XPRIZE \"Build with Gemini\" 2026 program (Professional Services Access track).",
+      "Arbiter converts a problem described in plain language into a properly structured legal document, removing the barrier of upfront lawyer fees. Built on Google's Agent Development Kit, its Gemini 2.0 agents research applicable law in real time using Google Search grounding, then draft documents with relevant citations and stream the output back. It generates 6 document types, demand letters, legal notices, RTI applications, consumer complaints, cease & desist, and employment complaints, with plain-English or Hindi intake aimed at users across India, the US, UK, Canada, and Australia.\n\nA Next.js 14 frontend pairs with a FastAPI backend, Firebase Auth + Firestore, Google Cloud Storage, and Razorpay payments, deployed on Google Cloud Run (asia-south1). Built for the XPRIZE \"Build with Gemini\" 2026 program (Professional Services Access track).",
     tech_tags: ["Next.js 14", "FastAPI", "Google Gemini 2.0", "Agent ADK", "Firebase", "Cloud Run", "Razorpay"],
     repo_url: "https://github.com/iampreetdave-max/arbiter",
     demo_url: null,
   },
   {
     id: "ai-race-news",
-    title: "AI Race News — AI/ML News Aggregation Platform",
+    title: "AI Race News, AI/ML News Aggregation Platform",
     category: "Data Engineering · Backend",
     description:
       "A production pipeline that ingests 110+ AI/ML sources every 15 minutes, deduplicates and auto-tags articles, and serves audience-specific feeds through a public FastAPI REST API and a Next.js frontend.",
     longDescription:
-      "AI Race News is a production news-aggregation platform built around a scheduled ingestion pipeline that pulls from 110+ AI/ML sources every 15 minutes. Articles pass through a three-layer deduplication system — URL normalization, content hashing, and title-similarity matching — to keep feeds clean across overlapping sources. Each story is run through audience classification (developers, business, finance, research, general) and auto-tagged across 12 topic categories.\n\nThe platform exposes a public FastAPI REST API with filtering and pagination, backed by a Next.js frontend. APScheduler orchestrates the full ingest-dedupe-tag cycle, and the API and scraper run as Dockerized services covered by a pytest suite.",
+      "AI Race News is a production news-aggregation platform built around a scheduled ingestion pipeline that pulls from 110+ AI/ML sources every 15 minutes. Articles pass through a three-layer deduplication system, URL normalization, content hashing, and title-similarity matching, to keep feeds clean across overlapping sources. Each story is run through audience classification (developers, business, finance, research, general) and auto-tagged across 12 topic categories.\n\nThe platform exposes a public FastAPI REST API with filtering and pagination, backed by a Next.js frontend. APScheduler orchestrates the full ingest-dedupe-tag cycle, and the API and scraper run as Dockerized services covered by a pytest suite.",
     tech_tags: ["FastAPI", "Python", "BeautifulSoup", "APScheduler", "Docker", "Next.js", "SQLite", "pytest"],
     repo_url: "https://github.com/iampreetdave-max/ai-race-news",
     demo_url: "https://ai-race-news.pages.dev/",
@@ -73,7 +73,7 @@ const allProjects: Project[] = [
   },
   {
     id: "code-convertor",
-    title: "CodeTransform — Python ↔ JavaScript Converter",
+    title: "CodeTransform, Python ↔ JavaScript Converter",
     category: "Developer Tools",
     description:
       "A web-based code converter that transforms code between Python and JavaScript using 122+ tested conversion rules, with auto language detection and color-coded confidence scoring.",
@@ -85,35 +85,35 @@ const allProjects: Project[] = [
   },
   {
     id: "find-ranks",
-    title: "Find-Ranks — PDF Marksheet Analytics",
+    title: "Find-Ranks, PDF Marksheet Analytics",
     category: "Utility · Python",
     description:
       "A Streamlit utility that extracts marks from multiple PDF mark-sheets, computes cumulative performance, and generates rankings with analytics for educational institutions.",
     longDescription:
-      "Find-Ranks aggregates student results spread across many PDF mark-sheets. It ingests multiple PDFs, extracts the marks from each document, and computes cumulative performance per student, then generates rankings together with supporting analytics — all through a Streamlit interface. The project spans the full flow, from PDF text extraction and data handling with pandas to the ranking logic and presentation layer.",
+      "Find-Ranks aggregates student results spread across many PDF mark-sheets. It ingests multiple PDFs, extracts the marks from each document, and computes cumulative performance per student, then generates rankings together with supporting analytics, all through a Streamlit interface. The project spans the full flow, from PDF text extraction and data handling with pandas to the ranking logic and presentation layer.",
     tech_tags: ["Streamlit", "Python", "PDF Processing", "pandas"],
     repo_url: "https://github.com/iampreetdave-max/Find-Ranks",
     demo_url: null,
   },
   {
     id: "talktonotes",
-    title: "TalkToNotes — Handwriting to Knowledge Base",
+    title: "TalkToNotes, Handwriting to Knowledge Base",
     category: "NLP · Document Intelligence",
     description:
       "A hackathon project that digitizes handwritten and printed notes with TrOCR, then turns them into a searchable knowledge base powering a chatbot and one-click quiz generation.",
     longDescription:
-      "TalkToNotes, built for the Rotaract Club Hackathon, bridges the gap between messy handwritten study notes and usable digital knowledge. It uses Microsoft's TrOCR transformer to recognize handwritten and printed text and convert it into editable content. The notes are organized into a searchable knowledge base, with vector search experimented on to ground a chatbot over a user's own material, and the system generates quizzes from the captured notes in a single click — closing the loop from capture to study aid.",
+      "TalkToNotes, built for the Rotaract Club Hackathon, bridges the gap between messy handwritten study notes and usable digital knowledge. It uses Microsoft's TrOCR transformer to recognize handwritten and printed text and convert it into editable content. The notes are organized into a searchable knowledge base, with vector search experimented on to ground a chatbot over a user's own material, and the system generates quizzes from the captured notes in a single click, closing the loop from capture to study aid.",
     tech_tags: ["TrOCR", "Transformers", "Vector Search", "Python", "NLP", "OCR"],
     repo_url: null,
     demo_url: null,
   },
 ];
 
-/* ── Automation capabilities (no client names — generalized & honest) ── */
+/* ── Automation capabilities (no client names, generalized & honest) ── */
 const automations = [
   { title: "CRM & Lead-Flow Sync", description: "Two-way CRM synchronization and lead routing across tools, keeping pipelines and contact records consistent automatically.", tags: ["GoHighLevel", "Make.com", "CRM"] },
   { title: "Notification & Alerting Pipelines", description: "Event-driven Slack and email alerting so the right people are notified the moment a status changes.", tags: ["Slack API", "Webhooks", "Alerts"] },
-  { title: "Survey & Feedback Automation", description: "End-to-end NPS / feedback pipelines — distribution, collection, scoring, and reporting without manual steps.", tags: ["Surveys", "Analytics", "Reporting"] },
+  { title: "Survey & Feedback Automation", description: "End-to-end NPS / feedback pipelines, distribution, collection, scoring, and reporting without manual steps.", tags: ["Surveys", "Analytics", "Reporting"] },
   { title: "Client Onboarding Workflows", description: "Structured onboarding flows that push updates to the right teams and track each step to completion.", tags: ["Onboarding", "Workflow", "Status Tracking"] },
   { title: "Dynamic Forms & Data Routing", description: "Context-aware forms with cascading fields and rules that route submitted data to the correct destination.", tags: ["Forms", "Dynamic Data", "Routing"] },
   { title: "Cross-Platform API Integrations", description: "Custom webhook and API integrations stitching together services that don't natively talk to each other.", tags: ["n8n", "Zapier", "REST / Webhooks"] },
@@ -171,7 +171,7 @@ export default function ProjectsPage() {
             Projects &amp; Automations
           </h1>
           <p className="text-muted text-[15px] max-w-2xl leading-relaxed">
-            Applied ML, computer-vision, and agentic-AI systems — plus the workflow automations I build for clients. Click any project for the full write-up.
+            Applied ML, computer-vision, and agentic-AI systems, plus the workflow automations I build for clients. Click any project for the full write-up.
           </p>
         </motion.div>
 
@@ -226,7 +226,7 @@ export default function ProjectsPage() {
         {activeTab === "automations" && (
           <motion.div initial="hidden" animate="show" variants={stagger} className="mt-8">
             <motion.p variants={fadeUp} className="text-muted text-[14px] mb-7 max-w-2xl leading-relaxed">
-              Workflow automations I build with Make.com, n8n, Zapier, and GoHighLevel — the kinds of self-running systems I deliver for clients.
+              Workflow automations I build with Make.com, n8n, Zapier, and GoHighLevel, the kinds of self-running systems I deliver for clients.
             </motion.p>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {automations.map((a, i) => (

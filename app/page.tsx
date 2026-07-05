@@ -22,7 +22,7 @@ const Transistor3D = dynamic(() => import("@/components/Transistor3D"), {
   ),
 });
 
-/* ════════════════════════ DATA ════════════════════════ */
+/* ═══════════════════════ DATA ═══════════════════════ */
 
 const TAGLINE = [
   "ISRO climate digital twin",
@@ -32,10 +32,10 @@ const TAGLINE = [
 ];
 
 const STATS = [
-  { n: 4084, suffix: "+", label: "live predictions tracked — NBA · soccer · NASCAR" },
+  { n: 4084, suffix: "+", label: "live predictions tracked across NBA, soccer, NASCAR" },
   { n: 110,  suffix: "+", label: "AI/ML sources monitored, every 15 min" },
   { n: 5,    suffix: "",  label: "hackathons & competitions built for" },
-  { n: 10,   suffix: " mo", label: "at Agility — intern to engineer" },
+  { n: 10,   suffix: " mo", label: "at Agility, intern to engineer" },
 ];
 
 const TECH = [
@@ -68,7 +68,7 @@ const FEATURED: Featured[] = [
     category: "Computer Vision · GovTech",
     program: "KANAD S.H.I.E.L.D. 2026 · Ahmedabad City Police",
     blurb:
-      "Fuses physical and cyber crime onto one GIS map, forecasts next-week risk, and closes the loop from a live CCTV anomaly to a dispatched patrol unit — running fully offline on CPU. Adds four-mode CCTV semantic search (CLIP→FAISS, ArcFace, YOLOv8).",
+      "Fuses physical and cyber crime onto one GIS map, forecasts next-week risk, and closes the loop from a live CCTV anomaly to a dispatched patrol unit, running fully offline on CPU. Adds four-mode CCTV semantic search (CLIP→FAISS, ArcFace, YOLOv8).",
     metrics: ["Hit-Rate@10 0.771 (synthetic)", "77 backend tests", "runs offline on CPU"],
     tags: ["FastAPI", "React", "CLIP", "FAISS", "YOLOv8", "Docker"],
     live: "https://visionscan.centralindia.cloudapp.azure.com",
@@ -78,9 +78,9 @@ const FEATURED: Featured[] = [
     title: "Arbiter",
     sub: "Agentic Legal AI",
     category: "Agentic AI · Legal Tech",
-    program: "XPRIZE — Build with Gemini 2026",
+    program: "XPRIZE · Build with Gemini 2026",
     blurb:
-      "Turns a problem described in plain English or Hindi into a structured, citation-backed legal document. Gemini 2.0 agents (Google ADK) research applicable law in real time via Search grounding, then stream the draft — no upfront lawyer fees.",
+      "Turns a problem described in plain English or Hindi into a structured, citation-backed legal document. Gemini 2.0 agents (Google ADK) research applicable law in real time via Search grounding, then stream the draft, with no upfront lawyer fees.",
     metrics: ["6 document types", "5 jurisdictions", "Cloud Run (asia-south1)"],
     tags: ["Next.js 14", "FastAPI", "Gemini 2.0", "Agent ADK", "Firebase"],
     repo: "https://github.com/iampreetdave-max/arbiter",
@@ -112,7 +112,7 @@ const FEATURED: Featured[] = [
     category: "Developer Tools",
     program: "GTU state-level · Project Lead",
     blurb:
-      "A web-based code converter between Python and JavaScript built on 122+ tested conversion rules, with automatic source-language detection and color-coded confidence scoring. Zero build tools — FastAPI backend, vanilla-JS + Tailwind frontend.",
+      "A web-based code converter between Python and JavaScript built on 122+ tested conversion rules, with automatic source-language detection and color-coded confidence scoring. Zero build tools; a FastAPI backend with a vanilla-JS and Tailwind frontend.",
     metrics: ["122+ rules", "auto-detect", "confidence scoring"],
     tags: ["FastAPI", "Python", "JavaScript", "Tailwind"],
     repo: "https://github.com/iampreetdave-max/code-convertor",
@@ -123,7 +123,7 @@ const EXPERIENCE = [
   {
     role: "AI/ML Software Engineer",
     company: "Agility",
-    period: "Mar 2026 — Present",
+    period: "Mar 2026 – Present",
     location: "Gujarat, India · On-site",
     active: true,
     bullets: [
@@ -135,7 +135,7 @@ const EXPERIENCE = [
   {
     role: "Machine Learning Intern",
     company: "Agility",
-    period: "Sep 2025 — Mar 2026",
+    period: "Sep 2025 – Mar 2026",
     location: "Gujarat, India · On-site",
     bullets: [
       "Collaborated on ML projects that enhanced client automation processes, engaging directly with clients to deliver tailored solutions.",
@@ -145,7 +145,7 @@ const EXPERIENCE = [
   {
     role: "Project Lead",
     company: "Gujarat Technological University (GTU)",
-    period: "Oct 2023 — Present",
+    period: "Oct 2023 – Present",
     location: "Gujarat, India",
     bullets: [
       "Lead development of CodeTransform, a Python ↔ JavaScript code converter, from inception to a GTU state-level Design Engineering presentation.",
@@ -155,7 +155,7 @@ const EXPERIENCE = [
   {
     role: "Student Intern (AI/ML)",
     company: "Stealth AI Startup",
-    period: "Jan 2025 — Aug 2025",
+    period: "Jan 2025 – Aug 2025",
     location: "Remote",
     bullets: [
       "Owned ML models and pipelines, applying reinforcement-learning techniques to the product's core logic.",
@@ -165,7 +165,7 @@ const EXPERIENCE = [
   {
     role: "Team Lead",
     company: "Smart India Hackathon (SIH)",
-    period: "Aug 2024 — Dec 2024",
+    period: "Aug 2024 – Dec 2024",
     location: "India · National",
     bullets: [
       "Directed a team building a virtual herbal garden with detailed 3D models, presented at the national level.",
@@ -186,11 +186,11 @@ const SKILLS = [
 
 const WRITING = [
   { type: "Research paper", title: "Engineers Fear AI, As Mathematicians Once Feared Calculators", note: "Authored", url: "https://www.linkedin.com/in/preet-dave-452023271/" },
-  { type: "Article", title: "Zipf's Law for LLMs", note: "LinkedIn", url: "https://www.linkedin.com/in/preet-dave-452023271/" },
-  { type: "Article", title: "How GPS Works", note: "LinkedIn", url: "https://www.linkedin.com/in/preet-dave-452023271/" },
+  { type: "Article", title: "Zipf's Law for LLMs", note: "LinkedIn", url: "https://www.linkedin.com/posts/iampreetdave_ai-machinelearning-zipfslaw-ugcPost-7358579994941448193-dETg/" },
+  { type: "Article", title: "How GPS Works", note: "LinkedIn", url: "https://www.linkedin.com/posts/iampreetdave_did-you-know-your-phones-gps-finds-you-share-7367498895888732160-unkR/" },
 ];
 
-/* ════════════════════════ HELPERS ════════════════════════ */
+/* ═══════════════════════ HELPERS ═══════════════════════ */
 
 function SectionHead({ kicker, title, sub }: { kicker: string; title: string; sub?: string }) {
   return (
@@ -202,14 +202,14 @@ function SectionHead({ kicker, title, sub }: { kicker: string; title: string; su
   );
 }
 
-/* ════════════════════════ PAGE ════════════════════════ */
+/* ═══════════════════════ PAGE ═══════════════════════ */
 
 export default function Home() {
   return (
     <div className="relative z-10">
       <SiteNav />
 
-      {/* ───── HERO ───── */}
+      {/* ===== HERO ===== */}
       <section className="relative mx-auto max-w-6xl px-5 sm:px-6 pt-32 md:pt-40 pb-16">
         <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-12 items-center">
           <div>
@@ -236,9 +236,9 @@ export default function Home() {
               initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.12 }}
               className="mt-6 text-[16px] md:text-[17px] text-muted leading-relaxed max-w-xl"
             >
-              I&apos;m Preet Dave — an AI/ML engineer in Ahmedabad designing and shipping applied
-              machine-learning and agentic-AI systems, from a national-dataset climate twin to
-              offline computer-vision and LLM-driven automation.
+              I&apos;m Preet Dave, an AI/ML engineer based in Ahmedabad. I build applied
+              machine-learning and agentic-AI systems: a national-dataset climate twin,
+              offline computer vision, and LLM-driven automation.
             </motion.p>
 
             <motion.div
@@ -269,11 +269,16 @@ export default function Home() {
             transition={{ duration: 0.9, delay: 0.2 }}
             className="relative"
           >
+            <div
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-1/2 h-[70%] w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full"
+              style={{ background: "radial-gradient(circle, rgba(255,255,255,0.11), transparent 68%)" }}
+            />
             <div className="relative h-[360px] sm:h-[440px] lg:h-[560px] w-full">
               <Transistor3D />
             </div>
             <p className="text-center font-mono text-[11px] text-faint tracking-wide">
-              the transistor — from silicon to systems
+              the transistor · from silicon to systems
             </p>
           </motion.div>
         </div>
@@ -288,7 +293,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ───── STATS ───── */}
+      {/* ===== STATS ===== */}
       <section className="mx-auto max-w-6xl px-5 sm:px-6 py-10">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {STATS.map((s, i) => (
@@ -304,12 +309,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ───── WORK ───── */}
+      {/* ===== WORK ===== */}
       <section id="work" className="mx-auto max-w-6xl px-5 sm:px-6 py-20 scroll-mt-20">
         <SectionHead
           kicker="Selected work"
           title="Systems I've designed and shipped"
-          sub="Each one is real and running. Numbers are stated honestly — where a metric is from synthetic/demo data, it says so."
+          sub="Each one is real and running. Numbers are stated honestly; where a metric comes from synthetic or demo data, it says so."
         />
         <div className="mt-10 grid md:grid-cols-2 gap-5">
           {FEATURED.map((p, i) => (
@@ -373,7 +378,7 @@ export default function Home() {
         </Reveal>
       </section>
 
-      {/* ───── ABOUT ───── */}
+      {/* ===== ABOUT ===== */}
       <section id="about" className="mx-auto max-w-6xl px-5 sm:px-6 py-20 scroll-mt-20">
         <div className="grid lg:grid-cols-[1fr_0.8fr] gap-12">
           <div>
@@ -381,7 +386,7 @@ export default function Home() {
             <div className="mt-6 space-y-4 text-[15.5px] text-muted leading-relaxed max-w-2xl">
               <p>
                 I work full-time at a Gujarat startup, building machine-learning models in direct
-                collaboration with clients — translating real operational needs into working software.
+                collaboration with clients, translating real operational needs into working software.
                 I started there as an intern and moved into the full-time engineering role over roughly
                 ten months of hands-on delivery.
               </p>
@@ -407,11 +412,11 @@ export default function Home() {
                   src="https://raw.githubusercontent.com/iampreetdave-max/portfolio/main/images/profile%20picture.jpeg"
                   alt="Preet Dave"
                   fill
-                  className="object-cover grayscale"
+                  className="object-cover"
                   style={{ objectPosition: "62% 38%" }}
                   sizes="(max-width: 1024px) 100vw, 34vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/10 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-surface/90 via-surface/10 to-transparent" />
               </div>
               <div className="p-6">
                 <p className="kicker mb-4">Currently</p>
@@ -422,7 +427,7 @@ export default function Home() {
                   </li>
                   <li className="flex gap-3">
                     <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-                    <span className="text-muted">Final-year <span className="text-paper font-medium">B.Tech CSE (AI &amp; ML)</span>, NLJIET — GTU.</span>
+                    <span className="text-muted">Final-year <span className="text-paper font-medium">B.Tech CSE (AI &amp; ML)</span>, NLJIET, GTU.</span>
                   </li>
                   <li className="flex gap-3">
                     <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
@@ -442,7 +447,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ───── EXPERIENCE ───── */}
+      {/* ===== EXPERIENCE ===== */}
       <section id="experience" className="mx-auto max-w-6xl px-5 sm:px-6 py-20 scroll-mt-20">
         <SectionHead kicker="Experience" title="Where I've worked" />
         <div className="mt-10 max-w-3xl">
@@ -470,7 +475,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ───── SKILLS ───── */}
+      {/* ===== SKILLS ===== */}
       <section id="skills" className="mx-auto max-w-6xl px-5 sm:px-6 py-20 scroll-mt-20">
         <SectionHead kicker="Toolkit" title="What I build with" />
         <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -489,7 +494,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ───── WRITING ───── */}
+      {/* ===== WRITING ===== */}
       <section id="writing" className="mx-auto max-w-6xl px-5 sm:px-6 py-20 scroll-mt-20">
         <SectionHead kicker="Writing" title="Research &amp; notes" sub="A research paper and short technical essays on how AI actually works and how engineers work with it." />
         <div className="mt-10 grid sm:grid-cols-3 gap-5">
@@ -508,7 +513,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ───── CONTACT ───── */}
+      {/* ===== CONTACT ===== */}
       <section id="contact" className="mx-auto max-w-6xl px-5 sm:px-6 py-20 scroll-mt-20">
         <Reveal>
           <div className="card p-8 md:p-12 text-center relative overflow-hidden">
@@ -528,16 +533,15 @@ export default function Home() {
             <div className="mt-8 flex items-center justify-center gap-3">
               <a href="https://github.com/iampreetdave-max" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="grid place-items-center w-10 h-10 rounded-lg border border-line text-muted hover:text-paper hover:border-line-strong transition-colors"><Github size={17} /></a>
               <a href="https://www.linkedin.com/in/preet-dave-452023271/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="grid place-items-center w-10 h-10 rounded-lg border border-line text-muted hover:text-paper hover:border-line-strong transition-colors"><Linkedin size={17} /></a>
-              <a href="https://iampreetdave.me" target="_blank" rel="noopener noreferrer" aria-label="Website" className="grid place-items-center w-10 h-10 rounded-lg border border-line text-muted hover:text-paper hover:border-line-strong transition-colors"><Globe size={17} /></a>
             </div>
           </div>
         </Reveal>
       </section>
 
-      {/* ───── FOOTER ───── */}
+      {/* ===== FOOTER ===== */}
       <footer className="border-t border-line mt-10">
         <div className="mx-auto max-w-6xl px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="font-mono text-[11px] text-faint tracking-wider">© 2026 Preet Dave · Ahmedabad, India</p>
+          <p className="font-mono text-[11px] text-faint tracking-wider">© 2026 Preet Ghanshyam Dave · Ahmedabad, India</p>
           <div className="flex items-center gap-5 font-mono text-[11px] text-faint">
             <Link href="/projects" className="hover:text-accent transition-colors">Projects</Link>
             <Link href="/fun" className="hover:text-accent transition-colors">Fun Zone</Link>

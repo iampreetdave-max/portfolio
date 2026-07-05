@@ -59,12 +59,12 @@ export async function POST(req: NextRequest) {
 
     await sendEmail({
       to: email,
-      subject: "Got your message! — Preet Dave",
+      subject: "Got your message! · Preet Dave",
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;background:#0a0a0a;color:#fafafa;border:1px solid rgba(255,255,255,0.1);border-radius:12px;">
           <h2 style="color:#C9A86A;font-size:18px;margin:0 0 16px;">Thanks, ${name}!</h2>
           <p style="color:rgba(250,250,250,0.75);line-height:1.8;margin:0 0 20px;">I received your message and will get back to you as soon as possible.</p>
-          <p style="color:rgba(250,250,250,0.4);font-size:12px;margin:0;">— Preet Dave · AI / ML Engineer</p>
+          <p style="color:rgba(250,250,250,0.4);font-size:12px;margin:0;">Preet Dave · AI / ML Engineer</p>
         </div>
       `,
     });

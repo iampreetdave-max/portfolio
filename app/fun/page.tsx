@@ -134,7 +134,7 @@ function GTIBar({ score, showLabel = true }: { score: number; showLabel?: boolea
             className="font-mono text-[10px] font-bold tracking-wider"
             style={{ color: getColor(score) }}
           >
-            {getLevel(score)} — {score}
+            {getLevel(score)} – {score}
           </span>
         </div>
       )}
@@ -208,7 +208,7 @@ function MarketGame() {
         <ScoreDisplay label="Total" value={score.total} />
         <ScoreDisplay
           label="Win Rate"
-          value={score.total > 0 ? `${Math.round((score.correct / score.total) * 100)}%` : "—"}
+          value={score.total > 0 ? `${Math.round((score.correct / score.total) * 100)}%` : "–"}
           color={score.total > 0 && score.correct / score.total >= 0.5 ? "#FAFAFA" : "#E55A4A"}
         />
       </div>
@@ -386,7 +386,7 @@ function CountryGame() {
         <ScoreDisplay label="Total" value={score.total} />
         <ScoreDisplay
           label="Accuracy"
-          value={score.total > 0 ? `${Math.round((score.correct / score.total) * 100)}%` : "—"}
+          value={score.total > 0 ? `${Math.round((score.correct / score.total) * 100)}%` : "–"}
         />
       </div>
 
@@ -580,12 +580,12 @@ function TensionGame() {
         <ScoreDisplay label="Rounds" value={history.length} />
         <ScoreDisplay
           label="Avg Accuracy"
-          value={history.length > 0 ? `${avgAccuracy}%` : "—"}
+          value={history.length > 0 ? `${avgAccuracy}%` : "–"}
           color={avgAccuracy >= 70 ? "#FAFAFA" : avgAccuracy >= 40 ? "#E0A040" : "#E55A4A"}
         />
         <ScoreDisplay
           label="Last Diff"
-          value={history.length > 0 ? `±${history[history.length - 1].diff}` : "—"}
+          value={history.length > 0 ? `±${history[history.length - 1].diff}` : "–"}
         />
       </div>
 
@@ -771,7 +771,7 @@ export default function FunZone() {
             <div className="flex items-center gap-3 mb-3">
               <div className="w-8 h-[1px] bg-gradient-to-r from-[#C9A86A]/65 to-transparent" />
               <span className="font-mono text-[11px] text-white/65 tracking-[0.2em] uppercase">
-                <span className="text-[#C9A86A] mr-2 font-bold">—</span>Interactive
+                <span className="text-[#C9A86A] mr-2 font-bold">–</span>Interactive
               </span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
