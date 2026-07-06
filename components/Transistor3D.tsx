@@ -5,8 +5,11 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, ContactShadows, Sparkles } from "@react-three/drei";
 import * as THREE from "three";
 
+/* Spark / node-glow accent. Electric blue; swap to "#ffcc33" for yellow sparks. */
+const SPARK = "#4ea8ff";
+
 /* A stylised TO-92 transistor: the building block of every chip.
-   Dark matte body, three brushed-metal legs with glowing nodes. Monochrome. */
+   Dark matte body, three brushed-metal legs with electric-blue spark nodes. */
 function Transistor() {
   const group = useRef<THREE.Group>(null);
   const nodeRefs = useRef<(THREE.Mesh | null)[]>([]);
@@ -65,13 +68,25 @@ function Transistor() {
             <meshStandardMaterial color="#d0d2d7" metalness={0.92} roughness={0.26} />
           </mesh>
           <mesh ref={(el) => { nodeRefs.current[i] = el; }} position={[x, -1.33, 0.08]}>
-            <sphereGeometry args={[0.085, 24, 24]} />
-            <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={1.6} toneMapped={false} />
+            <sphereGeometry args={[0.09, 24, 24]} />
+            <meshStandardMaterial color="#cfe6ff" emissive={SPARK} emissiveIntensity={2} toneMapped={false} />
           </mesh>
         </group>
       ))}
-      {/* spark particles clustered around the leg nodes */}
-      <Sparkles count={40} scale={[2.8, 2, 1.8]} position={[0, -1.0, 0.1]} size={2.6} speed={0.6} noise={1.4} color="#ffffff" opacity={0.85} />
+      {/* electric sparks showering off each leg node */}
+      {[-0.42, 0, 0.42].map((x, i) => (
+        <Sparkles
+          key={`spark-${i}`}
+          count={24}
+          scale={[0.5, 1.0, 0.5]}
+          position={[x, -1.15, 0.08]}
+          size={3.4}
+          speed={1.8}
+          noise={2.4}
+          color={SPARK}
+          opacity={0.95}
+        />
+      ))}
     </group>
   );
 }
