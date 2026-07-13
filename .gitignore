@@ -31,3 +31,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Cloudflare Pages runs `npm clean-install` when a lockfile exists, which then
+# breaks the `npx @cloudflare/next-on-pages` peer resolution (wrangler vs
+# @cloudflare/workers-types). Stay lockfile-less so the deploy uses `npm install`.
+package-lock.json
