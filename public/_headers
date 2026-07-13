@@ -1,0 +1,20 @@
+# Cloudflare Pages security headers.
+# Lives in public/ (NOT app/) so it ships as a static asset and never becomes a
+# Next.js route, which next-on-pages would demand an edge runtime for.
+#
+# Note on CSP: Next.js App Router inlines its hydration/RSC scripts and next/font
+# inlines styles, so 'unsafe-inline' is required for script-src/style-src. A
+# nonce-based CSP would force every page to render dynamically and lose static
+# prerendering. Everything else is locked to 'self'.
+
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; manifest-src 'self'; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=(), xr-spatial-tracking=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Access-Control-Allow-Origin: https://iampreetdave.me
+  X-Permitted-Cross-Domain-Policies: none

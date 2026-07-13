@@ -21,11 +21,17 @@ const automations = [
   { name: "Cross-Platform API Integrations", note: "Custom webhook and API integrations stitching together services that don’t natively talk to each other.", tags: "n8n · Zapier · REST" },
 ];
 
-export const metadata = { title: "Projects · Preet Ghanshyam Dave" };
+export const metadata = {
+  title: "Projects",
+  description:
+    "Machine-learning and AI projects by Preet Dave: Therma Netra climate digital twin (ISRO BAH 2026), CityShield offline computer-vision policing platform, Arbiter agentic legal AI, AI Race News pipeline, and sports match-prediction engines.",
+  alternates: { canonical: "/projects" },
+};
 
 export default function ProjectsPage() {
   return (
     <>
+      <h1 className="sr-only">Projects and automations</h1>
       <div className="rowlist">
         {projects.map((p) => (
           <div className="row" key={p.name}>

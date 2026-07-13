@@ -1,7 +1,13 @@
+export const metadata = {
+  description:
+    "Preet Dave is an AI/ML engineer in Ahmedabad, India. He builds applied machine learning, LLM and agentic-AI systems in production, from a climate digital twin on national datasets to offline computer vision for city police.",
+  alternates: { canonical: "/" },
+};
+
 export default function About() {
   return (
     <div className="prose">
-      <p>Hi, I&rsquo;m Preet Dave.</p>
+      <h1>Hi, I&rsquo;m Preet Dave.</h1>
 
       <p>
         Right now I&rsquo;m an AI/ML engineer at Agility, where I build machine-learning

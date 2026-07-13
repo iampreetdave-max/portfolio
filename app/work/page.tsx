@@ -1,4 +1,9 @@
-export const metadata = { title: "Work · Preet Ghanshyam Dave" };
+export const metadata = {
+  title: "Work",
+  description:
+    "Work experience of Preet Dave, AI/ML engineer: machine-learning engineer at Agility, AI/ML intern at a stealth AI startup, project lead at Gujarat Technological University, and team lead at Smart India Hackathon.",
+  alternates: { canonical: "/work" },
+};
 
 const work = [
   {
@@ -31,6 +36,7 @@ const work = [
 export default function Work() {
   return (
     <div className="rowlist">
+      <h1 className="sr-only">Work experience</h1>
       {work.map((w) => (
         <div className="row" key={w.role}>
           <div className="row-main">

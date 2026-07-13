@@ -1,4 +1,9 @@
-export const metadata = { title: "Writing · Preet Ghanshyam Dave" };
+export const metadata = {
+  title: "Writing",
+  description:
+    "Writing by Preet Dave on AI and machine learning: a paper on why engineers fear AI as mathematicians once feared calculators, Zipf's law for LLMs, and how GPS works.",
+  alternates: { canonical: "/writing" },
+};
 
 const writing = [
   {
@@ -24,6 +29,7 @@ const writing = [
 export default function Writing() {
   return (
     <div className="rowlist">
+      <h1 className="sr-only">Writing</h1>
       {writing.map((a) => (
         <div className="row" key={a.title}>
           <div className="row-main">
