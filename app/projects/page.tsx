@@ -21,15 +21,11 @@ const automations = [
   { name: "Cross-Platform API Integrations", note: "Custom webhook and API integrations stitching together services that don’t natively talk to each other.", tags: "n8n · Zapier · REST" },
 ];
 
+export const metadata = { title: "Projects · Preet Ghanshyam Dave" };
+
 export default function ProjectsPage() {
   return (
-    <main className="page-pad wrap">
-      <p className="lead">
-        Applied ML, computer-vision, and agentic-AI systems, plus the workflow
-        automations I build for clients.
-      </p>
-
-      <h2 className="sec-label">Projects</h2>
+    <>
       <div className="rowlist">
         {projects.map((p) => (
           <div className="row" key={p.name}>
@@ -58,7 +54,6 @@ export default function ProjectsPage() {
         ))}
       </div>
 
-      <footer className="foot">Preet Ghanshyam Dave</footer>
-    </main>
+    </>
   );
 }
