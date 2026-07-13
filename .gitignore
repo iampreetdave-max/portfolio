@@ -32,7 +32,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Cloudflare Pages runs `npm clean-install` when a lockfile exists, which then
-# breaks the `npx @cloudflare/next-on-pages` peer resolution (wrangler vs
-# @cloudflare/workers-types). Stay lockfile-less so the deploy uses `npm install`.
+# Repo is intentionally lockfile-less: a committed lockfile makes Cloudflare Pages
+# run `npm clean-install` instead of `npm install`. (The ERESOLVE build failure was
+# actually an upstream next-on-pages peer conflict, fixed in .npmrc.)
 package-lock.json
