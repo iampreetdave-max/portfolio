@@ -43,8 +43,9 @@ a { color: inherit; text-decoration: none; }
 .nav-social { display:flex; flex-direction:column; align-items:flex-start; gap:3px; }
 .nav-social a { font-size:14px; padding:4px 0; color:var(--text); }
 .nav-social a:hover { opacity:.6; }
-.theme-toggle { margin-top:44px; background:none; border:none; cursor:pointer; font-size:15px; line-height:1; color:var(--text-3); padding:0; }
-.theme-toggle:hover { color:var(--text-2); }
+.theme-toggle { margin:40px 0 0 -6px; background:none; border:none; cursor:pointer; line-height:0; color:var(--text-2); padding:6px; border-radius:6px; }
+.theme-toggle:hover { color:var(--text); background:var(--surface); }
+.theme-toggle:focus-visible { outline:2px solid var(--text-2); outline-offset:2px; }
 
 /* Prose (About) */
 .prose p { margin: 0 0 20px; max-width: 66ch; }
