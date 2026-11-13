@@ -1,5 +1,39 @@
 // Minimal projects + automations list (dhruvchauhan.me style). Static; theme and
 // header come from globals.css / SiteHeader.
+import {
+  Anchor, AudioLines, BrainCircuit, Cctv, CloudSun, CodeXml, Coffee, Flag, Goal, Handshake,
+  Medal, Newspaper, NotebookPen, Scale, ScanText, Spade, Telescope, Trophy, Truck,
+  createLucideIcon, type LucideIcon,
+} from "lucide-react";
+
+// lucide has no basketball; drawn in its 24px line style so it matches the rest
+const Basketball = createLucideIcon("Basketball", [
+  ["circle", { cx: "12", cy: "12", r: "10", key: "ball" }],
+  ["path", { d: "M12 2v20M2 12h20M4.9 4.9C7.5 7.6 8.5 9.8 8.5 12s-1 4.4-3.6 7.1M19.1 4.9C16.5 7.6 15.5 9.8 15.5 12s1 4.4 3.6 7.1", key: "seams" }],
+]);
+
+const ICONS: Record<string, LucideIcon> = {
+  "Padosi": Handshake,
+  "Q": AudioLines,
+  "WinWall": Trophy,
+  "CallBrain": BrainCircuit,
+  "Marine Procurement ERP": Anchor,
+  "LedgerLens": ScanText,
+  "Real-Time Poker Platform": Spade,
+  "Tensor Tapri": Coffee,
+  "TransitOps": Truck,
+  "Therma Netra": CloudSun,
+  "CityShield · VisionScan": Cctv,
+  "Arbiter": Scale,
+  "AI Race News": Newspaper,
+  "NBA Game Predictor": Basketball,
+  "Soccer Match Predictor": Goal,
+  "NASCAR Race Predictor": Flag,
+  "CodeTransform": CodeXml,
+  "Sky Alerts": Telescope,
+  "Find-Ranks": Medal,
+  "TalkToNotes": NotebookPen,
+};
 
 const projects = [
   { name: "Padosi", cat: "Full-Stack", href: null, note: "A peer-to-peer rental marketplace for India: rent drills, cameras or party gear from verified people nearby. Locations are fuzzed and grid-snapped so repeated searches cannot triangulate an address, handovers use photo checks and 6-digit codes, and deposits auto-release 48 hours after return. One typed API serves a Next.js site and an Expo mobile app.", tags: "Next.js · Expo · Hono · Postgres · Drizzle · TypeScript" },
@@ -39,7 +73,9 @@ export default function ProjectsPage() {
   return (
     <>
       <div className="rowlist">
-        {projects.map((p) => (
+        {projects.map((p) => {
+          const Icon = ICONS[p.name];
+          return (
           <div className="row" key={p.name}>
             <div className="row-main">
               <div className="row-title">
@@ -48,9 +84,13 @@ export default function ProjectsPage() {
               <div className="row-note">{p.note}</div>
               <div className="tags">{p.tags}</div>
             </div>
-            <div className="row-when">{p.cat}</div>
+            <div className="row-when row-side">
+              {p.cat}
+              {Icon && <span className="row-icon" aria-hidden="true"><Icon size={18} strokeWidth={1.5} /></span>}
+            </div>
           </div>
-        ))}
+          );
+        })}
       </div>
 
       <h2 className="sec-label">Automations</h2>
