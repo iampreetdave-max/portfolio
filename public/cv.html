@@ -60,7 +60,7 @@
 
   <section>
     <div class="sec">Profile</div>
-    <p class="summary">AI/ML Engineer based in Ahmedabad, India, specializing in applied machine learning, large language models, and agentic AI systems. Final-year B.Tech (CSE, AI &amp; ML) student at NLJIET (GTU) who progressed from machine-learning intern to full-time AI/ML software engineer at a Gujarat startup, delivering ML models in direct collaboration with clients. Builds end-to-end systems spanning classical ML (scikit-learn, XGBoost), deep learning (PyTorch, TensorFlow), computer vision (YOLOv8, CLIP, TrOCR), and LLM/agent stacks (Claude API, Claude Agent SDK, Model Context Protocol, Google Gemini ADK, RAG). Hackathon builder with projects for ISRO, city police, and national competitions, plus an authored research paper and technical blogs.</p>
+    <p class="summary">AI/ML Engineer based in Ahmedabad, India, specializing in applied machine learning, large language models, and agentic AI systems. Final-year B.Tech (CSE, AI &amp; ML) student at NLJIET (GTU) who progressed from machine-learning intern to full-time AI/ML software engineer at a Gujarat startup, delivering ML models in direct collaboration with clients. Builds end-to-end systems spanning classical ML (scikit-learn, XGBoost), deep learning (PyTorch, TensorFlow), computer vision (YOLOv8, CLIP, TrOCR), and LLM/agent stacks (Claude API, Claude Agent SDK, Model Context Protocol, Google Gemini ADK, RAG). Hackathon builder with projects for ISRO, city police, and national competitions, plus an authored research paper and technical blogs. Founder of Tensor Tapri (tensortapri.org), a weekly AI/ML newsletter and community for India.</p>
   </section>
 
   <section>
@@ -73,7 +73,17 @@
         <li>Develop machine-learning models in direct collaboration with clients, translating business requirements into model specifications and integrating them into existing software products.</li>
         <li>Lead delivery on applied AI/ML projects, owning problem framing, model selection, and integration to build a strong production foundation in AI and ML.</li>
         <li>Deliver hands-on, real-world industry work at a dynamic Gujarat startup, balancing rapid iteration with reliable client outcomes.</li>
+        <li>Ship LLM agent systems, document-AI pipelines and procurement software for clients, end to end.</li>
         <li>Promoted from machine-learning intern to full-time engineer after demonstrating delivery across a 10-month total tenure.</li>
+      </ul>
+    </div>
+
+    <div class="blk">
+      <div class="row"><span class="jt">Founder &nbsp;·&nbsp; <span class="co">Tensor Tapri</span></span><span class="meta">Nov 2026 – Present</span></div>
+      <div class="loc">Ahmedabad, India · <a href="https://tensortapri.org" style="color:var(--accent);text-decoration:none">tensortapri.org</a></div>
+      <ul>
+        <li>Started a free weekly email on AI, ML, automation and data for India, beginning in Ahmedabad, with meetups and city chapters to follow.</li>
+        <li>Its “What’s brewing” page ranks the week’s top world and India AI stories by outlet coverage, fed by my AI Race News scraper, alongside Epoch AI benchmark charts served from Cloudflare edge functions.</li>
       </ul>
     </div>
 
@@ -88,10 +98,10 @@
     </div>
 
     <div class="blk">
-      <div class="row"><span class="jt">Project Lead &nbsp;·&nbsp; <span class="co">Gujarat Technological University (GTU)</span></span><span class="meta">Oct 2023 – Present</span></div>
+      <div class="row"><span class="jt">Project Lead &nbsp;·&nbsp; <span class="co">Gujarat Technological University (GTU)</span></span><span class="meta">Oct 2023 – Nov 2026</span></div>
       <div class="loc">Gujarat, India · On-site</div>
       <ul>
-        <li>Lead development of CodeTransform, a Python ↔ JavaScript code converter, from inception through a state-level Design Engineering presentation.</li>
+        <li>Led development of CodeTransform, a Python ↔ JavaScript code converter, from inception through a state-level Design Engineering presentation.</li>
         <li>Designed the application architecture while concurrently building the product, balancing technical design with hands-on implementation.</li>
         <li>Coordinated cross-functional student teams to align goals, deliverables, and timelines; drove the project from prototype to a demonstrable web app with auto language detection and confidence-scored conversions.</li>
       </ul>
@@ -120,6 +130,34 @@
   <section>
     <div class="sec">Projects</div>
 
+    <div class="proj"><span class="t">Q, Meeting Agent with Memory</span> · <span class="cat">Agentic AI</span>
+      <div class="d">My meeting agent, in two parts. A self-hosted bot joins Google Meet calls, saves the transcript, chat and screen shares into long-term memory, pulls out action items, and flags risky talk for private review; ask it what someone promised last month and it answers with verified citations to the exact meeting lines. A desktop copilot, extended from an open-source Electron app, transcribes on-device with Parakeet, drafts answers to questions as they are asked, and feeds every finished meeting into the same memory.</div>
+      <div class="tags">Python · LiteLLM · SQLite · Attendee · Docker · Electron · Parakeet STT</div></div>
+
+    <div class="proj"><span class="t">CallBrain, LLM Agents on Client Calls</span> · <span class="cat">Agentic AI</span>
+      <div class="d">A team of LLM agents that listens to every client call, built for 60 to 90 calls a day: multilingual call scoring that checks whether the client actually understood, pre-call agendas with a win detector, mid-week follow-up check-ins with a dashboard scoped to each manager’s own clients, churn-risk bands and referral prompts.</div>
+      <div class="tags">Claude API · Python · Slack API · Google Workspace</div></div>
+
+    <div class="proj"><span class="t">Marine Procurement ERP</span> · <span class="cat">Document AI</span>
+      <div class="d">An AI-native ERP for ship suppliers. RFQs arrive by email or supplier portal and become priced PDF quotations against a master catalogue, then purchase orders. Vendor invoices are extracted by an LLM, checked by a person, and posted into FIFO stock layers that drive client invoicing and payables, with an in-app assistant on top.</div>
+      <div class="tags">Node.js · React · MongoDB · Mistral · Playwright · Jest</div></div>
+
+    <div class="proj"><span class="t">LedgerLens, Bank-Document OCR</span> · <span class="cat">Document AI</span>
+      <div class="d">Bank statements and scanned cheques to a reconciled ledger. Printed fields come straight from the PDF’s text layer, handwriting goes to OCR plus a vision-language model, and deterministic validators check MICR checksums, written-vs-numeric amounts and the closing balance before anything counts as done. Per-bank adapters, an editable grid with Excel export, and an invoice VAT/GL coder share one multi-tenant platform. <a href="https://github.com/iampreetdave-max/ledgerlens-ai-bank-document-ocr">github.com/iampreetdave-max/ledgerlens-ai-bank-document-ocr</a></div>
+      <div class="tags">Python · FastAPI · Mistral OCR · Pixtral · PyMuPDF · Supabase</div></div>
+
+    <div class="proj"><span class="t">Padosi, P2P Rental Marketplace</span> · <span class="cat">Full-Stack</span>
+      <div class="d">Rent drills, cameras or party gear from verified people nearby. Locations are fuzzed and grid-snapped so repeated searches cannot triangulate an address, handovers use photo checks and 6-digit codes, and deposits auto-release 48 hours after return. One typed API serves a Next.js site and an Expo mobile app.</div>
+      <div class="tags">Next.js · Expo · Hono · Postgres · Drizzle · TypeScript</div></div>
+
+    <div class="proj"><span class="t">Real-Time Poker Platform</span> · <span class="cat">Realtime Systems</span>
+      <div class="d">A play-money poker app for a private card room: Texas Hold’em and pot-limit Omaha, multi-table play and tournaments on iOS, Android and web. The server is the only authority; every chip movement runs inside a row-locked Postgres transaction and every state change broadcasts over Socket.IO, so a reconnect always rebuilds from the database.</div>
+      <div class="tags">Flutter · Next.js · Node.js · Socket.IO · Postgres · Redis</div></div>
+
+    <div class="proj"><span class="t">TransitOps, Fleet Operations Platform</span> · <span class="cat">Full-Stack · Hackathon</span>
+      <div class="d">Dispatch, maintenance, fuel and expenses for four roles, with every business rule enforced inside Postgres so no client can bypass it. Drivers share GPS from a phone browser and positions stream live to the ops map.</div>
+      <div class="tags">Next.js · Supabase Realtime · Leaflet · Recharts · Vercel</div></div>
+
     <div class="proj"><span class="t">Therma Netra, Digital Twin of India's Climate</span> · <span class="cat">Climate ML · Digital Twin</span>
       <div class="d">An AI-powered digital twin of India's climate built entirely on national datasets (IMD, INSAT/MOSDAC, IMDAA, CPCB). One continuously-assimilated twin powers climate state &amp; forecast, urban-heat mitigation, and surface air quality, achieving ~30% forecast skill over a persistence-of-anomaly baseline. Built for ISRO's Bharatiya Antariksh Hackathon (BAH) 2026, Problem Statement #5.</div>
       <div class="tags">Python · Streamlit · xarray · imdlib · Pydeck · Climate ML · Digital Twin</div></div>
@@ -136,9 +174,17 @@
       <div class="d">A production platform that ingests 110+ AI/ML sources every 15 minutes via APScheduler, deduplicates with a 3-layer pipeline (URL, content hash, title similarity), auto-tags across 12 categories, and serves 5 audience-specific feeds through a public FastAPI REST API and a Next.js frontend. <a href="https://github.com/iampreetdave-max/ai-race-news">github.com/iampreetdave-max/ai-race-news</a></div>
       <div class="tags">FastAPI · Python · BeautifulSoup · APScheduler · Docker · Next.js · SQLite · pytest</div></div>
 
-    <div class="proj"><span class="t">Sports Match-Prediction Engines</span> · <span class="cat">ML · Sports Analytics</span>
-      <div class="d">A production multi-sport ML suite (NBA, soccer, NASCAR) that forecasts outcomes from engineered pre-match features and live sportsbook odds, logging every prediction to PostgreSQL and grading it against the real settled result with full P&amp;L tracking; engines run autonomously on daily GitHub Actions workflows. Tracked results: +16.5% ROI on Grade-A NBA picks and a 66.3% moneyline win rate over 1,064 settled games; +9.1% ROI on Grade A+B soccer picks (15+ leagues, 3,020 matches); 7,566 NASCAR records; 4,084+ live predictions logged over 15+ months. Models span Ridge regression to XGBoost / LightGBM / Random Forest with Platt-scaled probabilities. <a href="https://github.com/iampreetdave-max/football-predictions">github.com/iampreetdave-max/football-predictions</a></div>
-      <div class="tags">XGBoost · LightGBM · Ridge Regression · Python · PostgreSQL · GitHub Actions · Streamlit</div></div>
+    <div class="proj"><span class="t">NBA Game Predictor</span> · <span class="cat">Sports ML</span>
+      <div class="d">A fully automated NBA pipeline that runs daily on GitHub Actions. Pre-game team stats and live sportsbook odds go in; two XGBoost regressors predict home and away points, which become moneyline, over/under and spread picks graded against final scores. Over 1,064 settled games: 66.3% moneyline accuracy, and Grade-A over/under picks returned +16.5% ROI across 95 bets. <a href="https://github.com/iampreetdave-max/basketball-NBA">github.com/iampreetdave-max/basketball-NBA</a></div>
+      <div class="tags">XGBoost · Sportradar API · PostgreSQL · GitHub Actions</div></div>
+
+    <div class="proj"><span class="t">Soccer Match Predictor</span> · <span class="cat">Sports ML</span>
+      <div class="d">Scoreline predictions across 10 major leagues, turned into moneyline, over/under 2.5 and both-teams-to-score picks. 21 weighted features feed separate Ridge models for home and away goals, and market-aware grading rewards contrarian picks: +9.1% ROI on A and B grade moneyline picks over 1,473 settled bets. A second-generation Poisson and Elo model, tested walk-forward on 88,061 unseen matches across 38 leagues, matches the closing line’s accuracy (57.4% on over/under). <a href="https://github.com/iampreetdave-max/football-predictions">github.com/iampreetdave-max/football-predictions</a></div>
+      <div class="tags">Ridge · Poisson GLM · Elo · FootyStats API · GitHub Actions</div></div>
+
+    <div class="proj"><span class="t">NASCAR Race Predictor</span> · <span class="cat">Sports ML</span>
+      <div class="d">Calibrated win and top-N probabilities for every driver in a race. Each track type (road course, short track, superspeedway) gets its own ensemble of XGBoost, LightGBM, random forest and gradient boosting, trained on 7,566 historical race records and compared live against odds from 9 sportsbooks. <a href="https://github.com/iampreetdave-max/NASCAR-USA">github.com/iampreetdave-max/NASCAR-USA</a></div>
+      <div class="tags">XGBoost · LightGBM · scikit-learn · Sportradar API</div></div>
 
     <div class="proj"><span class="t">CodeTransform, Python ↔ JavaScript Converter</span> · <span class="cat">Developer Tools</span>
       <div class="d">A web-based code converter between Python and JavaScript built on 122+ tested conversion rules, with auto language detection and color-coded confidence scoring. Zero-build vanilla-JS + Tailwind frontend on a FastAPI backend. GTU state-level Design Engineering project (Project Lead). <a href="https://github.com/iampreetdave-max/code-convertor">github.com/iampreetdave-max/code-convertor</a></div>
@@ -147,6 +193,10 @@
     <div class="proj"><span class="t">TalkToNotes, Handwriting to Knowledge Base</span> · <span class="cat">NLP · Document Intelligence</span>
       <div class="d">A hackathon project that digitizes handwritten and printed notes with TrOCR, then turns them into a searchable knowledge base powering a chatbot and one-click quiz generation. Built for the Rotaract Club Hackathon.</div>
       <div class="tags">TrOCR · Transformers · Vector Search · Python · NLP · OCR</div></div>
+
+    <div class="proj"><span class="t">Sky Alerts, Astronomy Email Alerts</span> · <span class="cat">Full-Stack</span>
+      <div class="d">Subscribe with your location and interests (eclipses, meteor showers, ISS passes, planets, moon phases) and a scheduled Python job emails what is visible in your sky, daily, weekly or for major events only. Includes a no-signup “today’s sky” page and one-click unsubscribe.</div>
+      <div class="tags">Next.js · Supabase · Python · GitHub Actions</div></div>
 
     <div class="proj"><span class="t">Find-Ranks, PDF Marksheet Analytics</span> · <span class="cat">Utility</span>
       <div class="d">A Streamlit utility that extracts marks from multiple PDF mark-sheets, computes cumulative performance, and generates rankings with analytics for educational institutions. <a href="https://github.com/iampreetdave-max/Find-Ranks">github.com/iampreetdave-max/Find-Ranks</a></div>
@@ -157,10 +207,10 @@
     <div class="sec">Skills</div>
     <div class="skill"><b>Languages:</b> <span>Python (advanced), C / C++ (advanced), JavaScript, TypeScript, SQL, HTML/CSS, PHP</span></div>
     <div class="skill"><b>ML &amp; Deep Learning:</b> <span>scikit-learn, XGBoost, LightGBM, TensorFlow, PyTorch, Keras, pandas, NumPy, feature engineering, ensemble methods, regression &amp; classification</span></div>
-    <div class="skill"><b>AI / LLM &amp; Agents:</b> <span>LLMs, RAG, Claude API, Claude Agent SDK, Model Context Protocol (MCP), Google Gemini ADK, prompt engineering, vector search &amp; embeddings (FAISS, ChromaDB), NLP</span></div>
+    <div class="skill"><b>AI / LLM &amp; Agents:</b> <span>LLMs, RAG, Claude API, Claude Agent SDK, Model Context Protocol (MCP), Google Gemini ADK, prompt engineering, vector search &amp; embeddings (FAISS, ChromaDB), Mistral OCR / Pixtral, LiteLLM, on-device speech-to-text, NLP</span></div>
     <div class="skill"><b>Computer Vision:</b> <span>YOLOv8, CLIP, TrOCR, InsightFace / ArcFace, OCR</span></div>
-    <div class="skill"><b>Backend &amp; Full-stack:</b> <span>FastAPI, Next.js, React, Node.js, REST APIs, Streamlit</span></div>
-    <div class="skill"><b>Data &amp; Infrastructure:</b> <span>PostgreSQL / Supabase, SQLite, Docker, Docker Compose, GitHub Actions / CI, Azure, Google Cloud Run, Netlify, Hugging Face</span></div>
+    <div class="skill"><b>Backend &amp; Full-stack:</b> <span>FastAPI, Next.js, React, Node.js, Express, Hono, Electron, Expo / React Native, Flutter, Socket.IO, REST APIs, Streamlit</span></div>
+    <div class="skill"><b>Data &amp; Infrastructure:</b> <span>PostgreSQL / Supabase, MongoDB, Redis, SQLite, Cloudflare Pages / D1, Playwright, Docker, Docker Compose, GitHub Actions / CI, Azure, Google Cloud Run, Netlify, Hugging Face</span></div>
     <div class="skill"><b>Automation:</b> <span>Make.com, n8n, Zapier, GoHighLevel, webhook &amp; API integrations</span></div>
     <div class="skill"><b>Practice:</b> <span>MLOps, model deployment, backtesting &amp; validation, Git</span></div>
   </section>
@@ -199,6 +249,7 @@
   <section>
     <div class="sec">Leadership &amp; Achievements</div>
     <ul>
+      <li>Founded Tensor Tapri (Nov 2026), a weekly AI/ML newsletter and community for India.</li>
       <li>Promoted from Machine Learning Intern to full-time AI/ML Software Engineer at Agility within a 10-month tenure.</li>
       <li>Project Lead at GTU: drove the CodeTransform converter from inception to a state-level Design Engineering presentation.</li>
       <li>Team Lead, Smart India Hackathon 2024: led a team to the national level with a virtual herbal garden featuring 3D models.</li>

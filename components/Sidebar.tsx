@@ -53,6 +53,15 @@ function ThemeToggle() {
 
 export default function Sidebar() {
   const path = usePathname();
+  const [copied, setCopied] = useState(false);
+
+  // ponytail: mailto does nothing on machines with no mail app, so also copy the address
+  const copyEmail = (address: string) => {
+    navigator.clipboard?.writeText(address).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }).catch(() => {});
+  };
 
   return (
     <aside className="sidebar">
@@ -66,16 +75,21 @@ export default function Sidebar() {
 
       <div className="nav-label">Contact</div>
       <div className="nav-social">
-        {SOCIAL.map((l) => (
-          <a
-            key={l.label}
-            href={l.href}
-            target={l.href.startsWith("http") ? "_blank" : undefined}
-            rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
-          >
-            {l.label}
-          </a>
-        ))}
+        {SOCIAL.map((l) => {
+          const mail = l.href.startsWith("mailto:") ? l.href.slice(7) : null;
+          return (
+            <a
+              key={l.label}
+              href={l.href}
+              target={mail ? undefined : "_blank"}
+              rel={mail ? undefined : "noopener noreferrer"}
+              title={mail ?? undefined}
+              onClick={mail ? () => copyEmail(mail) : undefined}
+            >
+              {mail && copied ? "Email copied" : l.label}
+            </a>
+          );
+        })}
       </div>
 
       <ThemeToggle />
