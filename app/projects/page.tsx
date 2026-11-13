@@ -86,7 +86,7 @@ export default function ProjectsPage() {
             </div>
             <div className="row-when row-side">
               {p.cat}
-              {Icon && <span className="row-icon" aria-hidden="true"><Icon size={18} strokeWidth={1.5} /></span>}
+              {Icon && <span className="row-icon" aria-hidden="true"><Icon size={28} strokeWidth={1.25} /></span>}
             </div>
           </div>
           );
