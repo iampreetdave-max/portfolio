@@ -15,7 +15,7 @@ const SOCIAL = [
   { href: "https://github.com/iampreetdave-max", label: "GitHub", external: true },
   { href: "https://www.linkedin.com/in/preet-dave-452023271/", label: "LinkedIn", external: true },
   { href: "mailto:iampreetdave@gmail.com", label: "Email", external: true },
-  { href: "/resume.pdf", label: "Résumé", external: true },
+  { href: "/resume.pdf", label: "Resume", external: true },
   { href: "/cv.pdf", label: "CV", external: true },
 ];
 
