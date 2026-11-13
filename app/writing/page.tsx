@@ -7,7 +7,7 @@ const writing = [
     title: "Tensor Tapri",
     when: "Weekly",
     href: "https://tensortapri.org",
-    note: "My weekly email on AI, ML, automation and data for India, written from Ahmedabad and sent every Monday. Issue 1 led with AI-assisted attacks on India’s small lenders; Issue 2 with India becoming ChatGPT’s biggest market and the RBI’s deadline for banks.",
+    note: "My weekly email on AI, ML, automation and data for India, written from Ahmedabad and sent every Monday. Each issue picks the five AI stories that matter for India that week and says why each one matters here.",
   },
   {
     title: "Prior Art and Positioning: Where Crime Hotspot Forecasting Comes From",

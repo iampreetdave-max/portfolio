@@ -10,7 +10,7 @@ const work = [
     role: "Founder, Tensor Tapri",
     href: "https://tensortapri.org",
     when: "Nov 2026 – Now",
-    note: "Started Tensor Tapri this month: a free weekly email on AI, ML, automation and data for India, beginning in Ahmedabad, with meetups and city chapters to follow. Its “What’s brewing” page tracks the week’s AI news and benchmark progress.",
+    note: "A free weekly email on AI, ML, automation and data for India, written from Ahmedabad. Its “What’s brewing” page tracks the week’s AI news and benchmark progress.",
   },
   {
     role: "Machine Learning Intern, Agility",

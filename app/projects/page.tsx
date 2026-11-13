@@ -1,11 +1,45 @@
 // Minimal projects + automations list (dhruvchauhan.me style). Static; theme and
 // header come from globals.css / SiteHeader.
+import {
+  Anchor, AudioLines, BrainCircuit, Cctv, CloudSun, CodeXml, Coffee, Flag, Goal, Handshake,
+  Medal, Newspaper, NotebookPen, Scale, ScanText, Spade, Telescope, Trophy, Truck,
+  createLucideIcon, type LucideIcon,
+} from "lucide-react";
+
+// lucide has no basketball; drawn in its 24px line style so it matches the rest
+const Basketball = createLucideIcon("Basketball", [
+  ["circle", { cx: "12", cy: "12", r: "10", key: "ball" }],
+  ["path", { d: "M12 2v20M2 12h20M4.9 4.9C7.5 7.6 8.5 9.8 8.5 12s-1 4.4-3.6 7.1M19.1 4.9C16.5 7.6 15.5 9.8 15.5 12s1 4.4 3.6 7.1", key: "seams" }],
+]);
+
+const ICONS: Record<string, LucideIcon> = {
+  "Padosi": Handshake,
+  "Q": AudioLines,
+  "WinWall": Trophy,
+  "Nudge AI": BrainCircuit,
+  "Marine Procurement ERP": Anchor,
+  "LedgerLens": ScanText,
+  "Real-Time Poker Platform": Spade,
+  "Tensor Tapri": Coffee,
+  "TransitOps": Truck,
+  "Therma Netra": CloudSun,
+  "CityShield · VisionScan": Cctv,
+  "Arbiter": Scale,
+  "AI Race News": Newspaper,
+  "NBA Game Predictor": Basketball,
+  "Soccer Match Predictor": Goal,
+  "NASCAR Race Predictor": Flag,
+  "CodeTransform": CodeXml,
+  "Sky Alerts": Telescope,
+  "Find-Ranks": Medal,
+  "TalkToNotes": NotebookPen,
+};
 
 const projects = [
   { name: "Padosi", cat: "Full-Stack", href: null, note: "A peer-to-peer rental marketplace for India: rent drills, cameras or party gear from verified people nearby. Locations are fuzzed and grid-snapped so repeated searches cannot triangulate an address, handovers use photo checks and 6-digit codes, and deposits auto-release 48 hours after return. One typed API serves a Next.js site and an Expo mobile app.", tags: "Next.js · Expo · Hono · Postgres · Drizzle · TypeScript" },
   { name: "Q", cat: "Agentic AI", href: null, note: "My meeting agent, in two parts. A bot on my own server joins Google Meet calls, saves the transcript, chat and screen shares into long-term memory, pulls out my action items, and flags risky talk for private review. Ask it what someone promised last month and it answers with verified citations to the exact meeting lines. A desktop copilot, extended from an open-source Electron app, transcribes on-device with Parakeet, drafts answers to questions as they are asked, and feeds every finished meeting into the same memory.", tags: "Python · LiteLLM · SQLite · Attendee · Electron · Parakeet STT" },
-  { name: "WinWall", cat: "Automation", href: null, note: "Keeps a live client-results wall on a website up to date with no developer in the loop. Claude scans Slack for client wins and posts them for approval; one emoji from the team approves a win, which is screenshotted, has reviewer names blurred, and is uploaded to WordPress into the right filter on the live wall. Loom and Wistia case-study videos are picked up automatically. 355 wins and 390+ images published so far, all on GitHub Actions schedules.", tags: "Python · Claude API · Slack API · Playwright · WordPress REST · GitHub Actions" },
-  { name: "CallBrain", cat: "Agentic AI", href: null, note: "A team of LLM agents that listens to every client call, built for 60 to 90 calls a day. Multilingual call scoring that checks whether the client actually understood, pre-call agendas with a win detector, mid-week follow-up check-ins with a dashboard scoped to each manager’s own clients, churn-risk bands and referral prompts.", tags: "Claude API · Python · Slack API · Google Workspace" },
+  { name: "WinWall", cat: "Automation", href: null, note: "Keeps a live client-results wall on a website up to date with no developer in the loop. Claude scans Slack for client wins and posts them for approval; one emoji from the team approves a win, which is screenshotted, has reviewer names blurred, and is uploaded to WordPress into the right filter on the live wall. Loom and Wistia case-study videos are picked up automatically. 350+ wins and 390+ images published, all on GitHub Actions schedules.", tags: "Python · Claude API · Slack API · Playwright · WordPress REST · GitHub Actions" },
+  { name: "Nudge AI", cat: "Agentic AI", href: null, note: "Turns every client conversation into actionables, so one manager can lead more account managers and each account manager can handle more clients. It checks whether clients actually understood what was agreed, builds agendas that surface each client’s latest wins, runs mid-week follow-ups with a dashboard scoped to each manager’s own accounts, flags churn risk early, and says which clients to ask for a referral. Built for 60 to 90 conversations a day.", tags: "Claude API · Python · Slack API · Google Workspace" },
   { name: "Marine Procurement ERP", cat: "Document AI", href: null, note: "An AI-native ERP for ship suppliers. RFQs arrive by email or supplier portal and become priced PDF quotations against a master catalogue, then purchase orders. Vendor invoices are extracted by an LLM, checked by a person, and posted into FIFO stock layers that drive client invoicing and payables, with an in-app assistant on top.", tags: "Node.js · React · MongoDB · Mistral · Playwright · Jest" },
   { name: "LedgerLens", cat: "Document AI", href: "https://github.com/iampreetdave-max/ledgerlens-ai-bank-document-ocr", note: "Bank statements and scanned cheques to a reconciled ledger. Printed fields come straight from the PDF’s text layer, handwriting goes to OCR plus a vision-language model, and deterministic validators check MICR checksums, written-vs-numeric amounts and the closing balance before anything counts as done. Per-bank adapters, an editable grid with Excel export, and an invoice VAT/GL coder share one multi-tenant platform. The public repo is a clean-room version on synthetic data.", tags: "Python · FastAPI · Mistral OCR · Pixtral · PyMuPDF · Supabase" },
   { name: "Real-Time Poker Platform", cat: "Realtime Systems", href: null, note: "A play-money poker app for a private card room: Texas Hold’em and pot-limit Omaha, multi-table play and tournaments on iOS, Android and web. The server is the only authority. Every chip movement runs inside a row-locked Postgres transaction and every state change broadcasts over Socket.IO, so a reconnect always rebuilds from the database.", tags: "Flutter · Next.js · Node.js · Socket.IO · Postgres · Redis" },
@@ -39,7 +73,9 @@ export default function ProjectsPage() {
   return (
     <>
       <div className="rowlist">
-        {projects.map((p) => (
+        {projects.map((p) => {
+          const Icon = ICONS[p.name];
+          return (
           <div className="row" key={p.name}>
             <div className="row-main">
               <div className="row-title">
@@ -48,9 +84,13 @@ export default function ProjectsPage() {
               <div className="row-note">{p.note}</div>
               <div className="tags">{p.tags}</div>
             </div>
-            <div className="row-when">{p.cat}</div>
+            <div className="row-when row-side">
+              {p.cat}
+              {Icon && <span className="row-icon" aria-hidden="true"><Icon size={44} strokeWidth={0.9} /></span>}
+            </div>
           </div>
-        ))}
+          );
+        })}
       </div>
 
       <h2 className="sec-label">Automations</h2>
