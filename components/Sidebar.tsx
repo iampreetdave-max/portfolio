@@ -15,7 +15,7 @@ const SOCIAL = [
   { href: "https://github.com/iampreetdave-max", label: "GitHub", external: true },
   { href: "https://www.linkedin.com/in/preet-dave-452023271/", label: "LinkedIn", external: true },
   { href: "mailto:iampreetdave@gmail.com", label: "Email", external: true },
-  { href: "/resume.pdf", label: "Résumé", external: true },
+  { href: "/resume.pdf", label: "Resume", external: true },
   { href: "/cv.pdf", label: "CV", external: true },
 ];
 
@@ -36,14 +36,32 @@ function ThemeToggle() {
   };
 
   return (
-    <button className="theme-toggle" onClick={toggle} aria-label="Toggle light or dark theme">
-      {theme === "dark" ? "☀" : "☾"}
+    <button className="theme-toggle" onClick={toggle} aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        {theme === "dark" ? (
+          <>
+            <circle cx="12" cy="12" r="4.5" />
+            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+          </>
+        ) : (
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+        )}
+      </svg>
     </button>
   );
 }
 
 export default function Sidebar() {
   const path = usePathname();
+  const [copied, setCopied] = useState(false);
+
+  // ponytail: mailto does nothing on machines with no mail app, so also copy the address
+  const copyEmail = (address: string) => {
+    navigator.clipboard?.writeText(address).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }).catch(() => {});
+  };
 
   return (
     <aside className="sidebar">
@@ -57,16 +75,21 @@ export default function Sidebar() {
 
       <div className="nav-label">Contact</div>
       <div className="nav-social">
-        {SOCIAL.map((l) => (
-          <a
-            key={l.label}
-            href={l.href}
-            target={l.href.startsWith("http") ? "_blank" : undefined}
-            rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
-          >
-            {l.label}
-          </a>
-        ))}
+        {SOCIAL.map((l) => {
+          const mail = l.href.startsWith("mailto:") ? l.href.slice(7) : null;
+          return (
+            <a
+              key={l.label}
+              href={l.href}
+              target={mail ? undefined : "_blank"}
+              rel={mail ? undefined : "noopener noreferrer"}
+              title={mail ?? undefined}
+              onClick={mail ? () => copyEmail(mail) : undefined}
+            >
+              {mail && copied ? "Email copied" : l.label}
+            </a>
+          );
+        })}
       </div>
 
       <ThemeToggle />
