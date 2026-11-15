@@ -272,8 +272,8 @@ export const PROJECT_SHOTS: Record<string, string> = {
   "poker-platform": "Interface illustration, unbranded: a play-money Hold’em hand on the turn, with three tables open in the switcher.",
   "tensor-tapri": "tensortapri.org, the home of the weekly email.",
   "ai-news-globe": "tensortapri.org/globe: each beam joins two cities whose outlets covered the same story.",
-  "transitops": "Rebuilt from the app’s code: the live ops map, with speeding and break alerts beside dispatch and fuel.",
-  "therma-netra": "The app’s interface with a real 3-day forecast from 2023 IMD data: maximum temperature across India.",
+  "transitops": "Interface illustration: the live fleet map with phone GPS, speeding and break alerts, and the dispatch desk. Fictional fleet.",
+  "therma-netra": "Interface illustration with a real forecast: maximum temperature across India for 21 May 2023, from IMD data.",
   "cityshield": "Running locally on synthetic demo data: a risk forecast over Ahmedabad with patrol routes to the top hotspots. Map data © OpenStreetMap contributors.",
   "arbiter": "The real frontend with a sample case: a drafted legal notice backed by three verified citations.",
   "ai-race-news": "The AI Race News homepage.",
@@ -282,7 +282,7 @@ export const PROJECT_SHOTS: Record<string, string> = {
   "nascar-predictor": "Interface illustration with sample probabilities: win and top-N chances for every driver from a per-track-type ensemble.",
   "codetransform": "code-convertor.pages.dev, the live converter.",
   "sky-alerts": "The no-signup tonight’s sky page, on the night the Leonids peak.",
-  "find-ranks": "Rebuilt from the app’s code with a fictional class: mark-sheet PDFs in, cumulative totals and class rankings out.",
+  "find-ranks": "Interface illustration with a fictional class: four mark-sheet PDFs in, cumulative totals and tie-aware rankings out.",
   "talktonotes": "Rebuilt from the app’s code: handwritten notes digitized with TrOCR, answered in chat and turned into a quiz.",
 };
 
