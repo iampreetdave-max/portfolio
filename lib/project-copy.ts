@@ -258,12 +258,32 @@ export const PROJECT_COPY: Record<string, ProjectCopy> = {
 
 // Projects with a public screenshot in public/projects/<id>.jpg, with the page it shows.
 // Client work and private local apps have none on purpose.
+// Captions say what the image is: the running app, a rebuild from the app's own code, or an
+// interface illustration (designed for this page because the project has no UI to show).
 export const PROJECT_SHOTS: Record<string, string> = {
   "claude-code-skills": "The Skills page: every skill, the three install packs, and one-command installs.",
   "open-data-finder": "A real search for satellite land surface temperature; every result's link was fetched before it was listed.",
+  "padosi": "The running app, with an added map panel: verified neighbours’ gear near Koramangala, shown as approximate 1 km areas, never addresses.",
+  "q": "Interface illustration: Q joins a Google Meet call and answers what was promised, citing the exact meeting lines.",
+  "winwall": "Interface illustration: one Slack emoji approves a client win, which lands on the live results wall with names blurred.",
+  "nudge-ai": "Interface illustration: a manager’s accounts view with agreements to recheck, mid-week follow-ups, churn risk and referral candidates.",
+  "marine-procurement-erp": "Interface illustration, unbranded: an emailed RFQ priced against the catalogue, with an invoice check and FIFO stock layers.",
+  "ledgerlens": "Interface illustration with results from the repo’s own validators: MICR, written amounts and closing balance pass; handwriting goes to review.",
+  "poker-platform": "Interface illustration, unbranded: a play-money Hold’em hand on the turn, with three tables open in the switcher.",
   "tensor-tapri": "tensortapri.org, the home of the weekly email.",
   "ai-news-globe": "tensortapri.org/globe: each beam joins two cities whose outlets covered the same story.",
+  "transitops": "Rebuilt from the app’s code: the live ops map, with speeding and break alerts beside dispatch and fuel.",
+  "therma-netra": "The app’s interface with a real 3-day forecast from 2023 IMD data: maximum temperature across India.",
+  "cityshield": "Running locally on synthetic demo data: a risk forecast over Ahmedabad with patrol routes to the top hotspots. Map data © OpenStreetMap contributors.",
+  "arbiter": "The real frontend with a sample case: a drafted legal notice backed by three verified citations.",
+  "ai-race-news": "The AI Race News homepage.",
+  "nba-predictor": "Interface illustration with real model output: one night’s slate with predicted scores, win probabilities and grades.",
+  "soccer-predictor": "Interface illustration with real walk-forward output: fixtures by league with over/under and both-teams-to-score probabilities.",
+  "nascar-predictor": "Interface illustration with sample probabilities: win and top-N chances for every driver from a per-track-type ensemble.",
   "codetransform": "code-convertor.pages.dev, the live converter.",
+  "sky-alerts": "The no-signup tonight’s sky page, on the night the Leonids peak.",
+  "find-ranks": "Rebuilt from the app’s code with a fictional class: mark-sheet PDFs in, cumulative totals and class rankings out.",
+  "talktonotes": "Rebuilt from the app’s code: handwritten notes digitized with TrOCR, answered in chat and turned into a quiz.",
 };
 
 // Extra public links beyond the row's own href (live demos of Preet's own deployments only).
