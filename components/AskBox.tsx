@@ -1,6 +1,6 @@
 "use client";
 
-// Jarvis: an assistant on every page. Its logo opens a small chat; each question gets a short
+// HAPI: an assistant on every page. Its logo opens a small chat; each question gets a short
 // cited answer from this site's own content, or an honest "I don't know".
 import { Fragment, useEffect, useId, useRef, useState } from "react";
 
@@ -13,7 +13,7 @@ type Reply = { kind: "answer"; answer: string; sources: Source[] } | { kind: "id
 type Turn = { q: string; reply?: Reply };
 type Turnstile = { render: (el: HTMLElement, o: object) => string; reset: (id: string) => void };
 
-const mail = <a href={`mailto:${EMAIL}`}>email the boss</a>;
+const mail = <a href={`mailto:${EMAIL}`}>email Preet</a>;
 
 // An original amber hologram mark: broken rings, a sweeping arc through a bright core, and a
 // scatter of light specks. Static and transparent, so it floats over the page.
@@ -29,7 +29,7 @@ const SPECKS = (() => {
   });
 })();
 
-function JarvisLogo({ size }: { size: number }) {
+function HapiLogo({ size }: { size: number }) {
   const g = useId().replace(/:/g, "");
   return (
     <svg className="jv" width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">
@@ -128,13 +128,13 @@ export default function AskBox() {
   return (
     <>
       <button ref={launcher} type="button" className={`askp-launch${open ? " open" : ""}`} aria-expanded={open} aria-controls="askp"
-        aria-label={open ? "Close Jarvis" : "Ask Jarvis, Preet's assistant"} title="Ask Jarvis" onClick={() => (open ? close() : setOpen(true))}>
-        <JarvisLogo size={60} />
+        aria-label={open ? "Close HAPI" : "Ask HAPI, Preet's assistant"} title="Ask HAPI" onClick={() => (open ? close() : setOpen(true))}>
+        <HapiLogo size={60} />
       </button>
 
-      <div id="askp" className="askp" role="dialog" aria-label="Jarvis, Preet's assistant" hidden={!open} onKeyDown={(e) => { if (e.key === "Escape") close(); }}>
+      <div id="askp" className="askp" role="dialog" aria-label="HAPI, Preet's assistant" hidden={!open} onKeyDown={(e) => { if (e.key === "Escape") close(); }}>
         <div className="askp-head">
-          <span className="askp-title"><JarvisLogo size={26} /><span><b>Jarvis</b> Preet&rsquo;s assistant</span></span>
+          <span className="askp-title"><HapiLogo size={26} /><span><b>HAPI</b> Preet&rsquo;s assistant</span></span>
           <button type="button" onClick={close} aria-label="Close">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
           </button>
@@ -143,7 +143,7 @@ export default function AskBox() {
         <div className="askp-log" ref={log} aria-live="polite">
           {!turns.length && (
             <div className="askp-a">
-              <p>{hello}. I&rsquo;m Jarvis, the boss&rsquo;s assistant. Ask me anything about his work and projects.</p>
+              <p>{hello}. I&rsquo;m HAPI, Preet&rsquo;s assistant. Ask me anything about Preet&rsquo;s work and projects.</p>
               <p className="askp-hint">I answer only from this site and his CV, with a link to each source, and I&rsquo;ll tell you when I don&rsquo;t know.</p>
             </div>
           )}
@@ -164,7 +164,7 @@ export default function AskBox() {
 
         <form className="askp-form" onSubmit={(e) => { e.preventDefault(); send(q); }}>
           <label htmlFor="askp-q" className="sr-only">Your question about my work</label>
-          <input id="askp-q" ref={input} value={q} onChange={(e) => setQ(e.target.value)} maxLength={300} autoComplete="off" placeholder="Ask Jarvis about the boss's work" />
+          <input id="askp-q" ref={input} value={q} onChange={(e) => setQ(e.target.value)} maxLength={300} autoComplete="off" placeholder="Ask HAPI about Preet's work" />
           <button type="submit" disabled={waiting || !q.trim()} aria-label="Send">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" /></svg>
           </button>

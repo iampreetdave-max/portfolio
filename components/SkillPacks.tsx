@@ -182,6 +182,8 @@ export default function SkillPacks() {
           <Package size={22} strokeWidth={1.4} aria-hidden="true" />
           <div className={s.packName}>{shown.id}</div>
           <div className={s.packMeta}>{shown.members.length} skills, {shown.blurb}</div>
+          {/* the add step first: without it the install answers "marketplace not found" */}
+          <CopyCmd cmd="/plugin marketplace add iampreetdave-max/agent-skills" tabbable={!!packed} />
           <CopyCmd cmd={`/plugin install ${shown.id}@${MARKET}`} tabbable={!!packed} />
         </div>
       </div>
