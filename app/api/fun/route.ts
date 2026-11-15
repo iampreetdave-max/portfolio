@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
+import { handleDebate } from "@/lib/debate";
 
 export const runtime = 'edge';
 
 export async function POST(req: NextRequest) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
+
+  // The debate game has its own caps, prompts and friendly errors (lib/debate.ts).
+  const peek = await req.clone().json().catch(() => null);
+  if (peek?.game === "debate") {
+    const { status, body } = await handleDebate(peek.payload, apiKey);
+    return NextResponse.json(body, { status });
+  }
+
   if (!apiKey) {
     return NextResponse.json(
       { error: "API key not configured" },
@@ -83,11 +92,14 @@ Evaluate this prediction. Return JSON:
       headers: {
         "Content-Type": "application/json",
         "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
+        "anthropic-version": "2026-10-21",
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1000,
+        // Haiku 5.5 thinks by default and thinking counts toward max_tokens, so the cap has headroom.
+        // No temperature/top_p/top_k: Haiku 5.5 rejects them. No fallbacks: it has none.
+        model: "claude-haiku-5-5",
+        max_tokens: 2000,
+        output_config: { effort: "low" },
         system: systemPrompt,
         messages: [{ role: "user", content: userPrompt }],
       }),
@@ -102,8 +114,9 @@ Evaluate this prediction. Return JSON:
     }
 
     const data = await response.json();
+    // The reply can start with a thinking block, so find the answer by type, not position.
     const text =
-      data.content?.[0]?.type === "text" ? data.content[0].text : "";
+      data.content?.find((b: { type?: string }) => b?.type === "text")?.text ?? "";
 
     // Parse JSON from Claude's response
     try {
