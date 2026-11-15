@@ -15,13 +15,13 @@ export const PROJECT_COPY: Record<string, ProjectCopy> = {
     ]
   },
   "open-data-finder": {
-    "hook": "In an 18-need benchmark every top link resolved, against 81% for Claude Sonnet 5.5 with web search, at about 1/90th of the cost. Claude Haiku 5.5 plans the searches and eight open catalogs supply the datasets.",
+    "hook": "In an 18-need benchmark every top link resolved, against 81% for a frontier LLM with web search, at about 1/90th of the cost. A small, fast LLM plans the searches and eight open catalogs supply the datasets.",
     "proof": "Every link is fetched before it is listed, and code stops the model adding anything a catalog did not return.",
     "highlights": [
       "Takes a need in plain words, like daily rainfall by district in Gujarat, and returns real open datasets.",
-      "Claude Haiku 5.5 plans the searches; eight open catalogs answer, including Hugging Face, Zenodo, NASA Earthdata and Harvard Dataverse.",
+      "A small, fast LLM plans the searches; eight open catalogs answer, including Hugging Face, Zenodo, NASA Earthdata and Harvard Dataverse.",
       "Every link is fetched before it is listed, and code blocks anything a catalog did not return.",
-      "18-need benchmark: every top link resolved, versus 81% for Claude Sonnet 5.5 with web search, at about 1/90th the cost.",
+      "18-need benchmark: every top link resolved, versus 81% for a frontier LLM with web search, at about 1/90th the cost.",
       "Lives on tensortapri.org as a free community tool, on Cloudflare Pages Functions with a per-visitor limit."
     ]
   },
