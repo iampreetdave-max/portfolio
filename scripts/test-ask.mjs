@@ -33,6 +33,8 @@ check("CV-derived text still matches public/cv.html", () => {
 const hits = ANSWERABLE.filter(({ q, cite }) => retrieve(q).some((r) => cite.includes(r.doc.id)));
 for (const { q, cite } of ANSWERABLE.filter((a) => !hits.includes(a))) console.log(`      miss: "${q}" wants ${cite.join("|")}, got ${retrieve(q).map((r) => r.doc.id).join(",") || "nothing"}`);
 check(`retrieval finds the doc to cite in the top 4: ${hits.length}/${ANSWERABLE.length}`, () => assert.equal(hits.length, ANSWERABLE.length));
+check("a broad question (no content words) answers from About", () =>
+  ["What does Preet do?", "Who is he?", "Tell me about Preet"].forEach((q) => assert.deepEqual(retrieve(q).map((r) => r.doc.id), ["about", "agility-engineer"])));
 const blocked = UNANSWERABLE.filter((q) => retrieve(q).length === 0);
 console.log(`      ${blocked.length}/${UNANSWERABLE.length} unanswerable questions match nothing and never reach the model`);
 

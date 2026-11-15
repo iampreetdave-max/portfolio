@@ -73,8 +73,13 @@ const df = new Map<string, number>();
 index.forEach((d) => d.tf.forEach((_, t) => df.set(t, (df.get(t) ?? 0) + 1)));
 const idf = (t: string) => Math.log(1 + (docs.length - (df.get(t) ?? 0) + 0.5) / ((df.get(t) ?? 0) + 0.5));
 
+// "What does Preet do?", "Who is he?": nothing is left once the stop words go, so answer from About.
+const BROAD = ["about", "agility-engineer"];
+
 export function retrieve(question: string, k = TOP_K): { doc: Doc; score: number }[] {
-  const q = new Set(tokens(question).flatMap((t) => EXPAND.get(t) ?? [t]));
+  const words = tokens(question);
+  if (!words.length) return BROAD.map((id) => ({ doc: docs.find((d) => d.id === id)!, score: MIN_SCORE }));
+  const q = new Set(words.flatMap((t) => EXPAND.get(t) ?? [t]));
   return index
     .map(({ doc, tf, len }) => {
       let score = 0;

@@ -2,7 +2,7 @@
 
 // Network of every technology on the site and the projects that use it. Positions come
 // precomputed from lib/techweb.ts; this only draws them and handles hover and keyboard.
-import { Fragment, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import type { Web, WebNode } from "@/lib/techweb";
 
 function Glyph({ node, size }: { node: WebNode; size: number }) {
@@ -28,7 +28,14 @@ export default function TechWeb({ web }: { web: Web }) {
   const cur = active ? byId.get(active) : undefined;
   const near = cur ? new Set([cur.id, ...cur.n]) : null;
   const on = (id: string) => !!near?.has(id);
-  const enter = (id: string) => { setActive(id); setLit(true); };
+  const show = (id: string) => { clearTimeout(timer.current); setActive(id); setLit(true); };
+  // Hover intent: a node lights up only once the pointer rests on it, so sweeping across the
+  // net does not flash every node it crosses.
+  const timer = useRef<ReturnType<typeof setTimeout>>();
+  const enter = (id: string) => { clearTimeout(timer.current); timer.current = setTimeout(() => show(id), 90); };
+  const pass = () => clearTimeout(timer.current); // pointer left the node before resting: never light it
+  const leave = () => { clearTimeout(timer.current); timer.current = setTimeout(() => setLit(false), 150); };
+  useEffect(() => () => clearTimeout(timer.current), []);
 
   // One tab stop for the whole graph; arrow keys walk the technologies A to Z, Enter jumps to their projects.
   const key = (e: React.KeyboardEvent, id: string) => {
@@ -49,7 +56,7 @@ export default function TechWeb({ web }: { web: Web }) {
   return (
     <figure className={`techweb${lit && near ? " dim" : ""}`}>
       <svg
-        className="tw-svg" viewBox={`0 0 ${w} ${h}`} role="group" onMouseLeave={() => setLit(false)}
+        className="tw-svg" viewBox={`0 0 ${w} ${h}`} role="group" onMouseLeave={leave}
         aria-label="Technologies I have worked with, each linked to the projects that use it. Arrow keys move between technologies; Enter jumps to the projects."
       >
         <g className="tw-edges">
@@ -59,7 +66,7 @@ export default function TechWeb({ web }: { web: Web }) {
           })}
         </g>
         {nodes.filter((n) => n.kind === "project").map((n) => (
-          <a key={n.id} href={n.href} tabIndex={-1} className={`tw-node tw-proj${on(n.id) ? " on" : ""}`} onMouseEnter={() => enter(n.id)}>
+          <a key={n.id} href={n.href} tabIndex={-1} className={`tw-node tw-proj${on(n.id) ? " on" : ""}`} onMouseEnter={() => enter(n.id)} onMouseLeave={pass}>
             <circle cx={n.x} cy={n.y} r={6} className="tw-hit" />
             <circle cx={n.x} cy={n.y} r={3.5} />
           </a>
@@ -69,7 +76,7 @@ export default function TechWeb({ web }: { web: Web }) {
             key={n.id} ref={(el) => { refs.current.set(n.id, el); }} role="button" tabIndex={n.id === tabStop ? 0 : -1}
             aria-label={`${n.label}, used in ${names(n.n).map((p) => p.label).join(", ")}`}
             className={`tw-node tw-tech${on(n.id) ? " on" : ""}`} transform={`translate(${n.x} ${n.y})`}
-            onMouseEnter={() => enter(n.id)} onFocus={() => { enter(n.id); setTabStop(n.id); }} onBlur={() => setLit(false)}
+            onMouseEnter={() => enter(n.id)} onMouseLeave={pass} onFocus={() => { show(n.id); setTabStop(n.id); }} onBlur={() => setLit(false)}
             onKeyDown={(e) => key(e, n.id)}
           >
             <circle r={13} />
