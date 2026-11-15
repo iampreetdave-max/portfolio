@@ -1,0 +1,57 @@
+# Preet Dave
+
+> Preet Dave (Preet Ghanshyam Dave) is an AI/ML engineer in Ahmedabad, India, at Agility. He builds LLM agents, document AI and machine-learning models that ship to production, publishes open-source Claude Code skills, and runs Tensor Tapri, a free weekly AI newsletter and community for India.
+
+## Pages
+
+- [About](https://iampreetdave.me/): who Preet is, the technologies he works with, and a bot that answers questions about his work with citations
+- [Work](https://iampreetdave.me/work): roles at Agility, Tensor Tapri and a stealth AI startup
+- [Projects](https://iampreetdave.me/projects): every project, each with its own page
+- [Claude Code skills](https://iampreetdave.me/skills): open-source skills, installable with one command
+- [Writing](https://iampreetdave.me/writing): the newsletter and engineering write-ups
+- [Resume (PDF)](https://iampreetdave.me/resume.pdf) and [CV (PDF)](https://iampreetdave.me/cv.pdf)
+
+## Projects
+
+- [Claude Code Skills](https://iampreetdave.me/projects/claude-code-skills): Open-source Claude Code skills, each installed with one command from a personal plugin marketplace. The flagship, done-gate, stops an agent calling work finished until every ask is proven with file:line evidence and audited blind.
+- [Open Data Finder](https://iampreetdave.me/projects/open-data-finder): In an 18-need benchmark every top link resolved, against 81% for Claude Sonnet 5.5 with web search, at about 1/90th of the cost. Claude Haiku 5.5 plans the searches and eight open catalogs supply the datasets.
+- [Padosi](https://iampreetdave.me/projects/padosi): Rent drills, cameras or party gear from verified people nearby, on a peer-to-peer marketplace for India. Locations are fuzzed and grid-snapped so repeated searches cannot triangulate an address.
+- [Q](https://iampreetdave.me/projects/q): Ask Q what someone promised last month and it answers with verified citations to the exact meeting lines. A self-hosted bot joins Google Meet calls and saves transcript, chat and screen shares to long-term memory.
+- [WinWall](https://iampreetdave.me/projects/winwall): 350+ client wins have reached a live WordPress results wall with no developer in the loop. One team emoji in Slack approves each, and the pipeline screenshots it and blurs reviewer names.
+- [Nudge AI](https://iampreetdave.me/projects/nudge-ai): Built for 60 to 90 client conversations a day, it pulls action items out of each and checks whether the client actually understood what was agreed, so one manager can lead more account managers.
+- [Marine Procurement ERP](https://iampreetdave.me/projects/marine-procurement-erp): For ship suppliers, RFQs arriving by email or supplier portal become priced PDF quotations, then purchase orders. Each LLM-extracted vendor invoice is checked by a person before it posts into FIFO stock layers.
+- [LedgerLens](https://iampreetdave.me/projects/ledgerlens): Bank statements and scanned cheques come out as a reconciled ledger, and nothing counts as done until deterministic validators pass: MICR checksums, written-versus-numeric amounts and the closing balance.
+- [Real-Time Poker Platform](https://iampreetdave.me/projects/poker-platform): The server is the only authority in this play-money Texas Hold’em and pot-limit Omaha app: every chip movement runs inside a row-locked Postgres transaction, so a reconnect always rebuilds from the database.
+- [Tensor Tapri](https://iampreetdave.me/projects/tensor-tapri): A free weekly newsletter on AI, ML, automation and data for India, written from Ahmedabad. Its “What’s brewing” page ranks the week’s top world and India AI stories by outlet coverage.
+- [AI News Globe](https://iampreetdave.me/projects/ai-news-globe): Every AI story from the past 30 days is pinned to its outlet’s home city on a 3D globe, and light beams travel between cities whose outlets covered the same story.
+- [TransitOps](https://iampreetdave.me/projects/transitops): No client app can bypass a business rule, because every rule is enforced inside Postgres. The hackathon-built fleet platform covers dispatch, maintenance, fuel and expenses for four roles.
+- [Therma Netra](https://iampreetdave.me/projects/therma-netra): One continuously assimilated digital twin of India’s climate, built for ISRO’s Bharatiya Antariksh Hackathon 2026, reaches about 30% forecast skill over a persistence-of-anomaly baseline.
+- [CityShield · VisionScan](https://iampreetdave.me/projects/cityshield): Fully offline on CPU, it closes the loop from live CCTV anomaly to dispatched patrol, with physical and cyber crime on one GIS map. Built with the Cyber Crime Branch of Ahmedabad City Police for KANAD S.H.I.E.L.D. 2026.
+- [Arbiter](https://iampreetdave.me/projects/arbiter): A legal problem described in plain English or Hindi goes to Gemini agents on Google’s ADK, which research the applicable law in real time and draft a citation-backed document.
+- [AI Race News](https://iampreetdave.me/projects/ai-race-news): Scrapes 110+ AI/ML sources every 15 minutes in production, then removes duplicates in three layers (URL, content hash, title similarity). Articles are auto-tagged across 12 categories and served as 5 audience-specific feeds.
+- [NBA Game Predictor](https://iampreetdave.me/projects/nba-predictor): Moneyline picks hit 66.3% across 1,064 settled games, and Grade-A over/under picks returned +16.5% ROI on 95 bets. The pipeline runs itself daily on GitHub Actions.
+- [Soccer Match Predictor](https://iampreetdave.me/projects/soccer-predictor): Tested walk-forward on 88,061 unseen matches across 38 leagues, a second-generation Poisson and Elo model equals the closing line’s accuracy, 57.4% on over/under.
+- [NASCAR Race Predictor](https://iampreetdave.me/projects/nascar-predictor): Road courses, short tracks and superspeedways race differently, so each track type gets its own four-model ensemble, which outputs calibrated win and top-N probabilities for every driver.
+- [CodeTransform](https://iampreetdave.me/projects/codetransform): Converts Python to JavaScript and back through 122+ tested rules, detecting the source language automatically. Led from idea to a GTU state-level Design Engineering presentation.
+- [Sky Alerts](https://iampreetdave.me/projects/sky-alerts): Subscribers set a location and interests, and a scheduled Python job emails what is visible in their sky: eclipses, meteor showers, ISS passes, planets or moon phases.
+- [Find-Ranks](https://iampreetdave.me/projects/find-ranks): Marks are pulled from a batch of PDF mark-sheets, combined into each student’s cumulative performance and ranked, with analytics for educational institutions.
+- [TalkToNotes](https://iampreetdave.me/projects/talktonotes): TrOCR digitizes handwritten and printed notes, which are then indexed into a searchable knowledge base that answers questions through a chatbot and generates quizzes in one click.
+
+## Claude Code skills
+
+- [done-gate](https://iampreetdave.me/skills/done-gate): Stops an agent calling work finished until every ask is rebuilt from your own words, proven with file:line evidence, audited by a second agent that is not told what changed, and passed through the project's own checks.
+- [loop-breaker](https://iampreetdave.me/skills/loop-breaker): Gets a stuck session out of a loop: stop editing, reproduce the failure by hand, test every assumption, prove the root cause with evidence, and hand off to a fresh session when the context itself is the problem.
+- [skill-scout](https://iampreetdave.me/skills/skill-scout): Finds skills that fit your project on GitHub, ranked by fit, then health, then stars, with their open issues read. Counts which installed skills you actually use and tells you what to remove.
+- [doc-extraction](https://iampreetdave.me/skills/doc-extraction): OCR and document extraction whose numbers you can trust: the PDF's own text first, each page read with context from the one before, and validators (running balance to the cent, checksums, totals) that decide what is correct.
+- [make-automation](https://iampreetdave.me/skills/make-automation): Make.com automations done right: when to use Make, Python or both, webhooks between them, Microsoft Teams, a human approval step, never acting twice, dry runs and error handling.
+- [honest-model-eval](https://iampreetdave.me/skills/honest-model-eval): Stops vibe-coded ML models from leaking: audit the data first, check every feature exists at prediction time, split by time, beat the market, and report calibrated results with their uncertainty.
+- [hackathon-sprint](https://iampreetdave.me/skills/hackathon-sprint): Building to win a hackathon with an AI agent: the hard category, open source and papers first, one flawless demo path, a real deployed URL, and a sleek deck with a rehearsed three-minute demo.
+- [android-device-test](https://iampreetdave.me/skills/android-device-test): Tests your app on a real Android phone over adb: installs the build, taps real UI elements, cuts the network, kills the process, and reports pass or fail with screenshots and logs.
+- [exam-sheet](https://iampreetdave.me/skills/exam-sheet): Turns a syllabus and past papers into one printable revision page, chapters ranked by the marks they actually carried, every topic an exam-ready answer with a hand-drawn diagram.
+
+## Elsewhere
+
+- [GitHub](https://github.com/iampreetdave-max)
+- [LinkedIn](https://www.linkedin.com/in/preet-dave-452023271/)
+- [Tensor Tapri](https://tensortapri.org)
+- [Skills repository](https://github.com/iampreetdave-max/agent-skills)
