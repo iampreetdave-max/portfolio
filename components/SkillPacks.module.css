@@ -12,8 +12,10 @@
 
 /* The stage is the offsetParent the tile offsets are measured against. The pack choreography
    itself runs through the Web Animations API in SkillPacks.tsx. */
-.stage { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; min-height: 190px; }
-@media (max-width: 600px) { .stage { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.stage { position: relative; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; min-height: 190px; }
+/* three per row, a short last row centred; two per row on phones */
+.stage > .tile { flex: 0 0 calc((100% - 20px) / 3); }
+@media (max-width: 600px) { .stage > .tile { flex-basis: calc((100% - 10px) / 2); } }
 
 .tile {
   display: flex; align-items: center; gap: 8px; min-width: 0; padding: 10px 12px;
@@ -78,3 +80,6 @@
 .steps li::marker { color: var(--text-3); }
 .pager { display: flex; justify-content: space-between; gap: 16px; margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-2); }
 .pager a:hover { color: var(--text); }
+
+/* skill page eyebrow: the install name above the problem-led h1 */
+.eyebrow { font: 12.5px ui-monospace, "SF Mono", Menlo, Consolas, monospace; color: var(--text-2); margin-bottom: 6px; }

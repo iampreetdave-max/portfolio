@@ -8,11 +8,11 @@ import { JsonLd, SITE, breadcrumbs, pageMeta } from "@/lib/seo";
 // One page per skill, prerendered at build time (no runtime route, so no edge runtime needed).
 export const dynamicParams = false;
 export const generateStaticParams = () => skills.map((k) => ({ id: k.id }));
-export const generateMetadata = ({ params }: { params: { id: string } }) => pageMeta({
-  title: `${params.id}, a Claude Code skill`,
-  description: skills.find((k) => k.id === params.id)?.note ?? "",
-  path: `/skills/${params.id}`,
-});
+// Titles lead with the problem the skill solves, the way people search for it.
+export const generateMetadata = ({ params }: { params: { id: string } }) => {
+  const k = skills.find((x) => x.id === params.id);
+  return pageMeta({ title: `${k?.headline ?? params.id} (${params.id})`, description: k?.note ?? "", path: `/skills/${params.id}` });
+};
 
 export default function SkillPage({ params }: { params: { id: string } }) {
   const i = skills.findIndex((k) => k.id === params.id);
@@ -28,7 +28,7 @@ export default function SkillPage({ params }: { params: { id: string } }) {
         {
           "@type": "SoftwareSourceCode",
           name: k.id,
-          description: k.note,
+          description: `${k.headline}. ${k.note}`,
           url: `${SITE}/skills/${k.id}`,
           codeRepository: `${REPO}/tree/main/skills/${k.id}`,
           keywords: "Claude Code, Claude Code skill, agent skills, SKILL.md",
@@ -38,7 +38,8 @@ export default function SkillPage({ params }: { params: { id: string } }) {
         breadcrumbs([["Home", "/"], ["Skills", "/skills"], [k.id, `/skills/${k.id}`]]),
       ] }} />
       <Link href="/skills" className={s.back}>&larr; All skills</Link>
-      <h1 className={s.h1}>{k.id}</h1>
+      <div className={s.eyebrow}>{k.id} · Claude Code skill</div>
+      <h1 className={s.h1}>{k.headline}</h1>
       <div className="prose"><p>{k.note}</p></div>
 
       <h2 className="sec-label">Install just this skill</h2>

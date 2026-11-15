@@ -11,7 +11,7 @@ export const PROJECT_COPY: Record<string, ProjectCopy> = {
       "done-gate blocks a finished claim until each ask has file:line evidence, then audits the work blind.",
       "loop-breaker gets a stuck session out by proving the root cause instead of guessing.",
       "honest-model-eval catches data leakage before a model ships; skill-scout finds fitting skills and prunes unused ones.",
-      "Other skills cover trustworthy OCR, Make.com automation, hackathon sprints, Android device testing and exam revision."
+      "Other skills cover compliance checks, trustworthy OCR, Make.com automation, hackathon sprints, Android device testing and exam revision."
     ]
   },
   "open-data-finder": {

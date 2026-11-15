@@ -15,7 +15,12 @@ const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", displ
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: { default: "Preet Dave · AI/ML Engineer in Ahmedabad", template: "%s · Preet Dave" },
-  icons: { icon: "/icon.svg?v=2" },
+  // SVG for browsers; favicon.ico (16/32/48) because Google's favicon fetcher asks for it.
+  // Static files on purpose (app/icon.* would become an edge route, gotcha #1). Bump ?v= on change.
+  icons: {
+    icon: [{ url: "/icon.svg?v=2", type: "image/svg+xml" }, { url: "/favicon.ico?v=2", sizes: "48x48" }],
+    apple: "/apple-icon.png?v=2",
+  },
   description: HOME_DESCRIPTION,
   keywords: [
     "Preet Dave", "Preet Ghanshyam Dave", "AI engineer Ahmedabad", "AI/ML engineer India", "Machine learning engineer",
