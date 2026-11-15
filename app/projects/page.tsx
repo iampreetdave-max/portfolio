@@ -2,7 +2,7 @@
 // header come from globals.css / SiteHeader.
 import {
   Anchor, AudioLines, BrainCircuit, Cctv, CloudSun, CodeXml, Coffee, Flag, Globe, Goal, Handshake,
-  Medal, Newspaper, NotebookPen, Puzzle, Scale, ScanText, Spade, Telescope, Trophy, Truck,
+  Medal, Newspaper, NotebookPen, Puzzle, Scale, ScanText, SearchCheck, Spade, Telescope, Trophy, Truck,
   createLucideIcon, type LucideIcon,
 } from "lucide-react";
 import { automations, projects } from "@/lib/content";
@@ -15,6 +15,7 @@ const Basketball = createLucideIcon("Basketball", [
 
 const ICONS: Record<string, LucideIcon> = {
   "Claude Code Skills": Puzzle,
+  "Open Data Finder": SearchCheck,
   "Padosi": Handshake,
   "Q": AudioLines,
   "WinWall": Trophy,
