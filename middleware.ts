@@ -45,6 +45,8 @@ export async function middleware(req: NextRequest) {
 
   const res = NextResponse.next();
   for (const [k, v] of Object.entries(HEADERS)) res.headers.set(k, v);
+  // Kept out of search without naming them in robots.txt, which would advertise them to scanners.
+  if (/^\/(admin|api)(\/|$)/.test(pathname)) res.headers.set("X-Robots-Tag", "noindex, nofollow");
   return res;
 }
 
