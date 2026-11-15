@@ -2,7 +2,7 @@ import { about } from "@/lib/content";
 import { techWeb } from "@/lib/techweb";
 import { JsonLd, PERSON, SITE, pageMeta } from "@/lib/seo";
 import TechWeb from "@/components/TechWeb";
-import AskBox from "@/components/AskBox";
+import { AskOpen } from "@/components/AskBox";
 
 export const metadata = pageMeta({
   description: "AI/ML engineer in Ahmedabad, India. Preet Dave builds LLM agents, document AI and ML models that ship, publishes open-source Claude Code skills and runs Tensor Tapri.",
@@ -34,7 +34,7 @@ export default function About() {
       <TechWeb web={techWeb()} />
 
       <h2 className="sec-label">Ask about my work</h2>
-      <AskBox />
+      <AskOpen />
     </>
   );
 }

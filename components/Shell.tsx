@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Sidebar from "./Sidebar";
+import AskBox from "./AskBox";
 
 export default function Shell({ children }: { children: React.ReactNode }) {
   const path = usePathname();
@@ -14,6 +15,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
     <div className="shell">
       <Sidebar />
       <main className="content">{children}</main>
+      <AskBox />
     </div>
   );
 }

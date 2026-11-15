@@ -10,6 +10,7 @@ const NAV = [
   { href: "/projects", label: "Projects" },
   { href: "/skills", label: "Skills" },
   { href: "/writing", label: "Writing" },
+  { href: "/fun", label: "Fun" },
 ];
 
 const SOCIAL = [
