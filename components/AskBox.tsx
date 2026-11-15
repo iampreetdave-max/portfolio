@@ -1,8 +1,8 @@
 "use client";
 
-// "Ask Preet": a button on every page opens a small chat. Each question gets a short cited
-// answer from this site's own content, or an honest "I don't know".
-import { Fragment, useEffect, useRef, useState } from "react";
+// Jarvis: an assistant on every page. Its logo opens a small chat; each question gets a short
+// cited answer from this site's own content, or an honest "I don't know".
+import { Fragment, useEffect, useId, useRef, useState } from "react";
 
 const EMAIL = "iampreetdave@gmail.com";
 const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY; // Turnstile only when configured
@@ -14,7 +14,28 @@ type Reply = { kind: "answer"; answer: string; sources: Source[] } | { kind: "id
 type Turn = { q: string; reply?: Reply };
 type Turnstile = { render: (el: HTMLElement, o: object) => string; reset: (id: string) => void };
 
-const mail = <a href={`mailto:${EMAIL}`}>email me</a>;
+const mail = <a href={`mailto:${EMAIL}`}>email the boss</a>;
+
+// An original arc-reactor style mark: two dashed rings turning in opposite directions around a
+// glowing core. Transparent, so it floats over the page.
+function JarvisLogo({ size }: { size: number }) {
+  const g = useId().replace(/:/g, "");
+  return (
+    <svg className="jv" width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">
+      <defs>
+        <radialGradient id={`${g}h`}><stop offset="0" stopColor="currentColor" stopOpacity=".35" /><stop offset="1" stopColor="currentColor" stopOpacity="0" /></radialGradient>
+        <radialGradient id={`${g}c`}><stop offset="0" stopColor="#fff" /><stop offset=".5" stopColor="currentColor" /><stop offset="1" stopColor="currentColor" stopOpacity=".2" /></radialGradient>
+      </defs>
+      <circle cx="32" cy="32" r="31" fill={`url(#${g}h)`} />
+      <circle className="jv-ticks" cx="32" cy="32" r="27" fill="none" stroke="currentColor" strokeWidth="1.4" strokeDasharray="1.5 3.2" opacity=".75" />
+      <circle className="jv-ring" cx="32" cy="32" r="21.5" fill="none" stroke="currentColor" strokeWidth="3.2" strokeDasharray="11 5.9" />
+      <circle cx="32" cy="32" r="15" fill="none" stroke="currentColor" strokeWidth="1.1" opacity=".6" />
+      <circle className="jv-core" cx="32" cy="32" r="8.5" fill={`url(#${g}c)`} />
+    </svg>
+  );
+}
+
+const greeting = () => { const h = new Date().getHours(); return h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening"; };
 const openAsk = (q?: string) => window.dispatchEvent(new CustomEvent(OPEN, { detail: q }));
 
 function Answer({ reply }: { reply: Reply }) {
@@ -29,9 +50,9 @@ function Answer({ reply }: { reply: Reply }) {
       </p>
     );
   }
-  if (reply.kind === "idk") return <p>I don&rsquo;t know that from what is on this site. Please {mail} and I&rsquo;ll answer it myself.</p>;
-  if (reply.kind === "resting") return <p>The bot is resting for today. Please {mail} instead.</p>;
-  return <p>{reply.message ?? "Something went wrong on my side."} You can also {mail}.</p>;
+  if (reply.kind === "idk") return <p>I&rsquo;m afraid that isn&rsquo;t in my files, and I&rsquo;d rather not guess. Do {mail}; he answers personally.</p>;
+  if (reply.kind === "resting") return <p>I&rsquo;m running on reserve power for today. Do {mail} instead; he answers personally.</p>;
+  return <p>{reply.message ?? "Something went wrong on my end."} You can always {mail}.</p>;
 }
 
 // The About page's entry point: looks like the old inline box, opens the panel.
@@ -39,7 +60,7 @@ export function AskOpen() {
   return (
     <div className="ask-entry">
       <button type="button" className="ask-open" onClick={() => openAsk()}>
-        <span>Ask about a project, a skill or a role</span><span aria-hidden="true">Ask</span>
+        <span>Ask Jarvis about a project, a skill or a role</span><span aria-hidden="true">Ask</span>
       </button>
       <div className="ask-chips">
         {EXAMPLES.map((e) => <button key={e} type="button" onClick={() => openAsk(e)}>{e}</button>)}
@@ -52,6 +73,7 @@ export default function AskBox() {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
   const [turns, setTurns] = useState<Turn[]>([]);
+  const [hello, setHello] = useState("Hello");
   const busy = useRef(false);
   const token = useRef("");
   const widget = useRef<HTMLDivElement>(null);
@@ -88,7 +110,7 @@ export default function AskBox() {
     return () => window.removeEventListener(OPEN, onOpen);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps -- send only touches refs and setters
 
-  useEffect(() => { if (open) input.current?.focus(); }, [open]);
+  useEffect(() => { if (open) { input.current?.focus(); setHello(greeting()); } }, [open]);
   useEffect(() => { log.current?.scrollTo({ top: log.current.scrollHeight, behavior: "smooth" }); }, [turns]);
 
   // Turnstile loads on first open, not on every page view.
@@ -110,21 +132,26 @@ export default function AskBox() {
 
   return (
     <>
-      <button ref={launcher} type="button" className="askp-launch" aria-expanded={open} aria-controls="askp" onClick={() => (open ? close() : setOpen(true))}>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.6L21 11l-6.8 2.4L12 20l-2.2-6.6L3 11l6.8-2.4z" /></svg>
-        Ask Preet
+      <button ref={launcher} type="button" className={`askp-launch${open ? " open" : ""}`} aria-expanded={open} aria-controls="askp"
+        aria-label={open ? "Close Jarvis" : "Ask Jarvis, Preet's assistant"} title="Ask Jarvis" onClick={() => (open ? close() : setOpen(true))}>
+        <JarvisLogo size={58} />
       </button>
 
-      <div id="askp" className="askp" role="dialog" aria-label="Ask about Preet's work" hidden={!open} onKeyDown={(e) => { if (e.key === "Escape") close(); }}>
+      <div id="askp" className="askp" role="dialog" aria-label="Jarvis, Preet's assistant" hidden={!open} onKeyDown={(e) => { if (e.key === "Escape") close(); }}>
         <div className="askp-head">
-          <span>Ask about my work</span>
+          <span className="askp-title"><JarvisLogo size={26} /><span><b>Jarvis</b> Preet&rsquo;s assistant</span></span>
           <button type="button" onClick={close} aria-label="Close">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
           </button>
         </div>
 
         <div className="askp-log" ref={log} aria-live="polite">
-          {!turns.length && <p className="askp-hint">Answers come only from this site and my CV, with links to the source. If it is not written here, it says so.</p>}
+          {!turns.length && (
+            <div className="askp-a">
+              <p>{hello}. I&rsquo;m Jarvis, the boss&rsquo;s assistant. Ask me anything about his work and projects.</p>
+              <p className="askp-hint">I answer only from this site and his CV, with a link to each source, and I&rsquo;ll tell you when I don&rsquo;t know.</p>
+            </div>
+          )}
           {turns.map((t, i) => (
             <Fragment key={i}>
               <p className="askp-q">{t.q}</p>
@@ -142,7 +169,7 @@ export default function AskBox() {
 
         <form className="askp-form" onSubmit={(e) => { e.preventDefault(); send(q); }}>
           <label htmlFor="askp-q" className="sr-only">Your question about my work</label>
-          <input id="askp-q" ref={input} value={q} onChange={(e) => setQ(e.target.value)} maxLength={300} autoComplete="off" placeholder="Ask about a project, a skill or a role" />
+          <input id="askp-q" ref={input} value={q} onChange={(e) => setQ(e.target.value)} maxLength={300} autoComplete="off" placeholder="Ask Jarvis about the boss's work" />
           <button type="submit" disabled={waiting || !q.trim()} aria-label="Send">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" /></svg>
           </button>

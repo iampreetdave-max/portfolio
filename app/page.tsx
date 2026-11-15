@@ -33,7 +33,7 @@ export default function About() {
       <h2 className="sec-label">What I work with</h2>
       <TechWeb web={techWeb()} />
 
-      <h2 className="sec-label">Ask about my work</h2>
+      <h2 className="sec-label">Ask Jarvis about my work</h2>
       <AskOpen />
     </>
   );
