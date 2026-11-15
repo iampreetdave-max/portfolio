@@ -22,7 +22,7 @@ export const PROJECT_COPY: Record<string, ProjectCopy> = {
       "Claude Haiku 5.5 plans the searches; eight open catalogs answer, including Hugging Face, Zenodo, NASA Earthdata and Harvard Dataverse.",
       "Every link is fetched before it is listed, and code blocks anything a catalog did not return.",
       "18-need benchmark: every top link resolved, versus 81% for Claude Sonnet 5.5 with web search, at about 1/90th the cost.",
-      "Runs on the Next.js Edge runtime, written in TypeScript."
+      "Lives on tensortapri.org as a free community tool, on Cloudflare Pages Functions with a per-visitor limit."
     ]
   },
   "padosi": {
@@ -262,7 +262,7 @@ export const PROJECT_COPY: Record<string, ProjectCopy> = {
 // interface illustration (designed for this page because the project has no UI to show).
 export const PROJECT_SHOTS: Record<string, string> = {
   "claude-code-skills": "The Skills page: every skill, the three install packs, and one-command installs.",
-  "open-data-finder": "A real search for satellite land surface temperature; every result's link was fetched before it was listed.",
+  "open-data-finder": "tensortapri.org/data: a real search for satellite land surface temperature, every link checked before it is listed.",
   "padosi": "The running app, with an added map panel: verified neighbours’ gear near Koramangala, shown as approximate 1 km areas, never addresses.",
   "q": "Interface illustration: Q joins a Google Meet call and answers what was promised, citing the exact meeting lines.",
   "winwall": "Interface illustration: one Slack emoji approves a client win, which lands on the live results wall with names blurred.",

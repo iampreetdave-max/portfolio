@@ -154,7 +154,7 @@
 
     <div class="proj"><span class="t">Open Data Finder, Agentic Dataset Search</span> · <span class="cat">Agentic AI</span>
       <div class="d">Finds real open datasets for a need in plain words, like daily rainfall by district in Gujarat. Claude Haiku 5.5 plans the searches, eight open catalogs answer in parallel (Hugging Face, Zenodo, NASA Earthdata, Harvard Dataverse, Socrata, data.europa.eu, World Bank, Figshare), every candidate link is fetched before it is listed, and code stops the model adding any dataset, URL or field a catalog did not return. In an 18-need benchmark against Claude Sonnet 5.5 with web search, all 69 of its top-5 links resolved (100%) against 73 of 90 (81%), at about 1/90th of the cost per need ($0.0005 vs $0.0439) and faster (mean 9.4 s vs 11.1 s per need).</div>
-      <div class="tags">Claude Haiku 5.5 · Next.js Edge · Catalog APIs · TypeScript</div></div>
+      <div class="tags">Claude Haiku 5.5 · Cloudflare Pages Functions · D1 · Catalog APIs · tensortapri.org/data</div></div>
 
     <div class="proj"><span class="t">Ask Preet, Grounded Q&amp;A Bot</span> · <span class="cat">Agentic AI · RAG</span>
       <div class="d">A Q&amp;A bot for my portfolio that answers questions about my work from the site and this CV, and declines what it cannot cite. BM25 retrieval picks the documents, one Claude Haiku 5.5 call drafts the answer, then a guard in code keeps only citations to retrieved documents, cuts uncited tails, and turns an unknown number or a missing citation into “I don’t know”. Passed 20 of 20 refusal tests (personal, off-topic, injected and false-premise questions) and 20 of 20 cited-answer tests against a running server.</div>
