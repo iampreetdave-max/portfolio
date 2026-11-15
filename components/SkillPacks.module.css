@@ -37,10 +37,10 @@
 }
 
 .pack {
-  position: absolute; left: 50%; top: 50%; width: min(330px, 92%);
+  position: absolute; left: 50%; top: 50%; width: min(470px, 96%);
   transform: translate(-50%, -50%); opacity: 0; pointer-events: none;
   border: 1px solid var(--text-3); border-radius: 14px; background: var(--bg);
-  padding: 16px 16px 14px; text-align: center; color: var(--text);
+  padding: 12px 14px; text-align: center; color: var(--text);
   box-shadow: 0 14px 40px -20px rgba(0, 0, 0, .35);
 }
 .packed .pack { pointer-events: auto; }
@@ -48,8 +48,9 @@
 .packName { font-size: 15px; margin-top: 4px; }
 .packMeta { font-size: 12.5px; color: var(--text-2); margin-bottom: 10px; }
 .pack .cmd { margin: 0; text-align: left; }
+.pack .cmd + .cmd { margin-top: 6px; }
 
-.hint { font-size: 12.5px; color: var(--text-3); margin-top: 12px; }
+.hint { font-size: 12.5px; color: var(--text-3); margin-top: 26px; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 /* copyable command; it wraps anywhere, because an unbreakable line would set the min-content
