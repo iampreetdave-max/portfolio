@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
+import { handleDebate } from "@/lib/debate";
 
 export const runtime = 'edge';
 
 export async function POST(req: NextRequest) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
+
+  // The debate game has its own caps, prompts and friendly errors (lib/debate.ts).
+  const peek = await req.clone().json().catch(() => null);
+  if (peek?.game === "debate") {
+    const { status, body } = await handleDebate(peek.payload, apiKey);
+    return NextResponse.json(body, { status });
+  }
+
   if (!apiKey) {
     return NextResponse.json(
       { error: "API key not configured" },
