@@ -1,8 +1,8 @@
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
-  title: "AI Arcade",
-  description: "Play against AI: debate any topic with a Claude opponent and a live judge, plus geopolitical market and country-risk games by Preet Dave.",
+  title: "AI Debate",
+  description: "Debate any motion against an AI that takes the other side, with a neutral AI judge scoring every round. By Preet Dave.",
   path: "/fun",
 });
 
