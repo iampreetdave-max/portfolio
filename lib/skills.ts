@@ -46,7 +46,7 @@ export const skills: Skill[] = [
   },
   {
     id: "compliance-check",
-    note: "Catches compliance gaps before a vibe-coded product ships: reads the code for personal data, payments, third parties and AI features, asks only what the code cannot answer, maps India's DPDP Act, GDPR, the EU AI Act, HIPAA, PCI DSS and more, and pushes a prioritised fix list. Not legal advice.",
+    note: "Catches compliance gaps before a vibe-coded product ships: reads the code for personal data, payments, third parties and AI features, asks only what the code cannot answer, maps India's DPDP Act, GDPR, the EU AI Act, HIPAA, PCI DSS and more, checks no secret file or internal endpoint is reachable, and pushes a prioritised fix list. Not legal advice.",
     headline: "Catch compliance gaps in vibe-coded apps before launch",
     when: "Before launching, or when adding payments, accounts, AI features or user data",
     examples: ["Is this app compliant?", "What laws apply before I launch?", "Do I need a privacy policy for this?"],
@@ -55,6 +55,7 @@ export const skills: Skill[] = [
       "Asks at most seven questions the code cannot answer: where users are, minors, payments, health or financial data, AI decisions about people, marketing messages.",
       "Maps what likely applies, from India's DPDP Act and CERT-In rules to GDPR, the EU AI Act, CCPA, COPPA, HIPAA, PCI DSS, accessibility and messaging consent.",
       "Lists concrete gaps with file:line evidence, such as analytics before consent, card data in logs, or no account deletion.",
+      "Checks nothing secret is reachable: probes the live site for the paths scanners try (/.env, /.git/config, credential files), scans published folders for keys, and flags internal endpoints listed in robots.txt, the sitemap or llms.txt.",
       "Sorts fixes into before launch, before scaling and later, offers to make the code fixes, and records everything in COMPLIANCE.md.",
     ],
     needs: "Nothing extra. Not legal advice: confirm high-risk areas with a lawyer.",
