@@ -1,7 +1,7 @@
 // Offline check for lib/debate.ts with a stubbed fetch (no API key, no network).
 // Run: node scripts/test-debate.mjs   (Node 22.18+ strips the TypeScript types itself)
 import assert from "node:assert/strict";
-import { handleDebate, parseJudge, buildTurnMessages, LIMITS } from "../lib/debate.ts";
+import { handleDebate, parseJudge, buildTurnMessages, capWords, LIMITS } from "../lib/debate.ts";
 
 const KEY = "test-key";
 let sent; // last request the stub saw
@@ -11,7 +11,7 @@ function stub(reply, { status = 200, stop = "end_turn", raw } = {}) {
     sent = { url, headers: init.headers, body: JSON.parse(init.body) };
     if (raw) throw raw;
     const content = [{ type: "thinking", thinking: "" }, { type: "text", text: typeof reply === "string" ? reply : JSON.stringify(reply) }];
-    return new Response(JSON.stringify({ content, stop_reason: stop }), { status });
+    return new Response(JSON.stringify({ content, stop_reason: stop, usage: { input_tokens: 900, output_tokens: 300 } }), { status });
   };
 }
 
@@ -47,9 +47,12 @@ assert.equal(r.body.reply, "Offices win.");
 assert.equal(sent.url, "https://api.anthropic.com/v1/messages");
 assert.equal(sent.headers["anthropic-version"], "2026-10-21");
 assert.equal(sent.headers["x-api-key"], KEY);
-assert.equal(sent.body.model, "claude-opus-5-5");
+assert.equal(sent.body.model, "claude-sonnet-5-5");
 assert.equal(sent.body.fallbacks, "default");
-assert.ok(sent.body.max_tokens > 0);
+assert.equal(sent.headers["anthropic-beta"], "server-side-fallback-2026-07-01");
+assert.equal(sent.body.output_config.effort, "medium");
+assert.equal(sent.body.max_tokens, 1024);
+assert.deepEqual(r.body.usage, { input_tokens: 900, output_tokens: 300 });
 assert.equal(sent.body.output_config.format.type, "json_schema");
 for (const k of ["temperature", "top_p", "top_k", "thinking"]) assert.ok(!(k in sent.body), `${k} must not be sent`);
 assert.match(sent.body.system, /argue AGAINST the motion/);
@@ -96,7 +99,12 @@ assert.equal(r.status, 200);
 assert.deepEqual(r.body.user, { argument: 10, evidence: 1, rebuttal: 7 });
 assert.match(sent.body.messages[0].content, /<ai_previous_turn>\nai reply 1\n<\/ai_previous_turn>/);
 assert.match(sent.body.messages[0].content, /<human_turn round="2">\nhuman point 2/);
+// Judge runs on Haiku 5.5: low effort, small cap, and no fallback (Haiku has none).
+assert.equal(sent.body.model, "claude-haiku-5-5");
 assert.equal(sent.body.output_config.effort, "low");
+assert.equal(sent.body.max_tokens, 512);
+assert.ok(!("fallbacks" in sent.body) && !("anthropic-beta" in sent.headers));
+assert.equal(r.body.usage.output_tokens, 300);
 assert.deepEqual(parseJudge(`Here you go: ${JSON.stringify(judgeJSON)} done`).ai, judgeJSON.ai);
 assert.throws(() => parseJudge("not json"));
 assert.throws(() => parseJudge(JSON.stringify({ user: { argument: 5 }, ai: judgeJSON.ai })));
@@ -106,6 +114,21 @@ r = await run({ ...setup, action: "verdict", history: history(2), tally: [40, 38
 assert.equal(r.status, 200);
 assert.equal(r.body.winner, "human");
 assert.match(sent.body.messages[0].content, /human 40, AI 38/);
+assert.equal(sent.body.model, "claude-sonnet-5-5");
+assert.equal(sent.body.max_tokens, 1024);
+
+// Word cap backstop: middle sentences go first; the steelman opener and the closing question stay.
+const w = (n, tag) => Array.from({ length: n }, (_, i) => `${tag}${i}`).join(" ");
+const long = `Steelman ${w(20, "a")}. Rebut ${w(40, "b")}.\n\nNew ${w(40, "c")}. Extra ${w(30, "d")}. So what now ${w(5, "e")}?`;
+const capped = capWords(long);
+const count = (t) => t.split(/\s+/).filter(Boolean).length;
+assert.ok(count(long) > 120 && count(capped) <= 120);
+assert.ok(capped.startsWith("Steelman") && capped.endsWith("?") && !capped.includes("Extra"));
+assert.equal(capWords("Short reply. Fine?"), "Short reply. Fine?");
+assert.ok(capWords("U.S. policy " + w(130, "x") + ".").endsWith("..."));
+assert.equal(count(capWords("U.S. policy " + w(130, "x") + ".")), 120);
+r = await run({ ...setup, action: "turn", history: history(1), message: "x" }, stub(long));
+assert.ok(count(r.body.reply) <= 120 && r.body.reply.endsWith("?"));
 
 // Upstream failures map to friendly errors and never leak details.
 const turn = { ...setup, action: "turn", history: history(1), message: "x" };

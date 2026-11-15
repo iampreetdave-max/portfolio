@@ -2,6 +2,7 @@
 // No Next imports, so scripts/test-debate.mjs can drive it with a stubbed fetch.
 
 export const LIMITS = {
+  words: 120, // per AI turn, enforced by capWords after the prompt asks for ~80
   motion: 140, // chars
   turn: 600, // chars per user turn
   aiTurn: 1500, // chars per AI turn echoed back by the client
@@ -10,8 +11,13 @@ export const LIMITS = {
   summary: 300, // chars per round summary
 };
 
-const MODEL = "claude-opus-5-5";
-const MAX_TOKENS = { open: 4000, turn: 4000, judge: 2000, verdict: 3000 }; // thinking counts toward these
+// Thinking counts toward max_tokens. A 120-word turn is ~200 tokens; the rest is thinking headroom.
+// Sonnet 5.5 gets the server-side refusal fallback; Haiku 5.5 has none, so it must not send it.
+type Role = { model: string; effort: "low" | "medium"; maxTokens: number; fallback: boolean };
+// Measured in the live eval (output incl. thinking): debater max 412, verdict max 292, judge max 220.
+const DEBATER: Role = { model: "claude-sonnet-5-5", effort: "medium", maxTokens: 1024, fallback: true };
+const VERDICT: Role = { ...DEBATER }; // longer input, similar output
+const JUDGE: Role = { model: "claude-haiku-5-5", effort: "low", maxTokens: 512, fallback: false };
 
 type Side = "for" | "against";
 type Style = "casual" | "sharp" | "relentless";
@@ -68,6 +74,25 @@ function readHistory(p: Record<string, unknown>): { turns: Turn[]; summaries: st
   return { turns, summaries };
 }
 
+const countWords = (t: string) => t.split(/\s+/).filter(Boolean).length;
+
+// ponytail: backstop for the word cap. Drops whole sentences from the end of the middle, keeping the
+// opening steelman and the closing question, then hard-cuts only if two giant sentences remain.
+// Sentence split is "punctuation, space, capital", so "U.S. policy" stays whole; "Dr. Smith" would not.
+export function capWords(text: string, max = LIMITS.words): string {
+  if (countWords(text) <= max) return text;
+  const parts = text.trim().split(/(?<=[.!?]["')\]]?)(\s+)(?=["'(\[]?[A-Z0-9])/);
+  const sents = parts.filter((_, i) => i % 2 === 0);
+  const gaps = parts.filter((_, i) => i % 2 === 1); // gaps[k] sits between sents[k] and sents[k + 1]
+  for (let i = sents.length - 2; i >= 1 && countWords(sents.join(" ")) > max; i--) {
+    const gap = gaps[i - 1].includes("\n") || gaps[i].includes("\n") ? "\n\n" : " ";
+    sents.splice(i, 1);
+    gaps.splice(i - 1, 2, gap);
+  }
+  const out = sents.map((s, k) => s + (gaps[k] ?? "")).join("");
+  return countWords(out) <= max ? out : `${out.split(/\s+/).slice(0, max).join(" ")}...`;
+}
+
 /* ─── prompts ─── */
 
 const SIDE = { for: "FOR", against: "AGAINST" } as const;
@@ -89,9 +114,9 @@ How every reply works:
 1. Find the strongest point in the human's latest turn. Restate it fairly in one sentence (steelman it), then rebut it directly. Answer what they actually said, not a weaker version.
 2. When they make a point that is genuinely right, concede that specific point in a few words ("Fair, that one lands.") and show why your side still wins overall. Never concede the motion itself.
 3. Add at most one new argument, and only if it moves the debate forward.
-4. End with exactly one pointed question aimed at the weakest part of their case.
+4. End with exactly one pointed question aimed at the weakest part of their case. That question is your final sentence; nothing comes after it.
 
-Length and form: at most 120 words, ideally 70 to 110. Plain prose in one or two short paragraphs. No headings, lists, markdown or sign-offs.
+Length and form: aim for about 80 words and never go past 100. Brevity wins debates, so cut any sentence that does not land a blow. Plain prose in one or two short paragraphs. No headings, lists, markdown or sign-offs.
 
 Evidence:
 - Never invent statistics, studies, surveys, quotes, dates or named sources.
@@ -119,7 +144,7 @@ Political, religious and controversial policy questions are allowed and should b
 
 If not allowed: "reason" is one neutral sentence on why, "reframe" is a debatable motion under 140 characters on the underlying issue without the problem, and "motion" and "opening" are empty strings.
 
-If allowed: "motion" is the motion as you will debate it, a clear proposition under 140 characters that keeps the user's wording and direction (a bare topic like "remote work" becomes a positive claim such as "Remote work beats office work"). "opening" is your opening statement for your side: at most 120 words, your one or two strongest reasons, ending with one pointed question to your opponent. "reason" and "reframe" are empty strings.`;
+If allowed: "motion" is the motion as you will debate it, a clear proposition under 140 characters that keeps the user's wording and direction (a bare topic like "remote work" becomes a positive claim such as "Remote work beats office work"). "opening" is your opening statement for your side: about 80 words and never past 100, your one or two strongest reasons, ending with one pointed question to your opponent as the final sentence. "reason" and "reframe" are empty strings.`;
 
 const JUDGE_SYSTEM = `You are a neutral, experienced debate adjudicator scoring a live debate between a human and an AI debater. You favour neither side; the AI debater is not on your team.
 
@@ -211,11 +236,14 @@ const VERDICT_SCHEMA = obj({
 
 /* ─── Claude call ─── */
 
+type Usage = { input_tokens: number; output_tokens: number };
+
 async function claude(
   apiKey: string,
   fetchImpl: Fetch,
-  opts: { system: string; messages: Msg[]; maxTokens: number; effort: "low" | "medium"; schema?: object }
-): Promise<string> {
+  role: Role,
+  opts: { system: string; messages: Msg[]; schema?: object }
+): Promise<{ text: string; usage: Usage }> {
   let res: Response;
   try {
     res = await fetchImpl("https://api.anthropic.com/v1/messages", {
@@ -225,16 +253,16 @@ async function claude(
         "x-api-key": apiKey,
         "anthropic-version": "2026-10-21",
         // Server-side refusal fallback: a safety-classifier false positive re-runs on another model.
-        "anthropic-beta": "server-side-fallback-2026-07-01",
+        ...(role.fallback ? { "anthropic-beta": "server-side-fallback-2026-07-01" } : {}),
       },
       body: JSON.stringify({
-        model: MODEL,
-        max_tokens: opts.maxTokens,
+        model: role.model,
+        max_tokens: role.maxTokens,
         system: opts.system,
         messages: opts.messages,
-        fallbacks: "default",
+        ...(role.fallback ? { fallbacks: "default" } : {}),
         output_config: {
-          effort: opts.effort,
+          effort: role.effort,
           ...(opts.schema ? { format: { type: "json_schema", schema: opts.schema } } : {}),
         },
       }),
@@ -257,7 +285,8 @@ async function claude(
     .join("")
     .trim();
   if (!text) throw new DebateError(502, "The AI returned an empty reply. Try again.");
-  return text;
+  const u = data.usage ?? {};
+  return { text, usage: { input_tokens: Number(u.input_tokens) || 0, output_tokens: Number(u.output_tokens) || 0 } };
 }
 
 /* ─── parsing ─── */
@@ -301,16 +330,13 @@ export async function handleDebate(payload: unknown, apiKey: string | undefined,
     const system = debaterSystem(setup);
 
     if (p.action === "open") {
-      const o = json(
-        await claude(apiKey, fetchImpl, {
-          system,
-          messages: [{ role: "user", content: `${wrap("motion", setup.motion)}\n\n${OPEN_TASK}` }],
-          maxTokens: MAX_TOKENS.open,
-          effort: "medium",
-          schema: OPEN_SCHEMA,
-        })
-      );
-      const opening = line(o.opening, LIMITS.aiTurn);
+      const { text, usage } = await claude(apiKey, fetchImpl, DEBATER, {
+        system,
+        messages: [{ role: "user", content: `${wrap("motion", setup.motion)}\n\n${OPEN_TASK}` }],
+        schema: OPEN_SCHEMA,
+      });
+      const o = json(text);
+      const opening = capWords(line(o.opening, LIMITS.aiTurn));
       if (o.allowed !== true || !opening)
         return {
           status: 422,
@@ -318,9 +344,10 @@ export async function handleDebate(payload: unknown, apiKey: string | undefined,
             error: line(o.reason) || "That motion can't be debated here.",
             declined: true,
             reframe: line(o.reframe, LIMITS.motion),
+            usage,
           },
         };
-      return { status: 200, body: { motion: line(o.motion, LIMITS.motion) || setup.motion, reply: opening } };
+      return { status: 200, body: { motion: line(o.motion, LIMITS.motion) || setup.motion, reply: opening, usage } };
     }
 
     const { turns, summaries } = readHistory(p);
@@ -332,13 +359,11 @@ export async function handleDebate(payload: unknown, apiKey: string | undefined,
       const message = clean(p.message);
       if (!message) throw new DebateError(400, "Write your argument first.");
       if (message.length > LIMITS.turn) throw new DebateError(400, `Keep each turn under ${LIMITS.turn} characters.`);
-      const reply = await claude(apiKey, fetchImpl, {
+      const { text, usage } = await claude(apiKey, fetchImpl, DEBATER, {
         system,
         messages: buildTurnMessages(setup, turns, summaries, message),
-        maxTokens: MAX_TOKENS.turn,
-        effort: "medium",
       });
-      return { status: 200, body: { reply: reply.slice(0, LIMITS.aiTurn) } };
+      return { status: 200, body: { reply: capWords(text).slice(0, LIMITS.aiTurn), usage } };
     }
 
     if (p.action === "judge") {
@@ -353,16 +378,12 @@ export async function handleDebate(payload: unknown, apiKey: string | undefined,
         wrap("ai_turn", ai.text, rounds),
         `Score this exchange. "note" is one sentence on who took the round and why. "summary" is one line under 30 words: the human's main point, then the AI's main point.`,
       ].join("\n\n");
-      const judge = parseJudge(
-        await claude(apiKey, fetchImpl, {
-          system: JUDGE_SYSTEM,
-          messages: [{ role: "user", content }],
-          maxTokens: MAX_TOKENS.judge,
-          effort: "low",
-          schema: JUDGE_SCHEMA,
-        })
-      );
-      return { status: 200, body: judge };
+      const { text, usage } = await claude(apiKey, fetchImpl, JUDGE, {
+        system: JUDGE_SYSTEM,
+        messages: [{ role: "user", content }],
+        schema: JUDGE_SCHEMA,
+      });
+      return { status: 200, body: { ...parseJudge(text), usage } };
     }
 
     if (p.action === "verdict") {
@@ -372,15 +393,12 @@ export async function handleDebate(payload: unknown, apiKey: string | undefined,
         t.length === 3 && t.every((n) => Number.isFinite(n) && n >= 0 && n <= 30 * LIMITS.rounds)
           ? `\n\nRunning tally of round scores over ${t[2]} scored rounds: human ${t[0]}, AI ${t[1]}.`
           : "";
-      const o = json(
-        await claude(apiKey, fetchImpl, {
-          system: JUDGE_SYSTEM,
-          messages: [{ role: "user", content: `${buildTranscript(setup, turns, summaries)}${tally}\n\n${VERDICT_TASK}` }],
-          maxTokens: MAX_TOKENS.verdict,
-          effort: "medium",
-          schema: VERDICT_SCHEMA,
-        })
-      );
+      const { text, usage } = await claude(apiKey, fetchImpl, VERDICT, {
+        system: JUDGE_SYSTEM,
+        messages: [{ role: "user", content: `${buildTranscript(setup, turns, summaries)}${tally}\n\n${VERDICT_TASK}` }],
+        schema: VERDICT_SCHEMA,
+      });
+      const o = json(text);
       const winner = o.winner === "human" || o.winner === "ai" ? o.winner : "draw";
       return {
         status: 200,
@@ -390,6 +408,7 @@ export async function handleDebate(payload: unknown, apiKey: string | undefined,
           best_human_point: line(o.best_human_point),
           best_ai_point: line(o.best_ai_point),
           tip: line(o.tip),
+          usage,
         },
       };
     }
