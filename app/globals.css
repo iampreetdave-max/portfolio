@@ -124,6 +124,9 @@ a { color: inherit; text-decoration: none; }
   .nav-list { flex-direction: row; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
   .nav-social { flex-direction: row; flex-wrap: wrap; gap: 16px; }
   .theme-toggle { margin-top: 24px; }
+  /* Category labels ("Realtime Systems") must not be squeezed under their text width and spill
+     past the screen: keep their own width, capped, and wrap if longer. */
+  .row-when.row-side { flex: none; max-width: 34%; white-space: normal; }
 }
 
 /* Small screens: the tech web becomes a wrapped list of icons; tap one to see its projects */
