@@ -33,8 +33,8 @@ export default function TechWeb({ web }: { web: Web }) {
   // always under the cursor. The short delays stop a fast sweep from flashing every node it
   // crosses, and moving straight from one node to the next swaps without blinking.
   const timer = useRef<ReturnType<typeof setTimeout>>();
-  const enter = (id: string) => { clearTimeout(timer.current); timer.current = setTimeout(() => show(id), 70); };
-  const leave = () => { clearTimeout(timer.current); timer.current = setTimeout(() => setLit(false), 120); };
+  const enter = (id: string) => { clearTimeout(timer.current); timer.current = setTimeout(() => show(id), 60); };
+  const leave = () => { clearTimeout(timer.current); timer.current = setTimeout(() => setLit(false), 260); };
   useEffect(() => () => clearTimeout(timer.current), []);
 
   // One tab stop for the whole graph; arrow keys walk the technologies A to Z, Enter jumps to their projects.
@@ -51,7 +51,8 @@ export default function TechWeb({ web }: { web: Web }) {
 
   const names = (ids: string[]) => ids.map((id) => byId.get(id)!).sort((a, b) => a.label.localeCompare(b.label));
   const anchor = (n: WebNode) => (n.x > w * 0.62 ? { x: n.x - 7, textAnchor: "end" as const } : { x: n.x + 7, textAnchor: "start" as const });
-  const label = (n: WebNode) => <text key={n.id} {...anchor(n)} y={n.y + 3.5}>{n.label}</text>;
+  const label = (n: WebNode) => <text key={n.id} {...anchor(n)} y={n.y + 3.5} className={on(n.id) ? "on" : undefined}>{n.label}</text>;
+  const hot = (id: string) => (near && cur?.id === id ? " cur" : ""); // the node under the pointer grows a little
 
   return (
     <figure className={`techweb${lit && near ? " dim" : ""}`}>
@@ -66,7 +67,7 @@ export default function TechWeb({ web }: { web: Web }) {
           })}
         </g>
         {nodes.filter((n) => n.kind === "project").map((n) => (
-          <a key={n.id} href={n.href} tabIndex={-1} className={`tw-node tw-proj${on(n.id) ? " on" : ""}`} onMouseEnter={() => enter(n.id)} onMouseLeave={leave}>
+          <a key={n.id} href={n.href} tabIndex={-1} className={`tw-node tw-proj${on(n.id) ? " on" : ""}${hot(n.id)}`} onMouseEnter={() => enter(n.id)} onMouseLeave={leave}>
             <circle cx={n.x} cy={n.y} r={6} className="tw-hit" />
             <circle cx={n.x} cy={n.y} r={3.5} />
           </a>
@@ -75,16 +76,18 @@ export default function TechWeb({ web }: { web: Web }) {
           <g
             key={n.id} ref={(el) => { refs.current.set(n.id, el); }} role="button" tabIndex={n.id === tabStop ? 0 : -1}
             aria-label={`${n.label}, used in ${names(n.n).map((p) => p.label).join(", ")}`}
-            className={`tw-node tw-tech${on(n.id) ? " on" : ""}`} transform={`translate(${n.x} ${n.y})`}
+            className={`tw-node tw-tech${on(n.id) ? " on" : ""}${hot(n.id)}`} transform={`translate(${n.x} ${n.y})`}
             onMouseEnter={() => enter(n.id)} onMouseLeave={leave} onFocus={() => { show(n.id); setTabStop(n.id); }} onBlur={() => setLit(false)}
             onKeyDown={(e) => key(e, n.id)}
           >
-            <circle r={13} />
-            {n.icon ? <svg x={-7} y={-7} width={14} height={14} viewBox="0 0 24 24"><path d={n.icon} /></svg> : <text y={3}>{n.mono}</text>}
+            <g className="tw-in">
+              <circle r={13} />
+              {n.icon ? <svg x={-7} y={-7} width={14} height={14} viewBox="0 0 24 24"><path d={n.icon} /></svg> : <text y={3}>{n.mono}</text>}
+            </g>
           </g>
         ))}
-        {/* project names show only for the highlighted part, on top of the icons; at rest they would collide */}
-        <g className="tw-labels" aria-hidden="true">{lit && cur ? nodes.filter((n) => n.kind === "project" && on(n.id)).map(label) : null}</g>
+        {/* project names fade in only for the highlighted part, on top of the icons; at rest they would collide */}
+        <g className="tw-labels" aria-hidden="true">{nodes.filter((n) => n.kind === "project").map(label)}</g>
       </svg>
 
       <ul className="tw-grid">

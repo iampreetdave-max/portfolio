@@ -1,7 +1,7 @@
 // Published Claude Code skills (github.com/iampreetdave-max/agent-skills). Plain data, so the
 // server pages and the client pack animation can both import it.
 export const REPO = "https://github.com/iampreetdave-max/agent-skills";
-export const MARKET = "preet-skills";
+export const MARKET = "iampreetdave-skills";
 
 export type Skill = {
   id: string;

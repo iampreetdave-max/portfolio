@@ -43,7 +43,7 @@ export const work = [
   {
     id: "gtu-project-lead",
     role: "Project Lead, Gujarat Technological University",
-    when: "2023 – Nov 2026",
+    when: "2023 – 2026",
     note: "Led CodeTransform, a Python-to-JavaScript converter, from inception to a state-level Design Engineering presentation. Designed the architecture while building the product.",
   },
   {

@@ -16,21 +16,42 @@ type Turnstile = { render: (el: HTMLElement, o: object) => string; reset: (id: s
 
 const mail = <a href={`mailto:${EMAIL}`}>email the boss</a>;
 
-// An original arc-reactor style mark: two dashed rings turning in opposite directions around a
-// glowing core. Transparent, so it floats over the page.
+// An original amber hologram mark: broken rings, a sweeping arc through a bright core, and a
+// scatter of light specks. Static and transparent, so it floats over the page.
+// Fixed seed, so the server and the browser draw the same specks.
+const SPECKS = (() => {
+  let seed = 11;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  return Array.from({ length: 54 }, () => {
+    const a = rnd() * Math.PI * 2, r = 14 + rnd() * 16, len = 0.7 + rnd() * 2.4;
+    const x = 32 + r * Math.cos(a), y = 32 + r * Math.sin(a);
+    const rot = (a * 180) / Math.PI + (rnd() < 0.75 ? 90 : 0); // most run along the ring
+    return { x: +x.toFixed(2), y: +y.toFixed(2), len: +len.toFixed(2), rot: +rot.toFixed(1), o: +(0.3 + rnd() * 0.7).toFixed(2), w: +(0.5 + rnd() * 0.8).toFixed(2) };
+  });
+})();
+
 function JarvisLogo({ size }: { size: number }) {
   const g = useId().replace(/:/g, "");
   return (
     <svg className="jv" width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">
       <defs>
-        <radialGradient id={`${g}h`}><stop offset="0" stopColor="currentColor" stopOpacity=".35" /><stop offset="1" stopColor="currentColor" stopOpacity="0" /></radialGradient>
-        <radialGradient id={`${g}c`}><stop offset="0" stopColor="#fff" /><stop offset=".5" stopColor="currentColor" /><stop offset="1" stopColor="currentColor" stopOpacity=".2" /></radialGradient>
+        <radialGradient id={`${g}h`}><stop offset="0" stopColor="currentColor" stopOpacity=".45" /><stop offset=".6" stopColor="currentColor" stopOpacity=".12" /><stop offset="1" stopColor="currentColor" stopOpacity="0" /></radialGradient>
+        <radialGradient id={`${g}c`}><stop offset="0" stopColor="#fffaf0" /><stop offset=".35" stopColor="#ffd98a" /><stop offset=".7" stopColor="currentColor" stopOpacity=".7" /><stop offset="1" stopColor="currentColor" stopOpacity="0" /></radialGradient>
       </defs>
       <circle cx="32" cy="32" r="31" fill={`url(#${g}h)`} />
-      <circle className="jv-ticks" cx="32" cy="32" r="27" fill="none" stroke="currentColor" strokeWidth="1.4" strokeDasharray="1.5 3.2" opacity=".75" />
-      <circle className="jv-ring" cx="32" cy="32" r="21.5" fill="none" stroke="currentColor" strokeWidth="3.2" strokeDasharray="11 5.9" />
-      <circle cx="32" cy="32" r="15" fill="none" stroke="currentColor" strokeWidth="1.1" opacity=".6" />
+      <g fill="none" stroke="currentColor" strokeLinecap="round">
+        <circle cx="32" cy="32" r="27.5" strokeWidth="2.3" strokeDasharray="6 1.6 1.2 2.4 9 1.4 2.2 3.2 3.6 1.1 1 4.2 7 2" opacity=".95" />
+        <circle cx="32" cy="32" r="24.6" strokeWidth=".8" strokeDasharray=".8 1.7" opacity=".55" />
+        <circle cx="32" cy="32" r="21" strokeWidth="1.6" strokeDasharray="17 6 4 9 25 7 3 5" opacity=".75" />
+        <circle cx="32" cy="32" r="13.5" strokeWidth="1.1" strokeDasharray="20 5 7 6 9 4" opacity=".7" />
+        <path d="M13.5 39.5 A20 12 -28 0 1 50.5 23.5" strokeWidth="1.7" opacity=".85" />
+        <path d="M18 27 A15 9 -28 0 0 45 37" strokeWidth=".9" opacity=".5" />
+        {SPECKS.map((p, i) => (
+          <line key={i} x1={p.x - p.len / 2} y1={p.y} x2={p.x + p.len / 2} y2={p.y} transform={`rotate(${p.rot} ${p.x} ${p.y})`} strokeWidth={p.w} opacity={p.o} />
+        ))}
+      </g>
       <circle className="jv-core" cx="32" cy="32" r="8.5" fill={`url(#${g}c)`} />
+      <path d="M28.5 31.5 a3.6 3.6 0 1 1 3.8 4.2" fill="none" stroke="#fff6e0" strokeWidth=".9" strokeLinecap="round" opacity=".9" />
     </svg>
   );
 }
@@ -134,7 +155,7 @@ export default function AskBox() {
     <>
       <button ref={launcher} type="button" className={`askp-launch${open ? " open" : ""}`} aria-expanded={open} aria-controls="askp"
         aria-label={open ? "Close Jarvis" : "Ask Jarvis, Preet's assistant"} title="Ask Jarvis" onClick={() => (open ? close() : setOpen(true))}>
-        <JarvisLogo size={58} />
+        <JarvisLogo size={60} />
       </button>
 
       <div id="askp" className="askp" role="dialog" aria-label="Jarvis, Preet's assistant" hidden={!open} onKeyDown={(e) => { if (e.key === "Escape") close(); }}>

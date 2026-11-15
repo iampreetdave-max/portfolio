@@ -76,15 +76,19 @@ a { color: inherit; text-decoration: none; }
 /* Tech web (About): every technology on the site, linked to the projects that use it (components/TechWeb.tsx) */
 .techweb { margin-top:4px; }
 .tw-svg { display:block; width:100%; height:auto; overflow:visible; }
-.tw-edges line { stroke:var(--border); stroke-width:1; transition:stroke .25s ease, opacity .25s ease; }
-.tw-node { cursor:pointer; outline:none; transition:opacity .25s ease; }
+.tw-edges line { stroke:var(--border); stroke-width:1; transition:stroke .4s cubic-bezier(.4,0,.2,1), opacity .4s cubic-bezier(.4,0,.2,1); }
+.tw-node { cursor:pointer; outline:none; transition:opacity .4s cubic-bezier(.4,0,.2,1); }
+.tw-in, .tw-proj circle:not(.tw-hit) { transform-box:fill-box; transform-origin:center; transition:transform .35s cubic-bezier(.2,.8,.3,1), fill .3s ease; }
+.tw-tech.cur .tw-in { transform:scale(1.18); }
+.tw-proj.cur circle:not(.tw-hit) { transform:scale(1.5); }
 .tw-tech circle { fill:var(--bg); stroke:var(--border); transition:stroke .25s ease; }
 .tw-tech path, .tw-tech text { fill:var(--text-2); transition:fill .25s ease; }
 .tw-tech text { font-size:8px; text-anchor:middle; letter-spacing:.02em; }
 .tw-proj circle { fill:var(--text-3); transition:fill .25s ease; }
 .tw-proj.on circle { fill:var(--text); }
 .tw-proj .tw-hit, .tw-proj.on .tw-hit { fill:transparent; }
-.tw-labels text { font-size:11px; fill:var(--text); pointer-events:none; paint-order:stroke; stroke:var(--bg); stroke-width:4px; stroke-linejoin:round; }
+.tw-labels text { font-size:11px; fill:var(--text); pointer-events:none; paint-order:stroke; stroke:var(--bg); stroke-width:4px; stroke-linejoin:round; opacity:0; transition:opacity .35s cubic-bezier(.4,0,.2,1); }
+.tw-labels text.on { opacity:1; }
 .techweb.dim .tw-node:not(.on) { opacity:.4; }
 .techweb.dim .tw-edges line:not(.on) { opacity:.5; }
 .tw-edges line.on { stroke:var(--text-2); }
@@ -111,21 +115,16 @@ a { color: inherit; text-decoration: none; }
 .ask-chips button, .askp-try button { padding:5px 11px; border:1px solid var(--border); border-radius:999px; background:none; font:inherit; font-size:12.5px; color:var(--text-2); text-align:left; cursor:pointer; transition:color .2s ease, border-color .2s ease; }
 .ask-chips button:hover, .askp-try button:hover { color:var(--text); border-color:var(--text-3); }
 
-.askp-launch { position:fixed; right:20px; bottom:20px; z-index:40; display:grid; place-items:center; width:64px; height:64px; padding:0; border:none; border-radius:50%; background:transparent; cursor:pointer; filter:drop-shadow(0 0 6px rgba(20,190,230,.45)); transition:transform .25s ease, filter .25s ease; }
-.askp-launch:hover, .askp-launch.open { transform:scale(1.06); filter:drop-shadow(0 0 12px rgba(20,190,230,.75)); }
+.askp-launch { position:fixed; right:20px; bottom:20px; z-index:40; display:grid; place-items:center; width:64px; height:64px; padding:0; border:none; border-radius:50%; background:transparent; cursor:pointer; filter:drop-shadow(0 0 7px rgba(255,150,30,.5)); transition:transform .25s ease, filter .25s ease; }
+.askp-launch:hover, .askp-launch.open { transform:scale(1.06); filter:drop-shadow(0 0 14px rgba(255,150,30,.8)); }
 .askp-launch:focus-visible { outline:2px solid var(--text-2); outline-offset:3px; }
-/* Jarvis mark: one cyan, a shade deeper on white so the rings still read */
-.jv { color:#0794b8; overflow:visible; flex:none; }
-:root[data-theme="dark"] .jv { color:#45dcf8; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .jv { color:#45dcf8; } }
-.jv-ticks, .jv-ring, .jv-core { transform-box:fill-box; transform-origin:center; }
-@media (prefers-reduced-motion: no-preference) {
-  .jv-ticks { animation:jv-spin 20s linear infinite; }
-  .jv-ring { animation:jv-spin 8s linear infinite reverse; }
-  .jv-core { animation:jv-pulse 2.8s ease-in-out infinite; }
-}
-@keyframes jv-spin { to { transform:rotate(360deg); } }
-@keyframes jv-pulse { 50% { transform:scale(.84); opacity:.8; } }
+/* Jarvis mark: amber hologram, a shade deeper on white so the rings still read. Static; only the core breathes. */
+.jv { color:#e07a0b; overflow:visible; flex:none; }
+:root[data-theme="dark"] .jv { color:#ffa12e; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .jv { color:#ffa12e; } }
+.jv-core { transform-box:fill-box; transform-origin:center; }
+@media (prefers-reduced-motion: no-preference) { .jv-core { animation:jv-breathe 3.2s ease-in-out infinite; } }
+@keyframes jv-breathe { 50% { opacity:.75; transform:scale(.9); } }
 .askp-title { display:flex; align-items:center; gap:10px; }
 .askp-title b { font-weight:500; color:var(--text); margin-right:6px; }
 .askp { position:fixed; right:24px; bottom:94px; z-index:40; width:min(380px, calc(100vw - 32px)); max-height:min(560px, calc(100vh - 120px)); display:flex; flex-direction:column; background:var(--bg); border:1px solid var(--border); border-radius:14px; box-shadow:0 12px 40px rgba(0,0,0,.16); overflow:hidden; }
@@ -152,10 +151,8 @@ a { color: inherit; text-decoration: none; }
 .askp-form button:disabled { background:var(--surface); color:var(--text-3); cursor:default; }
 @media (prefers-reduced-motion: no-preference) {
   .askp:not([hidden]) { animation:askp-in .22s cubic-bezier(.2,.8,.3,1); }
-  .tw-labels text { animation:tw-in .2s ease both; }
 }
 @keyframes askp-in { from { opacity:0; transform:translateY(10px) scale(.98); } }
-@keyframes tw-in { from { opacity:0; } }
 
 /* Mobile: nav stacks above the content */
 @media (max-width: 700px) {
