@@ -26,15 +26,15 @@ export default function TechWeb({ web }: { web: Web }) {
   const caption = useRef<HTMLParagraphElement>(null);
 
   const cur = active ? byId.get(active) : undefined;
-  const near = cur ? new Set([cur.id, ...cur.n]) : null;
+  const near = cur && lit ? new Set([cur.id, ...cur.n]) : null; // highlight only while the pointer is on a node
   const on = (id: string) => !!near?.has(id);
   const show = (id: string) => { clearTimeout(timer.current); setActive(id); setLit(true); };
-  // Hover intent: a node lights up only once the pointer rests on it, so sweeping across the
-  // net does not flash every node it crosses.
+  // A node lights while the pointer rests on it and goes dark when it leaves, so the highlight is
+  // always under the cursor. The short delays stop a fast sweep from flashing every node it
+  // crosses, and moving straight from one node to the next swaps without blinking.
   const timer = useRef<ReturnType<typeof setTimeout>>();
-  const enter = (id: string) => { clearTimeout(timer.current); timer.current = setTimeout(() => show(id), 90); };
-  const pass = () => clearTimeout(timer.current); // pointer left the node before resting: never light it
-  const leave = () => { clearTimeout(timer.current); timer.current = setTimeout(() => setLit(false), 150); };
+  const enter = (id: string) => { clearTimeout(timer.current); timer.current = setTimeout(() => show(id), 70); };
+  const leave = () => { clearTimeout(timer.current); timer.current = setTimeout(() => setLit(false), 120); };
   useEffect(() => () => clearTimeout(timer.current), []);
 
   // One tab stop for the whole graph; arrow keys walk the technologies A to Z, Enter jumps to their projects.
@@ -62,11 +62,11 @@ export default function TechWeb({ web }: { web: Web }) {
         <g className="tw-edges">
           {edges.map(([a, b]) => {
             const p = byId.get(a)!, q = byId.get(b)!;
-            return <line key={a + b} x1={p.x} y1={p.y} x2={q.x} y2={q.y} className={cur && (a === cur.id || b === cur.id) ? "on" : undefined} />;
+            return <line key={a + b} x1={p.x} y1={p.y} x2={q.x} y2={q.y} className={near && cur && (a === cur.id || b === cur.id) ? "on" : undefined} />;
           })}
         </g>
         {nodes.filter((n) => n.kind === "project").map((n) => (
-          <a key={n.id} href={n.href} tabIndex={-1} className={`tw-node tw-proj${on(n.id) ? " on" : ""}`} onMouseEnter={() => enter(n.id)} onMouseLeave={pass}>
+          <a key={n.id} href={n.href} tabIndex={-1} className={`tw-node tw-proj${on(n.id) ? " on" : ""}`} onMouseEnter={() => enter(n.id)} onMouseLeave={leave}>
             <circle cx={n.x} cy={n.y} r={6} className="tw-hit" />
             <circle cx={n.x} cy={n.y} r={3.5} />
           </a>
@@ -76,7 +76,7 @@ export default function TechWeb({ web }: { web: Web }) {
             key={n.id} ref={(el) => { refs.current.set(n.id, el); }} role="button" tabIndex={n.id === tabStop ? 0 : -1}
             aria-label={`${n.label}, used in ${names(n.n).map((p) => p.label).join(", ")}`}
             className={`tw-node tw-tech${on(n.id) ? " on" : ""}`} transform={`translate(${n.x} ${n.y})`}
-            onMouseEnter={() => enter(n.id)} onMouseLeave={pass} onFocus={() => { show(n.id); setTabStop(n.id); }} onBlur={() => setLit(false)}
+            onMouseEnter={() => enter(n.id)} onMouseLeave={leave} onFocus={() => { show(n.id); setTabStop(n.id); }} onBlur={() => setLit(false)}
             onKeyDown={(e) => key(e, n.id)}
           >
             <circle r={13} />
