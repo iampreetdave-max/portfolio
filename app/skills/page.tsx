@@ -1,3 +1,4 @@
+import Link from "next/link";
 import SkillPacks, { CopyCmd } from "@/components/SkillPacks";
 import s from "@/components/SkillPacks.module.css";
 import { MARKET, REPO, packs, skills } from "@/lib/skills";
@@ -35,7 +36,8 @@ export default function Skills() {
       <CopyCmd cmd={`/plugin install senior-pack@${MARKET}`} />
       <div className="prose">
         <p>
-          Install one pack or single skills, not several that overlap, or the same skill loads twice. Without the plugin
+          Want just one skill? Click it above or below: each has its own page with a one-skill install
+          command. Install one pack or single skills, not several that overlap, or the same skill loads twice. Without the plugin
           system, copy a folder from <code className={s.ic}>skills/</code> in the repo into{" "}
           <code className={s.ic}>~/.claude/skills/</code>; any agent that reads <code className={s.ic}>SKILL.md</code> can use them.
         </p>
@@ -57,7 +59,7 @@ export default function Skills() {
           <div className="row" key={k.id} id={k.id}>
             <div className="row-main">
               <div className="row-title">
-                <a href={`${REPO}/blob/main/skills/${k.id}/SKILL.md`} target="_blank" rel="noopener noreferrer">{k.id}</a>
+                <Link href={`/skills/${k.id}`}>{k.id}</Link>
               </div>
               <div className="row-note">{k.note}</div>
               <div className="tags">Use when: {k.when}</div>

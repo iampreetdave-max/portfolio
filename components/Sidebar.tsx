@@ -82,7 +82,7 @@ export default function Sidebar() {
     <aside className="sidebar">
       <nav className="nav-list">
         {NAV.map((l) => (
-          <Link key={l.href} href={l.href} className={path === l.href ? "active" : undefined}>
+          <Link key={l.href} href={l.href} className={path === l.href || (l.href !== "/" && path.startsWith(`${l.href}/`)) ? "active" : undefined}>
             {l.label}
           </Link>
         ))}

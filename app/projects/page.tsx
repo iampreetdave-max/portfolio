@@ -1,43 +1,9 @@
-// Minimal projects + automations list (dhruvchauhan.me style). Static; theme and
-// header come from globals.css / SiteHeader.
-import {
-  Anchor, AudioLines, BrainCircuit, Cctv, CloudSun, CodeXml, Coffee, Flag, Globe, Goal, Handshake,
-  Medal, Newspaper, NotebookPen, Puzzle, Scale, ScanText, SearchCheck, Spade, Telescope, Trophy, Truck,
-  createLucideIcon, type LucideIcon,
-} from "lucide-react";
+// Projects list: each row is a short hook that links to the project's own page; hovering
+// reveals one more line (the proof). Copy lives in lib/project-copy.ts, facts in lib/content.ts.
+import Link from "next/link";
 import { automations, projects } from "@/lib/content";
-
-// lucide has no basketball; drawn in its 24px line style so it matches the rest
-const Basketball = createLucideIcon("Basketball", [
-  ["circle", { cx: "12", cy: "12", r: "10", key: "ball" }],
-  ["path", { d: "M12 2v20M2 12h20M4.9 4.9C7.5 7.6 8.5 9.8 8.5 12s-1 4.4-3.6 7.1M19.1 4.9C16.5 7.6 15.5 9.8 15.5 12s1 4.4 3.6 7.1", key: "seams" }],
-]);
-
-const ICONS: Record<string, LucideIcon> = {
-  "Claude Code Skills": Puzzle,
-  "Open Data Finder": SearchCheck,
-  "Padosi": Handshake,
-  "Q": AudioLines,
-  "WinWall": Trophy,
-  "Nudge AI": BrainCircuit,
-  "Marine Procurement ERP": Anchor,
-  "LedgerLens": ScanText,
-  "Real-Time Poker Platform": Spade,
-  "Tensor Tapri": Coffee,
-  "AI News Globe": Globe,
-  "TransitOps": Truck,
-  "Therma Netra": CloudSun,
-  "CityShield · VisionScan": Cctv,
-  "Arbiter": Scale,
-  "AI Race News": Newspaper,
-  "NBA Game Predictor": Basketball,
-  "Soccer Match Predictor": Goal,
-  "NASCAR Race Predictor": Flag,
-  "CodeTransform": CodeXml,
-  "Sky Alerts": Telescope,
-  "Find-Ranks": Medal,
-  "TalkToNotes": NotebookPen,
-};
+import { PROJECT_COPY } from "@/lib/project-copy";
+import { PROJECT_ICONS } from "@/lib/project-icons";
 
 export const metadata = { title: "Projects · Preet Ghanshyam Dave" };
 
@@ -46,21 +12,25 @@ export default function ProjectsPage() {
     <>
       <div className="rowlist">
         {projects.map((p) => {
-          const Icon = ICONS[p.name];
+          const Icon = PROJECT_ICONS[p.id];
+          const c = PROJECT_COPY[p.id];
           return (
-          <div className="row" key={p.id} id={p.id}>
-            <div className="row-main">
-              <div className="row-title">
-                {p.href ? <a href={p.href} target="_blank" rel="noopener noreferrer">{p.name}</a> : p.name}
+            <div className="row prow" key={p.id} id={p.id}>
+              <div className="row-main">
+                <div className="row-title">
+                  <Link href={`/projects/${p.id}`} className="prow-link">{p.name}</Link>
+                </div>
+                <div className="row-note">{c?.hook ?? p.note}</div>
+                {c?.proof && (
+                  <div className="prow-more"><div><div className="row-note">{c.proof}</div></div></div>
+                )}
+                <div className="tags">{p.tags}</div>
               </div>
-              <div className="row-note">{p.note}</div>
-              <div className="tags">{p.tags}</div>
+              <div className="row-when row-side">
+                {p.cat}
+                {Icon && <span className="row-icon" aria-hidden="true"><Icon size={44} strokeWidth={0.9} /></span>}
+              </div>
             </div>
-            <div className="row-when row-side">
-              {p.cat}
-              {Icon && <span className="row-icon" aria-hidden="true"><Icon size={44} strokeWidth={0.9} /></span>}
-            </div>
-          </div>
           );
         })}
       </div>
@@ -77,7 +47,6 @@ export default function ProjectsPage() {
           </div>
         ))}
       </div>
-
     </>
   );
 }
