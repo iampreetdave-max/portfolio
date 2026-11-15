@@ -72,6 +72,51 @@ a { color: inherit; text-decoration: none; }
 .sec-label { font-size:13px; font-weight:400; color:var(--text-3); margin:40px 0 8px; }
 .sec-label:first-child { margin-top:0; }
 
+/* Tech web (About): every technology on the site, linked to the projects that use it (components/TechWeb.tsx) */
+.techweb { margin-top:4px; }
+.tw-svg { display:block; width:100%; height:auto; overflow:visible; }
+.tw-edges line { stroke:var(--border); stroke-width:1; transition:stroke .25s ease, opacity .25s ease; }
+.tw-node { cursor:pointer; outline:none; transition:opacity .25s ease; }
+.tw-tech circle { fill:var(--bg); stroke:var(--border); transition:stroke .25s ease; }
+.tw-tech path, .tw-tech text { fill:var(--text-2); transition:fill .25s ease; }
+.tw-tech text { font-size:8px; text-anchor:middle; letter-spacing:.02em; }
+.tw-proj circle { fill:var(--text-3); transition:fill .25s ease; }
+.tw-proj.on circle { fill:var(--text); }
+.tw-proj .tw-hit, .tw-proj.on .tw-hit { fill:transparent; }
+.tw-labels text { font-size:11px; fill:var(--text); pointer-events:none; paint-order:stroke; stroke:var(--bg); stroke-width:4px; stroke-linejoin:round; }
+.techweb.dim .tw-node:not(.on) { opacity:.18; }
+.techweb.dim .tw-edges line:not(.on) { opacity:.35; }
+.tw-edges line.on { stroke:var(--text-2); }
+.tw-tech.on circle { stroke:var(--text-2); }
+.tw-tech.on path, .tw-tech.on text { fill:var(--text); }
+.tw-tech:focus-visible circle { stroke:var(--text); stroke-width:1.5; }
+.tw-caption { font-size:13px; line-height:1.65; color:var(--text-2); margin-top:8px; min-height:3.3em; max-width:62ch; }
+.tw-cap-name { color:var(--text); }
+.tw-caption a, .ask-out a { text-decoration:underline; text-underline-offset:2px; text-decoration-color:var(--border); }
+.tw-caption a:hover, .ask-out a:hover { opacity:.6; text-decoration-color:var(--text-2); }
+.tw-grid { display:none; }
+.tw-icon { fill:currentColor; flex:none; }
+.tw-mono { display:inline-grid; place-items:center; width:15px; height:15px; flex:none; border:1px solid var(--border); border-radius:50%; font-size:7px; letter-spacing:.02em; }
+
+/* Ask box (About), components/AskBox.tsx */
+.ask { max-width:62ch; }
+.ask-form { display:flex; align-items:center; gap:12px; border-bottom:1px solid var(--border); padding-bottom:4px; transition:border-color .2s ease; }
+.ask-form:focus-within { border-color:var(--text-2); }
+.ask-form input { flex:1; min-width:0; padding:5px 0; background:none; border:none; outline:none; color:var(--text); font:inherit; font-size:14px; }
+.ask-form input::placeholder { color:var(--text-3); }
+.ask-form button, .ask-try button, .tw-grid button { background:none; border:none; padding:0; font:inherit; cursor:pointer; }
+.ask-form button { font-size:14px; color:var(--text); padding:5px 0; }
+.ask-form button:disabled { color:var(--text-3); cursor:default; }
+.ask-form button:not(:disabled):hover, .ask-try button:hover { opacity:.6; }
+.ask-try { font-size:12.5px; line-height:1.9; color:var(--text-3); margin-top:8px; }
+.ask-try button { color:var(--text-2); text-align:left; }
+.ask-form button:focus-visible, .ask-try button:focus-visible, .tw-grid button:focus-visible { outline:2px solid var(--text-2); outline-offset:2px; border-radius:3px; }
+.ask-turnstile { margin-top:10px; }
+.ask-out p { font-size:14px; line-height:1.7; margin-top:16px; }
+.ask-out a.ask-cite { margin-left:5px; padding:1px 6px; border:1px solid var(--border); border-radius:4px; font-size:11.5px; color:var(--text-2); text-decoration:none; white-space:nowrap; }
+.ask-out a.ask-cite:hover { opacity:1; color:var(--text); border-color:var(--text-3); }
+.ask-note { font-size:12px; color:var(--text-3); margin-top:14px; }
+
 /* Mobile: nav stacks above the content */
 @media (max-width: 700px) {
   .shell { flex-direction: column; gap: 36px; padding: 40px 24px 72px; }
@@ -79,6 +124,14 @@ a { color: inherit; text-decoration: none; }
   .nav-list { flex-direction: row; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
   .nav-social { flex-direction: row; flex-wrap: wrap; gap: 16px; }
   .theme-toggle { margin-top: 24px; }
+}
+
+/* Small screens: the tech web becomes a wrapped list of icons; tap one to see its projects */
+@media (max-width: 600px) {
+  .tw-svg { display:none; }
+  .tw-grid { display:flex; flex-wrap:wrap; gap:2px 14px; list-style:none; }
+  .tw-grid button { display:inline-flex; align-items:center; gap:6px; padding:3px 0; font-size:13px; color:var(--text-2); }
+  .tw-grid button[aria-pressed="true"] { color:var(--text); text-decoration:underline; text-underline-offset:4px; }
 }
 
 /* Motion 1: each page's paragraphs and rows rise in, one after another */
