@@ -3,11 +3,16 @@ import { notFound } from "next/navigation";
 import { CopyCmd } from "@/components/SkillPacks";
 import s from "@/components/SkillPacks.module.css";
 import { MARKET, REPO, packs, skills } from "@/lib/skills";
+import { JsonLd, SITE, breadcrumbs, pageMeta } from "@/lib/seo";
 
 // One page per skill, prerendered at build time (no runtime route, so no edge runtime needed).
 export const dynamicParams = false;
 export const generateStaticParams = () => skills.map((k) => ({ id: k.id }));
-export const generateMetadata = ({ params }: { params: { id: string } }) => ({ title: `${params.id} · Skills · Preet Ghanshyam Dave` });
+export const generateMetadata = ({ params }: { params: { id: string } }) => pageMeta({
+  title: `${params.id}, a Claude Code skill`,
+  description: skills.find((k) => k.id === params.id)?.note ?? "",
+  path: `/skills/${params.id}`,
+});
 
 export default function SkillPage({ params }: { params: { id: string } }) {
   const i = skills.findIndex((k) => k.id === params.id);
@@ -19,6 +24,19 @@ export default function SkillPage({ params }: { params: { id: string } }) {
 
   return (
     <>
+      <JsonLd data={{ "@graph": [
+        {
+          "@type": "SoftwareSourceCode",
+          name: k.id,
+          description: k.note,
+          url: `${SITE}/skills/${k.id}`,
+          codeRepository: `${REPO}/tree/main/skills/${k.id}`,
+          keywords: "Claude Code, Claude Code skill, agent skills, SKILL.md",
+          license: "https://opensource.org/licenses/MIT",
+          author: { "@id": `${SITE}/#person` },
+        },
+        breadcrumbs([["Home", "/"], ["Skills", "/skills"], [k.id, `/skills/${k.id}`]]),
+      ] }} />
       <Link href="/skills" className={s.back}>&larr; All skills</Link>
       <h1 className={s.h1}>{k.id}</h1>
       <div className="prose"><p>{k.note}</p></div>

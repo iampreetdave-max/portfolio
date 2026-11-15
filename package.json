@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "description": "Preet Dave - AI/ML Engineer Portfolio",
   "scripts": {
+    "prebuild": "node scripts/gen-sitemap.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

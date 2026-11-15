@@ -10,6 +10,7 @@ export const about: (string | { text: string; href: string })[][] = [
   ["Before that I interned at a stealth AI startup, where I owned the models and pipelines, built an MVP around reinforcement learning, and helped get it ready for a Y Combinator application. Small team, high trust, and a lot of learning very fast."],
   ["At university I led ", { text: "CodeTransform", href: "https://github.com/iampreetdave-max/code-convertor" }, ", a Python-to-JavaScript converter, from an idea to a state-level presentation. It was the first time I had to design something and build it at the same time."],
   ["These days I build at the edge of ML and real systems: a climate digital twin of India on national datasets, an offline computer-vision platform for a city police cyber-crime branch, and agentic legal AI. I like problems that are a little too big for me and the stubbornness it takes to finish them."],
+  ["I also run ", { text: "Tensor Tapri", href: "https://tensortapri.org" }, ", a free weekly AI newsletter for India written from Ahmedabad, and publish ", { text: "open-source Claude Code skills", href: "/skills" }, " that install with one command."],
   ["Outside of work I take things apart to understand how they work, and then ", { text: "write about them", href: "/writing" }, ". Occasionally I lose an afternoon to a hackathon."],
 ];
 

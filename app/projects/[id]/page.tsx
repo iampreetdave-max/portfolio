@@ -3,13 +3,19 @@ import { notFound } from "next/navigation";
 import { projects } from "@/lib/content";
 import { PROJECT_COPY, PROJECT_LINKS, PROJECT_SHOTS } from "@/lib/project-copy";
 import { PROJECT_ICONS } from "@/lib/project-icons";
+import { JsonLd, SITE, breadcrumbs, pageMeta } from "@/lib/seo";
 
 // One page per project, prerendered at build time (no runtime route, so no edge runtime needed).
 export const dynamicParams = false;
 export const generateStaticParams = () => projects.map((p) => ({ id: p.id }));
 export function generateMetadata({ params }: { params: { id: string } }) {
   const p = projects.find((x) => x.id === params.id);
-  return { title: `${p?.name ?? "Project"} · Preet Ghanshyam Dave`, description: PROJECT_COPY[params.id]?.hook };
+  return pageMeta({
+    title: p?.name ?? "Project",
+    description: PROJECT_COPY[params.id]?.hook ?? p?.note ?? "",
+    path: `/projects/${params.id}`,
+    image: PROJECT_SHOTS[params.id] ? `/projects/${params.id}.jpg` : undefined,
+  });
 }
 
 const label = (href: string) =>
@@ -26,8 +32,22 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
   const prev = projects[(i - 1 + projects.length) % projects.length];
   const next = projects[(i + 1) % projects.length];
 
+  const code = p.href?.includes("github.com");
   return (
     <>
+      <JsonLd data={{ "@graph": [
+        {
+          "@type": code ? "SoftwareSourceCode" : "CreativeWork",
+          name: p.name,
+          description: c?.hook ?? p.note,
+          url: `${SITE}/projects/${p.id}`,
+          ...(code ? { codeRepository: p.href } : {}),
+          ...(shot ? { image: `${SITE}/projects/${p.id}.jpg` } : {}),
+          keywords: p.tags.split(" · ").join(", "),
+          author: { "@id": `${SITE}/#person` },
+        },
+        breadcrumbs([["Home", "/"], ["Projects", "/projects"], [p.name, `/projects/${p.id}`]]),
+      ] }} />
       <Link href="/projects" className="pd-back">&larr; Projects</Link>
       <header className="pd-head">
         {Icon && <span className="pd-icon" aria-hidden="true"><Icon size={34} strokeWidth={1} /></span>}

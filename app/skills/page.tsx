@@ -1,15 +1,17 @@
+import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import SkillPacks, { CopyCmd } from "@/components/SkillPacks";
 import s from "@/components/SkillPacks.module.css";
 import { MARKET, REPO, packs, skills } from "@/lib/skills";
 
-export const metadata = { title: "Skills · Preet Ghanshyam Dave" };
+export const metadata = pageMeta({ title: "Claude Code Skills", description: "Open-source Claude Code skills by Preet Dave: done-gate, loop-breaker, skill-scout and more. Install all of them or just one with a single command.", path: "/skills" });
 
 const inPacks = (id: string) => packs.filter((p) => p.id !== "all-skills" && p.members.includes(id)).map((p) => p.id.replace("-pack", "")).join(" · ");
 
 export default function Skills() {
   return (
     <>
+      <h1 className="sr-only">Claude Code skills by Preet Dave</h1>
       <div className="prose">
         <p>
           Skills I have published for Claude Code. Each one came out of real projects where an AI agent kept making the

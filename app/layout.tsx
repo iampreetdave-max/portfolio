@@ -2,39 +2,32 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Shell from "@/components/Shell";
+import { SITE, pageMeta } from "@/lib/seo";
+
+const HOME_DESCRIPTION =
+  "AI/ML engineer in Ahmedabad, India. Preet Dave builds LLM agents, document AI and ML models that ship, publishes open-source Claude Code skills and runs Tensor Tapri.";
+const home = pageMeta({ description: HOME_DESCRIPTION, path: "/" });
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 const display = Space_Grotesk({ subsets: ["latin"], variable: "--font-display", display: "swap" });
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://iampreetdave.me"),
-  title: "Preet Ghanshyam Dave Portfolio",
+  metadataBase: new URL(SITE),
+  title: { default: "Preet Dave · AI/ML Engineer in Ahmedabad", template: "%s · Preet Dave" },
   icons: { icon: "/icon.svg?v=2" },
-  description:
-    "Preet Ghanshyam Dave is an AI/ML engineer in Ahmedabad building applied machine-learning and agentic-AI systems: a national-dataset climate digital twin, an offline computer-vision policing platform, agentic legal AI, and an AI-news pipeline ingesting 110+ sources every 15 minutes.",
+  description: HOME_DESCRIPTION,
   keywords: [
-    "Preet Dave", "Preet Ghanshyam Dave", "AI Engineer", "Machine Learning Engineer",
-    "Deep Learning", "LLM", "Agentic AI", "Computer Vision", "NLP", "RAG", "MCP", "Portfolio", "Ahmedabad",
+    "Preet Dave", "Preet Ghanshyam Dave", "AI engineer Ahmedabad", "AI/ML engineer India", "Machine learning engineer",
+    "LLM agents", "Agentic AI", "Claude Code", "Claude Code skills", "Document AI", "OCR", "Computer vision", "RAG",
+    "Tensor Tapri", "Ahmedabad", "Gujarat",
   ],
-  authors: [{ name: "Preet Ghanshyam Dave", url: "https://github.com/iampreetdave-max" }],
-  creator: "Preet Ghanshyam Dave",
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://iampreetdave.me",
-    siteName: "Preet Ghanshyam Dave Portfolio",
-    title: "Preet Ghanshyam Dave Portfolio",
-    description:
-      "Applied machine-learning and agentic-AI systems across climate, public safety, law, and media. Built for ISRO BAH 2026, KANAD S.H.I.E.L.D. 2026, and more.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Preet Ghanshyam Dave Portfolio",
-    description:
-      "Applied machine-learning and agentic-AI systems across climate, public safety, law, and media.",
-  },
+  authors: [{ name: "Preet Dave", url: SITE }],
+  creator: "Preet Dave",
   robots: { index: true, follow: true },
+  // Social cards only; canonical URLs are set per page, or every page would point at "/".
+  openGraph: home.openGraph,
+  twitter: home.twitter,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

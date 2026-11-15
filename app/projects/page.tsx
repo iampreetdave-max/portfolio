@@ -1,3 +1,4 @@
+import { pageMeta } from "@/lib/seo";
 // Projects list: each row is a short hook that links to the project's own page; hovering
 // reveals one more line (the proof). Copy lives in lib/project-copy.ts, facts in lib/content.ts.
 import Link from "next/link";
@@ -5,11 +6,12 @@ import { automations, projects } from "@/lib/content";
 import { PROJECT_COPY } from "@/lib/project-copy";
 import { PROJECT_ICONS } from "@/lib/project-icons";
 
-export const metadata = { title: "Projects · Preet Ghanshyam Dave" };
+export const metadata = pageMeta({ title: "Projects", description: "Projects by Preet Dave: LLM agents, document AI and OCR, predictive models, open-source Claude Code skills and AI data tools, with results and screenshots.", path: "/projects" });
 
 export default function ProjectsPage() {
   return (
     <>
+      <h1 className="sr-only">Projects by Preet Dave, AI/ML engineer</h1>
       <div className="rowlist">
         {projects.map((p) => {
           const Icon = PROJECT_ICONS[p.id];
