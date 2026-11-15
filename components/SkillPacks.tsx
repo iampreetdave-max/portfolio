@@ -4,13 +4,13 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import {
   BadgeCheck, Check, Copy, FileSearch, GraduationCap, Package, RefreshCwOff, Rocket, ScanSearch,
-  Smartphone, Target, Workflow, type LucideIcon,
+  ShieldCheck, Smartphone, Target, Workflow, type LucideIcon,
 } from "lucide-react";
 import { MARKET, packs, skills } from "@/lib/skills";
 import s from "./SkillPacks.module.css";
 
 const ICON: Record<string, LucideIcon> = {
-  "done-gate": BadgeCheck, "loop-breaker": RefreshCwOff, "skill-scout": ScanSearch,
+  "done-gate": BadgeCheck, "loop-breaker": RefreshCwOff, "compliance-check": ShieldCheck, "skill-scout": ScanSearch,
   "doc-extraction": FileSearch, "make-automation": Workflow, "honest-model-eval": Target,
   "hackathon-sprint": Rocket, "android-device-test": Smartphone, "exam-sheet": GraduationCap,
 };
