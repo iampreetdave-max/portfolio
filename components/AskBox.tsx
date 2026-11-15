@@ -7,7 +7,6 @@ import { Fragment, useEffect, useId, useRef, useState } from "react";
 const EMAIL = "iampreetdave@gmail.com";
 const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY; // Turnstile only when configured
 const EXAMPLES = ["What does Preet do?", "What has he built with OCR?", "Where does he work now?", "Has he used reinforcement learning?"];
-const OPEN = "ask-preet:open"; // window event: any button can open the panel, optionally with a question
 
 type Source = { id: string; title: string; link: string };
 type Reply = { kind: "answer"; answer: string; sources: Source[] } | { kind: "idk" | "resting" | "error"; message?: string };
@@ -57,7 +56,6 @@ function JarvisLogo({ size }: { size: number }) {
 }
 
 const greeting = () => { const h = new Date().getHours(); return h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening"; };
-const openAsk = (q?: string) => window.dispatchEvent(new CustomEvent(OPEN, { detail: q }));
 
 function Answer({ reply }: { reply: Reply }) {
   if (reply.kind === "answer") {
@@ -74,20 +72,6 @@ function Answer({ reply }: { reply: Reply }) {
   if (reply.kind === "idk") return <p>I&rsquo;m afraid that isn&rsquo;t in my files, and I&rsquo;d rather not guess. Do {mail}; he answers personally.</p>;
   if (reply.kind === "resting") return <p>I&rsquo;m running on reserve power for today. Do {mail} instead; he answers personally.</p>;
   return <p>{reply.message ?? "Something went wrong on my end."} You can always {mail}.</p>;
-}
-
-// The About page's entry point: looks like the old inline box, opens the panel.
-export function AskOpen() {
-  return (
-    <div className="ask-entry">
-      <button type="button" className="ask-open" onClick={() => openAsk()}>
-        <span>Ask Jarvis about a project, a skill or a role</span><span aria-hidden="true">Ask</span>
-      </button>
-      <div className="ask-chips">
-        {EXAMPLES.map((e) => <button key={e} type="button" onClick={() => openAsk(e)}>{e}</button>)}
-      </div>
-    </div>
-  );
 }
 
 export default function AskBox() {
@@ -120,16 +104,6 @@ export default function AskBox() {
     const ts = (window as unknown as { turnstile?: Turnstile }).turnstile;
     if (SITE_KEY && ts && widgetId.current) { token.current = ""; ts.reset(widgetId.current); } // tokens are single use
   };
-
-  useEffect(() => {
-    const onOpen = (e: Event) => {
-      setOpen(true);
-      const asked = (e as CustomEvent<string | undefined>).detail;
-      if (asked) send(asked);
-    };
-    window.addEventListener(OPEN, onOpen);
-    return () => window.removeEventListener(OPEN, onOpen);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps -- send only touches refs and setters
 
   useEffect(() => { if (open) { input.current?.focus(); setHello(greeting()); } }, [open]);
   useEffect(() => { log.current?.scrollTo({ top: log.current.scrollHeight, behavior: "smooth" }); }, [turns]);

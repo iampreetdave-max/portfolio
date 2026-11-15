@@ -19,14 +19,18 @@ export default function TechWeb({ web }: { web: Web }) {
   const { nodes, edges, w, h } = web;
   const byId = useMemo(() => new Map(nodes.map((n) => [n.id, n])), [nodes]);
   const techs = useMemo(() => nodes.filter((n) => n.kind === "tech").sort((a, b) => a.label.localeCompare(b.label)), [nodes]);
-  const [active, setActive] = useState<string | null>(null); // last hovered or focused node: drives the caption
-  const [lit, setLit] = useState(false); // pointer or focus is in the graph: dims everything else
+  const [active, setActive] = useState<string | null>(null); // hovered or focused node
+  const [lit, setLit] = useState(false); // the pointer or focus is on that node right now
+  const [pinned, setPinned] = useState<string | null>(null); // clicked node: stays shown, so its links can be clicked
   const [tabStop, setTabStop] = useState(techs[0]?.id);
   const refs = useRef(new Map<string, SVGGElement | null>());
   const caption = useRef<HTMLParagraphElement>(null);
 
-  const cur = active ? byId.get(active) : undefined;
-  const near = cur && lit ? new Set([cur.id, ...cur.n]) : null; // highlight only while the pointer is on a node
+  // Hover previews a node, a click pins it; with neither, nothing is shown.
+  const shownId = lit && active ? active : pinned;
+  const cur = shownId ? byId.get(shownId) : undefined;
+  const near = cur ? new Set([cur.id, ...cur.n]) : null;
+  const pin = (id: string) => setPinned((p) => (p === id ? null : id));
   const on = (id: string) => !!near?.has(id);
   const show = (id: string) => { clearTimeout(timer.current); setActive(id); setLit(true); };
   // A node lights while the pointer rests on it and goes dark when it leaves, so the highlight is
@@ -41,7 +45,8 @@ export default function TechWeb({ web }: { web: Web }) {
   const key = (e: React.KeyboardEvent, id: string) => {
     const i = techs.findIndex((t) => t.id === id);
     const j = ({ ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: techs.length - 1 } as Record<string, number>)[e.key];
-    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); caption.current?.querySelector("a")?.focus(); return; }
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPinned(id); setTimeout(() => caption.current?.querySelector("a")?.focus()); return; }
+    if (e.key === "Escape") { setPinned(null); return; }
     if (j === undefined) return;
     e.preventDefault();
     const next = techs[(j + techs.length) % techs.length];
@@ -52,18 +57,19 @@ export default function TechWeb({ web }: { web: Web }) {
   const names = (ids: string[]) => ids.map((id) => byId.get(id)!).sort((a, b) => a.label.localeCompare(b.label));
   const anchor = (n: WebNode) => (n.x > w * 0.62 ? { x: n.x - 7, textAnchor: "end" as const } : { x: n.x + 7, textAnchor: "start" as const });
   const label = (n: WebNode) => <text key={n.id} {...anchor(n)} y={n.y + 3.5} className={on(n.id) ? "on" : undefined}>{n.label}</text>;
-  const hot = (id: string) => (near && cur?.id === id ? " cur" : ""); // the node under the pointer grows a little
+  const hot = (id: string) => (cur?.id === id ? " cur" : ""); // the shown node grows a little
 
   return (
-    <figure className={`techweb${lit && near ? " dim" : ""}`}>
+    <figure className={`techweb${near ? " dim" : ""}`} onKeyDown={(e) => { if (e.key === "Escape") setPinned(null); }}>
       <svg
         className="tw-svg" viewBox={`0 0 ${w} ${h}`} role="group" onMouseLeave={leave}
-        aria-label="Technologies I have worked with, each linked to the projects that use it. Arrow keys move between technologies; Enter jumps to the projects."
+        onClick={(e) => { if (!(e.target as Element).closest(".tw-node")) setPinned(null); }} // empty space unpins
+        aria-label="Technologies I have worked with, each linked to the projects that use it. Arrow keys move between technologies; Enter shows and jumps to the projects; Escape clears."
       >
         <g className="tw-edges">
           {edges.map(([a, b]) => {
             const p = byId.get(a)!, q = byId.get(b)!;
-            return <line key={a + b} x1={p.x} y1={p.y} x2={q.x} y2={q.y} className={near && cur && (a === cur.id || b === cur.id) ? "on" : undefined} />;
+            return <line key={a + b} x1={p.x} y1={p.y} x2={q.x} y2={q.y} className={cur && (a === cur.id || b === cur.id) ? "on" : undefined} />;
           })}
         </g>
         {nodes.filter((n) => n.kind === "project").map((n) => (
@@ -78,6 +84,7 @@ export default function TechWeb({ web }: { web: Web }) {
             aria-label={`${n.label}, used in ${names(n.n).map((p) => p.label).join(", ")}`}
             className={`tw-node tw-tech${on(n.id) ? " on" : ""}${hot(n.id)}`} transform={`translate(${n.x} ${n.y})`}
             onMouseEnter={() => enter(n.id)} onMouseLeave={leave} onFocus={() => { show(n.id); setTabStop(n.id); }} onBlur={() => setLit(false)}
+            onClick={() => pin(n.id)} aria-pressed={pinned === n.id}
             onKeyDown={(e) => key(e, n.id)}
           >
             <g className="tw-in">
@@ -93,7 +100,7 @@ export default function TechWeb({ web }: { web: Web }) {
       <ul className="tw-grid">
         {techs.map((n) => (
           <li key={n.id}>
-            <button type="button" aria-pressed={active === n.id} onClick={() => setActive(active === n.id ? null : n.id)}>
+            <button type="button" aria-pressed={pinned === n.id} onClick={() => pin(n.id)}>
               <Glyph node={n} size={13} />{n.label}
             </button>
           </li>
@@ -102,7 +109,7 @@ export default function TechWeb({ web }: { web: Web }) {
 
       <p className="tw-caption" ref={caption}>
         {!cur ? (
-          "Hover or tap a technology to see where I used it."
+          "Hover a technology to see where I used it, or click it to keep it shown."
         ) : (
           <>
             <span className="tw-cap-name">{cur.label}</span>

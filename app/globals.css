@@ -105,15 +105,10 @@ a { color: inherit; text-decoration: none; }
 
 /* Ask Preet: a launcher on every page and a chat panel, components/AskBox.tsx */
 .tw-grid button { background:none; border:none; padding:0; font:inherit; cursor:pointer; }
-.tw-grid button:focus-visible, .askp button:focus-visible, .ask-entry button:focus-visible { outline:2px solid var(--text-2); outline-offset:2px; border-radius:6px; }
-.ask-entry { max-width:62ch; }
-.ask-open { display:flex; justify-content:space-between; gap:12px; width:100%; padding:6px 0; background:none; border:none; border-bottom:1px solid var(--border); font:inherit; font-size:14px; color:var(--text-3); text-align:left; cursor:pointer; transition:border-color .2s ease; }
-.ask-open span:last-child { color:var(--text); }
-.ask-open:hover { border-color:var(--text-2); }
-.ask-chips, .askp-try { display:flex; flex-wrap:wrap; gap:6px; }
-.ask-chips { margin-top:12px; }
-.ask-chips button, .askp-try button { padding:5px 11px; border:1px solid var(--border); border-radius:999px; background:none; font:inherit; font-size:12.5px; color:var(--text-2); text-align:left; cursor:pointer; transition:color .2s ease, border-color .2s ease; }
-.ask-chips button:hover, .askp-try button:hover { color:var(--text); border-color:var(--text-3); }
+.tw-grid button:focus-visible, .askp button:focus-visible { outline:2px solid var(--text-2); outline-offset:2px; border-radius:6px; }
+.askp-try { display:flex; flex-wrap:wrap; gap:6px; }
+.askp-try button { padding:5px 11px; border:1px solid var(--border); border-radius:999px; background:none; font:inherit; font-size:12.5px; color:var(--text-2); text-align:left; cursor:pointer; transition:color .2s ease, border-color .2s ease; }
+.askp-try button:hover { color:var(--text); border-color:var(--text-3); }
 
 .askp-launch { position:fixed; right:20px; bottom:20px; z-index:40; display:grid; place-items:center; width:64px; height:64px; padding:0; border:none; border-radius:50%; background:transparent; cursor:pointer; filter:drop-shadow(0 0 7px rgba(255,150,30,.5)); transition:transform .25s ease, filter .25s ease; }
 .askp-launch:hover, .askp-launch.open { transform:scale(1.06); filter:drop-shadow(0 0 14px rgba(255,150,30,.8)); }
