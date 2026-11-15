@@ -2,7 +2,7 @@
 // header come from globals.css / SiteHeader.
 import {
   Anchor, AudioLines, BrainCircuit, Cctv, CloudSun, CodeXml, Coffee, Flag, Goal, Handshake,
-  Medal, Newspaper, NotebookPen, Scale, ScanText, Spade, Telescope, Trophy, Truck,
+  Medal, Newspaper, NotebookPen, Puzzle, Scale, ScanText, Spade, Telescope, Trophy, Truck,
   createLucideIcon, type LucideIcon,
 } from "lucide-react";
 
@@ -13,6 +13,7 @@ const Basketball = createLucideIcon("Basketball", [
 ]);
 
 const ICONS: Record<string, LucideIcon> = {
+  "Claude Code Skills": Puzzle,
   "Padosi": Handshake,
   "Q": AudioLines,
   "WinWall": Trophy,
@@ -36,6 +37,7 @@ const ICONS: Record<string, LucideIcon> = {
 };
 
 const projects = [
+  { name: "Claude Code Skills", cat: "Open Source", href: "https://github.com/iampreetdave-max/agent-skills", note: "My published skills for Claude Code, installable from my own plugin marketplace. done-gate stops an agent from calling work finished until every ask is proven with file:line evidence, audited blind by a second agent and passed through the project’s own checks. android-device-test drives a real Android phone over adb: it taps real UI elements, cuts the network and kills the app mid-flow, then reports with screenshots and logs. exam-sheet turns a syllabus and past papers into a printable revision page, chapters ranked by the marks they actually carried.", tags: "Claude Code · Agent Skills · Python · adb · Playwright" },
   { name: "Padosi", cat: "Full-Stack", href: null, note: "A peer-to-peer rental marketplace for India: rent drills, cameras or party gear from verified people nearby. Locations are fuzzed and grid-snapped so repeated searches cannot triangulate an address, handovers use photo checks and 6-digit codes, and deposits auto-release 48 hours after return. One typed API serves a Next.js site and an Expo mobile app.", tags: "Next.js · Expo · Hono · Postgres · Drizzle · TypeScript" },
   { name: "Q", cat: "Agentic AI", href: null, note: "My meeting agent, in two parts. A bot on my own server joins Google Meet calls, saves the transcript, chat and screen shares into long-term memory, pulls out my action items, and flags risky talk for private review. Ask it what someone promised last month and it answers with verified citations to the exact meeting lines. A desktop copilot, extended from an open-source Electron app, transcribes on-device with Parakeet, drafts answers to questions as they are asked, and feeds every finished meeting into the same memory.", tags: "Python · LiteLLM · SQLite · Attendee · Electron · Parakeet STT" },
   { name: "WinWall", cat: "Automation", href: null, note: "Keeps a live client-results wall on a website up to date with no developer in the loop. Claude scans Slack for client wins and posts them for approval; one emoji from the team approves a win, which is screenshotted, has reviewer names blurred, and is uploaded to WordPress into the right filter on the live wall. Loom and Wistia case-study videos are picked up automatically. 350+ wins and 390+ images published, all on GitHub Actions schedules.", tags: "Python · Claude API · Slack API · Playwright · WordPress REST · GitHub Actions" },
