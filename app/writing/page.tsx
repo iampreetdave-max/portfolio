@@ -1,4 +1,5 @@
-export const metadata = { title: "Writing · Preet Ghanshyam Dave" };
+import { pageMeta } from "@/lib/seo";
+export const metadata = pageMeta({ title: "Writing", description: "Writing by Preet Dave: the Tensor Tapri weekly AI newsletter for India, engineering write-ups on CityShield and LedgerLens, and essays on AI.", path: "/writing" });
 
 const GA = "https://github.com/iampreetdave-max/Guardian-Angle/blob/main/docs/";
 
@@ -61,7 +62,9 @@ const writing = [
 
 export default function Writing() {
   return (
-    <div className="rowlist">
+    <>
+      <h1 className="sr-only">Writing by Preet Dave</h1>
+      <div className="rowlist">
       {writing.map((a) => (
         <div className="row" key={a.title}>
           <div className="row-main">
@@ -78,5 +81,6 @@ export default function Writing() {
         </div>
       ))}
     </div>
+    </>
   );
 }

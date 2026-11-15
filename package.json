@@ -3,10 +3,13 @@
   "version": "2.0.0",
   "description": "Preet Dave - AI/ML Engineer Portfolio",
   "scripts": {
+    "prebuild": "node scripts/gen-sitemap.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:ask": "node --no-warnings scripts/test-ask.mjs",
+    "eval:ask": "node scripts/eval-ask.mjs"
   },
   "keywords": [],
   "author": "Preet Dave",
@@ -21,6 +24,7 @@
     "nodemailer": "^8.0.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "simple-icons": "16.36.0",
     "three": "^0.169.0"
   },
   "devDependencies": {

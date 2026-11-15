@@ -1,47 +1,40 @@
+import { about } from "@/lib/content";
+import { techWeb } from "@/lib/techweb";
+import { JsonLd, PERSON, SITE, pageMeta } from "@/lib/seo";
+import TechWeb from "@/components/TechWeb";
+import AskBox from "@/components/AskBox";
+
+export const metadata = pageMeta({
+  description: "AI/ML engineer in Ahmedabad, India. Preet Dave builds LLM agents, document AI and ML models that ship, publishes open-source Claude Code skills and runs Tensor Tapri.",
+  path: "/",
+});
+
+const Para = ({ para }: { para: (typeof about)[number] }) => (
+  <>
+    {para.map((s, j) =>
+      typeof s === "string" ? s : s.href.startsWith("http")
+        ? <a key={j} href={s.href} target="_blank" rel="noopener noreferrer">{s.text}</a>
+        : <a key={j} href={s.href}>{s.text}</a>,
+    )}
+  </>
+);
+
 export default function About() {
+  const [first, ...rest] = about;
   return (
-    <div className="prose">
-      <p>Hi, I&rsquo;m Preet Dave.</p>
+    <>
+      <JsonLd data={{ "@graph": [PERSON, { "@type": "WebSite", "@id": `${SITE}/#website`, url: SITE, name: "Preet Dave", publisher: { "@id": `${SITE}/#person` } }] }} />
+      <div className="prose">
+        {/* the greeting is the page's one h1, styled like the paragraphs around it */}
+        <h1 className="prose-h1"><Para para={first} /></h1>
+        {rest.map((para, i) => <p key={i}><Para para={para} /></p>)}
+      </div>
 
-      <p>
-        Right now I&rsquo;m an AI/ML engineer at Agility, where I build machine-learning
-        systems with clients and take them from raw data all the way to something
-        running in production.
-      </p>
+      <h2 className="sec-label">What I work with</h2>
+      <TechWeb web={techWeb()} />
 
-      <p>
-        I joined as an intern and moved to full-time within a year. Most of what I
-        learned there was not about models. It was about what &ldquo;it works on my
-        machine&rdquo; actually costs, and how much of the job is talking to the person
-        who has the problem.
-      </p>
-
-      <p>
-        Before that I interned at a stealth AI startup, where I owned the models and
-        pipelines, built an MVP around reinforcement learning, and helped get it ready
-        for a Y Combinator application. Small team, high trust, and a lot of learning
-        very fast.
-      </p>
-
-      <p>
-        At university I led{" "}
-        <a href="https://github.com/iampreetdave-max/code-convertor" target="_blank" rel="noopener noreferrer">CodeTransform</a>,
-        a Python-to-JavaScript converter, from an idea to a state-level presentation.
-        It was the first time I had to design something and build it at the same time.
-      </p>
-
-      <p>
-        These days I build at the edge of ML and real systems: a climate digital twin
-        of India on national datasets, an offline computer-vision platform for a city
-        police cyber-crime branch, and agentic legal AI. I like problems that are a
-        little too big for me and the stubbornness it takes to finish them.
-      </p>
-
-      <p>
-        Outside of work I take things apart to understand how they work, and then{" "}
-        <a href="/writing">write about them</a>. Occasionally I lose an afternoon to a
-        hackathon.
-      </p>
-    </div>
+      <h2 className="sec-label">Ask about my work</h2>
+      <AskBox />
+    </>
   );
 }
