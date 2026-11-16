@@ -59,10 +59,10 @@ export const PROJECT_COPY: Record<string, ProjectCopy> = {
     ]
   },
   "nudge-ai": {
-    "hook": "Built for 60 to 90 client conversations a day, it pulls action items out of each and checks whether the client actually understood what was agreed, so one manager can lead more account managers.",
+    "hook": "Built to scale across every client conversation, it pulls action items out of each and checks whether the client actually understood what was agreed, so one manager can lead more account managers.",
     "proof": "It flags churn risk early and says which clients to ask for a referral.",
     "highlights": [
-      "Built for 60 to 90 client conversations a day, turning each into action items.",
+      "Built to scale across every client conversation, turning each into action items.",
       "Checks whether clients actually understood what was agreed.",
       "Builds agendas that surface each client’s newest wins.",
       "Runs mid-week follow-ups with a dashboard scoped to each manager’s own accounts.",
