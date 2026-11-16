@@ -25,7 +25,7 @@ export const work = [
     id: "tensor-tapri-founder",
     role: "Founder, Tensor Tapri",
     href: "https://tensortapri.org",
-    when: "Nov 2026 – Now",
+    when: "2026 – Now",
     note: "A free weekly email on AI, ML, automation and data for India, written from Ahmedabad. Its “What’s brewing” page tracks the week’s AI news and benchmark progress.",
   },
   {
