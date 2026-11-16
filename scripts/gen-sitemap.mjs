@@ -17,11 +17,13 @@ const skills = [...block(skillsSrc, "export const skills").matchAll(/id: "([a-z0
 const copySrc = read("lib/project-copy.ts");
 const copyJson = copySrc.slice(copySrc.indexOf("= {", copySrc.indexOf("PROJECT_COPY")) + 2, copySrc.indexOf("\n};", copySrc.indexOf("PROJECT_COPY")) + 2);
 const copy = JSON.parse(copyJson);
-if (projects.length < 10 || skills.length < 5) throw new Error(`suspiciously few pages: ${projects.length} projects, ${skills.length} skills`);
+const posts = [...read("lib/writing.ts").matchAll(/slug: "([a-z0-9-]+)",\s*title: "((?:[^"\\]|\\.)*)"/g)]
+  .map((m) => ({ slug: m[1], title: JSON.parse(`"${m[2]}"`) }));
+if (projects.length < 10 || skills.length < 5 || posts.length < 3) throw new Error(`suspiciously few pages: ${projects.length} projects, ${skills.length} skills, ${posts.length} posts`);
 
 // sitemap.xml
 const paths = ["/", "/work", "/projects", "/skills", "/writing", "/fun",
-  ...projects.map((p) => `/projects/${p.id}`), ...skills.map((s) => `/skills/${s.id}`)];
+  ...projects.map((p) => `/projects/${p.id}`), ...skills.map((s) => `/skills/${s.id}`), ...posts.map((w) => `/writing/${w.slug}`)];
 writeFileSync("public/sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${paths.map((p) => `  <url><loc>${SITE}${p}</loc></url>`).join("\n")}
@@ -46,6 +48,10 @@ writeFileSync("public/llms.txt", `# Preet Dave
 
 ${projects.map((p) => `- [${p.name}](${SITE}/projects/${p.id}): ${copy[p.id]?.hook ?? ""}`).join("\n")}
 
+## Writing
+
+${posts.map((w) => `- [${w.title}](${SITE}/writing/${w.slug})`).join("\n")}
+
 ## Claude Code skills
 
 ${skills.map((s) => `- [${s.id}](${SITE}/skills/${s.id}): ${s.note}`).join("\n")}
@@ -57,4 +63,4 @@ ${skills.map((s) => `- [${s.id}](${SITE}/skills/${s.id}): ${s.note}`).join("\n")
 - [Tensor Tapri](https://tensortapri.org)
 - [Skills repository](https://github.com/iampreetdave-max/agent-skills)
 `);
-console.log(`sitemap.xml: ${paths.length} URLs; llms.txt: ${projects.length} projects, ${skills.length} skills`);
+console.log(`sitemap.xml: ${paths.length} URLs; llms.txt: ${projects.length} projects, ${skills.length} skills, ${posts.length} posts`);
