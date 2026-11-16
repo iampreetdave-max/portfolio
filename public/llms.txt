@@ -37,6 +37,15 @@
 - [Find-Ranks](https://iampreetdave.me/projects/find-ranks): Marks are pulled from a batch of PDF mark-sheets, combined into each student’s cumulative performance and ranked, with analytics for educational institutions.
 - [TalkToNotes](https://iampreetdave.me/projects/talktonotes): TrOCR digitizes handwritten and printed notes, which are then indexed into a searchable knowledge base that answers questions through a chatbot and generates quizzes in one click.
 
+## Writing
+
+- [Prior Art and Positioning: Where Crime Hotspot Forecasting Comes From](https://iampreetdave.me/writing/hotspot-forecasting-prior-art)
+- [Ablation Study of a Crime-Forecasting Model](https://iampreetdave.me/writing/crime-forecasting-ablation-study)
+- [Security Testing Report](https://iampreetdave.me/writing/ai-policing-security-testing)
+- [System Architecture of an Offline AI Policing Platform](https://iampreetdave.me/writing/offline-ai-policing-architecture)
+- [AI Where Needed, Determinism Where Not](https://iampreetdave.me/writing/ai-where-needed-determinism-where-not)
+- [Engineers Fear AI, As Mathematicians Once Feared Calculators](https://iampreetdave.me/writing/engineers-fear-ai-calculators)
+
 ## Claude Code skills
 
 - [done-gate](https://iampreetdave.me/skills/done-gate): Stops an agent calling work finished until every ask is rebuilt from your own words, proven with file:line evidence, audited by a second agent that is not told what changed, and passed through the project's own checks.
