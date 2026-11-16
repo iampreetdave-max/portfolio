@@ -9,6 +9,8 @@
 .bar button:hover { color: var(--text); border-color: var(--text-3); }
 .bar button[aria-pressed="true"] { color: var(--bg); background: var(--text); border-color: var(--text); }
 .bar button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+/* the pack / unzip action, pushed to the end of the row and solid so it never reads as a pack chip */
+.bar .act { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; color: var(--text); border-color: var(--text-3); }
 
 /* The stage is the offsetParent the tile offsets are measured against. The pack choreography
    itself runs through the Web Animations API in SkillPacks.tsx. */
@@ -21,8 +23,10 @@
   display: flex; align-items: center; gap: 8px; min-width: 0; padding: 10px 12px;
   border: 1px solid var(--border); border-radius: 10px; background: var(--bg);
   font-size: 13px; line-height: 1.4; color: var(--text);
-  transition: border-color .2s ease, translate .2s ease;
+  transition: border-color .2s ease, translate .2s ease, opacity .25s ease;
 }
+/* not in the selected pack */
+.out { opacity: .3; }
 .tile span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .tile svg { flex: none; color: var(--text-2); }
 /* translate (not transform) so the hover lift never fights the pack animation */
