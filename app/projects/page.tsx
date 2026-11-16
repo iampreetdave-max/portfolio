@@ -21,6 +21,9 @@ export default function ProjectsPage() {
               <div className="row-main">
                 <div className="row-title">
                   <Link href={`/projects/${p.id}`} className="prow-link">{p.name}</Link>
+                  {p.href?.includes("github.com") && (
+                    <a href={p.href} className="prow-gh" target="_blank" rel="noopener noreferrer" aria-label={`${p.name} code on GitHub`}>GitHub &#8599;</a>
+                  )}
                 </div>
                 <div className="row-note">{c?.hook ?? p.note}</div>
                 {c?.proof && (

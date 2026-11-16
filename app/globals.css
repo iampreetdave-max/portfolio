@@ -196,6 +196,8 @@ a { color: inherit; text-decoration: none; }
 .prow { position: relative; }
 .prow-link::after { content: ""; position: absolute; inset: 0; }
 .prow-link:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
+/* sits above the row-wide .prow-link overlay so it stays clickable */
+.prow-gh { position: relative; z-index: 1; margin-left: 10px; font-size: 12px; color: var(--text-2); }
 .prow:hover .row-title a { text-decoration-color: var(--text-2); }
 .prow-more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s cubic-bezier(.22,1,.36,1); }
 .prow-more > div { overflow: hidden; }

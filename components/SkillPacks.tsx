@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import {
-  BadgeCheck, Check, Copy, FileSearch, GraduationCap, Package, RefreshCwOff, Rocket, ScanSearch,
+  BadgeCheck, Check, Copy, FileSearch, GraduationCap, Package, PackageOpen, RefreshCwOff, Rocket, ScanSearch,
   ShieldCheck, Smartphone, Target, Workflow, type LucideIcon,
 } from "lucide-react";
 import { MARKET, packs, skills } from "@/lib/skills";
@@ -97,8 +97,10 @@ export default function SkillPacks() {
   const tiles = useRef<Record<string, HTMLAnchorElement | null>>({});
   const running = useRef<Animation[]>([]);
   const busy = useRef(false);
-  const [packed, setPacked] = useState<string | null>(null);
-  const [shown, setShown] = useState(packs[1]); // card content stays put while it closes
+  // picking a pack only selects it and shows its skills; packing is a separate, explicit step
+  const [sel, setSel] = useState(packs[0].id);
+  const [packed, setPacked] = useState(false);
+  const pack = packs.find((p) => p.id === sel)!;
 
   const play = (id: string) => {
     const st = stage.current;
@@ -112,8 +114,8 @@ export default function SkillPacks() {
       const el = tiles.current[sk.id];
       if (!el) continue;
       const i = pack.members.indexOf(sk.id);
-      if (i < 0) { // not in this pack: step back and fade
-        anims.push(el.animate([{ opacity: 1, transform: "scale(1)" }, { opacity: 0, transform: "scale(.94)" }], { duration: 260 * k, fill: "both", easing: "ease" }));
+      if (i < 0) { // not in this pack: already dimmed, so fade from wherever it is
+        anims.push(el.animate({ opacity: 0, transform: "scale(.94)" }, { duration: 260 * k, fill: "both", easing: "ease" }));
         continue;
       }
       // offsetLeft/Top are layout positions, unaffected by transforms, so this is safe mid-animation
@@ -138,32 +140,32 @@ export default function SkillPacks() {
     running.current = [];
   };
 
-  const pick = async (id: string) => {
+  const once = async (fn: () => Promise<void>) => {
     if (busy.current) return;
     busy.current = true;
-    try {
-      if (packed) {
-        setPacked(null);
-        await close();
-        if (packed === id) return;
-      }
-      setShown(packs.find((p) => p.id === id)!);
-      setPacked(id);
-      play(id);
-      await Promise.all(running.current.map((a) => a.finished.catch(() => {})));
-    } finally {
-      busy.current = false;
-    }
+    try { await fn(); } finally { busy.current = false; }
   };
+  const unzip = async () => { setPacked(false); await close(); };
+  const pick = (id: string) => once(async () => { if (packed) await unzip(); setSel(id); });
+  const toggle = () => once(async () => {
+    if (packed) return unzip();
+    setPacked(true);
+    play(sel);
+    await Promise.all(running.current.map((a) => a.finished.catch(() => {})));
+  });
 
   return (
     <div className={s.wrap}>
       <div className={s.bar} role="group" aria-label="Packs">
         {packs.map((p) => (
-          <button key={p.id} type="button" aria-pressed={packed === p.id} onClick={() => pick(p.id)}>
+          <button key={p.id} type="button" aria-pressed={sel === p.id} onClick={() => pick(p.id)}>
             {p.id}
           </button>
         ))}
+        <button type="button" className={s.act} onClick={toggle}>
+          {packed ? <PackageOpen size={14} aria-hidden="true" /> : <Package size={14} aria-hidden="true" />}
+          {packed ? "Unzip" : "Pack it up"}
+        </button>
       </div>
 
       <div ref={stage} className={`${s.stage} ${packed ? s.packed : ""}`}>
@@ -171,7 +173,7 @@ export default function SkillPacks() {
           const Icon = ICON[k.id];
           return (
             <Link key={k.id} href={`/skills/${k.id}`} ref={(el) => { tiles.current[k.id] = el; }}
-              className={s.tile} tabIndex={packed ? -1 : undefined} aria-hidden={packed ? true : undefined}>
+              className={`${s.tile} ${pack.members.includes(k.id) ? "" : s.out}`} tabIndex={packed ? -1 : undefined} aria-hidden={packed ? true : undefined}>
               <Icon size={16} strokeWidth={1.5} aria-hidden="true" />
               <span>{k.id}</span>
             </Link>
@@ -180,16 +182,16 @@ export default function SkillPacks() {
         <div ref={flash} className={s.flash} aria-hidden="true" />
         <div ref={card} className={s.pack} aria-hidden={!packed}>
           <Package size={22} strokeWidth={1.4} aria-hidden="true" />
-          <div className={s.packName}>{shown.id}</div>
-          <div className={s.packMeta}>{shown.members.length} skills, {shown.blurb}</div>
+          <div className={s.packName}>{pack.id}</div>
+          <div className={s.packMeta}>{pack.members.length} skills, {pack.blurb}</div>
           {/* the add step first: without it the install answers "marketplace not found" */}
           <CopyCmd cmd="/plugin marketplace add iampreetdave-max/agent-skills" tabbable={!!packed} />
-          <CopyCmd cmd={`/plugin install ${shown.id}@${MARKET}`} tabbable={!!packed} />
+          <CopyCmd cmd={`/plugin install ${pack.id}@${MARKET}`} tabbable={!!packed} />
         </div>
       </div>
 
-      <p className={s.hint}>Pick a pack to merge its skills into one install, or click a skill to install just that one.</p>
-      <div className={s.sr} aria-live="polite">{packed ? `${shown.id}: ${shown.members.length} skills packed into one install` : ""}</div>
+      <p className={s.hint}>Pick a pack to see its skills, then pack it up into one install. Or click a skill to install just that one.</p>
+      <div className={s.sr} aria-live="polite">{packed ? `${pack.id}: ${pack.members.length} skills packed into one install` : `${pack.id}: ${pack.members.length} skills`}</div>
     </div>
   );
 }
