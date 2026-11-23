@@ -101,6 +101,24 @@ export default function Skills() {
         ))}
       </div>
 
+      {/* leftover is its own marketplace, so it sits apart from the packs */}
+      <h2 className="sec-label">More plugins</h2>
+      <div className="rowlist" id="leftover">
+        <div className="row">
+          <div className="row-main">
+            <div className="row-title"><Link href="/projects/leftover">leftover: spend the weekly quota you would lose anyway</Link></div>
+            <div className="row-note">
+              Run it in a folder of side projects. It reads what is left of your weekly limit, offers about ten jobs ranked
+              by impact per percent of quota, asks every question up front, then works through your picks unattended on
+              review branches. It never pushes or deploys.{" "}
+              <a href="https://github.com/iampreetdave-max/leftover" target="_blank" rel="noopener noreferrer">Code on GitHub</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <CopyCmd cmd="claude plugin marketplace add iampreetdave-max/leftover" />
+      <CopyCmd cmd="claude plugin install leftover@leftover" />
+
       <h2 className="sec-label">Questions</h2>
       <div className="rowlist">
         {FAQ.map(([q, a]) => (

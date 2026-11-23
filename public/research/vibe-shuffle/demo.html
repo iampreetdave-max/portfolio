@@ -5,210 +5,215 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vibe Shuffle</title>
 <meta name="description" content="Shuffle that keeps the vibe: listener-authored mood transitions with a surprise knob.">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../kit/kit.css">
 <style>
-:root {
-  --bg: #f6f5fb; --surface: #ffffff; --surface-2: #f0eef8; --text: #1b1830; --muted: #5f5a78;
-  --border: #e2dff0; --accent: #5b46e5; --accent-ink: #ffffff; --accent-soft: #ebe7ff;
-  --like: #0a8a5f; --like-soft: #dcf5ea; --never: #c4361b; --never-soft: #fde4dd;
-  --sad: #0072B2; --chill: #009E73; --happy: #E69F00; --intense: #D55E00;
-  --plot-bg: #fbfaff; --grid: #e6e3f2; --shadow: 0 1px 2px rgba(20,16,50,.06), 0 4px 18px rgba(20,16,50,.06);
-  color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0f0e17; --surface: #18162a; --surface-2: #211e38; --text: #eeecf8; --muted: #a7a2c4;
-    --border: #2d2a47; --accent: #8f7dff; --accent-ink: #0f0e17; --accent-soft: #2a2550;
-    --like: #3fd39b; --like-soft: #123a2c; --never: #ff7a5c; --never-soft: #43201a;
-    --sad: #56B4E9; --chill: #2fd6a5; --happy: #F0C24A; --intense: #ff8a4c;
-    --plot-bg: #141226; --grid: #2a2744; --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 24px rgba(0,0,0,.35);
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0f0e17; --surface: #18162a; --surface-2: #211e38; --text: #eeecf8; --muted: #a7a2c4;
-  --border: #2d2a47; --accent: #8f7dff; --accent-ink: #0f0e17; --accent-soft: #2a2550;
-  --like: #3fd39b; --like-soft: #123a2c; --never: #ff7a5c; --never-soft: #43201a;
-  --sad: #56B4E9; --chill: #2fd6a5; --happy: #F0C24A; --intense: #ff8a4c;
-  --plot-bg: #141226; --grid: #2a2744; --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 24px rgba(0,0,0,.35);
-  color-scheme: dark;
-}
-* { box-sizing: border-box; }
-html, body { margin: 0; }
-body { background: var(--bg); color: var(--text); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
-button, input, select { font: inherit; color: inherit; }
-.wrap { max-width: 1180px; margin: 0 auto; padding: 20px 16px 48px; }
-header { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
-.logo { width: 38px; height: 38px; border-radius: 11px; background: linear-gradient(135deg, var(--sad), var(--chill) 40%, var(--happy) 70%, var(--intense)); display: grid; place-items: center; flex: none; }
-.logo svg { width: 22px; height: 22px; }
-h1 { font-size: 21px; margin: 0; letter-spacing: -.01em; }
-.tag { color: var(--muted); font-size: 13.5px; margin: 1px 0 0; }
-.spacer { flex: 1; }
-.icon-btn { border: 1px solid var(--border); background: var(--surface); border-radius: 10px; padding: 7px 11px; cursor: pointer; font-size: 13px; color: var(--muted); }
-.icon-btn:hover { color: var(--text); }
-.layout { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 18px; align-items: start; }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: var(--shadow); }
-.card + .card { margin-top: 14px; }
-.card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 10px; font-weight: 650; }
-.hint { color: var(--muted); font-size: 12.5px; margin: 6px 0 0; }
-.row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.libline { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.libname { font-weight: 650; }
-.moodbar { display: flex; height: 8px; border-radius: 99px; overflow: hidden; margin: 10px 0 4px; background: var(--surface-2); }
-.moodbar span { display: block; height: 100%; }
-.legend { display: flex; gap: 10px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
-.dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 4px; vertical-align: 0; }
-.btn { border: 1px solid var(--border); background: var(--surface-2); border-radius: 10px; padding: 8px 12px; cursor: pointer; font-size: 13.5px; }
-.btn:hover { border-color: var(--accent); }
-.btn.small { padding: 5px 9px; font-size: 12.5px; }
-.btn.on { background: var(--accent-soft); border-color: var(--accent); }
-a { color: var(--accent); }
-.grid { display: grid; grid-template-columns: 64px repeat(4, 1fr); gap: 4px; margin-top: 4px; }
-.grid .hd { font-size: 11.5px; color: var(--muted); text-align: center; align-self: end; padding-bottom: 2px; }
-.grid .rh { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 5px; }
-.cell { height: 44px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface-2); cursor: pointer; font-size: 17px; font-weight: 700; display: grid; place-items: center; transition: transform .06s ease; }
-.cell:active { transform: scale(.96); }
-.cell[data-v="1"] { background: var(--like-soft); color: var(--like); border-color: var(--like); }
-.cell[data-v="-1"] { background: var(--never-soft); color: var(--never); border-color: var(--never); }
-.cell[data-v="0"] { color: var(--muted); }
-.axis-note { font-size: 11.5px; color: var(--muted); margin-top: 6px; display: flex; gap: 12px; flex-wrap: wrap; }
-.switch { display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
-.switch input { width: 40px; height: 22px; appearance: none; background: var(--border); border-radius: 99px; position: relative; cursor: pointer; transition: background .15s; flex: none; }
-.switch input::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--surface); transition: left .15s; box-shadow: 0 1px 2px rgba(0,0,0,.25); }
-.switch input:checked { background: var(--accent); }
-.switch input:checked::after { left: 21px; }
-select { background: var(--surface-2); border: 1px solid var(--border); border-radius: 9px; padding: 6px 8px; }
-.arc-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; margin-top: 10px; }
-.arc-row[aria-disabled="true"] { opacity: .45; pointer-events: none; }
-input[type=range] { width: 100%; accent-color: var(--accent); }
-.range-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
-.go { width: 100%; margin-top: 14px; border: 0; border-radius: 14px; padding: 14px; background: var(--accent); color: var(--accent-ink); font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 9px; }
-.go:hover { filter: brightness(1.06); }
-.go svg { width: 18px; height: 18px; }
-.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
-.stat { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 12px 14px; box-shadow: var(--shadow); }
-.stat .k { font-size: 12px; color: var(--muted); }
-.stat .v { font-size: 22px; font-weight: 750; margin-top: 2px; font-variant-numeric: tabular-nums; }
-.stat .s { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.plots { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
-.plot { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 12px; box-shadow: var(--shadow); }
-.plot h3 { margin: 0 0 6px; font-size: 14px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.plot h3 small { color: var(--muted); font-weight: 500; font-size: 12px; }
-.plot svg { width: 100%; height: auto; display: block; }
-.queue { margin-top: 14px; }
-.queue ol { list-style: none; margin: 0; padding: 0; }
-.qi { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 8px 4px; border-top: 1px solid var(--border); }
-.qi:first-child { border-top: 0; }
-.qn { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 12.5px; text-align: right; }
-.qt { min-width: 0; }
-.qt b { display: block; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.qt span { color: var(--muted); font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
-.chips { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
-.chip { font-size: 11.5px; border-radius: 99px; padding: 2px 8px; border: 1px solid var(--border); background: var(--surface-2); white-space: nowrap; }
-.chip.mood { background: color-mix(in srgb, var(--c) 16%, var(--surface)); border-color: color-mix(in srgb, var(--c) 60%, transparent); }
-.chip.mood::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--c); margin-right: 5px; vertical-align: 1px; }
-.jump { margin: 0 0 0 40px; font-size: 11.5px; color: var(--never); display: flex; align-items: center; gap: 6px; padding: 2px 0; }
-.jump::before { content: ""; width: 14px; border-top: 2px dashed var(--never); }
-.tabs { display: flex; gap: 6px; }
-.empty { color: var(--muted); text-align: center; padding: 28px 8px; }
-.status { font-size: 12.5px; margin-top: 8px; min-height: 1em; }
-.status.err { color: var(--never); }
-.status.ok { color: var(--like); }
-.how { margin-top: 18px; color: var(--muted); font-size: 13px; }
-.how p { margin: 6px 0; }
-.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+[hidden] { display: none !important; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.sw { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--c); flex: none; }
+.kit-tip .sw { margin-right: 6px; vertical-align: 0; }
+
+/* layout: controls left, the two paths right */
+.vs { display: grid; grid-template-columns: 284px minmax(0, 1fr); gap: 40px; align-items: start; margin-top: 36px; }
+.ctl > .kit-label:first-child, .stage > .kit-label:first-child { margin-top: 0; }
+.ctl .kit-label { margin-top: 34px; }
+.ctl .kit-hint { margin: 8px 0 0; }
+
+/* rules grid: like = solid ink, neutral = surface, never = hairline */
+.ctl .kit-seg { margin-bottom: 14px; }
+.presets { flex-wrap: nowrap; }
+.presets .kit-btn { flex: 1 1 auto; justify-content: center; padding: 5px 8px; }
+.rules { display: grid; grid-template-columns: 60px repeat(4, minmax(0, 1fr)); gap: 5px; }
+.rules .hd { font-size: 11.5px; color: var(--text-2); text-align: center; align-self: end; padding-bottom: 2px; }
+.rules .rh { font-size: 12px; color: var(--text-2); display: flex; align-items: center; gap: 6px; }
+.cell { height: 40px; padding: 0; border: 1px solid transparent; border-radius: 10px; background: var(--surface); color: var(--text-3); font-size: 15px; line-height: 1; cursor: pointer;
+  transition: background-color .22s var(--ease), color .22s var(--ease), border-color .22s var(--ease), transform .12s ease; }
+.cell:hover { border-color: var(--text-3); }
+.cell:active { transform: scale(.94); }
+.cell[data-v="1"] { background: var(--text); border-color: var(--text); color: var(--bg); }
+.cell[data-v="-1"] { background: var(--bg); border: 1px dashed var(--text-3); color: var(--text-3); }
+.rkey { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--text-2); margin-top: 10px; }
+.rkey span { display: inline-flex; align-items: center; gap: 6px; }
+.rkey span:first-child { flex-basis: 100%; }
+.rkey .k { width: 16px; height: 16px; border-radius: 5px; background: var(--surface); color: var(--text-3); font-style: normal; font-size: 11px; line-height: 1; display: inline-grid; place-items: center; }
+.rkey .k.like { background: var(--text); color: var(--bg); }
+.rkey .k.never { background: var(--bg); border: 1px dashed var(--text-3); }
+
+/* direction and surprise */
+.arc-row { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 13px; color: var(--text-2); transition: opacity .25s ease; }
+.arc-row .kit-select { flex: 1; min-width: 0; }
+.arc-row[aria-disabled="true"] { opacity: .4; pointer-events: none; }
+.range-labels { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--text-3); }
+.range-labels #tval { color: var(--text-2); font-variant-numeric: tabular-nums; }
+.polish { margin-top: 14px; font-size: 13.5px; }
+.go { width: 100%; justify-content: center; margin-top: 18px; padding: 9px 16px; font-size: 14px; font-weight: 500; }
+.go svg { width: 15px; height: 15px; }
+
+/* library */
+.libline { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 14px; }
+.libname { font-weight: 500; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#libcount { font-size: 12.5px; color: var(--text-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.moodbar { display: flex; gap: 2px; height: 6px; margin: 10px 0 9px; }
+.moodbar span { background: var(--c); border-radius: 3px; min-width: 2px; }
+.lib-btns { margin-top: 14px; }
+.lib-btns .kit-btn { padding: 5px 11px; }
+.sr:focus-visible + label { outline: 2px solid var(--text-2); outline-offset: 2px; }
+.status { font-size: 12.5px; color: var(--text-2); margin-top: 10px; }
+.status:empty { display: none; }
+.status.ok::before, .status.err::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 7px; vertical-align: 1px; background: var(--good); }
+.status.err { color: var(--text); }
+.status.err::before { background: var(--bad); }
+
+/* the two paths */
+.stage { background: var(--bg); z-index: 2; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+@media (min-width: 901px) and (min-height: 760px) { .stage { position: sticky; top: 0; padding-top: 16px; margin-top: -16px; } }
+.plots { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.plot h3 { margin: 0 8px 6px 34px; font-size: 14px; font-weight: 500; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.plot h3 small { font-size: 12px; font-weight: 400; color: var(--text-3); font-variant-numeric: tabular-nums; }
+.plot-key { margin-top: 12px; }
+.plot-key i.line { background: var(--ink); opacity: .45; }
+.plot-key i.dash { background: none; height: 0; border-top: 1.5px dashed var(--ink); opacity: 1; }
+.plot-key i.ring { background: none; width: 10px; height: 10px; border: 1.5px solid var(--ink); }
+.plot-key i.sq { background: none; width: 9px; height: 9px; border-radius: 1px; border: 1.5px solid var(--ink); }
+.plot svg .box { fill: none; stroke: var(--border); }
+.plot svg .med { stroke: var(--border); stroke-dasharray: 3 3; }
+.plot svg .tk { font-size: 10px; fill: var(--text-3); }
+.plot svg .ql { font-weight: 500; paint-order: stroke; stroke: var(--bg); stroke-width: 3px; stroke-linejoin: round; pointer-events: none; }
+.seg { stroke: var(--ink); stroke-width: 1; transition: opacity .2s ease, stroke-width .2s ease; }
+.seg.jar { stroke-width: 1.15; stroke-dasharray: 4 3; }
+.pt { transition: opacity .2s ease; }
+.pt .hit { fill: transparent; }
+.pt .dot { stroke: var(--bg); stroke-width: 1; transform-box: fill-box; transform-origin: center; transition: transform .2s var(--ease); }
+.pt.m0 .dot { fill: var(--c3); } .pt.m1 .dot { fill: var(--c2); } .pt.m2 .dot { fill: var(--c1); } .pt.m3 .dot { fill: var(--c4); }
+.mk { pointer-events: none; transition: opacity .2s ease; }
+.mk g { transform-box: fill-box; transform-origin: center; }
+.mk circle, .mk rect { fill: none; stroke: var(--ink); stroke-width: 2; }
+.mk .halo { stroke: var(--bg); stroke-width: 5; }
+svg.focus .seg, svg.focus .pt, svg.focus .mk { opacity: .1; }
+svg.focus .seg.hl { opacity: 1; stroke-opacity: 1; stroke-width: 2; }
+svg.focus .pt.hl, svg.focus .pt.nb { opacity: 1; }
+svg.focus .pt.hl .dot { transform: scale(1.9); }
+
+/* queue */
+.qhead { display: flex; justify-content: space-between; align-items: center; gap: 10px 12px; flex-wrap: wrap; margin: 40px 0 10px; }
+.qhead .kit-label { margin: 0; }
+#queue { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
+#queue li { border-bottom: 1px solid var(--border); }
+.qi { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 9px 8px; border-radius: 8px; transition: background-color .15s ease; }
+#queue li.hl .qi { background: var(--surface); }
+.qn { color: var(--text-3); font-size: 12px; text-align: right; font-variant-numeric: tabular-nums; }
+.qt { min-width: 0; line-height: 1.4; }
+.qt b { display: block; font-weight: 500; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qt span { display: block; font-size: 12.5px; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; line-height: 1.5; color: var(--text-2); border: 1px solid var(--border); border-radius: 999px; padding: 1px 9px; white-space: nowrap; }
+.chip.g { color: var(--text-3); }
+.jump { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-2); padding: 0 8px 8px 48px; }
+.jump::before { content: ""; width: 18px; flex: none; border-top: 1.5px dashed var(--ink); }
+.jump.never::before { content: "\00d7"; border: 0; text-align: center; color: var(--text-3); }
+#queue li.empty { color: var(--text-2); text-align: center; padding: 28px 8px; }
+.more-row { display: flex; justify-content: center; margin-top: 14px; }
+.how { font-size: 13px; color: var(--text-2); max-width: 72ch; margin: 0; }
+@media (prefers-reduced-motion: no-preference) { #queue li { animation: vs-in .45s var(--ease) both; } }
+@keyframes vs-in { from { opacity: 0; transform: translateY(6px); } }
+
 @media (max-width: 900px) {
-  .layout { grid-template-columns: 1fr; }
-  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .vs { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .res { margin-top: 44px; }
 }
 @media (max-width: 560px) {
-  .plots { grid-template-columns: 1fr; }
-  .tag { display: none; }
-  .qi { grid-template-columns: 26px minmax(0, 1fr); }
+  .plots { grid-template-columns: minmax(0, 1fr); }
+  .qi { grid-template-columns: 22px minmax(0, 1fr); gap: 10px; padding: 9px 4px; }
   .chips { grid-column: 2; justify-content: flex-start; }
+  .jump { padding-left: 36px; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17c3 0 4-10 9-10s5 10 9 10"/></svg></div>
-    <div><h1>Vibe Shuffle</h1><p class="tag">Shuffle that still surprises you, without wrecking the mood.</p></div>
-    <div class="spacer"></div>
-    <button class="icon-btn" id="theme" type="button" aria-label="Toggle light or dark theme">Theme</button>
-  </header>
+<div class="kit-wrap">
+  <div class="kit-top"><a href="/research/vibe-shuffle">&larr; The paper</a><span class="kit-sp"></span><button class="kit-theme" type="button"></button></div>
+  <span class="kit-badge">Interactive demo</span>
+  <h1 class="kit-title">Vibe Shuffle</h1>
+  <p class="kit-lede">Shuffle that still surprises you, without wrecking the mood.</p>
 
-  <div class="layout">
-    <section aria-label="Controls">
-      <div class="card">
-        <h2>Library</h2>
-        <div class="libline"><span class="libname" id="libname">Demo library</span><span class="hint" id="libcount"></span></div>
-        <div class="moodbar" id="moodbar" aria-hidden="true"></div>
-        <div class="legend" id="legend"></div>
-        <div class="row" style="margin-top:12px">
-          <label class="btn small" for="csv">Import CSV</label>
-          <input id="csv" class="sr" type="file" accept=".csv,text/csv">
-          <button class="btn small" id="demo" type="button">Use demo</button>
-          <a class="btn small" id="template" href="#" download="vibe-shuffle-template.csv" style="text-decoration:none;color:inherit">Template</a>
-        </div>
-        <div class="status" id="status" role="status"></div>
-        <p class="hint">CSV columns: title, artist, genre, valence, energy (0-1 or 0-100, Spotify-style).</p>
+  <div class="vs">
+    <section class="ctl" aria-label="Controls">
+      <h2 class="kit-label">How you like to move</h2>
+      <div class="kit-seg presets" role="group" aria-label="Rule presets">
+        <button class="kit-btn" data-preset="gentle" type="button" aria-pressed="true">Gentle</button>
+        <button class="kit-btn" data-preset="stay" type="button" aria-pressed="false">Stay in mood</button>
+        <button class="kit-btn" data-preset="free" type="button" aria-pressed="false">Anything goes</button>
       </div>
+      <div class="rules" id="grid" role="group" aria-label="Mood transition rules, rows are the current mood, columns the next mood"></div>
+      <div class="rkey"><span>Row: from, column: to</span><span><i class="k like">+</i>like</span><span><i class="k">&middot;</i>neutral</span><span><i class="k never">&times;</i>never</span></div>
+      <p class="kit-hint">Tap a cell to cycle. "Never" is a hard rule; "like" makes that move more likely.</p>
 
-      <div class="card">
-        <h2>How you like to move</h2>
-        <div class="row" style="margin-bottom:8px">
-          <button class="btn small on" data-preset="gentle" type="button">Gentle</button>
-          <button class="btn small" data-preset="stay" type="button">Stay in mood</button>
-          <button class="btn small" data-preset="free" type="button">Anything goes</button>
-        </div>
-        <div class="grid" id="grid" role="grid" aria-label="Mood transition rules, rows are the current mood, columns the next mood"></div>
-        <div class="axis-note"><span>Rows: from &nbsp;·&nbsp; Columns: to</span><span><b style="color:var(--like)">+</b> like</span><span><b>·</b> neutral</span><span><b style="color:var(--never)">×</b> never</span></div>
-        <p class="hint">Tap a cell to cycle. "Never" is a hard rule; "like" makes that move more likely.</p>
+      <h2 class="kit-label">Direction</h2>
+      <label class="kit-switch"><input type="checkbox" id="arcOn"> <span>Follow an arc across the queue</span></label>
+      <div class="arc-row" id="arcRow" aria-disabled="true">
+        <select class="kit-select" id="arcFrom" aria-label="Arc start mood" disabled></select>
+        <span aria-hidden="true">to</span>
+        <select class="kit-select" id="arcTo" aria-label="Arc end mood" disabled></select>
       </div>
+      <p class="kit-hint">Start where you are and get somewhere gradually.</p>
 
-      <div class="card">
-        <h2>Direction</h2>
-        <label class="switch"><input type="checkbox" id="arcOn"> <span>Follow an arc across the queue</span></label>
-        <div class="arc-row" id="arcRow" aria-disabled="true">
-          <select id="arcFrom" aria-label="Arc start mood"></select>
-          <span aria-hidden="true" style="color:var(--muted)">to</span>
-          <select id="arcTo" aria-label="Arc end mood"></select>
-        </div>
-        <p class="hint">Start where you are and get somewhere gradually.</p>
-      </div>
+      <h2 class="kit-label">Surprise</h2>
+      <input type="range" class="kit-range" id="surprise" min="0" max="100" value="45" aria-label="Surprise">
+      <div class="range-labels"><span>Smooth</span><span id="tval"></span><span>Surprising</span></div>
+      <label class="kit-switch polish"><input type="checkbox" id="polish" checked> <span>Polish the order (MCMC refinement)</span></label>
+      <button class="kit-btn primary go" id="go" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>Shuffle</button>
 
-      <div class="card">
-        <h2>Surprise</h2>
-        <input type="range" id="surprise" min="0" max="100" value="45" aria-label="Surprise">
-        <div class="range-labels"><span>Smooth</span><span id="tval"></span><span>Surprising</span></div>
-        <label class="switch" style="margin-top:12px"><input type="checkbox" id="polish" checked> <span>Polish the order (MCMC refinement)</span></label>
-        <button class="go" id="go" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>Shuffle</button>
+      <h2 class="kit-label">Library</h2>
+      <div class="libline"><span class="libname" id="libname">Demo library</span><span id="libcount"></span></div>
+      <div class="moodbar" id="moodbar" aria-hidden="true"></div>
+      <div class="kit-legend" id="legend"></div>
+      <div class="kit-seg lib-btns">
+        <input id="csv" class="sr" type="file" accept=".csv,text/csv">
+        <label class="kit-btn" for="csv">Import CSV</label>
+        <button class="kit-btn" id="demo" type="button">Use demo</button>
+        <a class="kit-btn" id="template" href="#" download="vibe-shuffle-template.csv">Template</a>
       </div>
+      <div class="status" id="status" role="status"></div>
+      <p class="kit-hint">CSV columns: title, artist, genre, valence, energy (0-1 or 0-100, Spotify-style).</p>
     </section>
 
-    <section aria-label="Result">
-      <div class="stats" id="stats"></div>
-      <div class="plots">
-        <div class="plot"><h3>Plain shuffle <small>random order</small></h3><svg id="plotPlain" viewBox="0 0 320 300" role="img" aria-label="Path of plain shuffle in the valence energy plane"></svg></div>
-        <div class="plot"><h3>Vibe Shuffle <small id="plotNote"></small></h3><svg id="plotVibe" viewBox="0 0 320 300" role="img" aria-label="Path of Vibe Shuffle in the valence energy plane"></svg></div>
-      </div>
-      <div class="card queue">
-        <div class="row" style="justify-content:space-between;margin-bottom:6px">
-          <h2 style="margin:0">Up next</h2>
-          <div class="tabs"><button class="btn small on" id="tabVibe" type="button">Vibe Shuffle</button><button class="btn small" id="tabPlain" type="button">Plain shuffle</button></div>
+    <section class="res" aria-label="Result">
+      <div class="stage">
+        <h2 class="kit-label">The queue as a path through valence and energy</h2>
+        <div class="plots">
+          <div class="plot"><h3>Plain shuffle <small>random order</small></h3><svg class="kit-chart" id="plotPlain" viewBox="0 0 320 300" role="img" aria-label="Path of plain shuffle in the valence energy plane"></svg></div>
+          <div class="plot"><h3>Vibe Shuffle <small id="plotNote"></small></h3><svg class="kit-chart" id="plotVibe" viewBox="0 0 320 300" role="img" aria-label="Path of Vibe Shuffle in the valence energy plane"></svg></div>
         </div>
-        <ol id="queue"><li class="empty">Press Shuffle to build a queue.</li></ol>
-        <div class="row" style="justify-content:center;margin-top:8px"><button class="btn small" id="more" type="button" hidden>Show all</button></div>
+        <div class="kit-legend plot-key">
+          <span><i style="--c:var(--c3)"></i>Sad</span><span><i style="--c:var(--c2)"></i>Chill</span><span><i style="--c:var(--c1)"></i>Happy</span><span><i style="--c:var(--c4)"></i>Intense</span>
+          <span><i class="line"></i>path in queue order</span><span><i class="line dash"></i>jarring jump</span><span><i class="ring"></i>first song</span><span><i class="sq"></i>last song</span>
+        </div>
       </div>
-      <div class="how">
-        <p>Every song in the library plays exactly once; nothing is added. The sampler targets a distribution with probability proportional to exp(&minus;cost / T): a fast sequential draw followed by 20 rounds of local swaps, which approximates that target without sampling it exactly. The cost adds up how far each step moves in valence and energy and across genre families, minus a bonus for moves you like, plus an optional pull toward the arc. "Never" moves and the same artist twice within two songs are hard rules. The surprise slider sets T: far left is close to the smoothest order, far right is close to a random order among those your rules allow. With the Gentle rules that is still smoother than a plain shuffle; choose Anything goes for a plain one.</p>
+
+      <h2 class="kit-label">Compared with a plain shuffle</h2>
+      <div class="kit-tiles" id="stats">
+        <div class="kit-tile"><div class="k"></div><div class="v"></div><div class="s"></div></div>
+        <div class="kit-tile"><div class="k"></div><div class="v"></div><div class="s"></div></div>
+        <div class="kit-tile"><div class="k"></div><div class="v"></div><div class="s"></div></div>
+        <div class="kit-tile"><div class="k"></div><div class="v"></div><div class="s"></div></div>
       </div>
+
+      <div class="qhead">
+        <h2 class="kit-label">Up next</h2>
+        <div class="kit-seg" role="group" aria-label="Queue to show"><button class="kit-btn" id="tabVibe" type="button" aria-pressed="true">Vibe Shuffle</button><button class="kit-btn" id="tabPlain" type="button" aria-pressed="false">Plain shuffle</button></div>
+      </div>
+      <ol id="queue"><li class="empty">Press Shuffle to build a queue.</li></ol>
+      <div class="more-row"><button class="kit-btn" id="more" type="button" hidden>Show all</button></div>
+
+      <h2 class="kit-label">How it works</h2>
+        <p class="how">Every song in the library plays exactly once; nothing is added. The sampler targets a distribution with probability proportional to exp(&minus;cost / T): a fast sequential draw followed by 20 rounds of local swaps, which approximates that target without sampling it exactly. The cost adds up how far each step moves in valence and energy and across genre families, minus a bonus for moves you like, plus an optional pull toward the arc. "Never" moves and the same artist twice within two songs are hard rules. The surprise slider sets T: far left is close to the smoothest order, far right is close to a random order among those your rules allow. With the Gentle rules that is still smoother than a plain shuffle; choose Anything goes for a plain one.</p>
     </section>
   </div>
+
+  <div class="kit-foot"><span>From the paper by Preet Ghanshyam Dave</span><span><a href="/research/vibe-shuffle">Read the paper</a> &middot; <a href="/research/vibe-shuffle.pdf">PDF</a></span></div>
 </div>
 
+<script src="../kit/kit.js"></script>
 <script>
 const DATA = {"constants":{"BETA_FAM":0.5,"LIKE_BONUS":0.5,"W_ARC":1.0,"K_ARTIST":2,"SWEEPS":20,"tau":0.6795889757779706,"v_med":0.45,"e_med":0.681},"moods":["Sad","Chill","Happy","Intense"],"family_names":["Classical & ambient","Sleep","Techno","IDM & study","Samba & sertanejo","Ska, forro & party","Hip-hop, reggae & Latin","Pop & dance","Rock & metal","Extreme metal","Trance & drum and bass","Jazz, opera & show tunes","Folk, country & soul","Acoustic & singer-songwriter","Comedy"],"famD":[[0.0,0.3276,0.4458,0.2261,0.4943,0.559,0.5316,0.4563,0.4966,0.5163,0.532,0.2444,0.3975,0.3235,0.935],[0.3276,0.0,0.6509,0.4382,0.6854,0.7705,0.7621,0.6784,0.6852,0.6143,0.7096,0.4976,0.6357,0.565,1.0],[0.4458,0.6509,0.0,0.2501,0.3888,0.3191,0.2877,0.2199,0.2759,0.3447,0.229,0.4182,0.2976,0.2969,0.9218],[0.2261,0.4382,0.2501,0.0,0.4068,0.4254,0.3969,0.3103,0.3459,0.3402,0.3414,0.283,0.3083,0.2461,0.8784],[0.4943,0.6854,0.3888,0.4068,0.0,0.1837,0.2569,0.2325,0.2435,0.4074,0.3207,0.3148,0.1918,0.2569,0.8064],[0.559,0.7705,0.3191,0.4254,0.1837,0.0,0.1588,0.1502,0.1533,0.3703,0.231,0.3906,0.1864,0.2766,0.863],[0.5316,0.7621,0.2877,0.3969,0.2569,0.1588,0.0,0.1221,0.1963,0.4046,0.2646,0.3671,0.1762,0.2445,0.8036],[0.4563,0.6784,0.2199,0.3103,0.2325,0.1502,0.1221,0.0,0.1133,0.3189,0.1922,0.3109,0.1177,0.1683,0.8565],[0.4966,0.6852,0.2759,0.3459,0.2435,0.1533,0.1963,0.1133,0.0,0.2425,0.1477,0.3504,0.176,0.2156,0.866],[0.5163,0.6143,0.3447,0.3402,0.4074,0.3703,0.4046,0.3189,0.2425,0.0,0.2109,0.4573,0.3719,0.3582,0.8758],[0.532,0.7096,0.229,0.3414,0.3207,0.231,0.2646,0.1922,0.1477,0.2109,0.0,0.4353,0.2813,0.2961,0.8693],[0.2444,0.4976,0.4182,0.283,0.3148,0.3906,0.3671,0.3109,0.3504,0.4573,0.4353,0.0,0.2131,0.1574,0.8569],[0.3975,0.6357,0.2976,0.3083,0.1918,0.1864,0.1762,0.1177,0.176,0.3719,0.2813,0.2131,0.0,0.1066,0.8517],[0.3235,0.565,0.2969,0.2461,0.2569,0.2766,0.2445,0.1683,0.2156,0.3582,0.2961,0.1574,0.1066,0.0,0.8528],[0.935,1.0,0.9218,0.8784,0.8064,0.863,0.8036,0.8565,0.866,0.8758,0.8693,0.8569,0.8517,0.8528,0.0]],"genre_family":{"ambient":0,"classical":0,"disney":0,"guitar":0,"new-age":0,"piano":0,"sleep":1,"chicago-house":2,"detroit-techno":2,"minimal-techno":2,"techno":2,"idm":3,"iranian":3,"study":3,"pagode":4,"samba":4,"sertanejo":4,"forro":5,"party":5,"ska":5,"dancehall":6,"funk":6,"hip-hop":6,"j-dance":6,"kids":6,"latin":6,"latino":6,"reggae":6,"reggaeton":6,"afrobeat":7,"anime":7,"club":7,"dance":7,"deep-house":7,"disco":7,"edm":7,"electro":7,"electronic":7,"house":7,"k-pop":7,"pop":7,"spanish":7,"synth-pop":7,"trip-hop":7,"turkish":7,"alt-rock":8,"alternative":8,"dub":8,"dubstep":8,"emo":8,"garage":8,"goth":8,"groove":8,"grunge":8,"hard-rock":8,"hardcore":8,"heavy-metal":8,"industrial":8,"j-idol":8,"j-pop":8,"j-rock":8,"metal":8,"metalcore":8,"power-pop":8,"progressive-house":8,"punk":8,"punk-rock":8,"rock":8,"black-metal":9,"death-metal":9,"grindcore":9,"breakbeat":10,"drum-and-bass":10,"happy":10,"hardstyle":10,"trance":10,"honky-tonk":11,"jazz":11,"opera":11,"romance":11,"show-tunes":11,"tango":11,"bluegrass":12,"blues":12,"brazil":12,"children":12,"country":12,"folk":12,"indian":12,"indie":12,"indie-pop":12,"malay":12,"mpb":12,"pop-film":12,"psych-rock":12,"r-n-b":12,"rock-n-roll":12,"rockabilly":12,"salsa":12,"soul":12,"swedish":12,"acoustic":13,"british":13,"cantopop":13,"chill":13,"french":13,"german":13,"gospel":13,"mandopop":13,"sad":13,"singer-songwriter":13,"songwriter":13,"world-music":13,"comedy":14},"demo":[{"t":"The Girl From Ipanema","a":"Stan Getz","g":11,"v":0.443,"e":0.194},{"t":"Break Ya Neck","a":"Busta Rhymes","g":8,"v":0.737,"e":0.809},{"t":"Libaas","a":"Kaka","g":7,"v":0.906,"e":0.753},{"t":"GET IT","a":"keshi","g":13,"v":0.313,"e":0.71},{"t":"Blue Jeans","a":"GANGGA","g":13,"v":0.292,"e":0.297},{"t":"When I'm Gone","a":"3 Doors Down","g":8,"v":0.374,"e":0.768},{"t":"Tesselation","a":"Mild High Club","g":8,"v":0.551,"e":0.407},{"t":"Rule Over (Putt Jattan Dey)","a":"The Landers","g":6,"v":0.549,"e":0.549},{"t":"buzzkill","a":"MOTHICA","g":12,"v":0.739,"e":0.755},{"t":"Upper Side Dreamin’","a":"ENHYPEN","g":7,"v":0.783,"e":0.886},{"t":"Bola Rebola","a":"Tropkillaz","g":6,"v":0.865,"e":0.777},{"t":"Let You Know - Summer Edit","a":"Y.V.E. 48","g":7,"v":0.0974,"e":0.398},{"t":"Keep You Safe","a":"SHRK","g":13,"v":0.342,"e":0.343},{"t":"Holding Back the Years - 2008 Remaster","a":"Simply Red","g":12,"v":0.524,"e":0.514},{"t":"Is This Love - 2018 Remaster","a":"Whitesnake","g":8,"v":0.429,"e":0.759},{"t":"UN PESO","a":"J Balvin","g":6,"v":0.961,"e":0.675},{"t":"Fiesta Pagana","a":"Mägo de Oz","g":7,"v":0.376,"e":0.897},{"t":"Superman","a":"Armin van Buuren","g":10,"v":0.436,"e":0.884},{"t":"Aathma Raama","a":"Brodha V","g":6,"v":0.711,"e":0.758},{"t":"Aurora","a":"K-391","g":7,"v":0.176,"e":0.689},{"t":"Homage","a":"Mild High Club","g":8,"v":0.415,"e":0.465},{"t":"pouring outside","a":"dyl dion","g":13,"v":0.326,"e":0.589},{"t":"EYES","a":"The Blaze","g":13,"v":0.119,"e":0.433},{"t":"Celoso","a":"Lele Pons","g":6,"v":0.667,"e":0.703},{"t":"Venom","a":"Little Simz","g":8,"v":0.523,"e":0.655},{"t":"Sempiternal","a":"Miriam Raye","g":0,"v":0.49,"e":0.0708},{"t":"Wildfire","a":"Watchhouse","g":12,"v":0.173,"e":0.352},{"t":"Marta, Sebas, Guille y los demás","a":"Amaral","g":7,"v":0.66,"e":0.853},{"t":"Reckless","a":"Madison Beer","g":7,"v":0.261,"e":0.426},{"t":"Never Ending Story","a":"Limahl","g":7,"v":0.851,"e":0.622},{"t":"ON TOP","a":"The Girl Next Door","g":13,"v":0.274,"e":0.455},{"t":"La Verdad","a":"Siloé","g":7,"v":0.523,"e":0.624},{"t":"SittingInTheCar","a":"surrenderdorothy","g":8,"v":0.383,"e":0.362},{"t":"Chura Liya Hai Tumne Jo Dil Ko","a":"Asha Bhosle","g":12,"v":0.684,"e":0.318},{"t":"I Can't Handle Change","a":"Roar","g":12,"v":0.39,"e":0.438},{"t":"Joga O Bum Bum Tam Tam","a":"MC Fioti","g":6,"v":0.43,"e":0.485},{"t":"Queen of Hearts","a":"Starla Edney","g":12,"v":0.462,"e":0.682},{"t":"Not For Sale","a":"ENHYPEN","g":7,"v":0.56,"e":0.589},{"t":"Carry on Wayward Son","a":"Kansas","g":8,"v":0.793,"e":0.786},{"t":"El Doctorado","a":"Tony Dize","g":6,"v":0.75,"e":0.773},{"t":"Take Five","a":"The Dave Brubeck Quartet","g":11,"v":0.598,"e":0.26},{"t":"Hero (feat. Josey Scott)","a":"Chad Kroeger","g":8,"v":0.304,"e":0.843},{"t":"Check Yo Self - Remix","a":"Ice Cube","g":6,"v":0.768,"e":0.735},{"t":"Dræm Girl","a":"No Vacation","g":8,"v":0.262,"e":0.952},{"t":"One Little Finger","a":"Super Simple Songs","g":12,"v":0.832,"e":0.213},{"t":"Never Let Me Go","a":"Florence + The Machine","g":8,"v":0.24,"e":0.736},{"t":"Nessaja","a":"Scooter","g":10,"v":0.104,"e":0.901},{"t":"Hey (I Miss You)","a":"Armin van Buuren","g":10,"v":0.43,"e":0.88},{"t":"Make the change","a":"ENHYPEN","g":7,"v":0.855,"e":0.767},{"t":"Stand by Me","a":"Seal","g":13,"v":0.812,"e":0.439},{"t":"Pink Soldiers","a":"Boris Way","g":13,"v":0.496,"e":0.639},{"t":"Racks and Rounds (feat. Sikander Kahlon)","a":"Sidhu Moose Wala","g":6,"v":0.837,"e":0.836},{"t":"Waltzing Back","a":"No Vacation","g":8,"v":0.487,"e":0.579},{"t":"Shootout","a":"Izzamuzzic","g":7,"v":0.553,"e":0.578},{"t":"Showed Me (How I Fell In Love With You)","a":"Madison Beer","g":7,"v":0.675,"e":0.542},{"t":"Looking Too Closely","a":"Fink","g":12,"v":0.102,"e":0.519},{"t":"Free Tibet - Vini Vici Remix","a":"Hilight Tribe","g":10,"v":0.0728,"e":0.947},{"t":"Your Obedient Servant","a":"Leslie Odom Jr.","g":11,"v":0.619,"e":0.37},{"t":"skeletons","a":"keshi","g":13,"v":0.273,"e":0.265},{"t":"Yggdrasil","a":"Brothers of Metal","g":8,"v":0.481,"e":0.743},{"t":"June Ponal","a":"Krishh","g":7,"v":0.667,"e":0.489},{"t":"Casual","a":"Johnny Stimson","g":13,"v":0.412,"e":0.45},{"t":"Sword from the Stone","a":"Passenger","g":12,"v":0.447,"e":0.457},{"t":"Every Time You Go Away - Radio Edit","a":"Paul Young","g":7,"v":0.844,"e":0.721},{"t":"Iron Sky","a":"Paolo Nutini","g":13,"v":0.316,"e":0.626},{"t":"Box of Memories","a":"Josh Kramer","g":0,"v":0.172,"e":0.0464},{"t":"Every Rose Has Its Thorn - Remastered 2003","a":"Poison","g":8,"v":0.292,"e":0.637},{"t":"RepeatInfinite","a":"surrenderdorothy","g":8,"v":0.179,"e":0.245},{"t":"Pony","a":"Ginuwine","g":12,"v":0.966,"e":0.605},{"t":"Hallelujah","a":"Rufus Wainwright","g":13,"v":0.44,"e":0.156},{"t":"30/90","a":"Andrew Garfield","g":11,"v":0.36,"e":0.789},{"t":"Easy","a":"DaniLeigh","g":6,"v":0.511,"e":0.301},{"t":"LAst dAy oN EaRTh","a":"Tai Verdes","g":12,"v":0.359,"e":0.553},{"t":"Rock'n Me","a":"Steve Miller Band","g":12,"v":0.892,"e":0.582},{"t":"Woke up in Bangkok","a":"Deepend","g":13,"v":0.38,"e":0.692},{"t":"Odhani (From \"Made in China\")","a":"Sachin-Jigar","g":12,"v":0.474,"e":0.731},{"t":"Agar Tum Saath Ho","a":"Alka Yagnik","g":7,"v":0.415,"e":0.519},{"t":"Okinawa","a":"92914","g":13,"v":0.376,"e":0.167},{"t":"Born to Be Alive - The Original","a":"Patrick Hernandez","g":7,"v":0.808,"e":0.868},{"t":"So What (feat. John Coltrane, Cannonball Adderley & Bill Evans)","a":"Miles Davis","g":11,"v":0.211,"e":0.151},{"t":"Remember Me","a":"UMI","g":13,"v":0.526,"e":0.344},{"t":"Alexander Hamilton","a":"Leslie Odom Jr.","g":11,"v":0.552,"e":0.435},{"t":"Mayor Que Usted","a":"Natti Natasha","g":6,"v":0.771,"e":0.839},{"t":"How Much Is The Fish?","a":"Scooter","g":10,"v":0.681,"e":0.994},{"t":"Kolo Kolo","a":"Patoranking","g":6,"v":0.542,"e":0.845},{"t":"Are You With Me","a":"Lost Frequencies","g":7,"v":0.393,"e":0.608},{"t":"Il lago","a":"Lorenzo Fiore","g":0,"v":0.169,"e":0.0254},{"t":"Good In Goodbye","a":"Madison Beer","g":7,"v":0.456,"e":0.698},{"t":"Dedicated To The One I Love","a":"The Mamas & The Papas","g":12,"v":0.307,"e":0.452},{"t":"happier than ever","a":"Loveless","g":8,"v":0.304,"e":0.87},{"t":"Let Go","a":"Ark Patrol","g":12,"v":0.0389,"e":0.436},{"t":"J’comprends pas","a":"PNL","g":13,"v":0.0398,"e":0.523},{"t":"Take The Money And Run","a":"Steve Miller Band","g":12,"v":0.836,"e":0.645},{"t":"Shallow","a":"Lady Gaga","g":7,"v":0.323,"e":0.385},{"t":"No Fun","a":"Armin van Buuren","g":10,"v":0.328,"e":0.904},{"t":"Yam Yam","a":"No Vacation","g":8,"v":0.0774,"e":0.591},{"t":"Sunday Morning","a":"The Velvet Underground","g":12,"v":0.532,"e":0.442},{"t":"Pumped Up Kicks","a":"Foster The People","g":12,"v":0.965,"e":0.71},{"t":"Younger - Kygo Remix","a":"Seinabo Sey","g":12,"v":0.645,"e":0.489},{"t":"Eternal Flame","a":"The Bangles","g":8,"v":0.399,"e":0.358},{"t":"Bum Bum Tam Tam","a":"MC Fioti","g":6,"v":0.659,"e":0.675},{"t":"River Running Free","a":"Miriam Raye","g":0,"v":0.516,"e":0.0661},{"t":"It's You","a":"Ali Gatie","g":7,"v":0.397,"e":0.463},{"t":"Nothin' But A Good Time - Remastered 2006","a":"Poison","g":8,"v":0.531,"e":0.974},{"t":"KOLO (feat. Oxlade)","a":"Ice Prince","g":6,"v":0.816,"e":0.741},{"t":"Nonstop","a":"OH MY GIRL","g":7,"v":0.825,"e":0.91},{"t":"Territory","a":"The Blaze","g":13,"v":0.213,"e":0.44},{"t":"Kala Chashma","a":"Amar Arshi","g":7,"v":0.919,"e":0.856},{"t":"Rock Your Baby","a":"George McCrae","g":7,"v":0.892,"e":0.906},{"t":"Those Sweet Words","a":"Norah Jones","g":11,"v":0.403,"e":0.234},{"t":"Some","a":"BOL4","g":7,"v":0.782,"e":0.799},{"t":"Quédate conmigo","a":"Pole.","g":7,"v":0.46,"e":0.715},{"t":"Rise Up","a":"Mellowdy","g":13,"v":0.371,"e":0.529},{"t":"American Beauty","a":"Drew Holcomb & The Neighbors","g":13,"v":0.178,"e":0.169},{"t":"Here I Go Again - 2018 Remaster","a":"Whitesnake","g":8,"v":0.244,"e":0.823},{"t":"Next Thing You Know","a":"Jordan Davis","g":12,"v":0.414,"e":0.597},{"t":"Salute Your Solution","a":"The Raconteurs","g":8,"v":0.498,"e":0.946},{"t":"Hakuna Matata - From \"The Lion King\"/Soundtrack","a":"Nathan Lane","g":0,"v":0.725,"e":0.313},{"t":"Daku","a":"Chani Nattan","g":6,"v":0.495,"e":0.558},{"t":"Gangsta's Paradise","a":"Coolio","g":6,"v":0.386,"e":0.514},{"t":"Crazy","a":"Seal","g":13,"v":0.724,"e":0.858},{"t":"Anybody Have a Map?","a":"Rachel Bay Jones","g":11,"v":0.744,"e":0.603},{"t":"Antisocial","a":"iithe1st","g":13,"v":0.72,"e":0.72},{"t":"The Room Where It Happens","a":"Leslie Odom Jr.","g":11,"v":0.511,"e":0.49},{"t":"She","a":"The Blaze","g":13,"v":0.0398,"e":0.829},{"t":"I Ran (So Far Away)","a":"A Flock Of Seagulls","g":7,"v":0.631,"e":0.642},{"t":"Pull Me Under","a":"Dream Theater","g":8,"v":0.278,"e":0.941},{"t":"Into You","a":"Matisse & Sadko","g":7,"v":0.278,"e":0.687},{"t":"Remember (feat. Stevie Appleton)","a":"Sonny Fodera","g":8,"v":0.328,"e":0.89},{"t":"Drogba (Joanna)","a":"Afro B","g":6,"v":0.767,"e":0.633},{"t":"Dione","a":"Teide","g":0,"v":0.14,"e":0.0136},{"t":"She Loves You - Mono / Remastered","a":"The Beatles","g":13,"v":0.912,"e":0.916},{"t":"wish that i could","a":"UMI","g":13,"v":0.375,"e":0.536},{"t":"queen of broken hearts","a":"blackbear","g":7,"v":0.825,"e":0.712},{"t":"Harder State Of Mind","a":"D-Block & S-te-Fan","g":10,"v":0.284,"e":0.94},{"t":"End of Time","a":"K-391","g":7,"v":0.193,"e":0.7},{"t":"Ik Tera","a":"Maninder Buttar","g":6,"v":0.49,"e":0.712},{"t":"Friday Night‬‬‬","a":"Vigiland","g":7,"v":0.0792,"e":0.668},{"t":"You've Got The Love","a":"Y.V.E. 48","g":7,"v":0.151,"e":0.44},{"t":"Temporary pyar","a":"Kaka","g":7,"v":0.339,"e":0.79},{"t":"QUE PRETENDES","a":"J Balvin","g":6,"v":0.939,"e":0.791},{"t":"Like a Child","a":"Hiroko Murakami","g":0,"v":0.281,"e":0.00486},{"t":"Mitti De Tibbe","a":"Kaka","g":7,"v":0.794,"e":0.853},{"t":"Betrayed","a":"Lil Xan","g":8,"v":0.241,"e":0.434},{"t":"Quevedo: Bzrp Music Sessions, Vol. 52","a":"Bizarrap","g":6,"v":0.55,"e":0.782},{"t":"Laare","a":"Maninder Buttar","g":6,"v":0.67,"e":0.658},{"t":"Sommarvals","a":"Christian Peterson-Bergling","g":0,"v":0.339,"e":0.0464},{"t":"Under the Boardwalk","a":"The Drifters","g":12,"v":0.778,"e":0.226},{"t":"Running Up That Hill - Epic Version (from \"Stranger Things)","a":"Samuel Kim","g":7,"v":0.151,"e":0.718},{"t":"Break Stuff","a":"Limp Bizkit","g":6,"v":0.624,"e":0.884},{"t":"Belle","a":"Emma Watson","g":0,"v":0.327,"e":0.504},{"t":"Show Me Love","a":"Robin S","g":7,"v":0.567,"e":0.833},{"t":"Toss A Coin To Your Witcher","a":"Coone","g":10,"v":0.301,"e":0.867},{"t":"A Gangster's Wife","a":"Ms Krazie","g":6,"v":0.383,"e":0.59},{"t":"Heather","a":"Conan Gray","g":7,"v":0.27,"e":0.425},{"t":"Estoy Hecho De Pedacitos De Ti","a":"Antonio Orozco","g":7,"v":0.332,"e":0.49},{"t":"Sadi Gali","a":"Lehmber Hussainpuri","g":6,"v":0.779,"e":0.994},{"t":"Producer Man","a":"Lyn Lapid","g":13,"v":0.75,"e":0.639},{"t":"Scandalous - U.S. Radio Edit","a":"Mis-Teeq","g":8,"v":0.651,"e":0.668},{"t":"Sigue","a":"J Balvin","g":6,"v":0.588,"e":0.641},{"t":"Could Have Been Me","a":"The Struts","g":8,"v":0.434,"e":0.907},{"t":"Say No to This","a":"Jasmine Cephas-Jones","g":11,"v":0.395,"e":0.535},{"t":"I'll Bite Your Soul","a":"SHRK","g":13,"v":0.18,"e":0.37},{"t":"I Loved You Then (And I Love You Still)","a":"Woodlock","g":12,"v":0.301,"e":0.324},{"t":"Breathe","a":"CamelPhat","g":8,"v":0.081,"e":0.877},{"t":"Breezin'","a":"George Benson","g":0,"v":0.964,"e":0.752},{"t":"Detached","a":"Lyn Lapid","g":13,"v":0.0648,"e":0.321},{"t":"Say It Right - ILURO Remix","a":"Mangoo","g":12,"v":0.472,"e":0.934},{"t":"Saying Things","a":"Emanuel Fremont","g":0,"v":0.0631,"e":0.0381},{"t":"Simple Song","a":"Passenger","g":12,"v":0.598,"e":0.402},{"t":"Dream A Little Dream Of Me","a":"The Mamas & The Papas","g":12,"v":0.349,"e":0.313},{"t":"sheluvme","a":"Tai Verdes","g":12,"v":0.712,"e":0.677},{"t":"Ay Mi Dios","a":"IAmChino","g":6,"v":0.814,"e":0.829},{"t":"Same Place","a":"JOY.","g":12,"v":0.19,"e":0.364},{"t":"When She Loved Me","a":"Lyn Lapid","g":13,"v":0.617,"e":0.0458},{"t":"Birds","a":"Imagine Dragons","g":8,"v":0.35,"e":0.517},{"t":"Old Ties and Companions","a":"Watchhouse","g":12,"v":0.522,"e":0.368},{"t":"Deux frères","a":"PNL","g":13,"v":0.308,"e":0.659},{"t":"Loser","a":"3 Doors Down","g":8,"v":0.389,"e":0.88},{"t":"Out Of Reach","a":"Gabrielle","g":13,"v":0.496,"e":0.48},{"t":"Believer","a":"Imagine Dragons","g":8,"v":0.666,"e":0.78},{"t":"Blow My Brains Out","a":"Tikkle Me","g":12,"v":0.549,"e":0.884},{"t":"9Pm (Till I Come)","a":"ATB","g":10,"v":0.754,"e":0.941},{"t":"Touch It","a":"Busta Rhymes","g":8,"v":0.442,"e":0.551},{"t":"Break","a":"Three Days Grace","g":8,"v":0.737,"e":0.897},{"t":"Sesame Syrup","a":"Cigarettes After Sex","g":0,"v":0.349,"e":0.413},{"t":"Play","a":"K-391","g":7,"v":0.168,"e":0.798},{"t":"Super Freak","a":"Rick James","g":12,"v":0.962,"e":0.794},{"t":"Kryptonite","a":"3 Doors Down","g":8,"v":0.543,"e":0.865},{"t":"High (& Dua Lipa)","a":"Whethan","g":7,"v":0.686,"e":0.552},{"t":"Cecilia And The Satellite","a":"Andrew McMahon in the Wilderness","g":0,"v":0.239,"e":0.844},{"t":"Dig a Little Deeper","a":"Jenifer Lewis","g":0,"v":0.798,"e":0.825},{"t":"Why We Thugs","a":"Ice Cube","g":6,"v":0.653,"e":0.59},{"t":"I Know What You Want (feat. Flipmode Squad)","a":"Busta Rhymes","g":8,"v":0.518,"e":0.759},{"t":"A Drop in the Ocean","a":"Ron Pope","g":0,"v":0.564,"e":0.393},{"t":"Dust in the Wind","a":"Kansas","g":8,"v":0.387,"e":0.322},{"t":"Gal Policy","a":"Kranium","g":6,"v":0.685,"e":0.61},{"t":"Famous","a":"Sidhu Moose Wala","g":6,"v":0.544,"e":0.607},{"t":"Betty (Get Money)","a":"Yung Gravy","g":6,"v":0.58,"e":0.772},{"t":"Around the World (La la La)","a":"Refuzion","g":10,"v":0.812,"e":0.948}]};
 
@@ -364,12 +369,12 @@ const VS = (() => {
 })();
 
 /* ---------------- app ---------------- */
-const K = DATA.constants, MOODS = DATA.moods, MOODVARS = ["--sad", "--chill", "--happy", "--intense"];
+const K = DATA.constants, MOODS = DATA.moods, MOODVARS = ["--c3", "--c2", "--c1", "--c4"];   // Sad steel, Chill teal, Happy amber, Intense crimson
 const CEN = VS.centres(K.v_med, K.e_med);
 const state = { lib: null, grammar: null, last: null, view: "vibe", showAll: false };
 const $ = s => document.querySelector(s);
-const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const PLOTS = () => [$("#plotPlain"), $("#plotVibe")];
 
 function famMatrix(extra) {   // family distances; an extra "Other" family sits at 0.5 from everything
   const F = DATA.famD.map(r => r.slice());
@@ -392,23 +397,27 @@ const PRESETS = {
   stay: () => [[1,0,-1,-1],[0,1,0,-1],[-1,0,1,0],[-1,-1,0,1]],
   free: () => [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],
 };
+const SYM = { 1: "+", 0: "·", "-1": "×" }, WORD = { 1: "like", 0: "neutral", "-1": "never" };
 function renderGrid() {
   const g = $("#grid"); g.innerHTML = '<div></div>' + MOODS.map(m => `<div class="hd">${m}</div>`).join("");
-  const sym = { 1: "+", 0: "·", "-1": "×" }, word = { 1: "like", 0: "neutral", "-1": "never" };
   MOODS.forEach((from, i) => {
-    g.insertAdjacentHTML("beforeend", `<div class="rh"><span class="dot" style="background:var(${MOODVARS[i]})"></span>${from}</div>`);
-    MOODS.forEach((to, j) => {
-      const v = state.grammar[i][j];
-      g.insertAdjacentHTML("beforeend", `<button type="button" class="cell" data-i="${i}" data-j="${j}" data-v="${v}" aria-label="From ${from} to ${to}: ${word[v]}">${sym[v]}</button>`);
-    });
+    g.insertAdjacentHTML("beforeend", `<div class="rh"><i class="sw" style="--c:var(${MOODVARS[i]})"></i>${from}</div>`);
+    MOODS.forEach((to, j) => g.insertAdjacentHTML("beforeend", `<button type="button" class="cell" data-i="${i}" data-j="${j}"></button>`));
+  });
+  paintGrid();
+}
+function paintGrid() {   // update cells in place so the fill change animates
+  document.querySelectorAll("#grid .cell").forEach(b => {
+    const i = +b.dataset.i, j = +b.dataset.j, v = state.grammar[i][j];
+    b.dataset.v = v; b.textContent = SYM[v]; b.setAttribute("aria-label", `From ${MOODS[i]} to ${MOODS[j]}: ${WORD[v]}`);
   });
 }
 function renderLib() {
   const lib = state.lib, n = lib.v.length, counts = [0, 0, 0, 0];
   lib.mood.forEach(m => counts[m]++);
   $("#libname").textContent = lib.name; $("#libcount").textContent = `${n} songs · ${new Set(lib.artist).size} artists`;
-  $("#moodbar").innerHTML = counts.map((c, m) => `<span style="width:${100 * c / n}%;background:var(${MOODVARS[m]})"></span>`).join("");
-  $("#legend").innerHTML = counts.map((c, m) => `<span><span class="dot" style="background:var(${MOODVARS[m]})"></span>${MOODS[m]} ${c}</span>`).join("");
+  $("#moodbar").innerHTML = counts.map((c, m) => c ? `<span style="flex:${c};--c:var(${MOODVARS[m]})"></span>` : "").join("");
+  $("#legend").innerHTML = counts.map((c, m) => `<span><i style="--c:var(${MOODVARS[m]})"></i>${MOODS[m]} ${c}</span>`).join("");
 }
 function temperature() { const s = +$("#surprise").value / 100; return 0.025 * Math.pow(200, s); }
 function updateT() {
@@ -435,41 +444,101 @@ function f2(x) { return (Math.abs(x) < 0.005 ? 0 : x).toFixed(2); }
 function pct(x) { return (100 * x).toFixed(x < 0.1 ? 1 : 0) + "%"; }
 function renderResult() {
   const L = state.last; if (!L) return;
-  const { qv, qp } = L, n = L.vibe.length;
-  const cards = [
-    ["Jarring jumps", pct(qv.jarring), `plain shuffle ${pct(qp.jarring)}`],
-    ["“Never” moves", String(Math.round(qv.never * (n - 1))), `plain shuffle ${Math.round(qp.never * (n - 1))}`],
-    ["Average step", qv.step.toFixed(2), `plain shuffle ${qp.step.toFixed(2)}`],
-    L.arc ? ["Arc fit", f2(qv.arc_spearman), `plain shuffle ${f2(qp.arc_spearman)} · Spearman`]
-          : ["Built in", `${L.ms < 10 ? L.ms.toFixed(1) : Math.round(L.ms)} ms`, `${n} songs · seed ${L.seed % 100000}`],
+  const { qv, qp } = L, n = L.vibe.length, nev = q => Math.round(q.never * (n - 1));
+  const int = v => String(Math.round(v)), fx2 = v => v.toFixed(2), ms = v => `${v < 10 ? v.toFixed(1) : Math.round(v)} ms`;
+  const cards = [   // [label, format, Vibe Shuffle value, plain shuffle value, tail]
+    ["Jarring jumps", pct, qv.jarring, qp.jarring],
+    ["“Never” moves", int, nev(qv), nev(qp)],
+    ["Average step", fx2, qv.step, qp.step],
+    L.arc ? ["Arc fit", f2, qv.arc_spearman, qp.arc_spearman, " · Spearman"]
+          : ["Built in", ms, L.ms, null, `${n} songs · seed ${L.seed % 100000}`],
   ];
-  $("#stats").innerHTML = cards.map(([k, v, s]) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join("");
+  cards.forEach(([k, fmt, v, p, tail = ""], i) => {
+    const [ek, ev, es] = $("#stats").children[i].children;
+    if (ek.textContent !== k) {   // new kind of tile: count up from zero
+      ek.textContent = k; ev._kv = 0;
+      es.innerHTML = p == null ? "" : `plain shuffle <span></span>${tail}`;
+      if (p != null) es.firstElementChild._kv = 0;
+    }
+    kit.count(ev, v, fmt);
+    if (p == null) es.textContent = tail; else kit.count(es.firstElementChild, p, fmt);
+  });
   $("#plotNote").textContent = L.arc ? `${MOODS[L.arc[0]]} → ${MOODS[L.arc[1]]}` : `T = ${L.T.toFixed(2)}`;
-  drawPath($("#plotPlain"), L.plain, qp.jumps); drawPath($("#plotVibe"), L.vibe, qv.jumps);
+  focusSong(null);
+  drawPath($("#plotPlain"), L.plain, qp.jumps, "plain shuffle"); drawPath($("#plotVibe"), L.vibe, qv.jumps, "Vibe Shuffle");
+  play();
   renderQueue();
 }
-function drawPath(svg, p, jumps) {
+function songTip(a, t, n, name) {
+  const lib = state.lib, mo = lib.mood[a];
+  return `<b>${esc(lib.title[a])}</b><br><span class="m">${esc(lib.artistName[a])}</span><br>` +
+    `<i class="sw" style="--c:var(${MOODVARS[mo]})"></i>${MOODS[mo]} · ${esc(lib.famNames[lib.fam[a]])}<br>` +
+    `Song ${t + 1} of ${n} in ${name}<br><span class="m">valence ${lib.v[a].toFixed(2)} · energy ${lib.e[a].toFixed(2)}</span>`;
+}
+function drawPath(svg, p, jumps, name) {
   const lib = state.lib, W = 320, H = 300, m = { l: 34, r: 8, t: 8, b: 30 }, pw = W - m.l - m.r, ph = H - m.t - m.b;
-  const X = v => m.l + v * pw, Y = e => m.t + (1 - e) * ph;
+  const X = v => m.l + v * pw, Y = e => m.t + (1 - e) * ph, f = x => x.toFixed(1);
   const qx = X(K.v_med), qy = Y(K.e_med);
-  let s = `<rect x="${m.l}" y="${m.t}" width="${pw}" height="${ph}" fill="var(--plot-bg)" stroke="var(--grid)"/>`;
-  s += `<line x1="${qx}" x2="${qx}" y1="${m.t}" y2="${m.t + ph}" stroke="var(--grid)" stroke-dasharray="3 3"/><line x1="${m.l}" x2="${m.l + pw}" y1="${qy}" y2="${qy}" stroke="var(--grid)" stroke-dasharray="3 3"/>`;
-  const lab = [[0, m.l + 5, m.t + ph - 6, "start"], [1, m.l + pw - 5, m.t + ph - 6, "end"], [2, m.l + pw - 5, m.t + 14, "end"], [3, m.l + 5, m.t + 14, "start"]];
-  for (const [mo, x, y, a] of lab) s += `<text x="${x}" y="${y}" text-anchor="${a}" font-size="11" font-weight="650" fill="var(${MOODVARS[mo]})">${MOODS[mo]}</text>`;
-  s += `<text x="${m.l + pw / 2}" y="${H - 6}" text-anchor="middle" font-size="11" fill="var(--muted)">valence (sad → happy)</text>`;
-  s += `<text x="11" y="${m.t + ph / 2}" text-anchor="middle" font-size="11" fill="var(--muted)" transform="rotate(-90 11 ${m.t + ph / 2})">energy</text>`;
-  for (const t of [0, 0.5, 1]) { s += `<text x="${X(t)}" y="${m.t + ph + 13}" text-anchor="middle" font-size="10" fill="var(--muted)">${t}</text><text x="${m.l - 5}" y="${Y(t) + 3}" text-anchor="end" font-size="10" fill="var(--muted)">${t}</text>`; }
-  const n = p.length, accent = css("--accent");
-  for (let t = 0; t + 1 < n; t++) {
+  let s = `<rect class="box" x="${m.l}" y="${m.t}" width="${pw}" height="${ph}"/>`;
+  s += `<line class="med" x1="${qx}" x2="${qx}" y1="${m.t}" y2="${m.t + ph}"/><line class="med" x1="${m.l}" x2="${m.l + pw}" y1="${qy}" y2="${qy}"/>`;
+  const lab = [[0, m.l + 6, m.t + ph - 7, "start"], [1, m.l + pw - 6, m.t + ph - 7, "end"], [2, m.l + pw - 6, m.t + 15, "end"], [3, m.l + 6, m.t + 15, "start"]];
+  const ql = lab.map(([mo, x, y, a]) => `<text class="ql" x="${x}" y="${y}" text-anchor="${a}">${MOODS[mo]}</text>`).join("");   // drawn over the dots, with a halo
+  s += `<text x="${m.l + pw / 2}" y="${H - 6}" text-anchor="middle">valence (sad → happy)</text>`;
+  s += `<text x="11" y="${m.t + ph / 2}" text-anchor="middle" transform="rotate(-90 11 ${m.t + ph / 2})">energy</text>`;
+  for (const t of [0, 0.5, 1]) { s += `<text class="tk" x="${X(t)}" y="${m.t + ph + 13}" text-anchor="middle">${t}</text><text class="tk" x="${m.l - 5}" y="${Y(t) + 3}" text-anchor="end">${t}</text>`; }
+  const n = p.length, pos = new Int32Array(n);
+  let segs = "", dots = "";
+  for (let t = 0; t + 1 < n; t++) {   // thin ink, fainter early in the queue; jarring jumps dashed at full ink
     const a = p[t], b = p[t + 1], jar = jumps[t] === "jar";
-    const op = 0.25 + 0.65 * (t / (n - 1));
-    s += `<line x1="${X(lib.v[a]).toFixed(1)}" y1="${Y(lib.e[a]).toFixed(1)}" x2="${X(lib.v[b]).toFixed(1)}" y2="${Y(lib.e[b]).toFixed(1)}" stroke="${jar ? "var(--never)" : accent}" stroke-opacity="${jar ? 0.9 : op.toFixed(2)}" stroke-width="${jar ? 1.6 : 1.3}"${jar ? ' stroke-dasharray="4 3"' : ""}/>`;
+    segs += `<line class="seg${jar ? " jar" : ""}" data-t="${t}" x1="${f(X(lib.v[a]))}" y1="${f(Y(lib.e[a]))}" x2="${f(X(lib.v[b]))}" y2="${f(Y(lib.e[b]))}"${jar ? "" : ` stroke-opacity="${(0.16 + 0.4 * t / (n - 1)).toFixed(2)}"`}/>`;
   }
-  for (let t = 0; t < n; t++) { const a = p[t]; s += `<circle cx="${X(lib.v[a]).toFixed(1)}" cy="${Y(lib.e[a]).toFixed(1)}" r="2.1" fill="var(${MOODVARS[lib.mood[a]]})"/>`; }
-  const f = p[0], l = p[n - 1];
-  s += `<circle cx="${X(lib.v[f])}" cy="${Y(lib.e[f])}" r="6" fill="none" stroke="var(--text)" stroke-width="2"><title>first song</title></circle>`;
-  s += `<rect x="${X(lib.v[l]) - 5}" y="${Y(lib.e[l]) - 5}" width="10" height="10" fill="none" stroke="var(--text)" stroke-width="2"><title>last song</title></rect>`;
-  svg.innerHTML = s;
+  for (let t = 0; t < n; t++) {
+    const a = p[t], x = f(X(lib.v[a])), y = f(Y(lib.e[a])); pos[a] = t;
+    dots += `<g class="pt m${lib.mood[a]}" data-s="${a}" data-pop data-tip="${kit.esc(songTip(a, t, n, name))}"><circle class="hit" cx="${x}" cy="${y}" r="7"/><circle class="dot" cx="${x}" cy="${y}" r="3.6"/></g>`;
+  }
+  const fs = p[0], ls = p[n - 1], ring = `cx="${f(X(lib.v[fs]))}" cy="${f(Y(lib.e[fs]))}" r="6.5"`, sq = `x="${f(X(lib.v[ls]) - 5.5)}" y="${f(Y(lib.e[ls]) - 5.5)}" width="11" height="11" rx="1"`;
+  s += `<g class="segs">${segs}</g><g class="pts">${dots}</g>${ql}`;
+  s += `<g class="mk"><g><circle class="halo" ${ring}/><circle ${ring}/></g><g><rect class="halo" ${sq}/><rect ${sq}/></g></g>`;
+  svg.innerHTML = s; svg._p = p; svg._pos = pos;
+}
+// The path draws in along the queue order (about 900 ms); on first view the dots pop in too.
+function drawIn(svg, pop) {
+  if (kit.reduced) return;
+  if (pop) kit.draw(svg);
+  const segs = svg.querySelectorAll(".seg"), D = 900, step = D / Math.max(segs.length, 1);
+  segs.forEach((l, t) => {
+    const L = Math.hypot(l.x2.baseVal.value - l.x1.baseVal.value, l.y2.baseVal.value - l.y1.baseVal.value), d = `${L} ${L}`;
+    l.animate([{ strokeDasharray: d, strokeDashoffset: L }, { strokeDasharray: d, strokeDashoffset: 0 }], { duration: Math.max(3 * step, 30), delay: t * step, fill: "backwards" });
+  });
+  svg.querySelectorAll(".mk > g").forEach((g, i) => g.animate([{ transform: "scale(0)", opacity: 0 }, { transform: "none", opacity: 1 }],
+    { duration: 380, delay: i ? D : 0, easing: "cubic-bezier(.34,1.56,.64,1)", fill: "backwards" }));
+}
+let seen = false, waiting = false, repop = false;   // repop: a new library pops its dots in again
+function play() {   // first draw waits until the plots are on screen
+  if (seen) { PLOTS().forEach(svg => drawIn(svg, repop)); repop = false; return; }
+  if (waiting || !("IntersectionObserver" in window)) return;
+  waiting = true;
+  const o = new IntersectionObserver(es => {
+    if (!es.some(e => e.isIntersecting)) return;
+    o.disconnect(); seen = true; PLOTS().forEach(svg => drawIn(svg, true));
+  }, { rootMargin: "0px 0px -15% 0px" });
+  o.observe($("#plotVibe"));
+}
+// Linked highlight: one song's dot, its in and out steps and its neighbours in both plots, plus its queue row.
+let focused = null;
+function focusSong(s) {
+  if (s === focused) return; focused = s;
+  for (const svg of PLOTS()) {
+    svg.querySelectorAll(".hl, .nb").forEach(e => e.classList.remove("hl", "nb"));
+    svg.classList.toggle("focus", s != null);
+    if (s == null || !svg._p) continue;
+    const t = svg._pos[s], p = svg._p;
+    svg.querySelector(`.pt[data-s="${s}"]`).classList.add("hl");
+    for (const u of [t - 1, t]) { const l = svg.querySelector(`.seg[data-t="${u}"]`); if (l) l.classList.add("hl"); }
+    for (const u of [t - 1, t + 1]) if (u >= 0 && u < p.length) svg.querySelector(`.pt[data-s="${p[u]}"]`).classList.add("nb");
+  }
+  document.querySelectorAll("#queue li.hl").forEach(e => e.classList.remove("hl"));
+  if (s != null) { const li = $(`#queue li[data-s="${s}"]`); if (li) li.classList.add("hl"); }
 }
 function renderQueue() {
   const L = state.last, lib = state.lib, p = state.view === "vibe" ? L.vibe : L.plain, q = state.view === "vibe" ? L.qv : L.qp;
@@ -477,9 +546,9 @@ function renderQueue() {
   let h = "";
   for (let t = 0; t < show; t++) {
     const s = p[t], mo = lib.mood[s];
-    h += `<li><div class="qi"><span class="qn">${t + 1}</span><div class="qt"><b>${esc(lib.title[s])}</b><span>${esc(lib.artistName[s])}</span></div>` +
-         `<div class="chips"><span class="chip mood" style="--c:var(${MOODVARS[mo]})">${MOODS[mo]}</span><span class="chip">${esc(lib.famNames[lib.fam[s]])}</span></div></div>`;
-    if (t + 1 < show && q.jumps[t]) h += `<div class="jump">${q.jumps[t] === "jar" ? "jarring jump: new genre family and a big change in mood" : "a move you marked “never”"}</div>`;
+    h += `<li data-s="${s}" style="animation-delay:${Math.min(t, 16) * 22}ms"><div class="qi"><span class="qn">${t + 1}</span><div class="qt"><b>${esc(lib.title[s])}</b><span>${esc(lib.artistName[s])}</span></div>` +
+         `<div class="chips"><span class="chip"><i class="sw" style="--c:var(${MOODVARS[mo]})"></i>${MOODS[mo]}</span><span class="chip g">${esc(lib.famNames[lib.fam[s]])}</span></div></div>`;
+    if (t + 1 < show && q.jumps[t]) h += q.jumps[t] === "jar" ? `<div class="jump">jarring jump: new genre family and a big change in mood</div>` : `<div class="jump never">a move you marked “never”</div>`;
     h += "</li>";
   }
   $("#queue").innerHTML = h;
@@ -542,38 +611,43 @@ function init() {
   renderGrid(); renderLib(); updateT();
   const tpl = "title,artist,genre,valence,energy\nHurt,Johnny Cash,country,0.2,0.3\nSeptember,\"Earth, Wind & Fire\",soul,0.98,0.81\n";
   $("#template").href = "data:text/csv;charset=utf-8," + encodeURIComponent(tpl);
+  const presets = document.querySelectorAll("[data-preset]");
   $("#grid").addEventListener("click", e => {
     const b = e.target.closest(".cell"); if (!b) return;
     const i = +b.dataset.i, j = +b.dataset.j, nxt = { 0: 1, 1: -1, "-1": 0 };
     state.grammar[i][j] = nxt[state.grammar[i][j]];
-    document.querySelectorAll("[data-preset]").forEach(x => x.classList.remove("on"));
-    renderGrid(); $(`.cell[data-i="${i}"][data-j="${j}"]`).focus();
+    presets.forEach(x => x.setAttribute("aria-pressed", "false"));
+    paintGrid();
   });
-  document.querySelectorAll("[data-preset]").forEach(b => b.addEventListener("click", () => {
+  presets.forEach(b => b.addEventListener("click", () => {
     state.grammar = PRESETS[b.dataset.preset]();
-    document.querySelectorAll("[data-preset]").forEach(x => x.classList.toggle("on", x === b)); renderGrid();
+    presets.forEach(x => x.setAttribute("aria-pressed", String(x === b))); paintGrid();
   }));
-  $("#arcOn").addEventListener("change", () => $("#arcRow").setAttribute("aria-disabled", String(!$("#arcOn").checked)));
+  $("#arcOn").addEventListener("change", () => {
+    const on = $("#arcOn").checked;
+    $("#arcRow").setAttribute("aria-disabled", String(!on)); $("#arcFrom").disabled = $("#arcTo").disabled = !on;
+  });
   $("#surprise").addEventListener("input", updateT);
   $("#go").addEventListener("click", shuffle);
-  $("#tabVibe").addEventListener("click", () => { state.view = "vibe"; $("#tabVibe").classList.add("on"); $("#tabPlain").classList.remove("on"); if (state.last) renderQueue(); });
-  $("#tabPlain").addEventListener("click", () => { state.view = "plain"; $("#tabPlain").classList.add("on"); $("#tabVibe").classList.remove("on"); if (state.last) renderQueue(); });
+  const tab = v => { state.view = v; $("#tabVibe").setAttribute("aria-pressed", String(v === "vibe")); $("#tabPlain").setAttribute("aria-pressed", String(v === "plain")); if (state.last) renderQueue(); };
+  $("#tabVibe").addEventListener("click", () => tab("vibe"));
+  $("#tabPlain").addEventListener("click", () => tab("plain"));
   $("#more").addEventListener("click", () => { state.showAll = !state.showAll; renderQueue(); });
-  $("#demo").addEventListener("click", () => { state.lib = makeLib(DATA.demo, "Demo library"); state.last = null; renderLib(); setStatus("Demo library loaded.", "ok"); shuffle(); });
+  $("#demo").addEventListener("click", () => { state.lib = makeLib(DATA.demo, "Demo library"); state.last = null; renderLib(); setStatus("Demo library loaded.", "ok"); repop = true; shuffle(); });
   $("#csv").addEventListener("change", async e => {
     const f = e.target.files[0]; if (!f) return;
     try {
       const { lib, skipped, unknown } = importCSV(await f.text(), f.name.replace(/\.csv$/i, ""));
       state.lib = lib; renderLib();
       setStatus(`Loaded ${lib.v.length} songs${skipped ? `, skipped ${skipped} rows` : ""}${unknown ? `, ${unknown} with an unknown genre` : ""}.`, "ok");
-      shuffle();
+      repop = true; shuffle();
     } catch (err) { setStatus(err.message, "err"); }
     e.target.value = "";
   });
-  $("#theme").addEventListener("click", () => {
-    const cur = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    document.documentElement.dataset.theme = cur === "dark" ? "light" : "dark"; if (state.last) renderResult();
-  });
+  // linked hover: a dot (via the kit tooltip's hover event) or a queue row
+  PLOTS().forEach(svg => svg.addEventListener("kit:hover", e => { const g = e.target.closest(".pt"); focusSong(e.detail && g ? +g.dataset.s : null); }));
+  $("#queue").addEventListener("pointerover", e => { const li = e.target.closest("li[data-s]"); if (li) focusSong(+li.dataset.s); });
+  $("#queue").addEventListener("pointerleave", () => focusSong(null));
   shuffle();
 }
 window.VibeShuffle = { VS, DATA, makeLib, importCSV, state };

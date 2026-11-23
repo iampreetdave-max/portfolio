@@ -15,6 +15,7 @@
 ## Projects
 
 - [Claude Code Skills](https://iampreetdave.me/projects/claude-code-skills): Open-source Claude Code skills, each installed with one command from a personal plugin marketplace. The flagship, done-gate, stops an agent calling work finished until every ask is proven with file:line evidence and audited blind.
+- [leftover](https://iampreetdave.me/projects/leftover): Spends the weekly Claude Code quota you would lose anyway on your side projects: a ranked menu sized to what is left, every question asked up front, then unattended work on branches for you to review.
 - [Open Data Finder](https://iampreetdave.me/projects/open-data-finder): In an 18-need benchmark every top link resolved, against 81% for a frontier LLM with web search, at about 1/90th of the cost. A small, fast LLM plans the searches and eight open catalogs supply the datasets.
 - [Padosi](https://iampreetdave.me/projects/padosi): Rent drills, cameras or party gear from verified people nearby, on a peer-to-peer marketplace for India. Locations are fuzzed and grid-snapped so repeated searches cannot triangulate an address.
 - [Q](https://iampreetdave.me/projects/q): Ask Q what someone promised last month and it answers with verified citations to the exact meeting lines. A self-hosted bot joins Google Meet calls and saves transcript, chat and screen shares to long-term memory.

@@ -14,6 +14,17 @@ export const PROJECT_COPY: Record<string, ProjectCopy> = {
       "Other skills cover compliance checks, trustworthy OCR, Make.com automation, hackathon sprints, Android device testing and exam revision."
     ]
   },
+  "leftover": {
+    "hook": "Spends the weekly Claude Code quota you would lose anyway on your side projects: a ranked menu sized to what is left, every question asked up front, then unattended work on branches for you to review.",
+    "proof": "Each job runs in its own git worktree; it never pushes or deploys, and it stops at the reserve you set.",
+    "highlights": [
+      "Reads what is left of the weekly limit on every account you use and spends the one whose quota resets first.",
+      "Scans each project's README, progress notes and git history, then offers about ten jobs ranked by impact and by how well they run without you, per percent of quota.",
+      "Asks every question up front, so the unattended run never stops to wait for you.",
+      "A small Python runner works through the picks in git worktrees on leftover/<job> branches, waits out 5-hour limits and stops at your reserve.",
+      "Leaves REPORT.md with the branches to review and the questions only you can answer; headless runs never bill an API key by accident."
+    ]
+  },
   "open-data-finder": {
     "hook": "In an 18-need benchmark every top link resolved, against 81% for a frontier LLM with web search, at about 1/90th of the cost. A small, fast LLM plans the searches and eight open catalogs supply the datasets.",
     "proof": "Every link is fetched before it is listed, and code stops the model adding anything a catalog did not return.",
@@ -262,6 +273,7 @@ export const PROJECT_COPY: Record<string, ProjectCopy> = {
 // interface illustration (designed for this page because the project has no UI to show).
 export const PROJECT_SHOTS: Record<string, string> = {
   "claude-code-skills": "The Skills page: every skill, the three install packs, and one-command installs.",
+  "leftover": "Interface illustration with fictional projects: the weekly budget per account, the ranked menu of jobs, and the runner working on its own branch.",
   "open-data-finder": "tensortapri.org/data: a real search for satellite land surface temperature, every link checked before it is listed.",
   "padosi": "The running app, with an added map panel: verified neighbours’ gear near Koramangala, shown as approximate 1 km areas, never addresses.",
   "q": "Interface illustration: Q joins a Google Meet call and answers what was promised, citing the exact meeting lines.",
@@ -290,6 +302,7 @@ export const PROJECT_SHOTS: Record<string, string> = {
 export const PROJECT_LINKS: Record<string, [string, string][]> = {
   "claude-code-skills": [["/skills", "Browse the skills"]],
   "open-data-finder": [["/research/dataset-discovery", "Read the paper"]],
+  "leftover": [["/skills#leftover", "How to install"]],
   "ai-race-news": [["https://ai-race-news.pages.dev", "Visit the live site"]],
   "codetransform": [["https://code-convertor.pages.dev", "Try it live"]],
 };
