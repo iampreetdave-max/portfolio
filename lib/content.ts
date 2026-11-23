@@ -1,6 +1,7 @@
 // The site's content, in one place. The About, Work and Projects pages render it,
 // the "Ask about my work" bot retrieves from it, and the tech web is drawn from its tags.
 // Ids are stable: they are the page anchors (/projects#ledgerlens) and the bot's citations.
+import { papers, plain as unstar } from "./research";
 
 // About copy. A string is plain text; { text, href } is a link.
 export const about: (string | { text: string; href: string })[][] = [
@@ -100,7 +101,7 @@ const cv = [
   { id: "skills-engineering", title: "Skills: software, data and automation", text: "Backend & Full-stack: FastAPI, Next.js, React, Node.js, Express, Hono, Electron, Expo / React Native, Flutter, Socket.IO, REST APIs, Streamlit. Data & Infrastructure: PostgreSQL / Supabase, MongoDB, Redis, SQLite, Cloudflare Pages / D1, Playwright, Docker, Docker Compose, GitHub Actions / CI, Azure, Google Cloud Run, Netlify, Hugging Face. Automation: Make.com, n8n, Zapier, GoHighLevel, webhook & API integrations." },
   { id: "education", title: "Education", text: "B.Tech, Computer Science & Engineering (AI & ML). NLJIET, Gujarat Technological University (GTU), Ahmedabad, India. Coursework & focus: Large Language Models (LLMs), Data Structures & Algorithms, AI/ML, Mathematics for ML. Coordinator for multiple student-council events, owning end-to-end planning, execution, and marketing. Member of the college research group; co-authoring research papers with classmates." },
   { id: "certifications", title: "Certifications", text: "Building with the Claude API, Anthropic, 2026. Claude Code in Action, Anthropic, 2026. Introduction to Model Context Protocol, Anthropic, 2026. Introduction to Agent Skills, Anthropic, 2026. Data Literacy, IBM, 2026. Crash Course on Python, Google, 2023. Make Automation Certification, Make, 2026." },
-  { id: "publications", title: "Publications", text: "Engineers Fear AI, As Mathematicians Once Feared Calculators, authored research paper. Zipf's Law for LLMs, technical essay. How GPS Works, technical essay." },
+  { id: "publications", title: "Publications", text: `${papers.map((p) => `${p.title}, research paper (preprint), 2026.`).join(" ")} Engineers Fear AI, As Mathematicians Once Feared Calculators, authored research paper. Zipf's Law for LLMs, technical essay. How GPS Works, technical essay.` },
 ];
 
 export type Doc = { id: string; title: string; link: string; text: string };
@@ -118,6 +119,10 @@ export const docs: Doc[] = [
   })),
   ...automations.map((a) => ({ id: a.id, title: a.name, link: `/projects#${a.id}`, text: `${a.name} (automation). ${a.note} Tools: ${list(a.tags)}.` })),
   ...cv.map((c) => ({ ...c, link: "/cv.pdf" })),
+  ...papers.map((p) => ({
+    id: `paper-${p.slug}`, title: p.title, link: `/research/${p.slug}`,
+    text: `Research paper by Preet Ghanshyam Dave (preprint, November 2026). ${unstar(p.abstract)} Highlights: ${unstar(p.highlights.join(" "))}`,
+  })),
 ];
 
 // Tag -> the technologies it stands for. Tags not listed are a technology as written;

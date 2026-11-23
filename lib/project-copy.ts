@@ -289,6 +289,7 @@ export const PROJECT_SHOTS: Record<string, string> = {
 // Extra public links beyond the row's own href (live demos of Preet's own deployments only).
 export const PROJECT_LINKS: Record<string, [string, string][]> = {
   "claude-code-skills": [["/skills", "Browse the skills"]],
+  "open-data-finder": [["/research/dataset-discovery", "Read the paper"]],
   "ai-race-news": [["https://ai-race-news.pages.dev", "Visit the live site"]],
   "codetransform": [["https://code-convertor.pages.dev", "Try it live"]],
 };

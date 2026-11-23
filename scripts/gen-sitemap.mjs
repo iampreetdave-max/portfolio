@@ -19,10 +19,13 @@ const copyJson = copySrc.slice(copySrc.indexOf("= {", copySrc.indexOf("PROJECT_C
 const copy = JSON.parse(copyJson);
 const posts = [...read("lib/writing.ts").matchAll(/slug: "([a-z0-9-]+)",\s*title: "((?:[^"\\]|\\.)*)"/g)]
   .map((m) => ({ slug: m[1], title: JSON.parse(`"${m[2]}"`) }));
-if (projects.length < 10 || skills.length < 5 || posts.length < 3) throw new Error(`suspiciously few pages: ${projects.length} projects, ${skills.length} skills, ${posts.length} posts`);
+const papers = [...read("lib/research.ts").matchAll(/slug: "([a-z0-9-]+)",\s*title: ("(?:[^"\\]|\\.)*"),\s*finding: ("(?:[^"\\]|\\.)*")/g)]
+  .map((m) => ({ slug: m[1], title: JSON.parse(m[2]), finding: JSON.parse(m[3]) }));
+if (projects.length < 10 || skills.length < 5 || posts.length < 3 || papers.length < 1) throw new Error(`suspiciously few pages: ${projects.length} projects, ${skills.length} skills, ${posts.length} posts, ${papers.length} papers`);
 
 // sitemap.xml
-const paths = ["/", "/work", "/projects", "/skills", "/writing", "/fun",
+const paths = ["/", "/work", "/projects", "/research", "/skills", "/writing", "/fun",
+  ...papers.flatMap((p) => [`/research/${p.slug}`, `/research/${p.slug}.pdf`]),
   ...projects.map((p) => `/projects/${p.id}`), ...skills.map((s) => `/skills/${s.id}`), ...posts.map((w) => `/writing/${w.slug}`)];
 writeFileSync("public/sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -40,13 +43,18 @@ writeFileSync("public/llms.txt", `# Preet Dave
 - [About](${SITE}/): who Preet is, the technologies he works with, and a bot that answers questions about his work with citations
 - [Work](${SITE}/work): roles at Agility, Tensor Tapri and a stealth AI startup
 - [Projects](${SITE}/projects): every project, each with its own page
+- [Research](${SITE}/research): research papers, each with a page, the PDF and an interactive demo
 - [Claude Code skills](${SITE}/skills): open-source skills, installable with one command
-- [Writing](${SITE}/writing): the newsletter and engineering write-ups
+- [Writing](${SITE}/writing): research papers, the newsletter and engineering write-ups
 - [Resume (PDF)](${SITE}/resume.pdf) and [CV (PDF)](${SITE}/cv.pdf)
 
 ## Projects
 
 ${projects.map((p) => `- [${p.name}](${SITE}/projects/${p.id}): ${copy[p.id]?.hook ?? ""}`).join("\n")}
+
+## Research papers (Preet Ghanshyam Dave, preprints, November 2026)
+
+${papers.map((p) => `- [${p.title}](${SITE}/research/${p.slug}): ${p.finding} [PDF](${SITE}/research/${p.slug}.pdf)`).join("\n")}
 
 ## Writing
 
@@ -63,4 +71,4 @@ ${skills.map((s) => `- [${s.id}](${SITE}/skills/${s.id}): ${s.note}`).join("\n")
 - [Tensor Tapri](https://tensortapri.org)
 - [Skills repository](https://github.com/iampreetdave-max/agent-skills)
 `);
-console.log(`sitemap.xml: ${paths.length} URLs; llms.txt: ${projects.length} projects, ${skills.length} skills, ${posts.length} posts`);
+console.log(`sitemap.xml: ${paths.length} URLs; llms.txt: ${projects.length} projects, ${skills.length} skills, ${posts.length} posts, ${papers.length} papers`);

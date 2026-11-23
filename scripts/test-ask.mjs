@@ -91,7 +91,8 @@ for (const [name, q, reply, want] of pipeline) {
   check(name, () => assert.equal(r.kind, want));
 }
 calls = 0;
-const movie = await ask("What's his favourite movie?", stub(() => "Inception [about]."));
+// ponytail: was "favourite movie", but the house-edge paper now says "favourite" (accumulators); the live eval still asks it
+const movie = await ask("What is his blood type?", stub(() => "O positive [about]."));
 check("no matching docs -> I don't know without calling the model", () => { assert.equal(movie.kind, "idk"); assert.equal(calls, 0); });
 check(`max_tokens is capped at ${MAX_TOKENS}`, () => assert.ok(MAX_TOKENS <= 300));
 
