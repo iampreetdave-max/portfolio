@@ -1,6 +1,6 @@
 // One lucide line icon per project, keyed by project id (lib/content.ts). Add one for every new project.
 import {
-  Anchor, AudioLines, BrainCircuit, Cctv, CloudSun, CodeXml, Coffee, Flag, Globe, Goal, Handshake,
+  Anchor, AudioLines, BatteryCharging, BrainCircuit, Cctv, CloudSun, CodeXml, Coffee, Flag, Globe, Goal, Handshake,
   Medal, Newspaper, NotebookPen, Puzzle, Scale, ScanText, SearchCheck, Spade, Telescope, Trophy, Truck,
   createLucideIcon, type LucideIcon,
 } from "lucide-react";
@@ -13,6 +13,7 @@ const Basketball = createLucideIcon("Basketball", [
 
 export const PROJECT_ICONS: Record<string, LucideIcon> = {
   "claude-code-skills": Puzzle,
+  "leftover": BatteryCharging,
   "open-data-finder": SearchCheck,
   "padosi": Handshake,
   "q": AudioLines,
