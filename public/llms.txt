@@ -41,6 +41,7 @@
 
 ## Research papers (Preet Ghanshyam Dave, preprints, November 2026)
 
+- [A public jailbreak within days, failure reports within hours: chat-model jailbreaks on a public forum, 2023 to 2025](https://iampreetdave.me/research/jailbreak-lifecycle): From 2024 on, a public jailbreak appeared for 29 of 30 chat-model releases, a median 2.1 days after release; a third to a half of shared jailbreaks drew a failure report within a week. [PDF](https://iampreetdave.me/research/jailbreak-lifecycle.pdf)
 - [Price does the work, limits are the safety valve: decomposing the house edge on 198,144 football matches](https://iampreetdave.me/research/house-edge): A sequential test on closing-line value flags 99.8% of simulated value bettors after a median of 17 bets; a test on profit flags 3.8% within 1,000 bets. [PDF](https://iampreetdave.me/research/house-edge.pdf)
 - [Shuffle with a sense of direction: listener-written mood rules for playlist shuffle, and what smoothness costs in randomness](https://iampreetdave.me/research/vibe-shuffle): At 100 songs, listener-written mood rules plus a temperature cut jarring jumps from 14.4% (Fisher-Yates) to 0.1%; scored against real crowd labels, from 8.2% to 4.4%. [PDF](https://iampreetdave.me/research/vibe-shuffle.pdf)
 - [Competence without social debt: the JARVIS wish in myth, psychology and public data](https://iampreetdave.me/research/jarvis): JARVIS names 86.8% of the 8,594 GitHub repositories (2008 to 2025) that pair one of twelve fictional AI names with "assistant". [PDF](https://iampreetdave.me/research/jarvis.pdf)

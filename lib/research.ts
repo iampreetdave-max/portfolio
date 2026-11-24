@@ -26,6 +26,46 @@ export const plain = (s: string) => s.replace(/\*/g, "");
 
 export const papers: Paper[] = [
   {
+    slug: "jailbreak-lifecycle",
+    title: "A public jailbreak within days, failure reports within hours: chat-model jailbreaks on a public forum, 2023 to 2025",
+    finding: "From 2024 on, a public jailbreak appeared for 29 of 30 chat-model releases, a median 2.1 days after release; a third to a half of shared jailbreaks drew a failure report within a week.",
+    description: "How soon after a chat model's release is a jailbreak for it shared in public, and how long do shared jailbreaks keep working? A study of 38 releases from six vendors and 12,322 posts on a public jailbreak forum, 2023 to 2025.",
+    demo: "Jailbreak Lifecycle Explorer",
+    abstract: "How soon after a chat model's release does a jailbreak for it appear in public, and how long do shared jailbreaks keep working? We found no study that times either across many releases. We combine 38 releases from six vendors dated by Epoch AI, the full record of r/ChatGPTJailbreak from January 2023 to its ban in December 2025 (12,322 posts, 120,186 human comments), and Hugging Face repositories named as abliterated or uncensored. A forum post sharing a jailbreak that named the model appeared for 29 of the 30 releases from 2024 on, at a Kaplan-Meier median of 2.1 days (95% CI 1.1 to 3.9), with no difference between 2024 and 2025; only 1 of 8 releases from 2023 got one, when the forum was small and titles rarely named versions. Against the earliest dated outside reports, the forum was first for three of seven models and outside reporters for three, with one tie. Of 3,030 shared jailbreaks with human comments, 34.6% drew a comment within seven days saying they no longer worked; Kaplan-Meier, which assumes quiet posts would have been reported like busy ones, gives an upper estimate of 48.2%. Most reports came within hours. Annual rates showed no trend, though our failure detector's precision (0.64) may have varied by year. We detected no rise in failure reports after releases (+0.25 percentage points, 95% CI -0.15 to +0.68). Posting-time features predicted lifetimes only weakly (held-out concordance 0.547). Open-weight families had a stripped copy a median 1.7 days after release.",
+    highlights: [
+      "From 2024 on, a forum post sharing a jailbreak that named the model appeared for 29 of 30 chat-model releases, a median 2.1 days after release (95% CI 1.1 to 3.9); 2024 and 2025 did not differ.",
+      "Against the earliest dated outside report, the forum was first for three of seven models, the outside reporter for three, and one was a tie within the reports' date resolution.",
+      "Between 34.6% (observed) and 48.2% (Kaplan-Meier upper estimate) of 3,030 shared jailbreaks drew a \"doesn't work\" or \"patched\" comment within a week, with no annual trend from 2023 to 2025.",
+      "We could not detect a rise in failure reports in the 14 days after 38 model releases (+0.25 percentage points, 95% CI -0.15 to +0.68).",
+      "Open-weight model families had an \"abliterated\" or \"uncensored\" copy on Hugging Face a median 1.7 days after release (19 of 20 families).",
+    ],
+    keywords: ["jailbreak", "large language models", "AI safety", "survival analysis", "Kaplan-Meier", "Reddit", "open-weight models", "red teaming"],
+    figures: [
+      { file: "fig1_first_break.png", w: 1440, h: 1280, caption: "Figure 1. Hours from each model's release date (00:00 UTC) to the first forum post sharing a jailbreak that names it, for 38 releases from six vendors (log scale). Filled circles count only titles that name the version; hollow circles also count titles that name only the family (\"Claude\", \"Grok\"), credited to the newest model. Crosses mark the earliest dated outside report we found (security lab, press, or a public post timed by the press). Arrows: no such post before the forum's ban. From 2024 on, most releases cluster around one to two days; most 2023 releases have no version-named post." },
+      { file: "fig2_lifetime.png", w: 1440, h: 600, caption: "Figure 2. Share of shared jailbreaks with a comment reporting that they no longer work, by days since posting (symmetric log scale). Left: all 3,030; the solid line is the Kaplan-Meier estimate with its 95% interval, an upper estimate because most posts stop getting comments within a day; the dashed line is the share observed, a lower bound. Right: Kaplan-Meier by year of posting." },
+      { file: "fig6_open_weights.png", w: 1440, h: 660, caption: "Figure 6. Left: hours from each open-weight family's release date to the first Hugging Face repository with \"abliterated\" or \"uncensored\" in its name (log scale). Right: new such repositories per quarter, 2023 to 2025, and the part that are GGUF re-packs for local use." },
+    ],
+    table: {
+      caption: "Table 1. Key results at a glance. CI: 95% confidence interval (bootstrap, Greenwood or Kaplan-Meier); p-values are log-rank tests unless stated. Kaplan-Meier lifetime shares are upper estimates (see Methods).",
+      head: ["Claim", "Estimate", "95% CI or test", "n"],
+      rows: [
+        ["Releases with a forum jailbreak naming them", "30 of 38", "", "38 releases"],
+        ["Median days to that post, releases from 2024 on", "2.1", "1.1 to 3.9", "30 releases"],
+        ["Same, 2024 vs 2025 releases", "1.5 vs 2.1", "p = 0.30", "10 / 20"],
+        ["2023 releases with such a post", "1 of 8", "", "8 releases"],
+        ["Forum first / outside first / tie", "3 / 3 / 1", "", "7 models"],
+        ["Failure report within 7 days, observed", "34.6%", "", "3,030 posts"],
+        ["Failure report within 7 days, Kaplan-Meier", "48.2%", "46.0 to 50.4", "3,030 posts"],
+        ["Within 7 days (KM), posted in 2023 vs 2025", "49.0% vs 47.9%", "p = 0.53", "500 / 1,710"],
+        ["Within 7 days (KM), title claims robustness vs not", "69.2% vs 45.9%", "Holm p < 0.001", "272 / 2,758"],
+        ["Precision of the failure-report rule", "0.64", "0.50 to 0.78", "50 comments"],
+        ["Change in failure-report share after releases", "+0.25 points", "-0.15 to +0.68", "38 releases"],
+        ["Held-out concordance, model chosen on validation", "0.547", "0.513 to 0.579", "816 posts"],
+        ["Median days to a stripped open-weight copy", "1.7", "", "19 of 20 families"],
+      ],
+    },
+  },
+  {
     slug: "house-edge",
     title: "Price does the work, limits are the safety valve: decomposing the house edge on 198,144 football matches",
     finding: "A sequential test on closing-line value flags 99.8% of simulated value bettors after a median of 17 bets; a test on profit flags 3.8% within 1,000 bets.",
